@@ -102,7 +102,7 @@ def main():
     with open("./GeneratedData/test.seq.in."+ str(int(time.time())), 'w') as outfile:
         for entry in generatedPairs:
             for word in entry[0]:
-                outfile.write("%s " % word)
+                outfile.write("%s " % word.lower())
             outfile.write("\n")
     # Write test.seq.out file
     with open("./GeneratedData/test.seq.out."+str(int(time.time())), 'w') as outfile:
