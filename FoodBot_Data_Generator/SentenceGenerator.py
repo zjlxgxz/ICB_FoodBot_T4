@@ -2,6 +2,7 @@
 import json
 from nltk.tokenize import wordpunct_tokenize
 import time
+import os
 
 def main():
     '''
@@ -15,6 +16,11 @@ def main():
     with open("./test.json", 'w') as outfile:
         json_obj = json.dump(replacedDB,outfile)
     '''
+
+    if not os.path.exists("./GeneratedData"):
+        os.makedirs("./GeneratedData")
+
+
     with open("./test.json", 'r') as outfile:
         json_obj = json.load(outfile)
 
