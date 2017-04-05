@@ -1,0 +1,64 @@
+{
+  "sentence": "I like to have some REPLACEDWORD_1 REPLACEDWORD_2",
+
+  "domain": "Food",
+
+  "intent": "Get_restaurant",
+
+  "REPLACEDWORD_2": 
+  [
+    [
+      ["tonight"],
+      ["B-Time"]
+    ],
+    [
+      ["this","morning"],
+      ["O","B-Time"]
+    ],
+    [
+      ["afternoon"],
+      ["B-Time"]
+    ],
+    [
+      ["this","afternoon"],
+      ["O","B-Time"]
+    ],
+    [
+      ["tomorrow","afternoon"],
+      ["B-Time","I-Time"]
+    ],
+    [
+      ["tomorrow","morning"],
+      ["B-Time","I-Time"]
+    ],
+    [
+      ["tomorrow","night"],
+      ["B-Time","I-Time"]
+    ]
+
+  ],
+  
+  "REPLACEDWORD_1": 
+  [
+    [
+      [ "Chinese","food"],
+      [ "B-STYLE", "O"]
+    ],
+    [
+      [ "Japanese","food"],
+      [ "B-STYLE", "O"]
+    ],
+    [
+      [ "thai","food"],
+      [ "B-STYLE", "O"]
+    ],
+    [
+      [ "malaysian","food"],
+      [ "B-STYLE", "O"]
+    ],
+    [
+      [ "vietnamese","food"],
+      [ "B-STYLE", "O"]
+    ]
+  ]
+}
