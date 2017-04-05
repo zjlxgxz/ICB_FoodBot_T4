@@ -192,7 +192,7 @@ def create_model(session, source_vocab_size, target_vocab_size, label_vocab_size
           bidirectional_rnn=FLAGS.bidirectional_rnn,
           task=task)
 
-    restorationPath = "./model_tmp/model.ckpt-9900" # It will change. Somehow we must solve this problem
+    restorationPath = "./model_tmp/model_final.ckpt" # It will change. Somehow we must solve this problem
     if True:
       print("Reading model parameters from %s" % restorationPath)
       model_train.saver.restore(session, restorationPath)
