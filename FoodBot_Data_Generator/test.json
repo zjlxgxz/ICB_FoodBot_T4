@@ -1,9 +1,9 @@
 {
-  "sentence": "I like to eat REPLACEDWORD_1 REPLACEDWORD_2",
+  "sentence": "I like to have some REPLACEDWORD_1 REPLACEDWORD_2",
 
   "domain": "Food",
 
-  "intent": "Get_Restaurant",
+  "intent": "Get_restaurant",
 
   "REPLACEDWORD_2": 
   [
@@ -14,22 +14,51 @@
     [
       ["this","morning"],
       ["O","B-Time"]
+    ],
+    [
+      ["afternoon"],
+      ["B-Time"]
+    ],
+    [
+      ["this","afternoon"],
+      ["O","B-Time"]
+    ],
+    [
+      ["tomorrow","afternoon"],
+      ["B-Time","I-Time"]
+    ],
+    [
+      ["tomorrow","morning"],
+      ["B-Time","I-Time"]
+    ],
+    [
+      ["tomorrow","night"],
+      ["B-Time","I-Time"]
     ]
+
   ],
   
   "REPLACEDWORD_1": 
   [
     [
-      [ "chinese","food"],
-      [ "B-Food", "I-Food"]
+      [ "Chinese","food"],
+      [ "B-STYLE", "O"]
     ],
     [
-      ["food"],
-      ["B-Food"]
+      [ "Japanese","food"],
+      [ "B-STYLE", "O"]
     ],
     [
-      [ "sushi"],
-      ["B-Food"]
+      [ "thai","food"],
+      [ "B-STYLE", "O"]
+    ],
+    [
+      [ "malaysian","food"],
+      [ "B-STYLE", "O"]
+    ],
+    [
+      [ "vietnamese","food"],
+      [ "B-STYLE", "O"]
     ]
   ]
 }

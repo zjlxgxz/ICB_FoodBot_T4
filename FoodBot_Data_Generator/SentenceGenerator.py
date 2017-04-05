@@ -18,6 +18,8 @@ def main():
     with open("./test.json", 'r') as outfile:
         json_obj = json.load(outfile)
 
+    print len(json_obj)
+    
     replacedDB = dict()
     replacedDB['sentence'] = json_obj['sentence']
     replacedDB['domain'] = json_obj['domain']
@@ -106,7 +108,7 @@ def main():
     with open("./test.label."+str(int(time.time())), 'w') as outfile:
         for entry in generatedPairs:
             outfile.write("%s " % entry[3])
-        outfile.write("\n")
+            outfile.write("\n")
 
 if __name__ == "__main__":
     main()
