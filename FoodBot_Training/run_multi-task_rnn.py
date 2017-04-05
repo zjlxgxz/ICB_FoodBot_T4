@@ -348,7 +348,10 @@ def train():
           best_test_score = test_tagging_result['f1']
           # save the best output file
           subprocess.call(['mv', current_taging_test_out_file, current_taging_test_out_file + '.best_f1_%.2f' % best_test_score])
-          
+    
+    checkpoint_path = os.path.join(FLAGS.train_dir, "model.ckpt")
+    model.saver.save(sess, checkpoint_path, global_step=model.global_step)
+      
 def main(_):
     train()
 
