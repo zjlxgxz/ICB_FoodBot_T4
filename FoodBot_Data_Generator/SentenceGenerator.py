@@ -93,19 +93,19 @@ def main():
         print entry[3]
     
     # Write the test.seq.in file
-    with open("./test.seq.in."+ str(int(time.time())), 'w') as outfile:
+    with open("./GeneratedData/test.seq.in."+ str(int(time.time())), 'w') as outfile:
         for entry in generatedPairs:
             for word in entry[0]:
                 outfile.write("%s " % word)
             outfile.write("\n")
     # Write test.seq.out file
-    with open("./test.seq.out."+str(int(time.time())), 'w') as outfile:
+    with open("./GeneratedData/test.seq.out."+str(int(time.time())), 'w') as outfile:
         for entry in generatedPairs:
             for word in entry[1]:
                 outfile.write("%s " % word)
             outfile.write("\n")
     # Write test.label file
-    with open("./test.label."+str(int(time.time())), 'w') as outfile:
+    with open("./GeneratedData/test.label."+str(int(time.time())), 'w') as outfile:
         for entry in generatedPairs:
             outfile.write("%s " % entry[3])
             outfile.write("\n")
