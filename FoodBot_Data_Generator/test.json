@@ -1,0 +1,35 @@
+{
+  "sentence": "I like to eat REPLACEDWORD_1 REPLACEDWORD_2",
+
+  "domain": "Food",
+
+  "intent": "Get_Restaurant",
+
+  "REPLACEDWORD_2": 
+  [
+    [
+      ["tonight"],
+      ["B-Time"]
+    ],
+    [
+      ["this","morning"],
+      ["O","B-Time"]
+    ]
+  ],
+  
+  "REPLACEDWORD_1": 
+  [
+    [
+      [ "chinese","food"],
+      [ "B-Food", "I-Food"]
+    ],
+    [
+      ["food"],
+      ["B-Food"]
+    ],
+    [
+      [ "sushi"],
+      ["B-Food"]
+    ]
+  ]
+}
