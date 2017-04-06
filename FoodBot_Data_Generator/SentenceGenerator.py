@@ -150,7 +150,7 @@ def main():
 
     for index in range(len(GlobalGeneratedPairs)):
         rand = random.random()
-        if(rand<=0.8):
+        if(rand<=0.990):
             Train_GlobalGeneratedPairs.append(GlobalGeneratedPairs[index])
         else:
             rand2 = random.random()
