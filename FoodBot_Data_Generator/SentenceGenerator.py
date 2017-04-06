@@ -34,6 +34,7 @@ def main():
     GlobalGeneratedPairs = list()
     
     for seedFilePath in list_of_seed:
+        print seedFilePath
         with open(seedFilePath, 'r') as outfile:
             json_obj = json.load(outfile)
 
@@ -131,8 +132,8 @@ def main():
         with open("./GeneratedData/"+timestamp +"/"+ mode+"/"+mode+".seq.in" , 'w') as outfile:
             for entry in GlobalGeneratedPairs:
                 for word in entry[0]:
-                    print word
-                    print word.lower()
+                    #print word
+                    #print word.lower()
                     outfile.write("%s " % word.lower())
                 outfile.write("\n")
         # Write test.seq.out file
