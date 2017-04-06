@@ -131,6 +131,8 @@ def main():
         with open("./GeneratedData/"+timestamp +"/"+ mode+"/"+mode+".seq.in" , 'w') as outfile:
             for entry in GlobalGeneratedPairs:
                 for word in entry[0]:
+                    print word
+                    print word.lower()
                     outfile.write("%s " % word.lower())
                 outfile.write("\n")
         # Write test.seq.out file
