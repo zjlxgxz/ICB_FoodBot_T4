@@ -273,7 +273,7 @@ def testing():
             break
         else:
             userInput = str(var).lower()
-            print userInput
+            print (userInput)
             test_path = FLAGS.data_dir + '/test/test'
             in_path = test_path + ".seq.in"
             out_path = test_path + ".seq.out"
