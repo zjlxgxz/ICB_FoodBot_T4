@@ -273,6 +273,7 @@ def testing():
             break
         else:
             userInput = str(var).lower()
+            print userInput
             test_path = FLAGS.data_dir + '/test/test'
             in_path = test_path + ".seq.in"
             out_path = test_path + ".seq.out"
@@ -304,6 +305,7 @@ def testing():
             search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
 
             tokens = userInput.split()
+            print (tokens)
             for index_token in range(len(tokens)):
               if "B-CATEGORY" in test_tagging_result or "I-CATEGORY" in test_tagging_result :
                 slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token] + " ")
