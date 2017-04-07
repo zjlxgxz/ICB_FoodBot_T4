@@ -304,15 +304,16 @@ def testing():
             search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
 
             tokens = userInput.split()
+            print tokens
             for index_token in range(len(tokens)):
-              if "CATEGORY" in test_tagging_result:
-                slots['CATEGORY'] = str(slots['CATEGORY'] +" "+tokens[index_token])
-              if "RESTAURANTNAME" in test_tagging_result:
-                slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME'] +" "+tokens[index_token])
-              if "LOCATION" in test_tagging_result:
-                slots['LOCATION'] = str(slots['LOCATION'] +" "+tokens[index_token])
-              if "TIME" in test_tagging_result:
-                slots['TIME'] = str(slots['TIME'] +" "+tokens[index_token])
+              if "B-CATEGORY" in test_tagging_result or "I-CATEGORY" in test_tagging_result :
+                slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token] + " ")
+              if "B-RESTAURANTNAME" in test_tagging_result or "I-RESTAURANTNAME" in test_tagging_result:
+                slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token]+" ")
+              if "B-LOCATION" in test_tagging_result or "I-LOCATION" in test_tagging_result:
+                slots['LOCATION'] = str(slots['LOCATION'] +tokens[index_token] + " ")
+              if "B-TIME" in test_tagging_result or "I-TIME" in test_tagging_result:
+                slots['TIME'] = str(slots['TIME'] +tokens[index_token] + " ")
             print (slots)
             search.grabData(test_label_result[0] ,slots)
 
