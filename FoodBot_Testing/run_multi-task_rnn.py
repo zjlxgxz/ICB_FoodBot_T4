@@ -28,6 +28,8 @@ import multi_task_model
 import subprocess
 import stat
 
+from searchdb import SearchDB
+
 
 #tf.app.flags.DEFINE_float("learning_rate", 0.1, "Learning rate.")
 #tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.9,
@@ -296,7 +298,23 @@ def testing():
 
             in_seq_test, out_seq_test, label_test = data_utils.prepare_multi_task_data_for_testing(FLAGS.data_dir, FLAGS.in_vocab_size, FLAGS.out_vocab_size)     
             test_set = read_data(in_seq_test, out_seq_test, label_test)
-            test_tagging_result,test_label_result = run_valid_test(test_set, 'Test')        
+            test_tagging_result,test_label_result = run_valid_test(test_set, 'Test')      
+
+            slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
+            search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
+
+            tokens = userInput.split()
+            for index_token in range(len(tokens)):
+              if "CATEGORY" in test_tagging_result:
+                slots['CATEGORY'] = str(slots['CATEGORY'] +" "+tokens[index_token])
+              if "RESTAURANTNAME" in test_tagging_result:
+                slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME'] +" "+tokens[index_token])
+              if "LOCATION" in test_tagging_result:
+                slots['LOCATION'] = str(slots['LOCATION'] +" "+tokens[index_token])
+              if "TIME" in test_tagging_result:
+                slots['TIME'] = str(slots['TIME'] +" "+tokens[index_token])
+            print (slots)
+            search.grabData(test_label_result[0] ,slots)
 
   
 
