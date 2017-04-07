@@ -309,13 +309,25 @@ def testing():
             print (test_tagging_result[0])
             for index_token in range(len(tokens)):
               if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
-                slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token] + " ")
+                if(slots['CATEGORY'] == ""):
+                  slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token])
+                else:
+                  slots['CATEGORY'] = str(slots['CATEGORY']+" "+tokens[index_token])
               elif "B-RESTAURANTNAME" in test_tagging_result[0][index_token] or "I-RESTAURANTNAME" in test_tagging_result[0][index_token]:
-                slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token]+" ")
+                if(slots['RESTAURANTNAME'] == ""):
+                  slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token])
+                else:
+                  slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+ " " +tokens[index_token])
               elif "B-LOCATION" in test_tagging_result[0][index_token] or "I-LOCATION" in test_tagging_result[0][index_token]:
-                slots['LOCATION'] = str(slots['LOCATION'] +tokens[index_token] + " ")
+                if(slots['LOCATION'] == ""):
+                  slots['LOCATION'] = str(slots['LOCATION'] +tokens[index_token])
+                else:
+                  slots['LOCATION'] = str(slots['LOCATION'] +" "+tokens[index_token])
               elif "B-TIME" in test_tagging_result[0][index_token] or "I-TIME" in test_tagging_result[0][index_token]:
-                slots['TIME'] = str(slots['TIME'] +tokens[index_token] + " ")
+                if(slots['TIME'] == ""):
+                  slots['TIME'] = str(slots['TIME'] +tokens[index_token])
+                else:
+                  slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
             search.grabData(test_label_result[0] ,slots)
 
   
