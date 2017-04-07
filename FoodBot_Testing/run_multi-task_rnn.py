@@ -306,14 +306,15 @@ def testing():
 
             tokens = userInput.split()
             print (tokens)
+            print (test_tagging_result[0])
             for index_token in range(len(tokens)):
-              if "B-CATEGORY" in test_tagging_result or "I-CATEGORY" in test_tagging_result :
+              if "B-CATEGORY" in test_tagging_result[0] or "I-CATEGORY" in test_tagging_result[0] :
                 slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token] + " ")
-              if "B-RESTAURANTNAME" in test_tagging_result or "I-RESTAURANTNAME" in test_tagging_result:
+              if "B-RESTAURANTNAME" in test_tagging_result[0] or "I-RESTAURANTNAME" in test_tagging_result[0]:
                 slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token]+" ")
-              if "B-LOCATION" in test_tagging_result or "I-LOCATION" in test_tagging_result:
+              if "B-LOCATION" in test_tagging_result[0] or "I-LOCATION" in test_tagging_result[0]:
                 slots['LOCATION'] = str(slots['LOCATION'] +tokens[index_token] + " ")
-              if "B-TIME" in test_tagging_result or "I-TIME" in test_tagging_result:
+              if "B-TIME" in test_tagging_result[0] or "I-TIME" in test_tagging_result[0]:
                 slots['TIME'] = str(slots['TIME'] +tokens[index_token] + " ")
             search.grabData(test_label_result[0] ,slots)
 
