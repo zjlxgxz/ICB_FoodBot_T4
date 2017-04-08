@@ -268,7 +268,7 @@ def testing():
           
       # run testing
       while True:
-        var = raw_input("Enter 'e' to quit, or enter other char to run test ")
+        var = raw_input("Enter 'e' to quit, or enter a sentence to run test: ")
         if(str(var) == "e"):
             break
         else:
