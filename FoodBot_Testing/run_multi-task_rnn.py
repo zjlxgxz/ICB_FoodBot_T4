@@ -310,7 +310,7 @@ def testing():
 
             inserted = False
 
-            for B-CATEGORY in range(len(tokens)):
+            for index_token in range(len(tokens)):
               if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
                 inserted = True
                 if(slots['CATEGORY'] == ""):
