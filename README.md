@@ -4,5 +4,5 @@ RNN_LSTM_JOINTLY_INTENT_DETECTION_&amp;_SLOT_FILLING
 # How to run?
 $ ./FoodBot_Testing/runmodel.sh
 
-#Prerequisite 
-> Quoted pip install tensorflow==0.12.1 
+# Prerequisite 
+> pip install tensorflow==0.12.1 
