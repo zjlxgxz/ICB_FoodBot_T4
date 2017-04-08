@@ -337,7 +337,7 @@ def testing():
                   slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
             
             if inserted == False:
-              print "No slot-filling"
+              print ("No slot-filling")
               continue
 
             search.grabData(test_label_result[0] ,slots)
