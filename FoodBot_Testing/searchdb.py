@@ -30,6 +30,7 @@ class SearchDB:
 				cursor.execute('SELECT rating FROM restaurant WHERE name LIKE %s LIMIT 1' %('\'%'+slots['RESTAURANTNAME']+'%\''))
 
 			elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
+				print "We're still woriking on Comment content."
 				pass
 			else :
 				print 'match nothing'
