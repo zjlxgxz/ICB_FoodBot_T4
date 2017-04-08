@@ -31,7 +31,7 @@ class SearchDB:
 
 			elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
 				print "We're still woriking on Comment content."
-				pass
+				return
 			else :
 				print 'match nothing'
 
