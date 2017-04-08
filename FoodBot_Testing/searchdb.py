@@ -29,8 +29,8 @@ class SearchDB:
 			elif intent == 'Get_rating' and slots['RESTAURANTNAME'] != '' :
 				cursor.execute('SELECT rating FROM restaurant WHERE name LIKE %s LIMIT 1' %('\'%'+slots['RESTAURANTNAME']+'%\''))
 
-			#elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
-			#	pass
+			elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
+				pass
 			else :
 				print 'match nothing'
 
@@ -43,8 +43,8 @@ class SearchDB:
 					print 'It\'s located on ' + str(record[0])
 				elif intent == 'Get_rating' :
 					print str(record[0]) + '/5.0 stars'
-			#	elif intent == 'Get_comment' :
-			#		pass
+				elif intent == 'Get_comment' :
+					print "We're still woriking on Comment content"
 			self.db.close()
 		except MySQLdb.Error as e:
 			print "Error %d: %s" % (e.args[0], e.args[1])
