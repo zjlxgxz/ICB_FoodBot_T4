@@ -12,7 +12,7 @@ import FoodBot_pb2
 
 
 def run():
-  channel = grpc.insecure_channel('127.0.0.1:50055')
+  channel = grpc.insecure_channel('140.112.49.151:50055')
   stub = FoodBot_pb2.FoodBotRequestStub(channel)
 
   rawdata = "for dinner"
