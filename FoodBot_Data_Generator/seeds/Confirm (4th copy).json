@@ -1,0 +1,1564 @@
+{
+  "sentence": "REPLACEDWORD_1", 
+
+  "domain": "Food",
+
+  "intent": "Confirm",
+
+  "REPLACEDWORD_1": 
+[
+  [
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ],[
+      ["yes"],
+      ["B-Confirm"]
+  ],
+[
+      ["yes","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["sure"],
+      ["B-Confirm"]
+  ],
+[
+      ["sure","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["okay"],
+      ["B-Confirm"]
+  ],
+[
+      ["okay","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok","please"],
+      ["B-Confirm","I-Confirm"]
+  ],
+[
+      ["ok"],
+      ["B-Confirm"]
+  ]
+]
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package FoodBot;
+
+service FoodBotRequest
+{
+//Input NLG
+//Output NLG 
+	rpc GetResponse(Sentence) returns (Sentence){}
+}
+
+message Sentence
+{
+	string response = 1;
+}
