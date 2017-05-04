@@ -320,16 +320,24 @@ def dialogPolicy():
   sys_act = {'intent':'' ,'content':''}
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
   needConfirm = False
+  needInform = False
+  sys_act['content'] = {}
+
+  if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
+    waitConfirm.pop(-1)
 
   if observation[-1][0] == 'Confirm':
-    for x in range(1 ,11):
-      if waitConfirm[-x][0] == intents[-1]:
-        for key in waitConfirm[-x][1].keys():
-          if key in state[intents[-1]]:
-            state[intents[-1]][key] = waitConfirm[-x][1][key]
-        waitConfirm.pop(-x)
-        break
+    if waitConfirm[-1][0] == 'confirm':
+      needInform = True
 
+    else:
+      for x in range(1 ,11):
+        if waitConfirm[-x][0] == intents[-1]:
+          for key in waitConfirm[-x][1].keys():
+            if key in state[intents[-1]]:
+              state[intents[-1]][key] = waitConfirm[-x][1][key]
+          waitConfirm.pop(-x)
+          break
   elif observation[-1][0] == 'Wrong':
     pass
 
@@ -342,7 +350,6 @@ def dialogPolicy():
     if needConfirm:
       needConfirm = False
       sys_act['intent'] = 'confirm'
-      sys_act['content'] = {}
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '':
           sys_act['content'][key] = observation[-1][1][key]
@@ -392,13 +399,22 @@ def dialogPolicy():
         sys_act['intent'] = 'request'
         sys_act['content'] = {'time':''}
 
-      else:
+      elif needInform:
+        needInform = False
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
         for key in state[intents[-1]].keys():
-          slots[key] = state[intents[-1]][key]
+          state[intents[-1]][key] = ''
+        waitConfirm.pop(-1)
+
+      else:
+        sys_act['intent'] = 'confirm'
+        for key in state[intents[-1]].keys():
+          sys_act['content'][key] = state[intents[-1]][key]
+        waitConfirm.append(['confirm' ,sys_act['content']])
+  
     
     elif intents[-1] == 'Get_location':
 
@@ -406,13 +422,21 @@ def dialogPolicy():
         sys_act['intent'] = 'request'
         sys_act['content'] = {'rest_name':''}
 
-      else:
+      elif needInform:
+        needInform = False
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
+        waitConfirm.pop(-1)
+
+      else:
+        sys_act['intent'] = 'confirm'
+        for key in state[intents[-1]].keys():
+          sys_act['content'][key] = state[intents[-1]][key]
+        waitConfirm.append(['confirm' ,sys_act['content']])
 
     elif intents[-1] == 'Get_rating':
 
@@ -420,18 +444,27 @@ def dialogPolicy():
         sys_act['intent'] = 'request'
         sys_act['content'] = {'rest_name':''}
 
-      else:
+      elif needInform:
+        needInform = False
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
+        waitConfirm.pop(-1)
+
+      else:
+        sys_act['intent'] = 'confirm'
+        for key in state[intents[-1]].keys():
+          sys_act['content'][key] = state[intents[-1]][key]
+        waitConfirm.append(['confirm' ,sys_act['content']])
 
     else:
       print ("I don\'t know what to say")
 
   print ("Policy")
+  print (waitConfirm)
   print (sys_act)
 
 def naturalLanguageGeneration():
