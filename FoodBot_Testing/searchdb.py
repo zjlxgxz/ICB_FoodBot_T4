@@ -15,40 +15,36 @@ class SearchDB:
 		try:
 			cursor = self.db.cursor()
 
-			if intent == 'Get_Restaurant' :
-				if slots['CATEGORY'] != '' and slots['LOCATION'] != '' :
-					cursor.execute('SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s LIMIT 1' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\''))
-				elif slots['CATEGORY'] != '' :
-					cursor.execute('SELECT * FROM restaurant WHERE categories LIKE %s LIMIT 1' %('\'%'+slots['CATEGORY']+'%\''))
-				elif slots['LOCATION'] != '' :
-					cursor.execute('SELECT * FROM restaurant WHERE displayAddress LIKE %s LIMIT 1' %('\'%'+slots['LOCATION']+'%\''))
-
+			if intent == 'Get_restaurant' :
+				cursor.execute('SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s LIMIT 1' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\''))
+	
 			elif intent == 'Get_location' and slots['RESTAURANTNAME'] != '' :
 				cursor.execute('SELECT displayAddress FROM restaurant WHERE name LIKE %s LIMIT 1' %('\'%'+slots['RESTAURANTNAME']+'%\''))
 
 			elif intent == 'Get_rating' and slots['RESTAURANTNAME'] != '' :
 				cursor.execute('SELECT rating FROM restaurant WHERE name LIKE %s LIMIT 1' %('\'%'+slots['RESTAURANTNAME']+'%\''))
 
-			elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
-				print "We're still woriking on Comment content."
-				return
+			#elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
+			#	pass
 			else :
 				print 'match nothing'
 
 			results = cursor.fetchall()
 			print 'results : ' + str(results)
+
 			for record in results:
-				if intent == 'Get_Restaurant' :
-					print 'I recommend ' + str(record[0]) + ' on ' + str(record[5])
+				if intent == 'Get_restaurant' :
+					content = {'rest_name':str(record[0]) ,'location':record[5]}
 				elif intent == 'Get_location' :
-					print 'It\'s located on ' + str(record[0])
+					content = {'rest_name':str(record[0])}
 				elif intent == 'Get_rating' :
-					print str(record[0]) + '/5.0 stars'
-				elif intent == 'Get_comment' :
-					print "We're still woriking on Comment content"
+					content = {'rest_name':str(record[0])+'/5.0 stars's}
+			#	elif intent == 'Get_comment' :
+			#		pass
 			self.db.close()
 		except MySQLdb.Error as e:
 			print "Error %d: %s" % (e.args[0], e.args[1])
+		return content
 
 if __name__ == '__main__':
 

@@ -28,7 +28,29 @@ import multi_task_model
 import subprocess
 import stat
 
-from searchdb import SearchDB
+#GRPC dependencies
+sys.path.append('../FoodBot_GRPC_Server/')
+import grpc
+import FoodBot_pb2
+from concurrent import futures
+import collections
+
+
+#from searchdb import SearchDB
+
+#global vars
+model_test =  0
+sess = 0
+vocab = 0
+rev_vocab = 0
+tag_vocab = 0
+rev_tag_vocab = 0
+label_vocab = 0
+rev_label_vocab = 0
+observation = collections.deque(maxlen=10)
+state = {'Get_restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
+intents = collections.deque(maxlen=2)
+waitConfirm = []
 
 
 #tf.app.flags.DEFINE_float("learning_rate", 0.1, "Learning rate.")
@@ -185,6 +207,7 @@ def create_model(session, source_vocab_size, target_vocab_size, label_vocab_size
           bidirectional_rnn=FLAGS.bidirectional_rnn,
           task=task)
   with tf.variable_scope("model", reuse=True):
+    global model_test
     model_test = multi_task_model.MultiTaskModel(
           source_vocab_size, target_vocab_size, label_vocab_size, _buckets,
           FLAGS.word_embedding_size, FLAGS.size, FLAGS.num_layers, FLAGS.max_gradient_norm, FLAGS.batch_size,
@@ -204,6 +227,227 @@ def create_model(session, source_vocab_size, target_vocab_size, label_vocab_size
       session.run(tf.initialize_all_variables())
     return model_train, model_test
      
+def run_valid_test(data_set, mode,sess): # mode: Eval, Test
+    # Run evals on development/test set and print the accuracy.
+        word_list = list() 
+        ref_tag_list = list() 
+        hyp_tag_list = list()
+        ref_label_list = list()
+        hyp_label_list = list()
+
+        for bucket_id in xrange(len(_buckets)):
+          for i in xrange(len(data_set[bucket_id])):
+            encoder_inputs, tags, tag_weights, sequence_length, labels = model_test.get_one(
+              data_set, bucket_id, i)
+            tagging_logits = []
+            classification_logits = []
+            if task['joint'] == 1:
+              _, step_loss, tagging_logits, classification_logits = model_test.joint_step(sess, encoder_inputs, tags, tag_weights, labels,
+                                          sequence_length, bucket_id, True)
+            hyp_label = None
+            if task['intent'] == 1:
+              ref_label_list.append(rev_label_vocab[labels[0][0]])
+              hyp_label = np.argmax(classification_logits[0],0)
+              hyp_label_list.append(rev_label_vocab[hyp_label])
+            if task['tagging'] == 1:
+              word_list.append([rev_vocab[x[0]] for x in encoder_inputs[:sequence_length[0]]])
+              ref_tag_list.append([rev_tag_vocab[x[0]] for x in tags[:sequence_length[0]]])
+              hyp_tag_list.append([rev_tag_vocab[np.argmax(x)] for x in tagging_logits[:sequence_length[0]]])
+        print (hyp_tag_list)
+        print (hyp_label_list)
+        return hyp_tag_list,hyp_label_list
+
+
+# write test data to path
+def writeTestingDataToPath(testingString,in_path,out_path,label_path):
+  tokens = testingString.split()
+  lens = len(tokens)
+
+  with gfile.GFile(in_path, mode="w") as vocab_file:
+    vocab_file.write(testingString + "\n")
+
+  with gfile.GFile(out_path, mode="w") as vocab_file:
+    for i in range(lens):
+      vocab_file.write('O' + " ")
+    vocab_file.write('\n')
+    
+  with gfile.GFile(label_path, mode="w") as vocab_file:
+    vocab_file.write("NONE" + "\n") 
+
+def languageUnderstanding(userInput):
+  test_path = FLAGS.data_dir + '/test/test'
+  in_path = test_path + ".seq.in"
+  out_path = test_path + ".seq.out"
+  label_path = test_path + ".label"
+  writeTestingDataToPath(userInput,in_path,out_path,label_path)
+  in_seq_test, out_seq_test, label_test = data_utils.prepare_multi_task_data_for_testing(FLAGS.data_dir, FLAGS.in_vocab_size, FLAGS.out_vocab_size)     
+  test_set = read_data(in_seq_test, out_seq_test, label_test)
+  test_tagging_result,test_label_result = run_valid_test(test_set, 'Test', sess) 
+  print (test_tagging_result)
+  return test_tagging_result , test_label_result
+
+def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
+  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
+  for index_token in range(len(tokens)):
+    if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
+      if(slots['CATEGORY'] == ""):
+        slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token])
+      else:
+        slots['CATEGORY'] = str(slots['CATEGORY']+" "+tokens[index_token])
+    elif "B-RESTAURANTNAME" in test_tagging_result[0][index_token] or "I-RESTAURANTNAME" in test_tagging_result[0][index_token]:
+      if(slots['RESTAURANTNAME'] == ""):
+        slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token])
+      else:
+        slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+ " " +tokens[index_token])
+    elif "B-LOCATION" in test_tagging_result[0][index_token] or "I-LOCATION" in test_tagging_result[0][index_token]:
+      if(slots['LOCATION'] == ""):
+        slots['LOCATION'] = str(slots['LOCATION'] +tokens[index_token])
+      else:
+        slots['LOCATION'] = str(slots['LOCATION'] +" "+tokens[index_token])
+    elif "B-TIME" in test_tagging_result[0][index_token] or "I-TIME" in test_tagging_result[0][index_token]:
+      if(slots['TIME'] == ""):
+        slots['TIME'] = str(slots['TIME'] +tokens[index_token])
+      else:
+        slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
+
+    observation.append([test_label_result[0] ,slots])
+  print ("DST")
+  print (slots)
+
+
+def dialogPolicy():
+  search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
+  sys_act = {'intent':'' ,'content':''}
+  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
+  needConfirm = False
+
+  if observation[-1][0] == 'Confirm':
+    for x in range(1 ,11):
+      if waitConfirm[-x][0] == intents[-1]:
+        for key in waitConfirm[-x][1].keys():
+          if key in state[intents[-1]]:
+            state[intents[-1]][key] = waitConfirm[-x][1][key]
+        waitConfirm.pop(-x)
+        break
+
+  elif observation[-1][0] == 'Wrong':
+    pass
+
+  elif observation[-1][0] == 'Inform':
+    for key in observation[-1][1].keys():
+      if observation[-1][1][key] != '' and key in state[intents[-1]]:
+        if state[intents[-1]][key] != '':
+          needConfirm = True
+
+    if needConfirm:
+      needConfirm = False
+      sys_act['intent'] = 'confirm'
+      sys_act['content'] = {}
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '':
+          sys_act['content'][key] = observation[-1][1][key]
+      waitConfirm.append([intents[-1] ,sys_act['content']])
+      print ('wait confirm : ')
+      print (waitConfirm[-1])
+
+    else:
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[intents[-1]]:
+          if state[intents[-1]][key] == '':
+            state[intents[-1]][key] = observation[-1][1][key]
+
+  else:    
+    if observation[-1][0] == 'Get_restaurant':
+      intents.append('Get_restaurant')
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
+          state['Get_restaurant'][key] = observation[-1][1][key]
+
+    elif observation[-1][0] == 'Get_location':
+      intents.append('Get_location')
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
+          state['Get_location'][key] = observation[-1][1][key]
+
+    elif observation[-1][0] == 'Get_rating':
+      intents.append('Get_rating')
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
+          state['Get_rating'][key] = observation[-1][1][key]
+
+  
+  print (state)
+  if sys_act['intent'] != 'confirm':     
+    if intents[-1] == 'Get_restaurant':
+
+      if state[intents[-1]]['LOCATION'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'location':''}
+      
+      elif state[intents[-1]]['CATEGORY'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'category':''}
+      
+      elif state[intents[-1]]['TIME'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'time':''}
+
+      else:
+        sys_act['intent'] = 'inform'
+        for key in state[intents[-1]].keys():
+          slots[key] = state[intents[-1]][key]
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        for key in state[intents[-1]].keys():
+          slots[key] = state[intents[-1]][key]
+    
+    elif intents[-1] == 'Get_location':
+
+      if state[intents[-1]]['RESTAURANTNAME'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'rest_name':''}
+
+      else:
+        sys_act['intent'] = 'inform'
+        for key in state[intents[-1]].keys():
+          slots[key] = state[intents[-1]][key]
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        for key in state[intents[-1]].keys():
+          state[intents[-1]][key] = ''
+
+    elif intents[-1] == 'Get_rating':
+
+      if state[intents[-1]]['RESTAURANTNAME'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'rest_name':''}
+
+      else:
+        sys_act['intent'] = 'inform'
+        for key in state[intents[-1]].keys():
+          slots[key] = state[intents[-1]][key]
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        for key in state[intents[-1]].keys():
+          state[intents[-1]][key] = ''
+
+    else:
+      print ("I don\'t know what to say")
+
+  print ("Policy")
+  print (sys_act)
+
+def naturalLanguageGeneration():
+  print ("NLG")
+
+class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
+  """Provides methods that implement functionality of route guide server."""
+  def GetResponse (self, request, context):
+    print (request)
+    userInput = request.response.lower()
+    test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+    #dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+    #action = policy(state)
+    #NLG(action)
+    print (test_label_result)
+    return FoodBot_pb2.Sentence(response = userInput)
 
 def testing():
   print ('Applying Parameters:')
@@ -222,125 +466,42 @@ def testing():
 
   current_taging_valid_out_file = result_dir + '/tagging.valid.hyp.txt'
   current_taging_test_out_file = result_dir + '/tagging.test.hyp.txt'
-
+   
+  global sess 
+  global vocab 
+  global rev_vocab
+  global tag_vocab 
+  global rev_tag_vocab 
+  global label_vocab 
+  global rev_label_vocab 
   vocab, rev_vocab = data_utils.initialize_vocabulary(vocab_path)
   tag_vocab, rev_tag_vocab = data_utils.initialize_vocabulary(tag_vocab_path)
   label_vocab, rev_label_vocab = data_utils.initialize_vocabulary(label_vocab_path)
     
-  with tf.Session() as sess:
-    # Create model.
-    print("Max sequence length: %d." % _buckets[0][0])
-    print("Creating %d layers of %d units." % (FLAGS.num_layers, FLAGS.size))
-    
-    model, model_test = create_model(sess, len(vocab), len(tag_vocab), len(label_vocab))
-    print ("Creating model with source_vocab_size=%d, target_vocab_size=%d, and label_vocab_size=%d." % (len(vocab), len(tag_vocab), len(label_vocab)))
+  global sess
+  sess = tf.Session()
+  # Create model.
+  print("Max sequence length: %d." % _buckets[0][0])
+  print("Creating %d layers of %d units." % (FLAGS.num_layers, FLAGS.size))
+  global model_test
+  model, model_test = create_model(sess, len(vocab), len(tag_vocab), len(label_vocab))
+  print ("Creating model with source_vocab_size=%d, target_vocab_size=%d, and label_vocab_size=%d." % (len(vocab), len(tag_vocab), len(label_vocab)))
+  
+  # The model has been loaded.
+  server = grpc.server(futures.ThreadPoolExecutor(max_workers=3))
+  #Service_OpenFace_pb2.add_openfaceServicer_to_server(Servicer_openface(), server)
+  FoodBot_pb2.add_FoodBotRequestServicer_to_server(FoodbotRequest(),server)
+  server.add_insecure_port('[::]:50055')
+  server.start()
+  print ("GRCP Server is running. Press any key to stop it.")
+  try:
+    while True:
+      # openface_GetXXXXXX will be responsed if any incoming request is received.
+      time.sleep(24*60*60)
+  except KeyboardInterrupt:
+    server.stop(0)
 
-    if True:
-      def run_valid_test(data_set, mode): # mode: Eval, Test
-      # Run evals on development/test set and print the accuracy.
-          word_list = list() 
-          ref_tag_list = list() 
-          hyp_tag_list = list()
-          ref_label_list = list()
-          hyp_label_list = list()
-
-          for bucket_id in xrange(len(_buckets)):
-            for i in xrange(len(data_set[bucket_id])):
-              encoder_inputs, tags, tag_weights, sequence_length, labels = model_test.get_one(
-                data_set, bucket_id, i)
-              tagging_logits = []
-              classification_logits = []
-              if task['joint'] == 1:
-                _, step_loss, tagging_logits, classification_logits = model_test.joint_step(sess, encoder_inputs, tags, tag_weights, labels,
-                                            sequence_length, bucket_id, True)
-              hyp_label = None
-              if task['intent'] == 1:
-                ref_label_list.append(rev_label_vocab[labels[0][0]])
-                hyp_label = np.argmax(classification_logits[0],0)
-                hyp_label_list.append(rev_label_vocab[hyp_label])
-              if task['tagging'] == 1:
-                word_list.append([rev_vocab[x[0]] for x in encoder_inputs[:sequence_length[0]]])
-                ref_tag_list.append([rev_tag_vocab[x[0]] for x in tags[:sequence_length[0]]])
-                hyp_tag_list.append([rev_tag_vocab[np.argmax(x)] for x in tagging_logits[:sequence_length[0]]])
-          print (hyp_tag_list)
-          print (hyp_label_list)
-          return hyp_tag_list,hyp_label_list
-          
-      # run testing
-      while True:
-        var = raw_input("Enter 'e' to quit, or enter a sentence to run test: ")
-        if(str(var) == "e"):
-            break
-        else:
-            userInput = str(var).lower()
-            print (userInput)
-            test_path = FLAGS.data_dir + '/test/test'
-            in_path = test_path + ".seq.in"
-            out_path = test_path + ".seq.out"
-            label_path = test_path + ".label"
-
-            # write data to path
-            def writeTestingDataToPath(testingString):
-              tokens = testingString.split()
-              lens = len(tokens)
-
-              with gfile.GFile(in_path, mode="w") as vocab_file:
-                vocab_file.write(userInput + "\n")
-
-              with gfile.GFile(out_path, mode="w") as vocab_file:
-                for i in range(lens):
-                  vocab_file.write('O' + " ")
-                vocab_file.write('\n')
-                
-              with gfile.GFile(label_path, mode="w") as vocab_file:
-                vocab_file.write("NONE" + "\n") 
-            
-            writeTestingDataToPath(userInput)
-
-            in_seq_test, out_seq_test, label_test = data_utils.prepare_multi_task_data_for_testing(FLAGS.data_dir, FLAGS.in_vocab_size, FLAGS.out_vocab_size)     
-            test_set = read_data(in_seq_test, out_seq_test, label_test)
-            test_tagging_result,test_label_result = run_valid_test(test_set, 'Test')      
-
-            slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
-            search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-
-            tokens = userInput.split()
-            print (tokens)
-            print (test_tagging_result[0])
-
-            inserted = False
-
-            for index_token in range(len(tokens)):
-              if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
-                inserted = True
-                if(slots['CATEGORY'] == ""):
-                  slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token])
-                else:
-                  slots['CATEGORY'] = str(slots['CATEGORY']+" "+tokens[index_token])
-              elif "B-RESTAURANTNAME" in test_tagging_result[0][index_token] or "I-RESTAURANTNAME" in test_tagging_result[0][index_token]:
-                inserted = True
-                if(slots['RESTAURANTNAME'] == ""):
-                  slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token])
-                else:
-                  slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+ " " +tokens[index_token])
-              elif "B-LOCATION" in test_tagging_result[0][index_token] or "I-LOCATION" in test_tagging_result[0][index_token]:
-                inserted = True
-                if(slots['LOCATION'] == ""):
-                  slots['LOCATION'] = str(slots['LOCATION'] +tokens[index_token])
-                else:
-                  slots['LOCATION'] = str(slots['LOCATION'] +" "+tokens[index_token])
-              elif "B-TIME" in test_tagging_result[0][index_token] or "I-TIME" in test_tagging_result[0][index_token]:
-                inserted = True
-                if(slots['TIME'] == ""):
-                  slots['TIME'] = str(slots['TIME'] +tokens[index_token])
-                else:
-                  slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
-            
-            if inserted == False:
-              print ("No slot-filling")
-              continue
-
-            search.grabData(test_label_result[0] ,slots)
+        
 
   
 
