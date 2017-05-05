@@ -366,7 +366,7 @@ def dialogPolicy():
             state[intents[-1]][key] = observation[-1][1][key]
 
   else:    
-    if observation[-1][0] == 'Get_restaurant':
+    if observation[-1][0] == 'Get_Restaurant':
       intents.append('Get_restaurant')
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
