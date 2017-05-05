@@ -1,5 +1,0 @@
-_UNK
-Get_Restaurant
-Get_comment
-Get_location
-Get_rating

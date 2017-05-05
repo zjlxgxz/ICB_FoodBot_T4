@@ -36,9 +36,7 @@ from concurrent import futures
 
 import collections
 
-
-
-#from searchdb import SearchDB
+from searchdb import SearchDB
 
 #global vars
 model_test =  0
@@ -480,8 +478,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print (request)
     userInput = request.response.lower()
     test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-
-    #dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+    dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+    dialogPolicy()
     #state = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
     #action = policy(state)
     #NLG(action)
