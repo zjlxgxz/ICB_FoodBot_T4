@@ -38,13 +38,14 @@ class SearchDB:
 				elif intent == 'Get_location' :
 					content = {'rest_name':str(record[0])}
 				elif intent == 'Get_rating' :
-					content = {'rest_name':str(record[0])+'/5.0 stars'}
+					content = {'rest_name':str(record[0])+'/5.0 stars's}
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
+			return content
 		except MySQLdb.Error as e:
 			print "Error %d: %s" % (e.args[0], e.args[1])
-		return content
+			return ''
 
 if __name__ == '__main__':
 
