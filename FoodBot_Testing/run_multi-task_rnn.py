@@ -471,20 +471,6 @@ def dialogPolicy():
   print (waitConfirm)
   print (sys_act)
 
-    else:
-      slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
-      
-  print ("DST")
-  print (slots)
-  return [1]
-
-
-def dialogPolicy(currentState,tokens,test_tagging_result,test_label_result):
-    #search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-    #search.grabData(test_label_result[0] ,slots)
-  print ("Policy")
-
-
 def naturalLanguageGeneration():
   print ("NLG")
 
