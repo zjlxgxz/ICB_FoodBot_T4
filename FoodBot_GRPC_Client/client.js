@@ -4,7 +4,7 @@ var async = require('async');
 var _ = require('lodash');
 var grpc = require('grpc');
 var Foodbot = grpc.load(PROTO_PATH).FoodBot;
-var client = new Foodbot.FoodBotRequest('localhost:50055', grpc.credentials.createInsecure());
+var client = new Foodbot.FoodBotRequest('140.112.49.151:50055', grpc.credentials.createInsecure());
 
 function runRequest(callback) {
   var next = _.after(1, callback);
