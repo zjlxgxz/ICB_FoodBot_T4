@@ -540,7 +540,7 @@ def nlg(sem_frame, bot):
       sentence = random.choice(yes_list)
     
     if sem_frame["intent"] == "no":
-      sentence = "No. I mean " + nlg_gen(memory)
+      sentence = "No. I mean " + nlg(memory,0)
     
     if sem_frame["intent"] == "inform": # category/time/location
       sentence = ""
@@ -652,6 +652,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
       dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
       dialogPolicy()
+      nlg(sys_act,1)
       #action = policy(state)
       #NLG(action)
       print (test_label_result)
