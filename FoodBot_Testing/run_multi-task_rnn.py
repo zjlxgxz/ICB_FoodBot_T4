@@ -49,7 +49,7 @@ label_vocab = 0
 rev_label_vocab = 0
 
 observation = collections.deque(maxlen=10)
-state = {'Get_restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
+state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
 intents = collections.deque(maxlen=2)
 waitConfirm = []
 
@@ -367,10 +367,10 @@ def dialogPolicy():
 
   else:    
     if observation[-1][0] == 'Get_Restaurant':
-      intents.append('Get_restaurant')
+      intents.append('Get_Restaurant')
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
-          state['Get_restaurant'][key] = observation[-1][1][key]
+          state['Get_Restaurant'][key] = observation[-1][1][key]
 
     elif observation[-1][0] == 'Get_location':
       intents.append('Get_location')
@@ -387,7 +387,7 @@ def dialogPolicy():
   
   print (state)
   if sys_act['intent'] != 'confirm':     
-    if intents[-1] == 'Get_restaurant':
+    if intents[-1] == 'Get_Restaurant':
 
       if state[intents[-1]]['LOCATION'] == '':
         sys_act['intent'] = 'request'
