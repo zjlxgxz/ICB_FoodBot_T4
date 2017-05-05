@@ -406,9 +406,9 @@ def dialogPolicy():
         sys_act['intent'] = 'request'
         sys_act['content'] = {'category':''}
       
-      elif state[intents[-1]]['TIME'] == '':
-        sys_act['intent'] = 'request'
-        sys_act['content'] = {'time':''}
+      #elif state[intents[-1]]['TIME'] == '':
+      #  sys_act['intent'] = 'request'
+      #  sys_act['content'] = {'time':''}
 
       elif needInform:
         needInform = False
@@ -423,7 +423,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_restaurant'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -448,7 +448,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -472,7 +472,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
