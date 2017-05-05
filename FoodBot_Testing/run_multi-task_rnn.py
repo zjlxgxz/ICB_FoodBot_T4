@@ -33,7 +33,9 @@ sys.path.append('../FoodBot_GRPC_Server/')
 import grpc
 import FoodBot_pb2
 from concurrent import futures
+
 import collections
+
 
 
 #from searchdb import SearchDB
@@ -47,10 +49,12 @@ tag_vocab = 0
 rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
+
 observation = collections.deque(maxlen=10)
 state = {'Get_restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
 intents = collections.deque(maxlen=2)
 waitConfirm = []
+
 
 
 #tf.app.flags.DEFINE_float("learning_rate", 0.1, "Learning rate.")
@@ -310,7 +314,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
       else:
         slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
 
-    observation.append([test_label_result[0] ,slots])
+  observation.append([test_label_result[0] ,slots])
   print ("DST")
   print (slots)
 
@@ -467,6 +471,20 @@ def dialogPolicy():
   print (waitConfirm)
   print (sys_act)
 
+    else:
+      slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
+      
+  print ("DST")
+  print (slots)
+  return [1]
+
+
+def dialogPolicy(currentState,tokens,test_tagging_result,test_label_result):
+    #search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
+    #search.grabData(test_label_result[0] ,slots)
+  print ("Policy")
+
+
 def naturalLanguageGeneration():
   print ("NLG")
 
@@ -476,7 +494,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print (request)
     userInput = request.response.lower()
     test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+
     #dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+    #state = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
     #action = policy(state)
     #NLG(action)
     print (test_label_result)
