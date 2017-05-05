@@ -36,7 +36,7 @@ from concurrent import futures
 import collections
 
 
-#from searchdb import SearchDB
+from searchdb import SearchDB
 
 #global vars
 model_test =  0
