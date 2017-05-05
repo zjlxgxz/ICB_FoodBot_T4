@@ -316,7 +316,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
 
 
 def dialogPolicy():
-  #search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
+  search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   sys_act = {'intent':'' ,'content':''}
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
   needConfirm = False
@@ -405,7 +405,9 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        #sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -428,7 +430,9 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        #sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -450,7 +454,9 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        #sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
