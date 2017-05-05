@@ -530,6 +530,7 @@ def dialogPolicy():
       print ("I don\'t know what to say")
 
   print ('system action : ' ,sys_act)
+  return sys_act
 
 def nlg(sem_frame, bot):
   if bot == 0:
@@ -651,8 +652,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     else:
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
       dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
-      dialogPolicy()
-      nlg_sentence = nlg(sys_act,1)
+      policyFrame = dialogPolicy()
+      nlg_sentence = nlg(policyFrame,1)
       #action = policy(state)
       #NLG(action)
       print (test_label_result)
