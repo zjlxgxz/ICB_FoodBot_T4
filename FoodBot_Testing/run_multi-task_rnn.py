@@ -480,13 +480,17 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   def GetResponse (self, request, context):
     print (request)
     userInput = request.response.lower()
-    test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-    dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
-    dialogPolicy()
-    #action = policy(state)
-    #NLG(action)
-    print (test_label_result)
-    return FoodBot_pb2.Sentence(response = userInput)
+    if userInput == 'reset':
+      #reset the dialog state.
+      return FoodBot_pb2.Sentence(response = userInput)
+    else:
+      test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+      dialogPolicy()
+      #action = policy(state)
+      #NLG(action)
+      print (test_label_result)
+      return FoodBot_pb2.Sentence(response = userInput)
 
 def testing():
   print ('Applying Parameters:')
