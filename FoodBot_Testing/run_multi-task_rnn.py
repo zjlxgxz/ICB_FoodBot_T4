@@ -449,15 +449,15 @@ def dialogPolicy():
 
       if state[intents[-1]]['LOCATION'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'location':''}
+        sys_act['content'] = {'LOCATION':''}
       
       elif state[intents[-1]]['CATEGORY'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'category':''}
+        sys_act['content'] = {'CATEGORY':''}
       
-      elif state[intents[-1]]['TIME'] == '':
-        sys_act['intent'] = 'request'
-        sys_act['content'] = {'time':''}
+      #elif state[intents[-1]]['TIME'] == '':
+      #  sys_act['intent'] = 'request'
+      #  sys_act['content'] = {'time':''}
 
       elif needInform:
         needInform = False
@@ -472,7 +472,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_restaurant'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -482,7 +482,7 @@ def dialogPolicy():
 
       if state[intents[-1]]['RESTAURANTNAME'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'rest_name':''}
+        sys_act['content'] = {'RESTAURANTNAME':''}
 
       elif needInform:
         needInform = False
@@ -497,7 +497,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -506,14 +506,14 @@ def dialogPolicy():
 
       if state[intents[-1]]['RESTAURANTNAME'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'rest_name':''}
+        sys_act['content'] = {'RESTAURANTNAME':''}
 
       elif needInform:
         needInform = False
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['t'] = search.grabData(intents[-1] ,slots)
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
@@ -521,7 +521,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm＿info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -545,22 +545,22 @@ def nlg(sem_frame, bot):
     
     if sem_frame["intent"] == "inform": # category/time/location
       sentence = ""
-      if sem_frame["category"]:
+      if sem_frame["CATEGORY"]:
         sentence = random.choice(inform_category_pattern)
-        sentence = sentence.replace("CATEGORY", sem_frame["category"])
-      if sem_frame["location"]:
+        sentence = sentence.replace("CATEGORY", sem_frame["CATEGORY"])
+      if sem_frame["LOCATION"]:
         if sentence:
           pre = " "
         else:
           pre = ""
         sentence = sentence + pre + random.choice(inform_location_pattern)
-        sentence = sentence.replace("LOCATION", sem_frame["location"])      
-      if sem_frame["time"]:       
+        sentence = sentence.replace("LOCATION", sem_frame["LOCATION"])      
+      if sem_frame["TIME"]:       
         if sentence:
           pre = " "
         else:
           pre = ""
-        sentence = pre + sem_frame["time"].capitalize()
+        sentence = pre + sem_frame["TIME"].capitalize()
   
     if sem_frame["intent"] == "get_restaurant":
       # replace category, replace location with "in xxx", time with "for xxx"
@@ -579,11 +579,11 @@ def nlg(sem_frame, bot):
   
     if sem_frame["intent"] == "get_location":
       sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])    
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])    
   
     if sem_frame["intent"] == "get_rating":
       sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])
 
     #if sem_frame["intent"] == "get_comment":
     # sentence = random.choice(get_comment_pattern)
@@ -604,36 +604,36 @@ def nlg(sem_frame, bot):
       keys = sem_frame["content"].keys()
       sentence = "You're looking for a "
       if "category" in keys:
-        sentence = sentence + sem_frame["content"]["category"] + " restaurant"
+        sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
       else:
         sentence = sentence + "restaurant"
       if "location" in keys:
-        sentence = sentence + " in " + sem_frame["content"]["location"]
+        sentence = sentence + " in " + sem_frame["content"]["LOCATION"]
       if "time" in keys:
-        sentence = sentence + " for " + sem_frame["content"]["time"]
+        sentence = sentence + " for " + sem_frame["content"]["TIME"]
       sentence = sentence + ", right?"
 
     if sem_frame["intent"] == "confirm_info":
       sentence = "You're looking for "
       if "rating" in sem_frame["content"].keys():
-        sentence = sentence + "the rating of " + sem_frame["content"]["rest_name"]
+        sentence = sentence + "the rating of " + sem_frame["content"]["RESTAURANTNAME"]
       if "location" in sem_frame["content"].keys():
-        sentence = sentence + "the location of " + sem_frame["content"]["rest_name"]
+        sentence = sentence + "the location of " + sem_frame["content"]["RESTAURANTNAME"]
       sentence = sentence + ", right?"
     
     if sem_frame["intent"] == "inform":
       #for recommendation
-      if sem_frame["content"]["rest_name"]:
+      if sem_frame["content"]["RESTAURANTNAME"]:
         sentence = random.choice(recommend_pattern)
-        sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["rest_name"])
-        sentence = sentence + " And it's in " + sem_frame["content"]["location"] + "."
+        sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
+        sentence = sentence + " And it's in " + sem_frame["content"]["LOCATION"] + "."
       
       else:
         #for restaurant info
-        if sem_frame["content"]["location"]:
-          sentence = "It's here: " + sem_frame["content"]["location"] + "."
-        if sem_frame["content"]["rating"]:
-          sentence = "Its rating is " + sem_frame["content"]["rating"] + "."
+        if sem_frame["content"]["LOCATION"]:
+          sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
+        if sem_frame["content"]["RATING"]:
+          sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
 
     if sem_frame["intent"] == "not_found":
       sentence = "Sorry! I don't have the information you're looking for. Please try another one."
