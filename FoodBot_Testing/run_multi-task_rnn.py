@@ -384,7 +384,7 @@ def dialogPolicy():
           state['Get_rating'][key] = observation[-1][1][key]
 
   
-  print 'state : ' ,state
+  print ('state : ' ,state)
   if sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
 
@@ -464,7 +464,7 @@ def dialogPolicy():
     else:
       print ("I don\'t know what to say")
 
-  print 'system action : ' ,sys_act
+  print ('system action : ' ,sys_act)
 
 def naturalLanguageGeneration():
   print ("NLG")
