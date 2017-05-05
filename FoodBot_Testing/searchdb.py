@@ -34,11 +34,11 @@ class SearchDB:
 
 			for record in results:
 				if intent == 'Get_restaurant' :
-					content = {'rest_name':str(record[0]) ,'location':record[5]}
+					content = {'RESTAURANTNAME':str(record[0]) ,'LOCATION':record[5]}
 				elif intent == 'Get_location' :
-					content = {'location':str(record[0])}
+					content = {'LOCATION':str(record[0])}
 				elif intent == 'Get_rating' :
-					content = {'rating':str(record[0])+'/5.0 stars'}
+					content = {'RATING':str(record[0])+'/5.0 stars'}
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
