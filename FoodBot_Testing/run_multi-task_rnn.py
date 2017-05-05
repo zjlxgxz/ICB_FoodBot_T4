@@ -48,7 +48,7 @@ rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
 observation = collections.deque(maxlen=10)
-state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
+state = {'Get_restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
 intents = collections.deque(maxlen=2)
 waitConfirm = []
 
@@ -316,7 +316,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
 
 
 def dialogPolicy():
-  #search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
+  search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   sys_act = {'intent':'' ,'content':''}
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
   needConfirm = False
@@ -365,11 +365,11 @@ def dialogPolicy():
             state[intents[-1]][key] = observation[-1][1][key]
 
   else:    
-    if observation[-1][0] == 'Get_Restaurant':
-      intents.append('Get_Restaurant')
+    if observation[-1][0] == 'Get_restaurant':
+      intents.append('Get_restaurant')
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
-          state['Get_Restaurant'][key] = observation[-1][1][key]
+          state['Get_restaurant'][key] = observation[-1][1][key]
 
     elif observation[-1][0] == 'Get_location':
       intents.append('Get_location')
@@ -384,9 +384,9 @@ def dialogPolicy():
           state['Get_rating'][key] = observation[-1][1][key]
 
   
-  print ('state : ' ,state)
+  print 'state : ' ,state
   if sys_act['intent'] != 'confirm':     
-    if intents[-1] == 'Get_Restaurant':
+    if intents[-1] == 'Get_restaurant':
 
       if state[intents[-1]]['LOCATION'] == '':
         sys_act['intent'] = 'request'
@@ -405,7 +405,9 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        #sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -428,7 +430,9 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        #sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -450,7 +454,9 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        #sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -464,7 +470,7 @@ def dialogPolicy():
     else:
       print ("I don\'t know what to say")
 
-  print ('system action : ' ,sys_act)
+  print 'system action : ' ,sys_act
 
 def naturalLanguageGeneration():
   print ("NLG")
