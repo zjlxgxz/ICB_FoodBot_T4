@@ -34,6 +34,9 @@ import grpc
 import FoodBot_pb2
 from concurrent import futures
 
+import collections
+
+
 
 #from searchdb import SearchDB
 
@@ -46,6 +49,12 @@ tag_vocab = 0
 rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
+
+observation = collections.deque(maxlen=10)
+state = {'Get_restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
+intents = collections.deque(maxlen=2)
+waitConfirm = []
+
 
 
 #tf.app.flags.DEFINE_float("learning_rate", 0.1, "Learning rate.")
@@ -302,18 +311,165 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
     elif "B-TIME" in test_tagging_result[0][index_token] or "I-TIME" in test_tagging_result[0][index_token]:
       if(slots['TIME'] == ""):
         slots['TIME'] = str(slots['TIME'] +tokens[index_token])
-    else:
-      slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
-      
+      else:
+        slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
+
+  observation.append([test_label_result[0] ,slots])
   print ("DST")
   print (slots)
-  return [1]
 
 
-def dialogPolicy(currentState,tokens,test_tagging_result,test_label_result):
-    #search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-    #search.grabData(test_label_result[0] ,slots)
+def dialogPolicy():
+  search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
+  sys_act = {'intent':'' ,'content':''}
+  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
+  needConfirm = False
+  needInform = False
+  sys_act['content'] = {}
+
+  if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
+    waitConfirm.pop(-1)
+
+  if observation[-1][0] == 'Confirm':
+    if waitConfirm[-1][0] == 'confirm':
+      needInform = True
+
+    else:
+      for x in range(1 ,11):
+        if waitConfirm[-x][0] == intents[-1]:
+          for key in waitConfirm[-x][1].keys():
+            if key in state[intents[-1]]:
+              state[intents[-1]][key] = waitConfirm[-x][1][key]
+          waitConfirm.pop(-x)
+          break
+  elif observation[-1][0] == 'Wrong':
+    pass
+
+  elif observation[-1][0] == 'Inform':
+    for key in observation[-1][1].keys():
+      if observation[-1][1][key] != '' and key in state[intents[-1]]:
+        if state[intents[-1]][key] != '':
+          needConfirm = True
+
+    if needConfirm:
+      needConfirm = False
+      sys_act['intent'] = 'confirm'
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '':
+          sys_act['content'][key] = observation[-1][1][key]
+      waitConfirm.append([intents[-1] ,sys_act['content']])
+      print ('wait confirm : ')
+      print (waitConfirm[-1])
+
+    else:
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[intents[-1]]:
+          if state[intents[-1]][key] == '':
+            state[intents[-1]][key] = observation[-1][1][key]
+
+  else:    
+    if observation[-1][0] == 'Get_restaurant':
+      intents.append('Get_restaurant')
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
+          state['Get_restaurant'][key] = observation[-1][1][key]
+
+    elif observation[-1][0] == 'Get_location':
+      intents.append('Get_location')
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
+          state['Get_location'][key] = observation[-1][1][key]
+
+    elif observation[-1][0] == 'Get_rating':
+      intents.append('Get_rating')
+      for key in observation[-1][1].keys():
+        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
+          state['Get_rating'][key] = observation[-1][1][key]
+
+  
+  print (state)
+  if sys_act['intent'] != 'confirm':     
+    if intents[-1] == 'Get_restaurant':
+
+      if state[intents[-1]]['LOCATION'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'location':''}
+      
+      elif state[intents[-1]]['CATEGORY'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'category':''}
+      
+      elif state[intents[-1]]['TIME'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'time':''}
+
+      elif needInform:
+        needInform = False
+        sys_act['intent'] = 'inform'
+        for key in state[intents[-1]].keys():
+          slots[key] = state[intents[-1]][key]
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        for key in state[intents[-1]].keys():
+          state[intents[-1]][key] = ''
+        waitConfirm.pop(-1)
+
+      else:
+        sys_act['intent'] = 'confirm'
+        for key in state[intents[-1]].keys():
+          sys_act['content'][key] = state[intents[-1]][key]
+        waitConfirm.append(['confirm' ,sys_act['content']])
+  
+    
+    elif intents[-1] == 'Get_location':
+
+      if state[intents[-1]]['RESTAURANTNAME'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'rest_name':''}
+
+      elif needInform:
+        needInform = False
+        sys_act['intent'] = 'inform'
+        for key in state[intents[-1]].keys():
+          slots[key] = state[intents[-1]][key]
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        for key in state[intents[-1]].keys():
+          state[intents[-1]][key] = ''
+        waitConfirm.pop(-1)
+
+      else:
+        sys_act['intent'] = 'confirm'
+        for key in state[intents[-1]].keys():
+          sys_act['content'][key] = state[intents[-1]][key]
+        waitConfirm.append(['confirm' ,sys_act['content']])
+
+    elif intents[-1] == 'Get_rating':
+
+      if state[intents[-1]]['RESTAURANTNAME'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'rest_name':''}
+
+      elif needInform:
+        needInform = False
+        sys_act['intent'] = 'inform'
+        for key in state[intents[-1]].keys():
+          slots[key] = state[intents[-1]][key]
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        for key in state[intents[-1]].keys():
+          state[intents[-1]][key] = ''
+        waitConfirm.pop(-1)
+
+      else:
+        sys_act['intent'] = 'confirm'
+        for key in state[intents[-1]].keys():
+          sys_act['content'][key] = state[intents[-1]][key]
+        waitConfirm.append(['confirm' ,sys_act['content']])
+
+    else:
+      print ("I don\'t know what to say")
+
   print ("Policy")
+  print (waitConfirm)
+  print (sys_act)
 
 def naturalLanguageGeneration():
   print ("NLG")
@@ -324,6 +480,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print (request)
     userInput = request.response.lower()
     test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+
+    #dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
     #state = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
     #action = policy(state)
     #NLG(action)
