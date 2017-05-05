@@ -286,6 +286,16 @@ def languageUnderstanding(userInput):
   print (test_tagging_result)
   return test_tagging_result , test_label_result
 
+def DST_reset():
+  for key in state.keys():
+    for slot in state[key].keys():
+      state[key][slot] = ''
+  waitConfirm = []
+  for x in range(intents.__len__()):
+    intents[x] = ''
+  for x in range(observation.__len__()):
+    observation[x] = []
+
 def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
   for index_token in range(len(tokens)):
