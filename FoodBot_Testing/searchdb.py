@@ -38,7 +38,7 @@ class SearchDB:
 				elif intent == 'Get_location' :
 					content = {'rest_name':str(record[0])}
 				elif intent == 'Get_rating' :
-					content = {'rest_name':str(record[0])+'/5.0 stars's}
+					content = {'rest_name':str(record[0])+'/5.0 stars'}
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
