@@ -1,0 +1,7 @@
+Please give me some reviews of RESTAURANT_NAME.
+Please show me some reviews of RESTAURANT_NAME.
+Please give me some comments of RESTAURANT_NAME.
+Please show me some comments of RESTAURANT_NAME.
+What do people say about RESTAURANT_NAME?
+What are others’ opinions of RESTAURANT_NAME?
+What are others’ opinions about RESTAURANT_NAME?

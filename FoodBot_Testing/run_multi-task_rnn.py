@@ -34,7 +34,7 @@ import grpc
 import FoodBot_pb2
 from concurrent import futures
 import collections
-
+import random
 
 from searchdb import SearchDB
 
@@ -51,6 +51,55 @@ observation = collections.deque(maxlen=10)
 state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
 intents = collections.deque(maxlen=2)
 waitConfirm = []
+
+
+##################below for nlg
+#lists needed
+content_list = ["category", "time", "location"]
+
+# files
+f1 = open('restName.txt', 'r')
+restaurant_list1 = f1.read().split('\n')
+restaurant_list = [item.replace('-', ' ') for item in restaurant_list1]
+
+#patterns of user
+f2 = open('sentence_pattern/yes.txt', 'r')
+yes_list = f2.read().split('\n')
+
+f3 = open('sentence_pattern/thanks.txt', 'r')
+thanks_list = f3.read().split('\n')
+
+f4 = open('sentence_pattern/get_restaurant.txt', 'r')
+get_restaurant_pattern = f4.read().split('\n')
+
+f5 = open('sentence_pattern/get_location.txt', 'r')
+get_location_pattern = f5.read().split('\n')
+
+f6 = open('sentence_pattern/get_rating.txt', 'r')
+get_rating_pattern = f6.read().split('\n')
+
+#f7 = open('get_comment.txt', 'r')
+#get_comment_pattern = f7.read().split('\n')
+
+f8 = open('sentence_pattern/recommend.txt', 'r')
+recommend_pattern = f8.read().split('\n')
+
+f9 = open('sentence_pattern/inform_location.txt', 'r')
+inform_location_pattern = f9.read().split('\n')
+
+f10 = open('sentence_pattern/inform_category.txt', 'r')
+inform_category_pattern = f10.read().split('\n')
+
+f11 = open('sentence_pattern/request_location.txt', 'r')
+request_location_pattern = f11.read().split('\n')
+
+f12 = open('sentence_pattern/request_category.txt', 'r')
+request_category_pattern = f12.read().split('\n')
+
+f13 = open('sentence_pattern/request_time.txt', 'r')
+request_time_pattern = f13.read().split('\n')
+
+######################
 
 
 #tf.app.flags.DEFINE_float("learning_rate", 0.1, "Learning rate.")
@@ -406,9 +455,9 @@ def dialogPolicy():
         sys_act['intent'] = 'request'
         sys_act['content'] = {'category':''}
       
-      #elif state[intents[-1]]['TIME'] == '':
-      #  sys_act['intent'] = 'request'
-      #  sys_act['content'] = {'time':''}
+      elif state[intents[-1]]['TIME'] == '':
+        sys_act['intent'] = 'request'
+        sys_act['content'] = {'time':''}
 
       elif needInform:
         needInform = False
@@ -423,7 +472,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm_restaurant'
+        sys_act['intent'] = 'confirm'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -448,7 +497,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm_info'
+        sys_act['intent'] = 'confirm'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -472,7 +521,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm_info'
+        sys_act['intent'] = 'confirm'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -482,8 +531,113 @@ def dialogPolicy():
 
   print ('system action : ' ,sys_act)
 
-def naturalLanguageGeneration():
-  print ("NLG")
+def nlg(sem_frame, bot):
+  if bot == 0:
+    if sem_frame["intent"] == "thanks":
+      sentence = random.choice(thanks_list)
+    
+    if sem_frame["intent"] == "yes":
+      sentence = random.choice(yes_list)
+    
+    if sem_frame["intent"] == "no":
+      sentence = "No. I mean " + nlg_gen(memory)
+    
+    if sem_frame["intent"] == "inform": # category/time/location
+      sentence = ""
+      if sem_frame["category"]:
+        sentence = random.choice(inform_category_pattern)
+        sentence = sentence.replace("CATEGORY", sem_frame["category"])
+      if sem_frame["location"]:
+        if sentence:
+          pre = " "
+        else:
+          pre = ""
+        sentence = sentence + pre + random.choice(inform_location_pattern)
+        sentence = sentence.replace("LOCATION", sem_frame["location"])      
+      if sem_frame["time"]:       
+        if sentence:
+          pre = " "
+        else:
+          pre = ""
+        sentence = pre + sem_frame["time"].capitalize()
+  
+    if sem_frame["intent"] == "get_restaurant":
+      # replace category, replace location with "in xxx", time with "for xxx"
+      sentence = random.choice(get_restaurant_pattern)
+      for item in content_list:
+        if sem_frame[item] == "":
+          sentence = sentence.replace(item.upper(), "")
+        else:
+          if item == "category":
+            prefix = ' '
+          if item == "location":
+            prefix = " in "
+          if item == "time":
+            prefix = " for "
+          sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
+  
+    if sem_frame["intent"] == "get_location":
+      sentence = random.choice(get_location_pattern)
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])    
+  
+    if sem_frame["intent"] == "get_rating":
+      sentence = random.choice(get_rating_pattern)
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])
+
+    #if sem_frame["intent"] == "get_comment":
+    # sentence = random.choice(get_comment_pattern)
+    # sentence = replace("RESTAURANT_NAME", sem_frame["rest_name"])
+
+  else: #for bot  
+    if sem_frame["intent"] == "request":
+      keys = sem_frame["content"].keys()
+      sentence = ""
+      if "category" in keys:
+        sentence = random.choice(request_category_pattern) + " "
+      if "location" in keys:
+        sentence = sentence + random.choice(request_location_pattern) + " "
+      if "time" in keys:
+        sentence = sentence + random.choice(request_time_pattern)
+  
+    if sem_frame["intent"] == "confirm_restaurant":
+      keys = sem_frame["content"].keys()
+      sentence = "You're looking for a "
+      if "category" in keys:
+        sentence = sentence + sem_frame["content"]["category"] + " restaurant"
+      else:
+        sentence = sentence + "restaurant"
+      if "location" in keys:
+        sentence = sentence + " in " + sem_frame["content"]["location"]
+      if "time" in keys:
+        sentence = sentence + " for " + sem_frame["content"]["time"]
+      sentence = sentence + ", right?"
+
+    if sem_frame["intent"] == "confirm_info":
+      sentence = "You're looking for "
+      if "rating" in sem_frame["content"].keys():
+        sentence = sentence + "the rating of " + sem_frame["content"]["rest_name"]
+      if "location" in sem_frame["content"].keys():
+        sentence = sentence + "the location of " + sem_frame["content"]["rest_name"]
+      sentence = sentence + ", right?"
+    
+    if sem_frame["intent"] == "inform":
+      #for recommendation
+      if sem_frame["content"]["rest_name"]:
+        sentence = random.choice(recommend_pattern)
+        sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["rest_name"])
+        sentence = sentence + " And it's in " + sem_frame["content"]["location"] + "."
+      
+      else:
+        #for restaurant info
+        if sem_frame["content"]["location"]:
+          sentence = "It's here: " + sem_frame["content"]["location"] + "."
+        if sem_frame["content"]["rating"]:
+          sentence = "Its rating is " + sem_frame["content"]["rating"] + "."
+
+    if sem_frame["intent"] == "not_found":
+      sentence = "Sorry! I don't have the information you're looking for. Please try another one."
+  
+  return sentence
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
