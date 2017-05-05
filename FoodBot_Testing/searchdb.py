@@ -44,7 +44,6 @@ class SearchDB:
 			self.db.close()
 			return content
 		except MySQLdb.Error as e:
-			print "Error %d: %s" % (e.args[0], e.args[1])
 			return ''
 
 if __name__ == '__main__':
