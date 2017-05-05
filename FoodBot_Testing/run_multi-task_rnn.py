@@ -652,11 +652,11 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
       dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
       dialogPolicy()
-      nlg(sys_act,1)
+      nlg_sentence = nlg(sys_act,1)
       #action = policy(state)
       #NLG(action)
       print (test_label_result)
-      return FoodBot_pb2.Sentence(response = userInput)
+      return FoodBot_pb2.Sentence(response = nlg_sentence)
 
 def testing():
   print ('Applying Parameters:')
