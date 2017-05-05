@@ -491,7 +491,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print (request)
     userInput = request.response.lower()
     if userInput == 'reset':
-      #reset the dialog state.
+      #reset the dialog state.'
+      DST_reset()
       return FoodBot_pb2.Sentence(response = userInput)
     else:
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
