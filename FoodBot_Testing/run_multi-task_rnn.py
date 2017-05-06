@@ -611,9 +611,9 @@ def nlg(sem_frame, bot):
         sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
       else:
         sentence = sentence + "restaurant"
-      if "LOCATION" in keys:
+      if "LOCATION" in keys and sem_frame["content"]["LOCATION"]:
         sentence = sentence + " in " + sem_frame["content"]["LOCATION"]
-      if "TIME" in keys:
+      if "TIME" in keys and sem_frame["content"]["TIME"]:
         sentence = sentence + " for " + sem_frame["content"]["TIME"]
       sentence = sentence + ", right?"
 
