@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package FoodBot;
+
+service FoodBotSimRequest
+{
+//Input NLG
+//Output NLG 
+	rpc GetSimResponse(Sentence) returns (Sentence){}
+}
+
+message Sentence
+{
+	string response = 1;
+}
