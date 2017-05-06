@@ -33,12 +33,10 @@ sys.path.append('../FoodBot_GRPC_Server/')
 import grpc
 import FoodBot_pb2
 from concurrent import futures
-
 import collections
+import random
 
-
-
-#from searchdb import SearchDB
+from searchdb import SearchDB
 
 #global vars
 model_test =  0
@@ -49,12 +47,59 @@ tag_vocab = 0
 rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
-
 observation = collections.deque(maxlen=10)
-state = {'Get_restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
+state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
 intents = collections.deque(maxlen=2)
 waitConfirm = []
 
+
+##################below for nlg
+#lists needed
+content_list = ["category", "time", "location"]
+
+# files
+f1 = open('restName.txt', 'r')
+restaurant_list1 = f1.read().split('\n')
+restaurant_list = [item.replace('-', ' ') for item in restaurant_list1]
+
+#patterns of user
+f2 = open('sentence_pattern/yes.txt', 'r')
+yes_list = f2.read().split('\n')
+
+f3 = open('sentence_pattern/thanks.txt', 'r')
+thanks_list = f3.read().split('\n')
+
+f4 = open('sentence_pattern/get_restaurant.txt', 'r')
+get_restaurant_pattern = f4.read().split('\n')
+
+f5 = open('sentence_pattern/get_location.txt', 'r')
+get_location_pattern = f5.read().split('\n')
+
+f6 = open('sentence_pattern/get_rating.txt', 'r')
+get_rating_pattern = f6.read().split('\n')
+
+#f7 = open('get_comment.txt', 'r')
+#get_comment_pattern = f7.read().split('\n')
+
+f8 = open('sentence_pattern/recommend.txt', 'r')
+recommend_pattern = f8.read().split('\n')
+
+f9 = open('sentence_pattern/inform_location.txt', 'r')
+inform_location_pattern = f9.read().split('\n')
+
+f10 = open('sentence_pattern/inform_category.txt', 'r')
+inform_category_pattern = f10.read().split('\n')
+
+f11 = open('sentence_pattern/request_location.txt', 'r')
+request_location_pattern = f11.read().split('\n')
+
+f12 = open('sentence_pattern/request_category.txt', 'r')
+request_category_pattern = f12.read().split('\n')
+
+f13 = open('sentence_pattern/request_time.txt', 'r')
+request_time_pattern = f13.read().split('\n')
+
+######################
 
 
 #tf.app.flags.DEFINE_float("learning_rate", 0.1, "Learning rate.")
@@ -290,6 +335,16 @@ def languageUnderstanding(userInput):
   print (test_tagging_result)
   return test_tagging_result , test_label_result
 
+def DST_reset():
+  for key in state.keys():
+    for slot in state[key].keys():
+      state[key][slot] = ''
+  waitConfirm = []
+  for x in range(intents.__len__()):
+    intents[x] = ''
+  for x in range(observation.__len__()):
+    observation[x] = []
+
 def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
   for index_token in range(len(tokens)):
@@ -314,7 +369,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
       else:
         slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
 
-  observation.append([test_label_result[0] ,slots])
+    observation.append([test_label_result[0] ,slots])
   print ("DST")
   print (slots)
 
@@ -327,6 +382,8 @@ def dialogPolicy():
   needInform = False
   sys_act['content'] = {}
 
+  global waitConfirm
+  print ("Policy")
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
     waitConfirm.pop(-1)
 
@@ -343,7 +400,9 @@ def dialogPolicy():
           waitConfirm.pop(-x)
           break
   elif observation[-1][0] == 'Wrong':
-    pass
+    #waitConfirm = []
+    #Really? should we reset here?
+    DST_reset()
 
   elif observation[-1][0] == 'Inform':
     for key in observation[-1][1].keys():
@@ -358,8 +417,8 @@ def dialogPolicy():
         if observation[-1][1][key] != '':
           sys_act['content'][key] = observation[-1][1][key]
       waitConfirm.append([intents[-1] ,sys_act['content']])
-      print ('wait confirm : ')
-      print (waitConfirm[-1])
+      #print ('wait confirm : ')
+      #print (waitConfirm[-1])
 
     else:
       for key in observation[-1][1].keys():
@@ -368,11 +427,11 @@ def dialogPolicy():
             state[intents[-1]][key] = observation[-1][1][key]
 
   else:    
-    if observation[-1][0] == 'Get_restaurant':
-      intents.append('Get_restaurant')
+    if observation[-1][0] == 'Get_Restaurant':
+      intents.append('Get_Restaurant')
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
-          state['Get_restaurant'][key] = observation[-1][1][key]
+          state['Get_Restaurant'][key] = observation[-1][1][key]
 
     elif observation[-1][0] == 'Get_location':
       intents.append('Get_location')
@@ -385,23 +444,22 @@ def dialogPolicy():
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
           state['Get_rating'][key] = observation[-1][1][key]
-
   
-  print (state)
+  print ('state : ' ,state)
   if sys_act['intent'] != 'confirm':     
-    if intents[-1] == 'Get_restaurant':
+    if intents[-1] == 'Get_Restaurant':
 
       if state[intents[-1]]['LOCATION'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'location':''}
+        sys_act['content'] = {'LOCATION':''}
       
       elif state[intents[-1]]['CATEGORY'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'category':''}
+        sys_act['content'] = {'CATEGORY':''}
       
-      elif state[intents[-1]]['TIME'] == '':
-        sys_act['intent'] = 'request'
-        sys_act['content'] = {'time':''}
+      #elif state[intents[-1]]['TIME'] == '':
+      #  sys_act['intent'] = 'request'
+      #  sys_act['content'] = {'time':''}
 
       elif needInform:
         needInform = False
@@ -409,12 +467,14 @@ def dialogPolicy():
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_restaurant'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
@@ -424,7 +484,7 @@ def dialogPolicy():
 
       if state[intents[-1]]['RESTAURANTNAME'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'rest_name':''}
+        sys_act['content'] = {'RESTAURANTNAME':''}
 
       elif needInform:
         needInform = False
@@ -432,61 +492,176 @@ def dialogPolicy():
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
+        sys_act['content']['LOCATION'] = ''
         waitConfirm.append(['confirm' ,sys_act['content']])
 
     elif intents[-1] == 'Get_rating':
 
       if state[intents[-1]]['RESTAURANTNAME'] == '':
         sys_act['intent'] = 'request'
-        sys_act['content'] = {'rest_name':''}
+        sys_act['content'] = {'RESTAURANTNAME':''}
 
       elif needInform:
         needInform = False
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        sys_act['content'] = search.grabData(intents[-1] ,slots)
+        sys_act['t'] = search.grabData(intents[-1] ,slots)
+        if sys_act['content'] == '':
+          sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm'
+        sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
+        sys_act['content']['RATING'] = ''
         waitConfirm.append(['confirm' ,sys_act['content']])
 
     else:
       print ("I don\'t know what to say")
 
-  print ("Policy")
-  print (waitConfirm)
-  print (sys_act)
+  print ('system action : ' ,sys_act)
+  return sys_act
 
-def naturalLanguageGeneration():
-  print ("NLG")
+def nlg(sem_frame, bot):
+  if bot == 0:
+    if sem_frame["intent"] == "thanks":
+      sentence = random.choice(thanks_list)
+    
+    if sem_frame["intent"] == "yes":
+      sentence = random.choice(yes_list)
+    
+    if sem_frame["intent"] == "no":
+      sentence = "No."
+    
+    if sem_frame["intent"] == "inform": # category/time/location
+      sentence = ""
+      if sem_frame["CATEGORY"]:
+        sentence = random.choice(inform_category_pattern)
+        sentence = sentence.replace("CATEGORY", sem_frame["CATEGORY"])
+      if sem_frame["LOCATION"]:
+        if sentence:
+          pre = " "
+        else:
+          pre = ""
+        sentence = sentence + pre + random.choice(inform_location_pattern)
+        sentence = sentence.replace("LOCATION", sem_frame["LOCATION"])      
+      if sem_frame["TIME"]:       
+        if sentence:
+          pre = " "
+        else:
+          pre = ""
+        sentence = pre + sem_frame["TIME"].capitalize()
+  
+    if sem_frame["intent"] == "get_restaurant":
+      # replace category, replace location with "in xxx", time with "for xxx"
+      sentence = random.choice(get_restaurant_pattern)
+      for item in content_list:
+        if sem_frame[item] == "":
+          sentence = sentence.replace(item.upper(), "")
+        else:
+          if item == "category":
+            prefix = ' '
+          if item == "location":
+            prefix = " in "
+          if item == "time":
+            prefix = " for "
+          sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
+  
+    if sem_frame["intent"] == "get_location":
+      sentence = random.choice(get_location_pattern)
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])    
+  
+    if sem_frame["intent"] == "get_rating":
+      sentence = random.choice(get_rating_pattern)
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])
+
+    #if sem_frame["intent"] == "get_comment":
+    # sentence = random.choice(get_comment_pattern)
+    # sentence = replace("RESTAURANT_NAME", sem_frame["rest_name"])
+
+  else: #for bot  
+    if sem_frame["intent"] == "request":
+      keys = sem_frame["content"].keys()
+      sentence = ""
+      if "CATEGORY" in keys:
+        sentence = random.choice(request_category_pattern) + " "
+      if "LOCATION" in keys:
+        sentence = sentence + random.choice(request_location_pattern) + " "
+      if "TIME" in keys:
+        sentence = sentence + random.choice(request_time_pattern)
+  
+    if sem_frame["intent"] == "confirm_restaurant":
+      keys = sem_frame["content"].keys()
+      sentence = "You're looking for a "
+      if "CATEGORY" in keys:
+        sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
+      else:
+        sentence = sentence + "restaurant"
+      if "LOCATION" in keys:
+        sentence = sentence + " in " + sem_frame["content"]["LOCATION"]
+      if "TIME" in keys:
+        sentence = sentence + " for " + sem_frame["content"]["TIME"]
+      sentence = sentence + ", right?"
+
+    if sem_frame["intent"] == "confirm_info":
+      sentence = "You're looking for "
+      if "RATING" in sem_frame["content"].keys():
+        sentence = sentence + "the rating of " + sem_frame["content"]["RESTAURANTNAME"]
+      if "LOCATION" in sem_frame["content"].keys():
+        sentence = sentence + "the location of " + sem_frame["content"]["RESTAURANTNAME"]
+      sentence = sentence + ", right?"
+    
+    if sem_frame["intent"] == "inform":
+      #for recommendation
+      if sem_frame["content"]["RESTAURANTNAME"]:
+        sentence = random.choice(recommend_pattern)
+        sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
+        sentence = sentence + " And it's in " + sem_frame["content"]["LOCATION"] + "."
+      
+      else:
+        #for restaurant info
+        if sem_frame["content"]["LOCATION"]:
+          sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
+        if sem_frame["content"]["RATING"]:
+          sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
+
+    if sem_frame["intent"] == "not_found":
+      sentence = "Sorry! I don't have the information you're looking for. Please try another one."
+  
+  return sentence
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
     print (request)
     userInput = request.response.lower()
-    test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-
-    #dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
-    #state = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
-    #action = policy(state)
-    #NLG(action)
-    print (test_label_result)
-    return FoodBot_pb2.Sentence(response = userInput)
+    if userInput == 'reset':
+      #reset the dialog state.'
+      DST_reset()
+      return FoodBot_pb2.Sentence(response = userInput)
+    else:
+      test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+      policyFrame = dialogPolicy()
+      nlg_sentence = nlg(policyFrame,1)
+      #action = policy(state)
+      #NLG(action)
+      print (test_label_result)
+      return FoodBot_pb2.Sentence(response = nlg_sentence)
 
 def testing():
   print ('Applying Parameters:')

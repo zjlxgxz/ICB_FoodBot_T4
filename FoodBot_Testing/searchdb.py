@@ -15,9 +15,10 @@ class SearchDB:
 		try:
 			cursor = self.db.cursor()
 
-			if intent == 'Get_restaurant' :
-				cursor.execute('SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s LIMIT 1' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\''))
-	
+			if intent == 'Get_Restaurant' :
+				sql_query = 'SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s LIMIT 1' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\'')
+				cursor.execute(sql_query)
+				print sql_query
 			elif intent == 'Get_location' and slots['RESTAURANTNAME'] != '' :
 				cursor.execute('SELECT displayAddress FROM restaurant WHERE name LIKE %s LIMIT 1' %('\'%'+slots['RESTAURANTNAME']+'%\''))
 
@@ -33,18 +34,18 @@ class SearchDB:
 			print 'results : ' + str(results)
 
 			for record in results:
-				if intent == 'Get_restaurant' :
-					content = {'rest_name':str(record[0]) ,'location':record[5]}
+				if intent == 'Get_Restaurant' :
+					content = {'RESTAURANTNAME':str(record[0]) ,'LOCATION':record[5]}
 				elif intent == 'Get_location' :
-					content = {'rest_name':str(record[0])}
+					content = {'LOCATION':str(record[0])}
 				elif intent == 'Get_rating' :
-					content = {'rest_name':str(record[0])+'/5.0 stars's}
+					content = {'RATING':str(record[0])+'/5.0 stars'}
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
+			return content
 		except MySQLdb.Error as e:
-			print "Error %d: %s" % (e.args[0], e.args[1])
-		return content
+			return ''
 
 if __name__ == '__main__':
 

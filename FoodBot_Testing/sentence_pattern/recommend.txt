@@ -1,0 +1,7 @@
+RESTAURANT_NAME is a good one.
+RESTAURANT_NAME is good restaurant.
+RESTAURANT_NAME is great.
+Why not giving RESTAURANT_NAME a try?
+Maybe you would like RESTAURANT_NAME.
+Try RESTAURANT_NAME.
+Give RESTAURANT_NAME a shot.
