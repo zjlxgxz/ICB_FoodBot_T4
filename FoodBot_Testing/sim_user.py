@@ -147,7 +147,7 @@ def simul_user(sys_act):
 		
 		elif sys_act["intent"]  == "confirm_info":
 			sem_frame["content"] = "no"
-			keys = sys_act["content"].keys
+			keys = sys_act["content"].keys()
 			if "LOCATION" in keys:
 				if sys_act["content"]["LOCATION"] == memory["intent"][4:] and sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
 					sem_frame["intent"] = "yes"
