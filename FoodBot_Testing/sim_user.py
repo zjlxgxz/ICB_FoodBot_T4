@@ -147,14 +147,13 @@ def simul_user(sys_act):
 		
 		elif sys_act["intent"]  == "confirm_info":
 			sem_frame["content"] = "no"
-			if sys_act["content"]["LOCATION"]:
-				if sys_act["content"]["LOCATION"] == memory["intent"][4:] && 
-				sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
+			keys = sys_act["content"].keys
+			if "LOCATION" in keys:
+				if sys_act["content"]["LOCATION"] == memory["intent"][4:] && sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
 					sem_frame["intent"] = "yes"
 			
-			if sys_act["content"]["RATING"]:
-				if sys_act["content"]["RATING"] == memory["intent"][4:] && 
-				sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]:
+			if "RATING" in keys:
+				if sys_act["content"]["RATING"] == memory["intent"][4:] && sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
 		
 		return nlg(sem_frame)
