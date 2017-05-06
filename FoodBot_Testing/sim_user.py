@@ -74,6 +74,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
 
 
 def simul_user(sys_act):
+	global memory
 	'''
 	sys_act: {
 			  "intent": "request",
