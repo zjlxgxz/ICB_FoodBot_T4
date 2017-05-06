@@ -74,6 +74,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
 
 
 def simul_user(sys_act):
+	global memory
 	'''
 	sys_act: {
 			  "intent": "request",
@@ -103,7 +104,7 @@ def simul_user(sys_act):
 		if dec in [1, 2]: #get location/rating
 			sem_frame["intent"] = intent_list[dec]
 			sem_frame["rest_name"] = random.choice(restaurant_list)
-
+		
 		memory = sem_frame #keep the memory
 		
 		return nlg(sem_frame)
