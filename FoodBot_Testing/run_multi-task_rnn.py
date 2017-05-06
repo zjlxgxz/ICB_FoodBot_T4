@@ -521,7 +521,7 @@ def dialogPolicy():
         waitConfirm.pop(-1)
 
       else:
-        sys_act['intent'] = 'confirm＿info'
+        sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
         waitConfirm.append(['confirm' ,sys_act['content']])
