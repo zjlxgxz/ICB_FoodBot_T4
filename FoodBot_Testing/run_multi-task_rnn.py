@@ -382,6 +382,7 @@ def dialogPolicy():
   needInform = False
   sys_act['content'] = {}
   
+  global waitConfirm
   print ("Policy")
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
     waitConfirm.pop(-1)
