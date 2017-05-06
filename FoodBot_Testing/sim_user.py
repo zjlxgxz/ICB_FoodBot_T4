@@ -115,15 +115,15 @@ def simul_user(sys_act):
 		if sys_act["intent"] == "request":
 			sem_frame["intent"] = "inform"
 
-			if "location" in sys_act["content"]:
+			if "LOCATION" in sys_act["content"]:
 				sem_frame["location"] = random.choice(location_list)
 				memory["location"] = sem_frame["location"]
 
-			if "time" in sys_act["content"]:
+			if "TIME" in sys_act["content"]:
 				sem_frame["time"] = random.choice(time_list)
 				memory["time"] = sem_frame["time"]
 
-			if "category" in sys_act["content"]:
+			if "CATEGORY" in sys_act["content"]:
 				sem_frame["category"] = random.choice(category_list)
 				memory["category"] = sem_frame["category"]
 
@@ -136,7 +136,7 @@ def simul_user(sys_act):
 		elif sys_act["intent"] in ["confirm_info", "confirm_restaurant"]:
 			keys = sys_act["content"].keys()
 			for key in keys:
-				if sys_act["content"][key.lower()] != memory[key]:
+				if sys_act["content"][key] != memory[key.lower()]:
 					sem_frame["intent"] = "no"					
 					break
 				if key == keys[-1]:
