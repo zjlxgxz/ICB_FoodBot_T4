@@ -3,6 +3,7 @@ import sys
 import grpc
 import time
 import collections
+import json
 
 from concurrent import futures
 sys.path.append('../FoodBot_GRPC_Server/')
@@ -58,7 +59,7 @@ memory = {"intent": "",
 				"location": "",
 				"time": "",
 				"category": "",
-				"rest_name": ""}
+				"restaurantname": ""}
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
@@ -73,6 +74,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
 
 
 def simul_user(sys_act):
+	global memory
 	'''
 	sys_act: {
 			  "intent": "request",
@@ -83,13 +85,14 @@ def simul_user(sys_act):
 	'''
 
 	# initially randomly generated a sentence
-	if sys_act == "init":
-		sem_frame = {"intent": "",
+	sem_frame = {"intent": "",
 				"location": "",
 				"time": "",
 				"category": "",
-				"rest_name": ""}
-		
+				"restaurantname": ""}
+	
+
+	if sys_act == "init":		
 		dec = random.randint(0,2) #randomly pick a intent
 		if dec == 0: #get restaurant
 			sem_frame["intent"] = intent_list[dec]
@@ -100,7 +103,7 @@ def simul_user(sys_act):
 		
 		if dec in [1, 2]: #get location/rating
 			sem_frame["intent"] = intent_list[dec]
-			sem_frame["rest_name"] = random.choice(restaurant_list)
+			sem_frame["restaurantname"] = random.choice(restaurant_list)
 
 		memory = sem_frame #keep the memory
 		
@@ -109,19 +112,21 @@ def simul_user(sys_act):
 
 	#in the middle of the dialogue	
 	else:
-		
+		print("memory: ", memory)
+		sys_act = json.loads(sys_act)
+
 		if sys_act["intent"] == "request":
 			sem_frame["intent"] = "inform"
-
-			if "location" in sys_act["content"]:
+			print("content keys:", sys_act["content"].keys())
+			if "location" in sys_act["content"].keys():
 				sem_frame["location"] = random.choice(location_list)
 				memory["location"] = sem_frame["location"]
 
-			if "time" in sys_act["content"]:
+			if "time" in sys_act["content"].keys():
 				sem_frame["time"] = random.choice(time_list)
 				memory["time"] = sem_frame["time"]
 
-			if "category" in sys_act["content"]:
+			if "category" in sys_act["content"].keys():
 				sem_frame["category"] = random.choice(category_list)
 				memory["category"] = sem_frame["category"]
 
@@ -131,29 +136,43 @@ def simul_user(sys_act):
 		elif sys_act["intent"] == "inform":
 			sem_frame["intent"] = "thanks"
 		
-		elif sys_act["intent"] in ["confirm_info", "confirm_restaurant"]:
+		elif sys_act["intent"]  == "confirm_restaurant":
 			keys = sys_act["content"].keys()
+			print("content keys:", keys)
 			for key in keys:
-				if sys_act["content"][key.lower()] != memory[key]:
+				if sys_act["content"][key] != memory[key.lower()]:
 					sem_frame["intent"] = "no"					
 					break
 				if key == keys[-1]:
 					sem_frame["intent"] = "yes"
 		
+		elif sys_act["intent"]  == "confirm_info":
+			sem_frame["intent"] = "no"
+			keys = sys_act["content"].keys()
+			print("content keys:", keys)
+			if "location" in keys:
+				if sys_act["content"]["location"] == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]: #get_location
+					sem_frame["intent"] = "yes"
+			
+			if "rating" in keys:
+				if sys_act["content"]["rating"] == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
+					sem_frame["intent"] = "yes"
+		
 		return nlg(sem_frame)
 
 def nlg(sem_frame):
+    print("semantic frame: ", sem_frame)
+    sentence = ""
     if sem_frame["intent"] == "thanks":
       sentence = random.choice(thanks_list)
     
-    if sem_frame["intent"] == "yes":
+    elif sem_frame["intent"] == "yes":
       sentence = random.choice(yes_list)
     
-    if sem_frame["intent"] == "no":
+    elif sem_frame["intent"] == "no":
       sentence = "No."
     
-    if sem_frame["intent"] == "inform": # category/time/location
-      sentence = ""
+    elif sem_frame["intent"] == "inform": # category/time/location      
       if sem_frame["category"]:
         sentence = random.choice(inform_category_pattern)
         sentence = sentence.replace("CATEGORY", sem_frame["category"])
@@ -171,7 +190,7 @@ def nlg(sem_frame):
           pre = ""
         sentence = pre + sem_frame["time"].capitalize()
   
-    if sem_frame["intent"] == "get_restaurant":
+    elif sem_frame["intent"] == "get_restaurant":
       # replace category, replace location with "in xxx", time with "for xxx"
       sentence = random.choice(get_restaurant_pattern)
       for item in content_list:
@@ -186,14 +205,17 @@ def nlg(sem_frame):
             prefix = " for "
           sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
   
-    if sem_frame["intent"] == "get_location":
+    elif sem_frame["intent"] == "get_location":
       sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])    
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
   
-    if sem_frame["intent"] == "get_rating":
+    elif sem_frame["intent"] == "get_rating":
       sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
 
+    else:
+    	sentence = "Error!!!"
+    
     return sentence
 
 
