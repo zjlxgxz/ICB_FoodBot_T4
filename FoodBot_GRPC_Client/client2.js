@@ -43,4 +43,4 @@ io.on('connection', function(socket){
         socket.emit('newMsg', 'SUser', responseMsg, 'red');
     }]);
   })
-});s
+});
