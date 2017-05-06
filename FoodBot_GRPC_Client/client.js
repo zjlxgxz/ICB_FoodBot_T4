@@ -1,10 +1,10 @@
 
-var PROTO_PATH = __dirname + '/../FoodBot_GRPC_Server/FoodBot.proto';
+var PROTO_PATH = __dirname + '/../FoodBot_GRPC_Server/FoodBotSim.proto';
 var async = require('async');
 var _ = require('lodash');
 var grpc = require('grpc');
 var Foodbot = grpc.load(PROTO_PATH).FoodBot;
-var client = new Foodbot.FoodBotRequest('140.112.49.151:50055', grpc.credentials.createInsecure());
+var client = new Foodbot.FoodBotRequest('140.112.49.151:50054', grpc.credentials.createInsecure());
 var express = require('express'),
   app = express(),
   server = require('http').createServer(app),
