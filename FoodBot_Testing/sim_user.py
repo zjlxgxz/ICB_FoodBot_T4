@@ -118,15 +118,15 @@ def simul_user(sys_act):
 		if sys_act["intent"] == "request":
 			sem_frame["intent"] = "inform"
 
-			if "LOCATION" in sys_act["content"]:
+			if "LOCATION" in sys_act["content"].keys():
 				sem_frame["location"] = random.choice(location_list)
 				memory["location"] = sem_frame["location"]
 
-			if "TIME" in sys_act["content"]:
+			if "TIME" in sys_act["content"].key():
 				sem_frame["time"] = random.choice(time_list)
 				memory["time"] = sem_frame["time"]
 
-			if "CATEGORY" in sys_act["content"]:
+			if "CATEGORY" in sys_act["content"].key():
 				sem_frame["category"] = random.choice(category_list)
 				memory["category"] = sem_frame["category"]
 
@@ -163,13 +163,13 @@ def nlg(sem_frame):
     if sem_frame["intent"] == "thanks":
       sentence = random.choice(thanks_list)
     
-    if sem_frame["intent"] == "yes":
+    elif sem_frame["intent"] == "yes":
       sentence = random.choice(yes_list)
     
-    if sem_frame["intent"] == "no":
+    elif sem_frame["intent"] == "no":
       sentence = "No."
     
-    if sem_frame["intent"] == "inform": # category/time/location      
+    elif sem_frame["intent"] == "inform": # category/time/location      
       if sem_frame["category"]:
         sentence = random.choice(inform_category_pattern)
         sentence = sentence.replace("CATEGORY", sem_frame["category"])
@@ -187,7 +187,7 @@ def nlg(sem_frame):
           pre = ""
         sentence = pre + sem_frame["time"].capitalize()
   
-    if sem_frame["intent"] == "get_restaurant":
+    elif sem_frame["intent"] == "get_restaurant":
       # replace category, replace location with "in xxx", time with "for xxx"
       sentence = random.choice(get_restaurant_pattern)
       for item in content_list:
@@ -202,14 +202,17 @@ def nlg(sem_frame):
             prefix = " for "
           sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
   
-    if sem_frame["intent"] == "get_location":
+    elif sem_frame["intent"] == "get_location":
       sentence = random.choice(get_location_pattern)
       sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
   
-    if sem_frame["intent"] == "get_rating":
+    elif sem_frame["intent"] == "get_rating":
       sentence = random.choice(get_rating_pattern)
       sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
 
+    else:
+    	sentence = "Error!!!"
+    
     return sentence
 
 
