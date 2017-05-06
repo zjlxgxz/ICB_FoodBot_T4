@@ -126,7 +126,7 @@ def simul_user(sys_act):
 		elif sys_act["intent"] in ["confirm_info", "confirm_restaurant"]:
 			keys = sys_act["content"].keys()
 			for key in keys:
-				if sys_act["content"][key] != memory[key]:
+				if sys_act["content"][key.lower()] != memory[key]:
 					sem_frame["intent"] = "no"					
 					break
 				if key == keys[-1]:
