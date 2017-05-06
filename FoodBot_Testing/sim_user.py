@@ -159,6 +159,7 @@ def simul_user(sys_act):
 		return nlg(sem_frame)
 
 def nlg(sem_frame):
+	print(sem_frame)
     sentence = ""
     if sem_frame["intent"] == "thanks":
       sentence = random.choice(thanks_list)
