@@ -34,7 +34,7 @@ class SearchDB:
 			print 'results : ' + str(results)
 
 			for record in results:
-				if intent == 'Get_restaurant' :
+				if intent == 'Get_Restaurant' :
 					content = {'RESTAURANTNAME':str(record[0]) ,'LOCATION':record[5]}
 				elif intent == 'Get_location' :
 					content = {'LOCATION':str(record[0])}
