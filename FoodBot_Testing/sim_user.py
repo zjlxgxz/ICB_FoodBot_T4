@@ -53,9 +53,9 @@ memory = {"intent": "",
 				"category": "",
 				"rest_name": ""}
 
-class FoodbotSimRequest(FoodBotSim_pb2.FoodBotRequestServicer):
+class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
-  def GetResponse (self, request, context):
+  def GetSimResponse (self, request, context):
     print (request)
     userInput = request.response.lower()
     #test_tagging_result,test_label_result = languageUnderstanding(userInput) 
