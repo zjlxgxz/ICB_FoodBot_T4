@@ -1,4 +1,6 @@
 import random
+import grpc
+import FoodBotSim_pb2
 
 #lists needed
 sent_key = ["time", "location", "category"]
@@ -18,6 +20,28 @@ intent_list = ["get_restaurant", "get_location", "get_rating"]
 
 content_list = ["category", "time", "location"]
 
+f2 = open('sentence_pattern/yes.txt', 'r')
+yes_list = f2.read().split('\n')
+
+f3 = open('sentence_pattern/thanks.txt', 'r')
+thanks_list = f3.read().split('\n')
+
+f4 = open('sentence_pattern/get_restaurant.txt', 'r')
+get_restaurant_pattern = f4.read().split('\n')
+
+f5 = open('sentence_pattern/get_location.txt', 'r')
+get_location_pattern = f5.read().split('\n')
+
+f6 = open('sentence_pattern/get_rating.txt', 'r')
+get_rating_pattern = f6.read().split('\n')
+
+f9 = open('sentence_pattern/inform_location.txt', 'r')
+inform_location_pattern = f9.read().split('\n')
+
+f10 = open('sentence_pattern/inform_category.txt', 'r')
+inform_category_pattern = f10.read().split('\n')
+
+
 
 memory = {"intent": "",
 				"location": "",
@@ -25,9 +49,22 @@ memory = {"intent": "",
 				"category": "",
 				"rest_name": ""}
 
+sys.path.append('../FoodBot_GRPC_Server/')
 
 
-def simul_user(sys_act, initial):
+class FoodbotSimRequest(FoodBotSim_pb2.FoodBotRequestServicer):
+  """Provides methods that implement functionality of route guide server."""
+  def GetResponse (self, request, context):
+    print (request)
+    userInput = request.response.lower()
+    #test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+   
+    #print (test_label_result)
+    return FoodBot_pb2.Sentence(response = simul_user(userInput))
+
+
+
+def simul_user(sys_act):
 	'''
 	sys_act: {
 			  "intent": "request",
@@ -38,7 +75,7 @@ def simul_user(sys_act, initial):
 	'''
 
 	# initially randomly generated a sentence
-	if initial == 1:
+	if sys_act == "init":
 		sem_frame = {"intent": "",
 				"location": "",
 				"time": "",
@@ -58,8 +95,8 @@ def simul_user(sys_act, initial):
 			sem_frame["rest_name"] = random.choice(restaurant_list)
 
 		memory = sem_frame #keep the memory
-		nlg(sem_frame)
-		return
+		
+		return nlg(sem_frame)
 
 
 	#in the middle of the dialogue	
@@ -94,6 +131,75 @@ def simul_user(sys_act, initial):
 					break
 				if key == keys[-1]:
 					sem_frame["intent"] = "yes"
+		
+		return nlg(sem_frame)
 
-		nlg(sem_frame)
-		return
+def nlg(sem_frame):
+    if sem_frame["intent"] == "thanks":
+      sentence = random.choice(thanks_list)
+    
+    if sem_frame["intent"] == "yes":
+      sentence = random.choice(yes_list)
+    
+    if sem_frame["intent"] == "no":
+      sentence = "No."
+    
+    if sem_frame["intent"] == "inform": # category/time/location
+      sentence = ""
+      if sem_frame["CATEGORY"]:
+        sentence = random.choice(inform_category_pattern)
+        sentence = sentence.replace("CATEGORY", sem_frame["CATEGORY"])
+      if sem_frame["LOCATION"]:
+        if sentence:
+          pre = " "
+        else:
+          pre = ""
+        sentence = sentence + pre + random.choice(inform_location_pattern)
+        sentence = sentence.replace("LOCATION", sem_frame["LOCATION"])      
+      if sem_frame["TIME"]:       
+        if sentence:
+          pre = " "
+        else:
+          pre = ""
+        sentence = pre + sem_frame["TIME"].capitalize()
+  
+    if sem_frame["intent"] == "get_restaurant":
+      # replace category, replace location with "in xxx", time with "for xxx"
+      sentence = random.choice(get_restaurant_pattern)
+      for item in content_list:
+        if sem_frame[item] == "":
+          sentence = sentence.replace(item.upper(), "")
+        else:
+          if item == "category":
+            prefix = ' '
+          if item == "location":
+            prefix = " in "
+          if item == "time":
+            prefix = " for "
+          sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
+  
+    if sem_frame["intent"] == "get_location":
+      sentence = random.choice(get_location_pattern)
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])    
+  
+    if sem_frame["intent"] == "get_rating":
+      sentence = random.choice(get_rating_pattern)
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])
+
+    return sentence
+
+
+if __name__ == "__main__":
+	# The model has been loaded.
+	server = grpc.server(futures.ThreadPoolExecutor(max_workers=3))
+	#Service_OpenFace_pb2.add_openfaceServicer_to_server(Servicer_openface(), server)
+	FoodBotSim_pb2.add_FoodBotSimRequestServicer_to_server(FoodbotSimRequest(),server)
+	server.add_insecure_port('[::]:50054')
+	server.start()
+	print ("GRCP Server is running. Press any key to stop it.")
+	try:
+	  while True:
+	    # openface_GetXXXXXX will be responsed if any incoming request is received.
+	    time.sleep(24*60*60)
+	except KeyboardInterrupt:
+	  server.stop(0)
