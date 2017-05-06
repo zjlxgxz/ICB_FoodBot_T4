@@ -112,12 +112,12 @@ def simul_user(sys_act):
 
 	#in the middle of the dialogue	
 	else:
-
+		print("memory: ", memory)
 		sys_act = json.loads(sys_act)
 
 		if sys_act["intent"] == "request":
 			sem_frame["intent"] = "inform"
-
+			print("content keys:", sys_act["content"].keys())
 			if "LOCATION" in sys_act["content"].keys():
 				sem_frame["location"] = random.choice(location_list)
 				memory["location"] = sem_frame["location"]
@@ -138,6 +138,7 @@ def simul_user(sys_act):
 		
 		elif sys_act["intent"]  == "confirm_restaurant":
 			keys = sys_act["content"].keys()
+			print("content keys:", keys)
 			for key in keys:
 				if sys_act["content"][key] != memory[key.lower()]:
 					sem_frame["intent"] = "no"					
@@ -148,6 +149,7 @@ def simul_user(sys_act):
 		elif sys_act["intent"]  == "confirm_info":
 			sem_frame["intent"] = "no"
 			keys = sys_act["content"].keys()
+			print("content keys:", keys)
 			if "LOCATION" in keys:
 				if sys_act["content"]["LOCATION"] == memory["intent"][4:] and sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
 					sem_frame["intent"] = "yes"
@@ -159,7 +161,7 @@ def simul_user(sys_act):
 		return nlg(sem_frame)
 
 def nlg(sem_frame):
-    print(sem_frame)
+    print("semantic frame: ", sem_frame)
     sentence = ""
     if sem_frame["intent"] == "thanks":
       sentence = random.choice(thanks_list)
