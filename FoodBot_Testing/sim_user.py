@@ -122,11 +122,11 @@ def simul_user(sys_act):
 				sem_frame["location"] = random.choice(location_list)
 				memory["location"] = sem_frame["location"]
 
-			if "TIME" in sys_act["content"].key():
+			if "TIME" in sys_act["content"].keys():
 				sem_frame["time"] = random.choice(time_list)
 				memory["time"] = sem_frame["time"]
 
-			if "CATEGORY" in sys_act["content"].key():
+			if "CATEGORY" in sys_act["content"].keys():
 				sem_frame["category"] = random.choice(category_list)
 				memory["category"] = sem_frame["category"]
 
