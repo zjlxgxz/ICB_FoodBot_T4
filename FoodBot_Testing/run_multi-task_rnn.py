@@ -381,7 +381,7 @@ def dialogPolicy():
   needConfirm = False
   needInform = False
   sys_act['content'] = {}
-  
+
   global waitConfirm
   print ("Policy")
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
@@ -401,6 +401,7 @@ def dialogPolicy():
           break
   elif observation[-1][0] == 'Wrong':
     waitConfirm = []
+    #Really? should we reset here?
 
   elif observation[-1][0] == 'Inform':
     for key in observation[-1][1].keys():
@@ -442,7 +443,6 @@ def dialogPolicy():
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
           state['Get_rating'][key] = observation[-1][1][key]
-
   
   print ('state : ' ,state)
   if sys_act['intent'] != 'confirm':     
@@ -501,7 +501,7 @@ def dialogPolicy():
         sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
-        sys_act['content']['RATING'] = ''
+        sys_act['content']['LOCATION'] = ''
         waitConfirm.append(['confirm' ,sys_act['content']])
 
     elif intents[-1] == 'Get_rating':
@@ -526,7 +526,7 @@ def dialogPolicy():
         sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
-        sys_act['content']['LOCATION'] = ''
+        sys_act['content']['RATING'] = ''
         waitConfirm.append(['confirm' ,sys_act['content']])
 
     else:
