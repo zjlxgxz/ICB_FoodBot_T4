@@ -25,7 +25,7 @@ FoodBot.prototype = {
 		document.getElementById('sendBtn').addEventListener('click',function() {
 			var intent = document.getElementById('intent'),
 				contentInput = document.getElementById('contentInput'),
-				msg = ' {"intent": "' + intent.value + '", "content": [' + contentInput.value + ']}';
+				msg = ' {"intent": "' + intent.value + '","content": {' + contentInput.value + '}}';
 			intent.value = '';
 			contentInput.value = '';
 			intent.focus();
