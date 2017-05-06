@@ -151,11 +151,11 @@ def simul_user(sys_act):
 			keys = sys_act["content"].keys()
 			print("content keys:", keys)
 			if "location" in keys:
-				if sys_act["content"]["location"] == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]: #get_location
+				if "location" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]: #get_location
 					sem_frame["intent"] = "yes"
 			
 			if "rating" in keys:
-				if sys_act["content"]["rating"] == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
+				if "rating" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
 		
 		return nlg(sem_frame)
