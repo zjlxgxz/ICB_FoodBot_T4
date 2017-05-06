@@ -400,8 +400,9 @@ def dialogPolicy():
           waitConfirm.pop(-x)
           break
   elif observation[-1][0] == 'Wrong':
-    waitConfirm = []
+    #waitConfirm = []
     #Really? should we reset here?
+    DST_reset()
 
   elif observation[-1][0] == 'Inform':
     for key in observation[-1][1].keys():
