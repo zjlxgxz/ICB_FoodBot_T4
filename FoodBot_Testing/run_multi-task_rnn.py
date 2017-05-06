@@ -399,7 +399,7 @@ def dialogPolicy():
           waitConfirm.pop(-x)
           break
   elif observation[-1][0] == 'Wrong':
-    pass
+    DST_reset()
 
   elif observation[-1][0] == 'Inform':
     for key in observation[-1][1].keys():
