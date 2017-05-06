@@ -606,7 +606,7 @@ def nlg(sem_frame, bot):
   
     if sem_frame["intent"] == "confirm_restaurant":
       keys = sem_frame["content"].keys()
-      sentence = "You\'re looking for a "
+      sentence = "You're looking for a "
       if "CATEGORY" in keys:
         sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
       else:
@@ -618,7 +618,7 @@ def nlg(sem_frame, bot):
       sentence = sentence + ", right?"
 
     if sem_frame["intent"] == "confirm_info":
-      sentence = "You\'re looking for "
+      sentence = "You're looking for "
       if "RATING" in sem_frame["content"].keys():
         sentence = sentence + "the rating of " + sem_frame["content"]["RESTAURANTNAME"]
       if "LOCATION" in sem_frame["content"].keys():
@@ -630,17 +630,17 @@ def nlg(sem_frame, bot):
       if sem_frame["content"]["RESTAURANTNAME"]:
         sentence = random.choice(recommend_pattern)
         sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
-        sentence = sentence + " And it\'s in " + sem_frame["content"]["LOCATION"] + "."
+        sentence = sentence + " And it's in " + sem_frame["content"]["LOCATION"] + "."
       
       else:
         #for restaurant info
         if sem_frame["content"]["LOCATION"]:
-          sentence = "It\'s here: " + sem_frame["content"]["LOCATION"] + "."
+          sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
         if sem_frame["content"]["RATING"]:
           sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
 
     if sem_frame["intent"] == "not_found":
-      sentence = "Sorry! I don\'t have the information you\'re looking for. Please try another one."
+      sentence = "Sorry! I don't have the information you're looking for. Please try another one."
   
   return sentence
 
