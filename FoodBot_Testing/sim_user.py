@@ -3,8 +3,6 @@ import grpc
 import FoodBotSim_pb2
 
 #lists needed
-sent_key = ["time", "location", "category"]
-sent_content = [time_list, location_list, category_list]
 
 time_list = ["tonight","tomorrow","this morning","this afternoon",
 "tomorrow afternoon","tomorrow morning","tomorrow night","the day after tomorrow", "now"]
@@ -19,6 +17,10 @@ category_list = ["afghan","african","andalusian","arabian","argentine","armenian
 intent_list = ["get_restaurant", "get_location", "get_rating"]
 
 content_list = ["category", "time", "location"]
+
+sent_key = ["time", "location", "category"]
+sent_content = [time_list, location_list, category_list]
+
 
 f2 = open('sentence_pattern/yes.txt', 'r')
 yes_list = f2.read().split('\n')
