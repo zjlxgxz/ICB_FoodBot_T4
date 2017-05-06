@@ -516,7 +516,7 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
-        sys_act['t'] = search.grabData(intents[-1] ,slots)
+        sys_act['content'] = search.grabData(intents[-1] ,slots)
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
         for key in state[intents[-1]].keys():
@@ -641,6 +641,9 @@ def nlg(sem_frame, bot):
 
     if sem_frame["intent"] == "not_found":
       sentence = "Sorry! I don't have the information you're looking for. Please try another one."
+  
+    if not sem_frame["intent"]:
+      sentence = "Sorry! Please try again."
   
   return sentence
 

@@ -32,7 +32,7 @@ class SearchDB:
 
 			results = cursor.fetchall()
 			print 'results : ' + str(results)
-
+			content = ''
 			for record in results:
 				if intent == 'Get_Restaurant' :
 					content = {'RESTAURANTNAME':str(record[0]) ,'LOCATION':record[5]}
