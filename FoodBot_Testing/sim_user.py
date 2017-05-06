@@ -27,6 +27,9 @@ content_list = ["category", "time", "location"]
 sent_key = ["time", "location", "category"]
 sent_content = [time_list, location_list, category_list]
 
+f1 = open('restName.txt', 'r')
+restaurant_list1 = f1.read().split('\n')
+restaurant_list = [item.replace('-', ' ') for item in restaurant_list1]
 
 f2 = open('sentence_pattern/yes.txt', 'r')
 yes_list = f2.read().split('\n')
