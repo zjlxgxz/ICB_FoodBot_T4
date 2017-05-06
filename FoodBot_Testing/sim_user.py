@@ -59,7 +59,7 @@ memory = {"intent": "",
 				"location": "",
 				"time": "",
 				"category": "",
-				"rest_name": ""}
+				"restname": ""}
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
@@ -88,9 +88,9 @@ def simul_user(sys_act):
 				"location": "",
 				"time": "",
 				"category": "",
-				"rest_name": ""}
+				"restname": ""}
 	
-	
+
 	if sys_act == "init":		
 		dec = random.randint(0,2) #randomly pick a intent
 		if dec == 0: #get restaurant
@@ -102,7 +102,7 @@ def simul_user(sys_act):
 		
 		if dec in [1, 2]: #get location/rating
 			sem_frame["intent"] = intent_list[dec]
-			sem_frame["rest_name"] = random.choice(restaurant_list)
+			sem_frame["restname"] = random.choice(restaurant_list)
 
 		memory = sem_frame #keep the memory
 		
@@ -192,11 +192,11 @@ def nlg(sem_frame):
   
     if sem_frame["intent"] == "get_location":
       sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])    
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restname"])    
   
     if sem_frame["intent"] == "get_rating":
       sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restname"])
 
     return sentence
 
