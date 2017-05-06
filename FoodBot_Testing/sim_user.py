@@ -159,6 +159,7 @@ def simul_user(sys_act):
 		return nlg(sem_frame)
 
 def nlg(sem_frame):
+    sentence = ""
     if sem_frame["intent"] == "thanks":
       sentence = random.choice(thanks_list)
     
@@ -168,8 +169,7 @@ def nlg(sem_frame):
     if sem_frame["intent"] == "no":
       sentence = "No."
     
-    if sem_frame["intent"] == "inform": # category/time/location
-      sentence = ""
+    if sem_frame["intent"] == "inform": # category/time/location      
       if sem_frame["category"]:
         sentence = random.choice(inform_category_pattern)
         sentence = sentence.replace("CATEGORY", sem_frame["category"])
