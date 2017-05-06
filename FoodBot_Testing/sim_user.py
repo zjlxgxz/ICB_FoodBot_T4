@@ -149,11 +149,11 @@ def simul_user(sys_act):
 			sem_frame["content"] = "no"
 			keys = sys_act["content"].keys
 			if "LOCATION" in keys:
-				if sys_act["content"]["LOCATION"] == memory["intent"][4:] && sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
+				if sys_act["content"]["LOCATION"] == memory["intent"][4:] and sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
 					sem_frame["intent"] = "yes"
 			
 			if "RATING" in keys:
-				if sys_act["content"]["RATING"] == memory["intent"][4:] && sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]:
+				if sys_act["content"]["RATING"] == memory["intent"][4:] and sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
 		
 		return nlg(sem_frame)
