@@ -500,6 +500,7 @@ def dialogPolicy():
         sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
+        sys_act['content']['RATING'] = ''
         waitConfirm.append(['confirm' ,sys_act['content']])
 
     elif intents[-1] == 'Get_rating':
@@ -524,6 +525,7 @@ def dialogPolicy():
         sys_act['intent'] = 'confirm_info'
         for key in state[intents[-1]].keys():
           sys_act['content'][key] = state[intents[-1]][key]
+        sys_act['content']['LOCATION'] = ''
         waitConfirm.append(['confirm' ,sys_act['content']])
 
     else:
