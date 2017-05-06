@@ -59,7 +59,7 @@ memory = {"intent": "",
 				"location": "",
 				"time": "",
 				"category": "",
-				"restname": ""}
+				"restaurantname": ""}
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
@@ -89,7 +89,7 @@ def simul_user(sys_act):
 				"location": "",
 				"time": "",
 				"category": "",
-				"restname": ""}
+				"restaurantname": ""}
 	
 
 	if sys_act == "init":		
@@ -103,7 +103,7 @@ def simul_user(sys_act):
 		
 		if dec in [1, 2]: #get location/rating
 			sem_frame["intent"] = intent_list[dec]
-			sem_frame["restname"] = random.choice(restaurant_list)
+			sem_frame["restaurantname"] = random.choice(restaurant_list)
 
 		memory = sem_frame #keep the memory
 		
@@ -136,13 +136,25 @@ def simul_user(sys_act):
 		elif sys_act["intent"] == "inform":
 			sem_frame["intent"] = "thanks"
 		
-		elif sys_act["intent"] in ["confirm_info", "confirm_restaurant"]:
+		elif sys_act["intent"]  == "confirm_restaurant":
 			keys = sys_act["content"].keys()
 			for key in keys:
 				if sys_act["content"][key] != memory[key.lower()]:
 					sem_frame["intent"] = "no"					
 					break
 				if key == keys[-1]:
+					sem_frame["intent"] = "yes"
+		
+		elif sys_act["intent"]  == "confirm_info":
+			sem_frame["content"] = "no"
+			if sys_act["content"]["LOCATION"]:
+				if sys_act["content"]["LOCATION"] == memory["intent"][4:] && 
+				sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
+					sem_frame["intent"] = "yes"
+			
+			if sys_act["content"]["RATING"]:
+				if sys_act["content"]["RATING"] == memory["intent"][4:] && 
+				sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
 		
 		return nlg(sem_frame)
@@ -193,11 +205,11 @@ def nlg(sem_frame):
   
     if sem_frame["intent"] == "get_location":
       sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restname"])    
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
   
     if sem_frame["intent"] == "get_rating":
       sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restname"])
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
 
     return sentence
 
