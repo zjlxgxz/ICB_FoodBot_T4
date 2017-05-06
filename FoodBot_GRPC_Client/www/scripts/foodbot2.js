@@ -23,12 +23,10 @@ FoodBot.prototype = {
 		});
 
 		document.getElementById('sendBtn').addEventListener('click',function() {
-			var intent = document.getElementById('intent'),
-				contentInput = document.getElementById('contentInput'),
-				msg = ' {"intent": "' + intent.value + '", "content": [' + contentInput.value + ']}';
-			intent.value = '';
-			contentInput.value = '';
-			intent.focus();
+			var messageInput = document.getElementById('messageInput'),
+				msg = messageInput.value;
+			messageInput.value = '';
+			messageInput.focus();
 			if(msg.trim().length !=0){
 				that.socket.emit('postMsg', msg);
 				that._displayNewMsg('me',msg);
