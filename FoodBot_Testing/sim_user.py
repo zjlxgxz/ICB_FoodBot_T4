@@ -62,7 +62,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
     #test_tagging_result,test_label_result = languageUnderstanding(userInput) 
    
     #print (test_label_result)
-    return FoodBot_pb2.Sentence(response = simul_user(userInput))
+    return FoodBotSim_pb2.Sentence(response = simul_user(userInput))
 
 
 
@@ -148,22 +148,22 @@ def nlg(sem_frame):
     
     if sem_frame["intent"] == "inform": # category/time/location
       sentence = ""
-      if sem_frame["CATEGORY"]:
+      if sem_frame["category"]:
         sentence = random.choice(inform_category_pattern)
-        sentence = sentence.replace("CATEGORY", sem_frame["CATEGORY"])
-      if sem_frame["LOCATION"]:
+        sentence = sentence.replace("CATEGORY", sem_frame["category"])
+      if sem_frame["location"]:
         if sentence:
           pre = " "
         else:
           pre = ""
         sentence = sentence + pre + random.choice(inform_location_pattern)
-        sentence = sentence.replace("LOCATION", sem_frame["LOCATION"])      
-      if sem_frame["TIME"]:       
+        sentence = sentence.replace("LOCATION", sem_frame["location"])      
+      if sem_frame["time"]:       
         if sentence:
           pre = " "
         else:
           pre = ""
-        sentence = pre + sem_frame["TIME"].capitalize()
+        sentence = pre + sem_frame["time"].capitalize()
   
     if sem_frame["intent"] == "get_restaurant":
       # replace category, replace location with "in xxx", time with "for xxx"
@@ -182,11 +182,11 @@ def nlg(sem_frame):
   
     if sem_frame["intent"] == "get_location":
       sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])    
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])    
   
     if sem_frame["intent"] == "get_rating":
       sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])
+      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["rest_name"])
 
     return sentence
 
