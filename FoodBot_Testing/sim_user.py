@@ -86,7 +86,7 @@ def simul_user(sys_act, initial):
 		elif sys_act["intent"] == "inform":
 			sem_frame["intent"] = "thanks"
 		
-		elif sys_act["intent"] == "confirm":
+		elif sys_act["intent"] in ["confirm_info", "confirm_restaurant"]:
 			keys = sys_act["content"].keys()
 			for key in keys:
 				if sys_act["content"][key] != memory[key]:
