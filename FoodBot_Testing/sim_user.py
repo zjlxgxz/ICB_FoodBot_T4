@@ -1,5 +1,7 @@
 import random
+import sys
 import grpc
+sys.path.append('../FoodBot_GRPC_Server/')
 import FoodBotSim_pb2
 
 #lists needed
@@ -48,9 +50,6 @@ memory = {"intent": "",
 				"time": "",
 				"category": "",
 				"rest_name": ""}
-
-sys.path.append('../FoodBot_GRPC_Server/')
-
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
