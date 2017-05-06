@@ -544,7 +544,7 @@ def nlg(sem_frame, bot):
       sentence = random.choice(yes_list)
     
     if sem_frame["intent"] == "no":
-      sentence = "No. I mean " + nlg(memory,0)
+      sentence = "No."
     
     if sem_frame["intent"] == "inform": # category/time/location
       sentence = ""
