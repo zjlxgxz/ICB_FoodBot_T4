@@ -641,6 +641,9 @@ def nlg(sem_frame, bot):
     if sem_frame["intent"] == "not_found":
       sentence = "Sorry! I don't have the information you're looking for. Please try another one."
   
+    if not sem_frame["intent"]:
+      sentence = "Sorry! Please try again."
+  
   return sentence
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
