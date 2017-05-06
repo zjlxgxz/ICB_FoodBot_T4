@@ -118,15 +118,15 @@ def simul_user(sys_act):
 		if sys_act["intent"] == "request":
 			sem_frame["intent"] = "inform"
 			print("content keys:", sys_act["content"].keys())
-			if "LOCATION" in sys_act["content"].keys():
+			if "location" in sys_act["content"].keys():
 				sem_frame["location"] = random.choice(location_list)
 				memory["location"] = sem_frame["location"]
 
-			if "TIME" in sys_act["content"].keys():
+			if "time" in sys_act["content"].keys():
 				sem_frame["time"] = random.choice(time_list)
 				memory["time"] = sem_frame["time"]
 
-			if "CATEGORY" in sys_act["content"].keys():
+			if "category" in sys_act["content"].keys():
 				sem_frame["category"] = random.choice(category_list)
 				memory["category"] = sem_frame["category"]
 
@@ -150,12 +150,12 @@ def simul_user(sys_act):
 			sem_frame["intent"] = "no"
 			keys = sys_act["content"].keys()
 			print("content keys:", keys)
-			if "LOCATION" in keys:
-				if sys_act["content"]["LOCATION"] == memory["intent"][4:] and sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]: #get_location
+			if "location" in keys:
+				if sys_act["content"]["location"] == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]: #get_location
 					sem_frame["intent"] = "yes"
 			
-			if "RATING" in keys:
-				if sys_act["content"]["RATING"] == memory["intent"][4:] and sys_act["content"]["RESTAURANTNAME"] == memory["restaurantname"]:
+			if "rating" in keys:
+				if sys_act["content"]["rating"] == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
 		
 		return nlg(sem_frame)
