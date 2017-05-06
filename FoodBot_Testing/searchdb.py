@@ -15,7 +15,7 @@ class SearchDB:
 		try:
 			cursor = self.db.cursor()
 
-			if intent == 'Get_restaurant' :
+			if intent == 'Get_Restaurant' :
 				sql_query = 'SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s LIMIT 1' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\'')
 				cursor.execute(sql_query)
 				print sql_query
