@@ -596,31 +596,31 @@ def nlg(sem_frame, bot):
     if sem_frame["intent"] == "request":
       keys = sem_frame["content"].keys()
       sentence = ""
-      if "category" in keys:
+      if "CATEGORY" in keys:
         sentence = random.choice(request_category_pattern) + " "
-      if "location" in keys:
+      if "LOCATION" in keys:
         sentence = sentence + random.choice(request_location_pattern) + " "
-      if "time" in keys:
+      if "TIME" in keys:
         sentence = sentence + random.choice(request_time_pattern)
   
     if sem_frame["intent"] == "confirm_restaurant":
       keys = sem_frame["content"].keys()
-      sentence = "You're looking for a "
-      if "category" in keys:
+      sentence = "You\'re looking for a "
+      if "CATEGORY" in keys:
         sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
       else:
         sentence = sentence + "restaurant"
-      if "location" in keys:
+      if "LOCATION" in keys:
         sentence = sentence + " in " + sem_frame["content"]["LOCATION"]
-      if "time" in keys:
+      if "TIME" in keys:
         sentence = sentence + " for " + sem_frame["content"]["TIME"]
       sentence = sentence + ", right?"
 
     if sem_frame["intent"] == "confirm_info":
-      sentence = "You're looking for "
-      if "rating" in sem_frame["content"].keys():
+      sentence = "You\'re looking for "
+      if "RATING" in sem_frame["content"].keys():
         sentence = sentence + "the rating of " + sem_frame["content"]["RESTAURANTNAME"]
-      if "location" in sem_frame["content"].keys():
+      if "LOCATION" in sem_frame["content"].keys():
         sentence = sentence + "the location of " + sem_frame["content"]["RESTAURANTNAME"]
       sentence = sentence + ", right?"
     
@@ -629,17 +629,17 @@ def nlg(sem_frame, bot):
       if sem_frame["content"]["RESTAURANTNAME"]:
         sentence = random.choice(recommend_pattern)
         sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
-        sentence = sentence + " And it's in " + sem_frame["content"]["LOCATION"] + "."
+        sentence = sentence + " And it\'s in " + sem_frame["content"]["LOCATION"] + "."
       
       else:
         #for restaurant info
         if sem_frame["content"]["LOCATION"]:
-          sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
+          sentence = "It\'s here: " + sem_frame["content"]["LOCATION"] + "."
         if sem_frame["content"]["RATING"]:
           sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
 
     if sem_frame["intent"] == "not_found":
-      sentence = "Sorry! I don't have the information you're looking for. Please try another one."
+      sentence = "Sorry! I don\'t have the information you\'re looking for. Please try another one."
   
   return sentence
 
