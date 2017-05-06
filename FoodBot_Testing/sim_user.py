@@ -90,7 +90,7 @@ def simul_user(sys_act, initial):
 			keys = sys_act["content"].keys()
 			for key in keys:
 				if sys_act["content"][key] != memory[key]:
-					sem_frame["intent"] = "no"
+					sem_frame["intent"] = "no"					
 					break
 				if key == keys[-1]:
 					sem_frame["intent"] = "yes"
