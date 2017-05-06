@@ -84,13 +84,14 @@ def simul_user(sys_act):
 	'''
 
 	# initially randomly generated a sentence
-	if sys_act == "init":
-		sem_frame = {"intent": "",
+	sem_frame = {"intent": "",
 				"location": "",
 				"time": "",
 				"category": "",
 				"rest_name": ""}
-		
+	
+	
+	if sys_act == "init":		
 		dec = random.randint(0,2) #randomly pick a intent
 		if dec == 0: #get restaurant
 			sem_frame["intent"] = intent_list[dec]
@@ -110,6 +111,7 @@ def simul_user(sys_act):
 
 	#in the middle of the dialogue	
 	else:
+
 		sys_act = json.loads(sys_act)
 
 		if sys_act["intent"] == "request":
