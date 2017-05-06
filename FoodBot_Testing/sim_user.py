@@ -3,6 +3,7 @@ import sys
 import grpc
 import time
 import collections
+import json
 
 from concurrent import futures
 sys.path.append('../FoodBot_GRPC_Server/')
@@ -109,7 +110,8 @@ def simul_user(sys_act):
 
 	#in the middle of the dialogue	
 	else:
-		
+		sys_act = json.loads(sys_act)
+
 		if sys_act["intent"] == "request":
 			sem_frame["intent"] = "inform"
 
