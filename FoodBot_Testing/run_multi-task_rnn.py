@@ -51,7 +51,8 @@ observation = collections.deque(maxlen=10)
 state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
 intents = collections.deque(maxlen=2)
 waitConfirm = []
-
+dialogNum = 0.0
+successNum = 0.0
 
 ##################below for nlg
 #lists needed
@@ -402,6 +403,7 @@ def dialogPolicy():
   elif observation[-1][0] == 'Wrong':
     #waitConfirm = []
     #Really? should we reset here?
+    dialogNum += 1
     DST_reset()
 
   elif observation[-1][0] == 'Inform':
@@ -467,8 +469,11 @@ def dialogPolicy():
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
+        dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+        else:
+          successNum += 1
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -492,8 +497,11 @@ def dialogPolicy():
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
+        dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+        else:
+          successNum += 1
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -517,8 +525,11 @@ def dialogPolicy():
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
         sys_act['content'] = search.grabData(intents[-1] ,slots)
+        dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+        else:
+          successNum += 1
         for key in state[intents[-1]].keys():
           state[intents[-1]][key] = ''
         waitConfirm.pop(-1)
@@ -532,7 +543,10 @@ def dialogPolicy():
 
     else:
       print ("I don\'t know what to say")
-
+  if dialogNum != 0:
+    fp = open('successRate.txt' ,'w')
+    fp.write('Policy Success Rate : %f\n' %(successNum/dialogNum))
+    fp.close()
   print ('system action : ' ,sys_act)
   return sys_act
 
