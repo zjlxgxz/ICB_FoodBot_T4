@@ -537,63 +537,7 @@ def dialogPolicy():
   return sys_act
 
 def nlg(sem_frame, bot):
-  if bot == 0:
-    if sem_frame["intent"] == "thanks":
-      sentence = random.choice(thanks_list)
-    
-    if sem_frame["intent"] == "yes":
-      sentence = random.choice(yes_list)
-    
-    if sem_frame["intent"] == "no":
-      sentence = "No."
-    
-    if sem_frame["intent"] == "inform": # category/time/location
-      sentence = ""
-      if sem_frame["CATEGORY"]:
-        sentence = random.choice(inform_category_pattern)
-        sentence = sentence.replace("CATEGORY", sem_frame["CATEGORY"])
-      if sem_frame["LOCATION"]:
-        if sentence:
-          pre = " "
-        else:
-          pre = ""
-        sentence = sentence + pre + random.choice(inform_location_pattern)
-        sentence = sentence.replace("LOCATION", sem_frame["LOCATION"])      
-      if sem_frame["TIME"]:       
-        if sentence:
-          pre = " "
-        else:
-          pre = ""
-        sentence = pre + sem_frame["TIME"].capitalize()
-  
-    if sem_frame["intent"] == "get_restaurant":
-      # replace category, replace location with "in xxx", time with "for xxx"
-      sentence = random.choice(get_restaurant_pattern)
-      for item in content_list:
-        if sem_frame[item] == "":
-          sentence = sentence.replace(item.upper(), "")
-        else:
-          if item == "category":
-            prefix = ' '
-          if item == "location":
-            prefix = " in "
-          if item == "time":
-            prefix = " for "
-          sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
-  
-    if sem_frame["intent"] == "get_location":
-      sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])    
-  
-    if sem_frame["intent"] == "get_rating":
-      sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["RESTAURANTNAME"])
-
-    #if sem_frame["intent"] == "get_comment":
-    # sentence = random.choice(get_comment_pattern)
-    # sentence = replace("RESTAURANT_NAME", sem_frame["rest_name"])
-
-  else: #for bot  
+  if bot == 1: #for bot  
     if sem_frame["intent"] == "request":
       keys = sem_frame["content"].keys()
       sentence = ""
@@ -630,7 +574,7 @@ def nlg(sem_frame, bot):
       if sem_frame["content"]["RESTAURANTNAME"]:
         sentence = random.choice(recommend_pattern)
         sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
-        sentence = sentence + " And it's in " + sem_frame["content"]["LOCATION"] + "."
+        sentence = sentence + " It's in " + sem_frame["content"]["LOCATION"] + "."
       
       else:
         #for restaurant info
@@ -644,6 +588,8 @@ def nlg(sem_frame, bot):
   
     if not sem_frame["intent"]:
       sentence = "Sorry! Please try again."
+  else:
+    sentence = "The variable bot should be 1!"
   
   return sentence
 
