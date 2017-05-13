@@ -17,14 +17,17 @@ console.log('Server Started');
 var msgToSend,responseMsg;
 
 function runRequest(callback) {
-  function featureCallback(error, sentence) {
+  function featureCallback(error, outSentence) {
     if (error) {
       return callback(error);
     }else{
       //The results are printed below!
-      console.log('Result:' + sentence.response);
-      responseMsg = sentence.response;
-      console.log('responseMsg: '+responseMsg);
+      console.log('Result:' + outSentence.response_policy_frame);
+      console.log('Result:' + outSentence.response_nlg);
+      console.log('Only pass outSentence.response_policy_frame');
+
+      responseMsg = outSentence.response_policy_frame;
+      console.log('responseMsg: '+outSentence.response_policy_frame);
       callback();
     }
   }
