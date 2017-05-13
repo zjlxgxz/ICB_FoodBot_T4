@@ -6,10 +6,16 @@ service FoodBotRequest
 {
 //Input NLG
 //Output NLG 
-	rpc GetResponse(Sentence) returns (Sentence){}
+	rpc GetResponse(Sentence) returns (outSentence){}
 }
 
 message Sentence
 {
 	string response = 1;
+}
+
+message outSentence
+{
+	string response_nlg = 2;
+	string response_policy_frame = 3;
 }

@@ -17,7 +17,7 @@ class FoodBotRequestStub(object):
     self.GetResponse = channel.unary_unary(
         '/FoodBot.FoodBotRequest/GetResponse',
         request_serializer=FoodBot__pb2.Sentence.SerializeToString,
-        response_deserializer=FoodBot__pb2.Sentence.FromString,
+        response_deserializer=FoodBot__pb2.outSentence.FromString,
         )
 
 
@@ -37,7 +37,7 @@ def add_FoodBotRequestServicer_to_server(servicer, server):
       'GetResponse': grpc.unary_unary_rpc_method_handler(
           servicer.GetResponse,
           request_deserializer=FoodBot__pb2.Sentence.FromString,
-          response_serializer=FoodBot__pb2.Sentence.SerializeToString,
+          response_serializer=FoodBot__pb2.outSentence.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

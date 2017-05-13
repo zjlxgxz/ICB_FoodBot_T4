@@ -16,6 +16,7 @@ import math
 import os
 import sys
 import time
+import json
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
@@ -661,10 +662,13 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
       policyFrame = dialogPolicy()
       nlg_sentence = nlg(policyFrame,1)
+
+      #dictionary to jsonstring
+      policyFrameString = json.dumps(policyFrame)
       #action = policy(state)
       #NLG(action)
       print (test_label_result)
-      return FoodBot_pb2.Sentence(response = nlg_sentence)
+      return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
 def testing():
   print ('Applying Parameters:')
