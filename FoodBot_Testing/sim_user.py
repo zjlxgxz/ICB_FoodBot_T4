@@ -182,73 +182,73 @@ def simul_user(sys_act):
 		return nlg(sem_frame)
 
 def nlg(sem_frame):
-    print("semantic frame: ", sem_frame)
-    sentence = ""
-    if sem_frame["intent"] == "thanks":
-      sentence = random.choice(thanks_list)
-    
-    elif sem_frame["intent"] == "yes":
-      sentence = random.choice(yes_list)
-    
-    elif sem_frame["intent"] == "no":
-      sentence = "No. I was asking for"
-			if memory["intent"] == "get_restaurant":
-				sentence = sentence + " a " + memory["category"] + " restaurant in " + memory["location"] + " for " + memory["time"] + "."
+	print("semantic frame: ", sem_frame)
+	sentence = ""
+	if sem_frame["intent"] == "thanks":
+		sentence = random.choice(thanks_list)
+	
+	elif sem_frame["intent"] == "yes":
+		sentence = random.choice(yes_list)
+	
+	elif sem_frame["intent"] == "no":
+		sentence = "No. I was asking for"
+		if memory["intent"] == "get_restaurant":
+			sentence = sentence + " a " + memory["category"] + " restaurant in " + memory["location"] + " for " + memory["time"] + "."
+		else:
+			sentence = sentence + " the " + memory["intent"][4:] + " of " + memory["restaurantname"] + "."
+	
+	elif sem_frame["intent"] == "wrong_domain":
+		sentence = random.choice(wrong_domain_list)
+	
+	elif sem_frame["intent"] == "change": #ask for changing restaurant
+		sentence = random.choice(change_list)
+	
+	elif sem_frame["intent"] == "inform": # category/time/location      
+		if sem_frame["category"]:
+			sentence = random.choice(inform_category_pattern)
+			sentence = sentence.replace("CATEGORY", sem_frame["category"])
+			sentence = sentence.capitalize()
+		if sem_frame["location"]:
+			if sentence:
+				pre = " "
 			else:
-				sentence = sentence + " the " + memory["intent"][4:] + " of " + memory["restaurantname"] + "."
-		
-		elif sem_frame["intent"] == "wrong_domain":
-			sentence = random.choice(wrong_domain_list)
-		
-		elif sem_frame["intent"] == "change": #ask for changing restaurant
-			sentence = random.choice(change_list)
-    
-    elif sem_frame["intent"] == "inform": # category/time/location      
-      if sem_frame["category"]:
-        sentence = random.choice(inform_category_pattern)
-        sentence = sentence.replace("CATEGORY", sem_frame["category"])
-				sentence = sentence.capitalize()
-      if sem_frame["location"]:
-        if sentence:
-          pre = " "
-        else:
-          pre = ""
-        sentence = sentence + pre + random.choice(inform_location_pattern)
-        sentence = sentence.replace("LOCATION", sem_frame["location"])
-      if sem_frame["time"]:
-        if sentence:
-          pre = " "
-        else:
-          pre = ""
-        sentence = pre + sem_frame["time"].capitalize()
-  
-    elif sem_frame["intent"] == "get_restaurant":
-      # replace category, replace location with "in xxx", time with "for xxx"
-      sentence = random.choice(get_restaurant_pattern)
-      for item in content_list:
-        if sem_frame[item] == "":
-          sentence = sentence.replace(item.upper(), "")
-        else:
-          if item == "category":
-            prefix = ' '
-          if item == "location":
-            prefix = " in "
-          if item == "time":
-            prefix = " for "
-          sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
-  
-    elif sem_frame["intent"] == "get_location":
-      sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
-  
-    elif sem_frame["intent"] == "get_rating":
-      sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
+				pre = ""
+			sentence = sentence + pre + random.choice(inform_location_pattern)
+			sentence = sentence.replace("LOCATION", sem_frame["location"])
+		if sem_frame["time"]:
+			if sentence:
+				pre = " "
+			else:
+				pre = ""
+			sentence = pre + sem_frame["time"].capitalize()
 
-    else:
-    	sentence = "Unknown intent!!!"
-    
-    return sentence
+	elif sem_frame["intent"] == "get_restaurant":
+		# replace category, replace location with "in xxx", time with "for xxx"
+		sentence = random.choice(get_restaurant_pattern)
+		for item in content_list:
+			if sem_frame[item] == "":
+				sentence = sentence.replace(item.upper(), "")
+			else:
+				if item == "category":
+					prefix = ' '
+				if item == "location":
+					prefix = " in "
+				if item == "time":
+					prefix = " for "
+				sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
+
+	elif sem_frame["intent"] == "get_location":
+		sentence = random.choice(get_location_pattern)
+		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
+
+	elif sem_frame["intent"] == "get_rating":
+		sentence = random.choice(get_rating_pattern)
+		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
+
+	else:
+		sentence = "Unknown intent!!!"
+	
+	return sentence
 
 
 if __name__ == "__main__":
