@@ -632,7 +632,7 @@ def nlg(sem_frame, bot):
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
-    print "Request from GRPC:"
+    print ("Request from GRPC:")
     print (request)
     request.response = json.loads(request.response)
     realSemanticFrame = request.response["semantic_frame"]
@@ -664,7 +664,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       #dictionary to jsonstring
       policyFrameString = json.dumps(policyFrame)
 
-      print "PolicyFrame:"
+      print ("PolicyFrame:")
       print (policyFrame)
       return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
