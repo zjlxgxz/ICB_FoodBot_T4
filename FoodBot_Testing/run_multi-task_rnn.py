@@ -648,7 +648,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       nlg_sentence = nlg(policyFrame,1)
 
       #Calculate the LU accuracy:
-      LURight = semanticComparison(realSemanticFrame,test_label_result,predSlot)
+      LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
       global LURightCount
       if(LURight == True):
         LURightCount = LURightCount+1
