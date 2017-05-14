@@ -1,4 +1,4 @@
-import random
+iimport random
 import sys
 import grpc
 import time
@@ -21,7 +21,8 @@ location_list = ["astoria", "bayside", "bronx", "brooklyn", "college point", "co
 
 category_list = ["afghan", "african","andalusian","arabian","argentine","armenian","asian fusion","asturian","australian","austrian","baguettes","bangladeshi","basque","bavarian","barbeque","beisl","belgian","bistros","black sea","brasseries","brazilian","breakfast & brunch","british","buffets","bulgarian","burgers","burmese","cafes","cafeteria","cajun","creole","cambodian","canteen","caribbean","catalan","cheesesteaks","chilean","chinese","comfort food","corsican","creperies","cuban","curry sausage","cypriot","czech","slovakian","czech","danish","delis","diners","dumplings","eastern european","parent cafes","ethiopian","filipino","fischbroetchen","fish & chips","flatbread","fondue","freiduria","french","galician","gastropubs","georgian","german","giblets","gluten-free","greek","guamanian","halal","hawaiian","heuriger","nepalese","himalayan","honduran","hot dogs","fast food","hot pot","hungarian","iberian","indonesian","indian","international","irish","israeli","italian","japanese","jewish","kebab","kopitiam","korean","kosher","kurdish","laos","laotian","latin american","lyonnais","malaysian","meatballs","mediterranean","mexican","middle eastern","modern australian","modern european","mongolian","moroccan","american (new)","canadian (new)","new mexican cuisine","new zealand","nicaraguan","night food","nikkei","noodles","norcinerie","traditional norwegian","open sandwiches","oriental","pakistani","pan asian","parma","iranian","persian","peruvian","pf/comercial","pita","pizza","polish","pop-up","portuguese","potatoes","poutineries","pub food","live food","raw food","rice","romanian","rotisserie chicken","rumanian","russian","salad","sandwiches","scandinavian","schnitzel","scottish","seafood","serbo croatian","signature cuisine","singaporean","slovakian","soul food","soup","southern","spanish","sri lankan","steakhouses","french southwest","supper clubs","sushi bars","swabian","swedish","swiss food","syrian","tabernas","taiwanese","small plates","tapas plates","tavola calda","tex-mex","thai","american (traditional)","traditional swedish","trattorie","turkish","ukrainian","uzbek","vegan","vegetarian","venison","vietnamese","waffles","wok","wraps","yugoslav"]
 
-intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
+#intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
+intent_list = ["get_restaurant", "get_location", "get_rating"]
 
 content_list = ["category", "time", "location"]
 
@@ -67,6 +68,11 @@ memory = {"intent": "",
 				"category": "",
 				"restaurantname": ""}
 
+num_of_no = 0
+num_of_quest_rest = 0
+num_of_quest_info = 0
+
+
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetSimResponse (self, request, context):
@@ -78,9 +84,12 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
     return FoodBotSim_pb2.Sentence(response = simul_user(userInput))
 
 
-
 def simul_user(sys_act):
 	global memory
+	global num_of_no
+	global num_of_quest_rest
+	global num_of_quest_info
+	
 	'''
 	sys_act: {
 			  "intent": "request",
@@ -95,11 +104,12 @@ def simul_user(sys_act):
 				"time": "",
 				"category": "",
 				"restaurantname": ""}
-	
  
 	if sys_act == "init":
 		#intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
-		dec = random.randint(0,4) #randomly pick a intent
+		num_of_quest_rest = 0
+		num_of_quest_info = 0
+		dec = random.randint(0,2) #randomly pick a intent
 		sem_frame["intent"] = intent_list[dec]
 		
 		if dec == 0: #get restaurant
@@ -108,17 +118,15 @@ def simul_user(sys_act):
 				if dec1 == 1:
 					sem_frame[sent_key[i]] = random.choice(sent_content[i])
 		
-		if dec in [1, 2, 3]: #get location/rating/comment
+		if dec in [1, 2]: #get location/rating
 			sem_frame["restaurantname"] = random.choice(restaurant_list)
 
 		memory = sem_frame #keep the memory
-		
-		return nlg(sem_frame)
 
 
 	#in the middle of the dialogue	
 	else:
-		print("memory: ", memory)
+		#print("memory: ", memory)
 		sys_act = json.loads(sys_act)
 
 		if sys_act["intent"] == "request":
@@ -140,28 +148,55 @@ def simul_user(sys_act):
 			#	sem_frame["rest_name"] = random.choice(restaurant_list)
 
 		elif sys_act["intent"] == "inform":
-			sem_frame["intent"] = "thanks"
-			if sys_act["content"]["RESTAURANTNAME"]: #agent recommended a restaurant
-				dec2 = random.randint(0,2)
-				if dec2 == 0:
-					sem_frame["intent"] = "change"  #to add variety, user may ask for a change of restaurant
-				if dec2 == 1:
-					sem_frame["intent"] = "get_rating" #change intent to get rating
-					sem_frame["restaurantname"] = sys_act["content"]["RESTAURANTNAME"]
-			
+			if num_of_quest_rest == 2 or num_of_quest_info == 1: #quest for more than twice
+				sem_frame["intent"] = "end"
+
 			else:
-				dec2 = random.randint(0,1)
-				if sys_act["content"]["LOCATION"] and dec2 == 0:
-					sem_frame["intent"] = "get_rating"
-				if sys_act["content"]["RATING"] and dec2 == 0:
-					sem_frame["intent"] = "get_location"
+				sem_frame["intent"] = "end"
+
+				if "RESTAURANTNAME" in sys_act["content"].keys(): #agent recommended a restaurant
+					dec2 = random.randint(0,2)
+					#print("dec2: ", dec2)
+					if dec2 == 0:
+						sem_frame["intent"] = "change"  #to add variety, user may ask for a change of restaurant
+						num_of_quest_rest = num_of_quest_rest + 1
+					if dec2 == 1:
+						sem_frame["intent"] = "get_rating" #change intent to get rating
+						sem_frame["restaurantname"] = sys_act["content"]["RESTAURANTNAME"]
+						num_of_quest_rest = num_of_quest_rest + 1
+				
+				else:
+					dec2 = random.randint(0,1)
+					print("dec2: ", dec2)
+					if "LOCATION" in sys_act["content"].keys() and dec2 == 0:
+						sem_frame["intent"] = "get_rating"
+						sem_frame["restaurantname"] = memory["restaurantname"]
+						num_of_quest_info = num_of_quest_info + 1
+
+					
+					if "RATING" in sys_act["content"].keys():
+						if num_of_quest_rest == 1: #last question is get restaurant
+							dec3 = random.randint(0,1)
+							print("dec3: ", dec3)
+							if dec3 == 0:
+								sem_frame["intent"] = "end"
+							else:
+								sem_frame["intent"] = "change"
+								num_of_quest_rest = num_of_quest_rest + 1
+						
+						else: # last question is get rating
+							if dec2 == 0:
+								sem_frame["intent"] = "get_location"
+								sem_frame["restaurantname"] = memory["restaurantname"]
+								num_of_quest_info = num_of_quest_info + 1
+					
 		
 		elif sys_act["intent"]  == "confirm_restaurant":
 			keys = sys_act["content"].keys()
-			print("content keys:", keys)
+			#print("content keys:", keys)
 			for key in keys:
 				if sys_act["content"][key] != memory[key.lower()]:
-					sem_frame["intent"] = "no"					
+					sem_frame["intent"] = "no"
 					break
 				if key == keys[-1]:
 					sem_frame["intent"] = "yes"
@@ -169,7 +204,7 @@ def simul_user(sys_act):
 		elif sys_act["intent"]  == "confirm_info":
 			sem_frame["intent"] = "no"
 			keys = sys_act["content"].keys()
-			print("content keys:", keys)
+			#print("content keys:", keys)
 			
 			if "location" in keys: #confirm whether user's intent is get location
 				if "location" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]: #get_location
@@ -179,76 +214,88 @@ def simul_user(sys_act):
 				if "rating" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
 		
-		return nlg(sem_frame)
+        
+	#print("num_of_quest_rest: ", num_of_quest_rest)
+	#print("num_of_quest_info: ", num_of_quest_info)
+	nlg_sentence = nlg(sem_frame)
+
+	returnList = dict()
+	returnList["nlg_sentence"] = nlg_sentence
+	returnList["semantic_frame"] = sem_frame
+	
+	json_list = json.dumps(returnList)
+	return returnList
+
 
 def nlg(sem_frame):
-    print("semantic frame: ", sem_frame)
-    sentence = ""
-    if sem_frame["intent"] == "thanks":
-      sentence = random.choice(thanks_list)
-    
-    elif sem_frame["intent"] == "yes":
-      sentence = random.choice(yes_list)
-    
-    elif sem_frame["intent"] == "no":
-      sentence = "No. I was asking for"
-			if memory["intent"] == "get_restaurant":
-				sentence = sentence + " a " + memory["category"] + " restaurant in " + memory["location"] + " for " + memory["time"] + "."
+	print("semantic frame: ", sem_frame)
+	sentence = ""
+	if sem_frame["intent"] == "end": #end of the dialogue
+		sentence = "END"
+	
+	elif sem_frame["intent"] == "yes":
+		sentence = random.choice(yes_list)
+	
+	elif sem_frame["intent"] == "no":
+		sentence = "No."
+		#sentence = "No. I was asking for"
+		#if memory["intent"] == "get_restaurant":
+		#	sentence = sentence + " a " + memory["category"] + " restaurant in " + memory["location"] + " for " + memory["time"] + "."
+		#else:
+		#	sentence = sentence + " the " + memory["intent"][4:] + " of " + memory["restaurantname"] + "."
+		
+	elif sem_frame["intent"] == "wrong_domain":
+		sentence = random.choice(wrong_domain_list)
+		
+	elif sem_frame["intent"] == "change": #ask for changing restaurant
+		sentence = random.choice(change_list)
+	
+	elif sem_frame["intent"] == "inform": # category/time/location      
+		if sem_frame["category"]:
+			sentence = random.choice(inform_category_pattern)
+			sentence = sentence.replace("CATEGORY", sem_frame["category"])
+			sentence = sentence.capitalize()
+		if sem_frame["location"]:
+			if sentence:
+				pre = " "
 			else:
-				sentence = sentence + " the " + memory["intent"][4:] + " of " + memory["restaurantname"] + "."
-		
-		elif sem_frame["intent"] == "wrong_domain":
-			sentence = random.choice(wrong_domain_list)
-		
-		elif sem_frame["intent"] == "change": #ask for changing restaurant
-			sentence = random.choice(change_list)
-    
-    elif sem_frame["intent"] == "inform": # category/time/location      
-      if sem_frame["category"]:
-        sentence = random.choice(inform_category_pattern)
-        sentence = sentence.replace("CATEGORY", sem_frame["category"])
-				sentence = sentence.capitalize()
-      if sem_frame["location"]:
-        if sentence:
-          pre = " "
-        else:
-          pre = ""
-        sentence = sentence + pre + random.choice(inform_location_pattern)
-        sentence = sentence.replace("LOCATION", sem_frame["location"])
-      if sem_frame["time"]:
-        if sentence:
-          pre = " "
-        else:
-          pre = ""
-        sentence = pre + sem_frame["time"].capitalize()
-  
-    elif sem_frame["intent"] == "get_restaurant":
-      # replace category, replace location with "in xxx", time with "for xxx"
-      sentence = random.choice(get_restaurant_pattern)
-      for item in content_list:
-        if sem_frame[item] == "":
-          sentence = sentence.replace(item.upper(), "")
-        else:
-          if item == "category":
-            prefix = ' '
-          if item == "location":
-            prefix = " in "
-          if item == "time":
-            prefix = " for "
-          sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
-  
-    elif sem_frame["intent"] == "get_location":
-      sentence = random.choice(get_location_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
-  
-    elif sem_frame["intent"] == "get_rating":
-      sentence = random.choice(get_rating_pattern)
-      sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
+				pre = ""
+			sentence = sentence + pre + random.choice(inform_location_pattern)
+			sentence = sentence.replace("LOCATION", sem_frame["location"])
+		if sem_frame["time"]:
+			if sentence:
+				pre = " "
+			else:
+				pre = ""
+			sentence = pre + sem_frame["time"].capitalize()
+	
+	elif sem_frame["intent"] == "get_restaurant":
+		# replace category, replace location with "in xxx", time with "for xxx"
+		sentence = random.choice(get_restaurant_pattern)
+		for item in content_list:
+			if sem_frame[item] == "":
+				sentence = sentence.replace(item.upper(), "")
+			else:
+				if item == "category":
+					prefix = ' '
+				if item == "location":
+					prefix = " in "
+				if item == "time":
+					prefix = " for "
+				sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
+	
+	elif sem_frame["intent"] == "get_location":
+		sentence = random.choice(get_location_pattern)
+		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
+	
+	elif sem_frame["intent"] == "get_rating":
+		sentence = random.choice(get_rating_pattern)
+		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
 
-    else:
-    	sentence = "Unknown intent!!!"
-    
-    return sentence
+	else:
+		sentence = "Unknown intent!!!"
+	
+	return sentence
 
 
 if __name__ == "__main__":
@@ -260,8 +307,8 @@ if __name__ == "__main__":
 	server.start()
 	print ("GRCP Server is running. Press any key to stop it.")
 	try:
-	  while True:
-	    # openface_GetXXXXXX will be responsed if any incoming request is received.
-	    time.sleep(24*60*60)
+		while True:
+	    	# openface_GetXXXXXX will be responsed if any incoming request is received.
+	    	time.sleep(24*60*60)
 	except KeyboardInterrupt:
-	  server.stop(0)
+		server.stop(0)
