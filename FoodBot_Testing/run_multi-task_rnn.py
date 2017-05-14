@@ -57,7 +57,7 @@ waitConfirm = []
 dialogNum = 0.0
 successNum = 0.0
 notfoundNum = 0.0
-successRateFileName = 'successRate' + time.time() + '.txt'
+successRateFileName = 'successRate' + str(time.time()) + '.txt'
 
 textFileName = "record_"+str(time.time())
 LUWrongCount = 0 
