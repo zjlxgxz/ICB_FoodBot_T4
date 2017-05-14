@@ -34,7 +34,7 @@ def SimOutput(rawdata):
 
 if __name__ == '__main__':
   i = 0;
-  while (i < 10):
+  while (i < 100):
   	msgToSend = SimOutput("init")
 	print ("init-sent")
   	while(True):
@@ -47,8 +47,8 @@ if __name__ == '__main__':
   			break
   		else:	
   			msgToSend = AgentOutput(msgToSend)
-			if not sgToSend:
-				print ("====== nothing here!!! ======")
+			if not msgToSend:
+				print ("====== intent wrong  detected!!! ======")
 				break
   			msgToSend = SimOutput(msgToSend)
   	i = i + 1

@@ -684,17 +684,23 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
 def semanticComparison(realSem,predIntent,predSlots):
+  print ("---------")
+  print("real seam:",realSem)
+  print("pred seam:",predSlots )
+  print("pred inte:",predIntent )
+  print ("---------")
   if(predIntent.lower() != realSem["intent"].lower()):
     return False
-  if(predSlots["LOCATION"].lower() != realSem["location"].lower()):
+  elif(predSlots["LOCATION"].lower() != realSem["location"].lower()):
     return False
-  if(predSlots["TIME"].lower() != realSem["time"].lower()):
+  elif(predSlots["TIME"].lower() != realSem["time"].lower()):
     return False
-  if(predSlots["CATEGORY"].lower() != realSem["category"].lower()):
+  elif(predSlots["CATEGORY"].lower() != realSem["category"].lower()):
     return False
-  if(predSlots["RESTAURANTNAME"].lower() != realSem["restaurantname"].lower()):
+  elif(predSlots["RESTAURANTNAME"].lower() != realSem["restaurantname"].lower()):
     return False
-  
+  else:
+    return True
 
 
 def testing():
