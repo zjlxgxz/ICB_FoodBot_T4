@@ -32,7 +32,7 @@ def SimOutput(rawdata):
 
 if __name__ == '__main__':
   i = 0;
-  while (i < 2):
+  while (i < 10):
   	msgToSend = SimOutput("init")
 	print ("init-sent")
   	while(True):
