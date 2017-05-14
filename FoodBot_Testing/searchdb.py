@@ -43,19 +43,22 @@ class SearchDB:
 			#elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
 			#	pass
 			else :
-				print 'match nothing'
+				pass
 
 			results = cursor.fetchall()
 			#print 'results : ' + str(results)
 			content = ''
-			if intent == 'Get_Restaurant' :
-				content = {'RESTAURANTNAME':str(results[slots['TIMES']][0]) ,'LOCATION':results[slots['TIMES']][5]}
+			if results.__len__() == 0:
+				pass
 			else:
-				for record in results:
-					if intent == 'Get_location' :
-						content = {'LOCATION':str(record[0])}
-					elif intent == 'Get_rating' :
-						content = {'RATING':str(record[0])+'/5.0 stars'}
+				if intent == 'Get_Restaurant' :
+					content = {'RESTAURANTNAME':str(results[slots['TIMES']][0]) ,'LOCATION':results[slots['TIMES']][5]}
+				else:
+					for record in results:
+						if intent == 'Get_location' :
+							content = {'LOCATION':str(record[0])}
+						elif intent == 'Get_rating' :
+							content = {'RATING':str(record[0])+'/5.0 stars'}
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
@@ -66,6 +69,6 @@ class SearchDB:
 
 if __name__ == '__main__':
 
-	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'2nd city here?' ,'LOCATION':'brooklyn' ,'TIME':'' ,'TIMES':2}
+	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'2nd city here?' ,'LOCATION':'adfasdf' ,'TIME':'' ,'TIMES':2}
 	search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-	search.grabData('Get_location' ,slots)
+	search.grabData('Get_Restaurant' ,slots)
