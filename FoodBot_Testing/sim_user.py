@@ -146,7 +146,7 @@ def simul_user(sys_act):
 
 
 		elif sys_act["intent"] == "inform":
-			if num_of_quest_rest == 2 or num_of_quest_info == 1: #quest for more than twice
+			if memory["intent"] == "no" or num_of_quest_rest == 2 or num_of_quest_info == 1: #quest for more than twice
 				sem_frame["intent"] = "end"
 
 			else:
@@ -195,6 +195,7 @@ def simul_user(sys_act):
 			for key in keys:
 				if sys_act["content"][key] != memory[key.lower()]:
 					sem_frame["intent"] = "no"
+					memory["intent"] = "no"
 					break
 				if key == keys[-1]:
 					sem_frame["intent"] = "yes"
@@ -211,6 +212,9 @@ def simul_user(sys_act):
 			if "rating" in keys: #confirm whether user's intent is get rating
 				if "rating" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
+			
+			if sem_frame["intent"] == "no":
+				memory["intent"] = "no"
 
 		elif sys_act["intent"] == "not_found":
 			sem_frame["intent"] = "end"
