@@ -689,6 +689,11 @@ def semanticComparison(realSem,predIntent,predSlots):
   print("pred seam:",predSlots )
   print("pred inte:",predIntent )
   print ("---------")
+  
+  #conversion
+  if predIntent == "Confirm":
+    predIntent = "yes"
+
   if(predIntent.lower() != realSem["intent"].lower()):
     return False
   elif(predSlots["LOCATION"].lower() != realSem["location"].lower()):
