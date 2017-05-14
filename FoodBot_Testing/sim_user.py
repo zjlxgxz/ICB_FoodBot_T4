@@ -68,7 +68,7 @@ memory = {"intent": "",
 				"category": "",
 				"restaurantname": ""}
 
-num_of_no = 0
+#num_of_no = 0
 num_of_quest_rest = 0
 num_of_quest_info = 0
 
@@ -86,7 +86,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
 
 def simul_user(sys_act):
 	global memory
-	global num_of_no
+	#global num_of_no
 	global num_of_quest_rest
 	global num_of_quest_info
 	
@@ -144,8 +144,8 @@ def simul_user(sys_act):
 				sem_frame["category"] = random.choice(category_list)
 				memory["category"] = sem_frame["category"]
 
-			#if "rest_name" in sys_act["content"]:
-			#	sem_frame["rest_name"] = random.choice(restaurant_list)
+			if "restaurantname" in sys_act["content"].keys():
+				sem_frame["restaurantname"] = memory["restaurantname"]
 
 		elif sys_act["intent"] == "inform":
 			if num_of_quest_rest == 2 or num_of_quest_info == 1: #quest for more than twice
@@ -154,7 +154,7 @@ def simul_user(sys_act):
 			else:
 				sem_frame["intent"] = "end"
 
-				if "RESTAURANTNAME" in sys_act["content"].keys(): #agent recommended a restaurant
+				if "restaurantname" in sys_act["content"].keys(): #agent recommended a restaurant
 					dec2 = random.randint(0,2)
 					#print("dec2: ", dec2)
 					if dec2 == 0:
@@ -162,22 +162,22 @@ def simul_user(sys_act):
 						num_of_quest_rest = num_of_quest_rest + 1
 					if dec2 == 1:
 						sem_frame["intent"] = "get_rating" #change intent to get rating
-						sem_frame["restaurantname"] = sys_act["content"]["RESTAURANTNAME"]
+						sem_frame["restaurantname"] = sys_act["content"]["restaurantname"]
 						num_of_quest_rest = num_of_quest_rest + 1
 				
 				else:
 					dec2 = random.randint(0,1)
-					print("dec2: ", dec2)
-					if "LOCATION" in sys_act["content"].keys() and dec2 == 0:
+					#print("dec2: ", dec2)
+					if "location" in sys_act["content"].keys() and dec2 == 0:
 						sem_frame["intent"] = "get_rating"
 						sem_frame["restaurantname"] = memory["restaurantname"]
 						num_of_quest_info = num_of_quest_info + 1
 
 					
-					if "RATING" in sys_act["content"].keys():
+					if "rating" in sys_act["content"].keys():
 						if num_of_quest_rest == 1: #last question is get restaurant
 							dec3 = random.randint(0,1)
-							print("dec3: ", dec3)
+							#print("dec3: ", dec3)
 							if dec3 == 0:
 								sem_frame["intent"] = "end"
 							else:
@@ -213,6 +213,9 @@ def simul_user(sys_act):
 			if "rating" in keys: #confirm whether user's intent is get rating
 				if "rating" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
 					sem_frame["intent"] = "yes"
+
+		elif sys_act["intent"] == "not_found":
+			sem_frame["intent"] = "end"
 		
         
 	#print("num_of_quest_rest: ", num_of_quest_rest)
@@ -228,7 +231,7 @@ def simul_user(sys_act):
 
 
 def nlg(sem_frame):
-	print("semantic frame: ", sem_frame)
+	#print("semantic frame: ", sem_frame)
 	sentence = ""
 
 	if sem_frame["intent"] == "end": #end of the dialogue
@@ -239,7 +242,7 @@ def nlg(sem_frame):
 		sentence = random.choice(yes_list)
 	
 	elif sem_frame["intent"] == "no":
-		sentence = "No."
+		sentence = "END"
 		#sentence = "No. I was asking for"
 		#if memory["intent"] == "get_restaurant":
 		#	sentence = sentence + " a " + memory["category"] + " restaurant in " + memory["location"] + " for " + memory["time"] + "."
@@ -271,6 +274,8 @@ def nlg(sem_frame):
 			else:
 				pre = ""
 			sentence = pre + sem_frame["time"].capitalize()
+		if sem_frame["restaurantname"]:
+			sentence = sem_frame["restaurantname"].capitalize()
 
 	elif sem_frame["intent"] == "get_restaurant":
 		# replace category, replace location with "in xxx", time with "for xxx"
@@ -298,7 +303,7 @@ def nlg(sem_frame):
 		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
 
 	else:
-		sentence = "Unknown intent!!!"
+		sentence = "END"
 	
 	return sentence
 
