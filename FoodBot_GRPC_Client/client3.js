@@ -13,14 +13,13 @@ console.log('Server Started');
 var msgToSend,responseMsg;
 
 function runRequest(callback) {
-  function featureCallback(error, sentence) {
+  function featureCallback(error, outSentence) {
     if (error) {
       return callback(error);
     }else{
-      //The results are printed below!
-      console.log('Result:' + sentence.response);
-      responseMsg = sentence.response;
-      console.log('responseMsg: '+responseMsg);
+      //console.log('Result:' + sentence.response);
+      responseMsg = outSentence.response_policy_frame;
+      //console.log('responseMsg: '+responseMsg);
       callback();
     }
   }
@@ -33,10 +32,9 @@ function runSimRequest(callback) {
     if (error) {
       return callback(error);
     }else{
-      //The results are printed below!
-      console.log('Result:' + sentence.response);
+      //console.log('Result:' + sentence.response);
       responseMsg = sentence.response;
-      console.log('responseMsg: '+responseMsg);
+      //console.log('responseMsg: '+responseMsg);
       callback();
     }
   }
@@ -47,35 +45,48 @@ function runSimRequest(callback) {
 var i = 0;
 while(i < 2){
   console.log('start talk')
-  var user = 'SUser';
+  //var user = 'SUser';
   var msgToSend = 'init';
   var j = 0;
   while(true){
     if(msgToSend == "end"){
       async.series([runRequest,function(callback){
-      console.log('Restart')
+        console.log('Restart')
       }]);
       break;
     }
-    if(user == "SUser"){
-      async.series([runSimRequest,function(callback){
-          msgToSend = responseMsg;
-          user = "Agent";
-          console.log(user + " : " + msgToSend)
+    //if(user == "SUser"){
+    async.series([runSimRequest,
+                  function(callback){
+                    msgToSend = responseMsg;
+    //                user = "SUser";
+                    console.log("SUser: " + msgToSend)
+                   },
+                  runRequest,
+                  function(callback){
+                    msgToSend = responseMsg;
+                    //user = "Agent";
+                    console.log("Agent: " + msgToSend)
+                  }
+    ]);
+    //}
 
-      }]);
-    }else if(user == "Agent"){
+    /**if(user == "Agent"){
+      console.log("in Agent");
       async.series([runRequest,function(callback){
         msgToSend = responseMsg;
         user = "SUser";
-              console.log(user + " : " + msgToSend)
-        }]);
+        console.log("SUser: " + msgToSend)
+      }]);
     }
+    **/
+    /**
     if(j == 5){
       msgToSend = "end";
       console.log("set end");
     }
     j++;
+    **/
   }
   i++;
 }
