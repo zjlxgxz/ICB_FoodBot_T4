@@ -49,11 +49,15 @@ rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
 observation = collections.deque(maxlen=10)
-state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
+state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''} , 'Get_another_restaurant':{'TIMES':''}}
+stateList = []
+changeRestNum = 0
 intents = collections.deque(maxlen=2)
 waitConfirm = []
 dialogNum = 0.0
 successNum = 0.0
+notfoundNum = 0.0
+successRateFileName = 'successRate' + time.time() + '.txt'
 
 textFileName = "record_"+str(time.time())
 LUWrongCount = 0 
@@ -383,7 +387,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
 def dialogPolicy():
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   sys_act = {'intent':'' ,'content':''}
-  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
+  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':'' ,'TIMES':''}
   needConfirm = False
   needInform = False
   sys_act['content'] = {}
@@ -394,17 +398,18 @@ def dialogPolicy():
     waitConfirm.pop(-1)
 
   if observation[-1][0] == 'Confirm':
-    if waitConfirm[-1][0] == 'confirm':
-      needInform = True
+    if waitConfirm.__len__() != 0:
+      if waitConfirm[-1][0] == 'confirm':
+        needInform = True
 
-    else:
-      for x in range(1 ,11):
-        if waitConfirm[-x][0] == intents[-1]:
-          for key in waitConfirm[-x][1].keys():
-            if key in state[intents[-1]]:
-              state[intents[-1]][key] = waitConfirm[-x][1][key]
-          waitConfirm.pop(-x)
-          break
+      else:
+        for x in range(1 ,11):
+          if waitConfirm[-x][0] == intents[-1]:
+            for key in waitConfirm[-x][1].keys():
+              if key in state[intents[-1]]:
+                state[intents[-1]][key] = waitConfirm[-x][1][key]
+            waitConfirm.pop(-x)
+            break
   elif observation[-1][0] == 'Wrong':
     #waitConfirm = []
     #Really? should we reset here?
@@ -412,6 +417,8 @@ def dialogPolicy():
     DST_reset()
 
   elif observation[-1][0] == 'Inform':
+    if intents[-1] == 'Get_Restaurant':
+      changeRestNum = 0
     for key in observation[-1][1].keys():
       if observation[-1][1][key] != '' and key in state[intents[-1]]:
         if state[intents[-1]][key] != '':
@@ -432,6 +439,10 @@ def dialogPolicy():
         if observation[-1][1][key] != '' and key in state[intents[-1]]:
           if state[intents[-1]][key] == '':
             state[intents[-1]][key] = observation[-1][1][key]
+  
+  elif observation[-1][0] == 'Get_Another_Restaurant':
+    if state['Get_Restaurant']['CATEGORY'] != '' and state['Get_Restaurant']['LOCATION'] != '':
+      changeRestNum += 1
 
   else:    
     if observation[-1][0] == 'Get_Restaurant':
@@ -451,8 +462,9 @@ def dialogPolicy():
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
           state['Get_rating'][key] = observation[-1][1][key]
-  
-  #print ('state : ' ,state)
+
+  stateList.append(state)
+  print ('state : ' ,state)
   if sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
 
@@ -473,10 +485,12 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
+        slots['TIMES'] = changeRestNum
         sys_act['content'] = search.grabData(intents[-1] ,slots)
         dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+          notfoundNum += 1
         else:
           successNum += 1
         for key in state[intents[-1]].keys():
@@ -505,6 +519,7 @@ def dialogPolicy():
         dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+          notfoundNum += 1
         else:
           successNum += 1
         for key in state[intents[-1]].keys():
@@ -533,6 +548,7 @@ def dialogPolicy():
         dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+          notfoundNum += 1
         else:
           successNum += 1
         for key in state[intents[-1]].keys():
@@ -549,8 +565,9 @@ def dialogPolicy():
     else:
       print ("I don\'t know what to say")
   if dialogNum != 0:
-    fp = open('successRate.txt' ,'w')
+    fp = open(successRateFileName ,'w')
     fp.write('Policy Success Rate : %f\n' %(successNum/dialogNum))
+    fp.write('DB Not Found Rate : %f\n' %(notfoundNum/dialogNum))
     fp.close()
   print ('Policy system action : ' ,sys_act)
   return sys_act
