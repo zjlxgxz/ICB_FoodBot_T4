@@ -650,6 +650,11 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       return FoodBot_pb2.Sentence(response = "")
     else:
       userInput = userInput.replace("?", "")
+      userInput = userInput.replace(".", "")
+      userInput = userInput.replace(",", "")
+      userInput = userInput.replace("!", "")
+
+
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
       predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
       policyFrame = dialogPolicy()
