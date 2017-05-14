@@ -14,6 +14,13 @@ class SearchDB:
 		print 'slots : ' + str(slots) 
 		try:
 			cursor = self.db.cursor()
+			tmp = []
+			if slots['RESTAURANTNAME'] != '':
+				tmp = slots['RESTAURANTNAME'].split(' ')
+				if tmp[-1].__contains__('?') or tmp[-1].__contains__('.'):
+					tmp[-1] = ''
+					tmp[-2] = ''
+					slots['RESTAURANTNAME'] = ' '.join(tmp)
 
 			if intent == 'Get_Restaurant' :
 				sql_query = 'SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\'')
