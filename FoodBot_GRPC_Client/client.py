@@ -34,8 +34,9 @@ if __name__ == '__main__':
   i = 0;
   while (i < 2):
   	msgToSend = SimOutput("init")
+	print ("init-sent")
   	while(True):
-  		if json.loads(msgToSend)["nlg_sentence"] == 'end' or json.loads(msgToSend)["nlg_sentence"] == ''or json.loads(msgToSend)["nlg_sentence"] == 'Unknown intent!!!':
+  		if json.loads(msgToSend)["nlg_sentence"] == 'END' or json.loads(msgToSend)["nlg_sentence"] == ''or json.loads(msgToSend)["nlg_sentence"] == 'Unknown intent!!!':
   			inputss = json.loads(msgToSend)
   			inputss["nlg_sentence"] = 'end'
   			inputss = json.dumps(inputss)
