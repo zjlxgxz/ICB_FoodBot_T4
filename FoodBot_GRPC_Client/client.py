@@ -2,26 +2,49 @@ from __future__ import print_function
 
 import random
 import time
-import cv2
 import json
 import grpc
 import sys
 sys.path.append('../FoodBot_GRPC_Server/')
 import grpc
 import FoodBot_pb2
+import FoodBotSim_pb2
 
 
-def run():
+def AgentOutput(rawdata):
   channel = grpc.insecure_channel('140.112.49.151:50055')
   stub = FoodBot_pb2.FoodBotRequestStub(channel)
 
-  rawdata = "for dinner"
-  start = time.time()
   request = FoodBot_pb2.Sentence(response = rawdata)
   result = stub.GetResponse(request)
-  print (time.time() - start)
 
-  print (result)
+  return result.response_policy_frame
+
+
+def SimOutput(rawdata):
+  channel = grpc.insecure_channel('140.112.49.151:50054')
+  stub = FoodBotSim_pb2.FoodBotSimRequestStub(channel)
+
+  request = FoodBotSim_pb2.Sentence(response = rawdata)
+  result = stub.GetSimResponse(request)
+
+  return result.response
 
 if __name__ == '__main__':
-  run()
+  i = 0;
+  while (i < 2):
+  	msgToSend = SimOutput("init")
+  	while(True):
+  		if json.loads(msgToSend)["nlg_sentence"] == 'end' or json.loads(msgToSend)["nlg_sentence"] == ''or json.loads(msgToSend)["nlg_sentence"] == 'Unknown intent!!!':
+  			inputss = json.loads(msgToSend)
+  			inputss["nlg_sentence"] = 'end'
+  			inputss = json.dumps(inputss)
+  			print (inputss)
+  			msgToSend = AgentOutput(inputss)
+  			break
+  		else:	
+  			msgToSend = AgentOutput(msgToSend)
+  			msgToSend = SimOutput(msgToSend)
+  	i = i + 1
+
+

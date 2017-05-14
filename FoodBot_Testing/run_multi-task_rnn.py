@@ -57,7 +57,7 @@ waitConfirm = []
 dialogNum = 0.0
 successNum = 0.0
 notfoundNum = 0.0
-successRateFileName = 'successRate' + time.time() + '.txt'
+successRateFileName = 'successRate' + str(time.time()) + '.txt'
 
 textFileName = "record_"+str(time.time())
 LUWrongCount = 0 
@@ -379,8 +379,9 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
         slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
 
     observation.append([test_label_result[0] ,slots])
-  print ("DST result below:")
-  print (slots)
+  print ("========================================================================")
+  print ("\nLU Intent SLOTS:")
+  print (slots,test_label_result[0])
   return slots
 
 
@@ -394,6 +395,10 @@ def dialogPolicy():
 
   global waitConfirm
   global dialogNum
+  global changeRestNum
+  global notfoundNum
+  global successNum
+  
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
     waitConfirm.pop(-1)
 
@@ -464,7 +469,7 @@ def dialogPolicy():
           state['Get_rating'][key] = observation[-1][1][key]
 
   stateList.append(state)
-  print ('state : ' ,state)
+  print ('Now state : ' ,state)
   if sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
 
@@ -632,28 +637,29 @@ def nlg(sem_frame, bot):
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
-    print "Request from GRPC:"
-    print (request)
-    request.response = json.loads(request.response)
-    realSemanticFrame = request.response["semantic_frame"]
-    userInput = request.response["nlg_sentence"].lower()
+    print ("Request from simuser:")
+    outputFromSim = json.loads(request.response)
+    print (outputFromSim)
+    realSemanticFrame = outputFromSim["semantic_frame"]
+    userInput = outputFromSim["nlg_sentence"].lower()
     if userInput == 'end':
       #reset the dialog state.'
       DST_reset()
       return FoodBot_pb2.Sentence(response = "")
     else:
+      userInput = userInput.replace("?", "")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
       predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
       policyFrame = dialogPolicy()
       nlg_sentence = nlg(policyFrame,1)
 
       #Calculate the LU accuracy:
-      LURight = semanticComparison(realSemanticFrame,test_label_result,predSlot)
+      LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
+      global LURightCount
+      global LUWrongCount
       if(LURight == True):
-        global LURightCount
         LURightCount = LURightCount+1
       else:
-        global LURightCount
         LUWrongCount = LUWrongCount+1
       TotalTruns = 1.0*(LUWrongCount + LURightCount)
 
@@ -663,9 +669,6 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
       #dictionary to jsonstring
       policyFrameString = json.dumps(policyFrame)
-
-      print "PolicyFrame:"
-      print (policyFrame)
       return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
 def semanticComparison(realSem,predIntent,predSlots):

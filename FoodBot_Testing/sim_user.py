@@ -1,4 +1,4 @@
-iimport random
+import random
 import sys
 import grpc
 import time
@@ -76,11 +76,8 @@ num_of_quest_info = 0
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetSimResponse (self, request, context):
-    print (request)
     userInput = request.response.lower()
-    #test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-   
-    #print (test_label_result)
+    print("Output from LU", userInput)
     return FoodBotSim_pb2.Sentence(response = simul_user(userInput))
 
 
@@ -146,6 +143,7 @@ def simul_user(sys_act):
 
 			if "restaurantname" in sys_act["content"].keys():
 				sem_frame["restaurantname"] = memory["restaurantname"]
+
 
 		elif sys_act["intent"] == "inform":
 			if num_of_quest_rest == 2 or num_of_quest_info == 1: #quest for more than twice
@@ -227,7 +225,7 @@ def simul_user(sys_act):
 	returnList["semantic_frame"] = sem_frame
 	
 	json_list = json.dumps(returnList)
-	return returnList
+	return json_list
 
 
 def nlg(sem_frame):
@@ -318,7 +316,7 @@ if __name__ == "__main__":
 	print ("GRCP Server is running. Press any key to stop it.")
 	try:
 		while True:
-	    	# openface_GetXXXXXX will be responsed if any incoming request is received.
-	    	time.sleep(24*60*60)
+			# openface_GetXXXXXX will be responsed if any incoming request is received.
+			time.sleep(24*60*60)
 	except KeyboardInterrupt:
 		server.stop(0)

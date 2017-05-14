@@ -14,7 +14,21 @@ class SearchDB:
 		print 'slots : ' + str(slots) 
 		try:
 			cursor = self.db.cursor()
-
+			tmp = []
+			restname = []
+			i = 0
+			j = 0
+			
+			if slots['RESTAURANTNAME'] != '':
+				tmp = slots['RESTAURANTNAME'].split(' ')
+				if tmp.__len__() >= 4:
+					j = tmp.__len__()/2-1
+					for i in range(3):
+						restname.append(tmp[j])
+						j += 1
+					slots['RESTAURANTNAME'] = ' '.join(restname)
+			print slots['RESTAURANTNAME']
+			
 			if intent == 'Get_Restaurant' :
 				sql_query = 'SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\'')
 				cursor.execute(sql_query)
@@ -33,24 +47,27 @@ class SearchDB:
 			results = cursor.fetchall()
 			#print 'results : ' + str(results)
 			content = ''
-			if intent == 'Get_Restaurant' :
-				content = {'RESTAURANTNAME':str(results[slots['TIMES']][0]) ,'LOCATION':results[slots['TIMES']][5]}
+			if results.__len__() == 0:
+				pass
 			else:
-				for record in results:
-					if intent == 'Get_location' :
-						content = {'LOCATION':str(record[0])}
-					elif intent == 'Get_rating' :
-						content = {'RATING':str(record[0])+'/5.0 stars'}
+				if intent == 'Get_Restaurant' :
+					content = {'RESTAURANTNAME':str(results[slots['TIMES']][0]) ,'LOCATION':results[slots['TIMES']][5]}
+				else:
+					for record in results:
+						if intent == 'Get_location' :
+							content = {'LOCATION':str(record[0])}
+						elif intent == 'Get_rating' :
+							content = {'RATING':str(record[0])+'/5.0 stars'}
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
-			#print content
+			print 'content : ' ,content
 			return content
 		except MySQLdb.Error as e:
 			return ''
 
 if __name__ == '__main__':
 
-	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'brooklyn' ,'TIME':'' ,'TIMES':2}
+	slots = {'CATEGORY':'korean' ,'RESTAURANTNAME':'51 mott street restaurant here?' ,'LOCATION':'sunnyside' ,'TIME':'tomorrow' ,'TIMES':1}
 	search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
 	search.grabData('Get_Restaurant' ,slots)
