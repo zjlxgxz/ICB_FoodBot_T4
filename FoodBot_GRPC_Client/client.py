@@ -18,6 +18,8 @@ def AgentOutput(rawdata):
   request = FoodBot_pb2.Sentence(response = rawdata)
   result = stub.GetResponse(request)
 
+  if not result.response_nlg : # means wrong intent.
+	  return ''
   return result.response_policy_frame
 
 
@@ -45,7 +47,8 @@ if __name__ == '__main__':
   			break
   		else:	
   			msgToSend = AgentOutput(msgToSend)
-			if msgToSend == '':
+			if not sgToSend:
+				print ("====== nothing here!!! ======")
 				break
   			msgToSend = SimOutput(msgToSend)
   	i = i + 1
