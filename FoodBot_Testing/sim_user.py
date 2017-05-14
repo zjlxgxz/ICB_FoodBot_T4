@@ -224,7 +224,7 @@ def simul_user(sys_act):
 	returnList["semantic_frame"] = sem_frame
 	
 	json_list = json.dumps(returnList)
-	return returnList
+	return json_list
 
 
 def nlg(sem_frame):
