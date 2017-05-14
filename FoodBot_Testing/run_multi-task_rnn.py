@@ -582,6 +582,8 @@ def dialogPolicy():
 
 def nlg(sem_frame, bot):
   if bot == 1: #for bot  
+    if sem_frame == '':
+      return ''
     if sem_frame["intent"] == "request":
       keys = sem_frame["content"].keys()
       sentence = ""
