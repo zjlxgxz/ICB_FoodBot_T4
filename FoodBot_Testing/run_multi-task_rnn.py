@@ -571,8 +571,8 @@ def dialogPolicy():
       print ("I don't know what to say")
   if dialogNum != 0:
     fp = open(successRateFileName ,'w')
-    fp.write('Policy Success Rate : %f\n' %(successNum/dialogNum))
-    fp.write('DB Not Found Rate : %f\n' %(notfoundNum/dialogNum))
+    fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
+    fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
     fp.close()
   print ('Policy system action : ' ,sys_act)
   return sys_act
