@@ -58,18 +58,18 @@ while(i < 10){
   var j = 0;
   while(true){
     if(msgToSend == "end"){
-        async.series([runSimRequest,
-        console.log('Restart')
-          ]);
-        break;
+      async.series([runRequest,function(callback){
+      console.log('Restart')
+      }]);
+      break;
     }
     if(user == "SUser"){
-        async.series([runSimRequest,function(callback){
-            msgToSend = responseMsg;
-            user = "Agent";
-            console.log(user + " : " + msgToSend)
+      async.series([runSimRequest,function(callback){
+          msgToSend = responseMsg;
+          user = "Agent";
+          console.log(user + " : " + msgToSend)
 
-        }]);
+      }]);
     }else if(user == "Agent"){
       async.series([runRequest,function(callback){
         msgToSend = responseMsg;
