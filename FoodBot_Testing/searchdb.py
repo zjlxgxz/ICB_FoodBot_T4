@@ -16,17 +16,16 @@ class SearchDB:
 			cursor = self.db.cursor()
 			tmp = []
 			restname = []
-			i=0
+			i = 0
+			j = 0
 			
 			if slots['RESTAURANTNAME'] != '':
 				tmp = slots['RESTAURANTNAME'].split(' ')
-				if tmp[-1].__contains__('?') or tmp[-1].__contains__('.'):
-					tmp[-1] = ''
-					if tmp.__len__() > 3:
-						tmp[-2] = ''
-					for i in range(tmp.__len__()):
-						if tmp[i] != '':
-							restname.append(tmp[i])
+				if tmp.__len__() >= 4:
+					j = tmp.__len__()/2-1
+					for i in range(3):
+						restname.append(tmp[j])
+						j += 1
 					slots['RESTAURANTNAME'] = ' '.join(restname)
 			print slots['RESTAURANTNAME']
 			
@@ -69,6 +68,6 @@ class SearchDB:
 
 if __name__ == '__main__':
 
-	slots = {'CATEGORY':'fancy' ,'RESTAURANTNAME':'2nd city here?' ,'LOCATION':'sunnyside' ,'TIME':'tomorrow' ,'TIMES':2}
+	slots = {'CATEGORY':'korean' ,'RESTAURANTNAME':'51 mott street restaurant here?' ,'LOCATION':'sunnyside' ,'TIME':'tomorrow' ,'TIMES':1}
 	search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
 	search.grabData('Get_Restaurant' ,slots)
