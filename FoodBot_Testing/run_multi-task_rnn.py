@@ -379,8 +379,9 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
         slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
 
     observation.append([test_label_result[0] ,slots])
-  print ("DST result below:")
-  print (slots)
+  print ("========================================================================")
+  print ("\nLU Intent SLOTS:")
+  print (slots,test_label_result[0])
   return slots
 
 
@@ -465,7 +466,7 @@ def dialogPolicy():
           state['Get_rating'][key] = observation[-1][1][key]
 
   stateList.append(state)
-  print ('state : ' ,state)
+  print ('Now state : ' ,state)
   if sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
 
@@ -633,7 +634,7 @@ def nlg(sem_frame, bot):
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
-    print ("Request from GRPC:")
+    print ("Request from simuser:")
     outputFromSim = json.loads(request.response)
     print (outputFromSim)
     realSemanticFrame = outputFromSim["semantic_frame"]
@@ -664,9 +665,6 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
       #dictionary to jsonstring
       policyFrameString = json.dumps(policyFrame)
-
-      print ("PolicyFrame:")
-      print (policyFrame)
       return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
 def semanticComparison(realSem,predIntent,predSlots):
