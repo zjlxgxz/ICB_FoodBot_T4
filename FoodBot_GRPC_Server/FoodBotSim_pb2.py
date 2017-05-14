@@ -17,9 +17,9 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='FoodBotSim.proto',
-  package='FoodBot',
+  package='FoodBotSim',
   syntax='proto3',
-  serialized_pb=_b('\n\x10\x46oodBotSim.proto\x12\x07\x46oodBot\"\x1c\n\x08Sentence\x12\x10\n\x08response\x18\x01 \x01(\t2M\n\x11\x46oodBotSimRequest\x12\x38\n\x0eGetSimResponse\x12\x11.FoodBot.Sentence\x1a\x11.FoodBot.Sentence\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x10\x46oodBotSim.proto\x12\nFoodBotSim\"\x1c\n\x08Sentence\x12\x10\n\x08response\x18\x01 \x01(\t2S\n\x11\x46oodBotSimRequest\x12>\n\x0eGetSimResponse\x12\x14.FoodBotSim.Sentence\x1a\x14.FoodBotSim.Sentence\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -28,13 +28,13 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 _SENTENCE = _descriptor.Descriptor(
   name='Sentence',
-  full_name='FoodBot.Sentence',
+  full_name='FoodBotSim.Sentence',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='response', full_name='FoodBot.Sentence.response', index=0,
+      name='response', full_name='FoodBotSim.Sentence.response', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -52,8 +52,8 @@ _SENTENCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=29,
-  serialized_end=57,
+  serialized_start=32,
+  serialized_end=60,
 )
 
 DESCRIPTOR.message_types_by_name['Sentence'] = _SENTENCE
@@ -61,7 +61,7 @@ DESCRIPTOR.message_types_by_name['Sentence'] = _SENTENCE
 Sentence = _reflection.GeneratedProtocolMessageType('Sentence', (_message.Message,), dict(
   DESCRIPTOR = _SENTENCE,
   __module__ = 'FoodBotSim_pb2'
-  # @@protoc_insertion_point(class_scope:FoodBot.Sentence)
+  # @@protoc_insertion_point(class_scope:FoodBotSim.Sentence)
   ))
 _sym_db.RegisterMessage(Sentence)
 
@@ -70,10 +70,10 @@ try:
   # THESE ELEMENTS WILL BE DEPRECATED.
   # Please use the generated *_pb2_grpc.py files instead.
   import grpc
-  from grpc.framework.common import cardinality
-  from grpc.framework.interfaces.face import utilities as face_utilities
   from grpc.beta import implementations as beta_implementations
   from grpc.beta import interfaces as beta_interfaces
+  from grpc.framework.common import cardinality
+  from grpc.framework.interfaces.face import utilities as face_utilities
 
 
   class FoodBotSimRequestStub(object):
@@ -85,7 +85,7 @@ try:
         channel: A grpc.Channel.
       """
       self.GetSimResponse = channel.unary_unary(
-          '/FoodBot.FoodBotSimRequest/GetSimResponse',
+          '/FoodBotSim.FoodBotSimRequest/GetSimResponse',
           request_serializer=Sentence.SerializeToString,
           response_deserializer=Sentence.FromString,
           )
@@ -111,7 +111,7 @@ try:
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'FoodBot.FoodBotSimRequest', rpc_method_handlers)
+        'FoodBotSim.FoodBotSimRequest', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -149,13 +149,13 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
-      ('FoodBot.FoodBotSimRequest', 'GetSimResponse'): Sentence.FromString,
+      ('FoodBotSim.FoodBotSimRequest', 'GetSimResponse'): Sentence.FromString,
     }
     response_serializers = {
-      ('FoodBot.FoodBotSimRequest', 'GetSimResponse'): Sentence.SerializeToString,
+      ('FoodBotSim.FoodBotSimRequest', 'GetSimResponse'): Sentence.SerializeToString,
     }
     method_implementations = {
-      ('FoodBot.FoodBotSimRequest', 'GetSimResponse'): face_utilities.unary_unary_inline(servicer.GetSimResponse),
+      ('FoodBotSim.FoodBotSimRequest', 'GetSimResponse'): face_utilities.unary_unary_inline(servicer.GetSimResponse),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
@@ -168,16 +168,16 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
-      ('FoodBot.FoodBotSimRequest', 'GetSimResponse'): Sentence.SerializeToString,
+      ('FoodBotSim.FoodBotSimRequest', 'GetSimResponse'): Sentence.SerializeToString,
     }
     response_deserializers = {
-      ('FoodBot.FoodBotSimRequest', 'GetSimResponse'): Sentence.FromString,
+      ('FoodBotSim.FoodBotSimRequest', 'GetSimResponse'): Sentence.FromString,
     }
     cardinalities = {
       'GetSimResponse': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'FoodBot.FoodBotSimRequest', cardinalities, options=stub_options)
+    return beta_implementations.dynamic_stub(channel, 'FoodBotSim.FoodBotSimRequest', cardinalities, options=stub_options)
 except ImportError:
   pass
 # @@protoc_insertion_point(module_scope)
