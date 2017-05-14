@@ -307,8 +307,8 @@ def run_valid_test(data_set, mode,sess): # mode: Eval, Test
               word_list.append([rev_vocab[x[0]] for x in encoder_inputs[:sequence_length[0]]])
               ref_tag_list.append([rev_tag_vocab[x[0]] for x in tags[:sequence_length[0]]])
               hyp_tag_list.append([rev_tag_vocab[np.argmax(x)] for x in tagging_logits[:sequence_length[0]]])
-        print (hyp_tag_list)
-        print (hyp_label_list)
+        #print (hyp_tag_list)
+        #print (hyp_label_list)
         return hyp_tag_list,hyp_label_list
 
 
@@ -337,7 +337,7 @@ def languageUnderstanding(userInput):
   in_seq_test, out_seq_test, label_test = data_utils.prepare_multi_task_data_for_testing(FLAGS.data_dir, FLAGS.in_vocab_size, FLAGS.out_vocab_size)     
   test_set = read_data(in_seq_test, out_seq_test, label_test)
   test_tagging_result,test_label_result = run_valid_test(test_set, 'Test', sess) 
-  print (test_tagging_result)
+  #print (test_tagging_result)
   return test_tagging_result , test_label_result
 
 def DST_reset():
@@ -375,7 +375,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
         slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
 
     observation.append([test_label_result[0] ,slots])
-  print ("DST")
+  print ("DST result below:")
   print (slots)
   return slots
 
@@ -390,7 +390,6 @@ def dialogPolicy():
 
   global waitConfirm
   global dialogNum
-  print ("Policy")
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
     waitConfirm.pop(-1)
 
@@ -453,7 +452,7 @@ def dialogPolicy():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
           state['Get_rating'][key] = observation[-1][1][key]
   
-  print ('state : ' ,state)
+  #print ('state : ' ,state)
   if sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
 
@@ -553,7 +552,7 @@ def dialogPolicy():
     fp = open('successRate.txt' ,'w')
     fp.write('Policy Success Rate : %f\n' %(successNum/dialogNum))
     fp.close()
-  print ('system action : ' ,sys_act)
+  print ('Policy system action : ' ,sys_act)
   return sys_act
 
 def nlg(sem_frame, bot):
@@ -616,6 +615,7 @@ def nlg(sem_frame, bot):
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
+    print "Request from GRPC:"
     print (request)
     request.response = json.loads(request.response)
     realSemanticFrame = request.response["semantic_frame"]
@@ -647,6 +647,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       #dictionary to jsonstring
       policyFrameString = json.dumps(policyFrame)
 
+      print "PolicyFrame:"
       print (policyFrame)
       return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
