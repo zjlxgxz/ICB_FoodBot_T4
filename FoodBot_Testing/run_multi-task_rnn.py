@@ -49,15 +49,16 @@ rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
 observation = collections.deque(maxlen=10)
-state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''}}
+state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''} , 'Get_another_restaurant':{'TIMES':''}}
+stateList = []
+changeRestNum = 0
 intents = collections.deque(maxlen=2)
 waitConfirm = []
 dialogNum = 0.0
 successNum = 0.0
+notfoundNum = 0.0
+successRateFileName = 'successRate' + time.time() + '.txt'
 
-textFileName = "record_"+str(time.time())
-LUWrongCount = 0 
-LURightCount = 0
 ##################below for nlg
 #lists needed
 content_list = ["category", "time", "location"]
@@ -377,13 +378,12 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
     observation.append([test_label_result[0] ,slots])
   print ("DST")
   print (slots)
-  return slots
 
 
 def dialogPolicy():
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   sys_act = {'intent':'' ,'content':''}
-  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
+  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':'' ,'TIMES':''}
   needConfirm = False
   needInform = False
   sys_act['content'] = {}
@@ -395,17 +395,18 @@ def dialogPolicy():
     waitConfirm.pop(-1)
 
   if observation[-1][0] == 'Confirm':
-    if waitConfirm[-1][0] == 'confirm':
-      needInform = True
+    if waitConfirm.__len__() != 0:
+      if waitConfirm[-1][0] == 'confirm':
+        needInform = True
 
-    else:
-      for x in range(1 ,11):
-        if waitConfirm[-x][0] == intents[-1]:
-          for key in waitConfirm[-x][1].keys():
-            if key in state[intents[-1]]:
-              state[intents[-1]][key] = waitConfirm[-x][1][key]
-          waitConfirm.pop(-x)
-          break
+      else:
+        for x in range(1 ,11):
+          if waitConfirm[-x][0] == intents[-1]:
+            for key in waitConfirm[-x][1].keys():
+              if key in state[intents[-1]]:
+                state[intents[-1]][key] = waitConfirm[-x][1][key]
+            waitConfirm.pop(-x)
+            break
   elif observation[-1][0] == 'Wrong':
     #waitConfirm = []
     #Really? should we reset here?
@@ -413,6 +414,8 @@ def dialogPolicy():
     DST_reset()
 
   elif observation[-1][0] == 'Inform':
+    if intents[-1] == 'Get_Restaurant':
+      changeRestNum = 0
     for key in observation[-1][1].keys():
       if observation[-1][1][key] != '' and key in state[intents[-1]]:
         if state[intents[-1]][key] != '':
@@ -433,6 +436,10 @@ def dialogPolicy():
         if observation[-1][1][key] != '' and key in state[intents[-1]]:
           if state[intents[-1]][key] == '':
             state[intents[-1]][key] = observation[-1][1][key]
+  
+  elif observation[-1][0] == 'Get_Another_Restaurant':
+    if state['Get_Restaurant']['CATEGORY'] != '' and state['Get_Restaurant']['LOCATION'] != '':
+      changeRestNum += 1
 
   else:    
     if observation[-1][0] == 'Get_Restaurant':
@@ -452,7 +459,8 @@ def dialogPolicy():
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
           state['Get_rating'][key] = observation[-1][1][key]
-  
+
+  stateList.append(state)
   print ('state : ' ,state)
   if sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
@@ -474,10 +482,12 @@ def dialogPolicy():
         sys_act['intent'] = 'inform'
         for key in state[intents[-1]].keys():
           slots[key] = state[intents[-1]][key]
+        slots['TIMES'] = changeRestNum
         sys_act['content'] = search.grabData(intents[-1] ,slots)
         dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+          notfoundNum += 1
         else:
           successNum += 1
         for key in state[intents[-1]].keys():
@@ -506,6 +516,7 @@ def dialogPolicy():
         dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+          notfoundNum += 1
         else:
           successNum += 1
         for key in state[intents[-1]].keys():
@@ -534,6 +545,7 @@ def dialogPolicy():
         dialogNum += 1
         if sys_act['content'] == '':
           sys_act['intent'] = 'not_found'
+          notfoundNum += 1
         else:
           successNum += 1
         for key in state[intents[-1]].keys():
@@ -550,8 +562,9 @@ def dialogPolicy():
     else:
       print ("I don\'t know what to say")
   if dialogNum != 0:
-    fp = open('successRate.txt' ,'w')
+    fp = open(successRateFileName ,'w')
     fp.write('Policy Success Rate : %f\n' %(successNum/dialogNum))
+    fp.write('DB Not Found Rate : %f\n' %(notfoundNum/dialogNum))
     fp.close()
   print ('system action : ' ,sys_act)
   return sys_act
@@ -617,52 +630,23 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
     print (request)
-    request.response = json.loads(request.response)
-    realSemanticFrame = request.response["semantic_frame"]
-    userInput = request.response["nlg_sentence"].lower()
-    if userInput == 'end':
+    userInput = request.response.lower()
+    if userInput == 'reset':
       #reset the dialog state.'
       DST_reset()
-      return FoodBot_pb2.Sentence(response = "")
+      return FoodBot_pb2.Sentence(response = userInput)
     else:
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-      predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
       policyFrame = dialogPolicy()
       nlg_sentence = nlg(policyFrame,1)
 
-      #Calculate the LU accuracy:
-      LURight = semanticComparison(realSemanticFrame,test_label_result,predSlot)
-      if(LURight == True):
-        global LURightCount
-        LURightCount = LURightCount+1
-      else:
-        global LURightCount
-        LUWrongCount = LUWrongCount+1
-      TotalTruns = 1.0*(LUWrongCount + LURightCount)
-
-      fp = open(textFileName ,'w')
-      fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
-      fp.close()
-
       #dictionary to jsonstring
       policyFrameString = json.dumps(policyFrame)
-
-      print (policyFrame)
+      #action = policy(state)
+      #NLG(action)
+      print (test_label_result)
       return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
-
-def semanticComparison(realSem,predIntent,predSlots):
-  if(predIntent.lower() != realSem["intent"].lower()):
-    return False
-  if(predSlots["LOCATION"].lower() != realSem["location"].lower()):
-    return False
-  if(predSlots["TIME"].lower() != realSem["time"].lower()):
-    return False
-  if(predSlots["CATEGORY"].lower() != realSem["category"].lower()):
-    return False
-  if(predSlots["RESTAURANTNAME"].lower() != realSem["restaurantname"].lower()):
-    return False
-  
-
 
 def testing():
   print ('Applying Parameters:')
