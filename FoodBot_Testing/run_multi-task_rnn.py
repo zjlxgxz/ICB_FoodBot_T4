@@ -421,6 +421,7 @@ def dialogPolicy():
     sys_act['intent'] = 'wrong'
     dialogNum += 1
     DST_reset()
+    print ("!!WrongDetected!!")
 
   elif observation[-1][0] == 'Inform':
     if intents[-1] == 'Get_Restaurant':
@@ -572,11 +573,7 @@ def dialogPolicy():
 
     else:
       print ("I don't know what to say")
-  if dialogNum != 0:
-    fp = open(successRateFileName ,'w')
-    fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
-    fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
-    fp.close()
+
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
@@ -677,6 +674,12 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
       fp = open(textFileName ,'w')
       fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
+      fp.close()
+
+      if dialogNum != 0:
+      fp = open(successRateFileName ,'w')
+      fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
+      fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
       fp.close()
 
       #dictionary to jsonstring
