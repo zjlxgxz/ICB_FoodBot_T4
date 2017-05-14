@@ -45,6 +45,8 @@ if __name__ == '__main__':
   			break
   		else:	
   			msgToSend = AgentOutput(msgToSend)
+			if msgToSend == '':
+				break
   			msgToSend = SimOutput(msgToSend)
   	i = i + 1
 

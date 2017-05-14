@@ -240,7 +240,7 @@ def nlg(sem_frame):
 		sentence = random.choice(yes_list)
 	
 	elif sem_frame["intent"] == "no":
-		sentence = "END"
+		sentence = "disagree"
 		#sentence = "No. I was asking for"
 		#if memory["intent"] == "get_restaurant":
 		#	sentence = sentence + " a " + memory["category"] + " restaurant in " + memory["location"] + " for " + memory["time"] + "."

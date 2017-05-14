@@ -418,6 +418,7 @@ def dialogPolicy():
   elif observation[-1][0] == 'Wrong':
     #waitConfirm = []
     #Really? should we reset here?
+    sys_act['intent'] = 'wrong'
     dialogNum += 1
     DST_reset()
 
@@ -470,7 +471,9 @@ def dialogPolicy():
 
   stateList.append(state)
   print ('Now state : ' ,state)
-  if sys_act['intent'] != 'confirm':     
+  if sys_act['intent'] == 'wrong':
+    return ''
+  elif sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
 
       if state[intents[-1]]['LOCATION'] == '':
