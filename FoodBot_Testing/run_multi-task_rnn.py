@@ -396,6 +396,9 @@ def dialogPolicy():
   global waitConfirm
   global dialogNum
   global changeRestNum
+  global notfoundNum
+  global successNum
+  
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
     waitConfirm.pop(-1)
 
