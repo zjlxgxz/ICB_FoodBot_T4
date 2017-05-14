@@ -225,7 +225,7 @@ def simul_user(sys_act):
 	
 	json_list = json.dumps(returnList)
 	print ("json_list Print")
-	print (json_list,returnList)
+	print (json_list)
 	return json_list
 
 
