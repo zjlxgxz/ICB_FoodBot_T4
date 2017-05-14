@@ -224,6 +224,8 @@ def simul_user(sys_act):
 	returnList["semantic_frame"] = sem_frame
 	
 	json_list = json.dumps(returnList)
+	print ("json_list Print")
+	print (json_list,returnList)
 	return json_list
 
 
