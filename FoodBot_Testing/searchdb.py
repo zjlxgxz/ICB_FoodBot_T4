@@ -43,7 +43,7 @@ class SearchDB:
 			#elif intent == 'Get_comment' and slots['RESTAURANTNAME'] != '' :
 			#	pass
 			else :
-				pass
+				print 'match nothing'
 
 			results = cursor.fetchall()
 			#print 'results : ' + str(results)
@@ -62,13 +62,13 @@ class SearchDB:
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
-			print content
+			print 'content : ' ,content
 			return content
 		except MySQLdb.Error as e:
 			return ''
 
 if __name__ == '__main__':
 
-	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'2nd city here?' ,'LOCATION':'adfasdf' ,'TIME':'' ,'TIMES':2}
+	slots = {'CATEGORY':'fancy' ,'RESTAURANTNAME':'2nd city here?' ,'LOCATION':'sunnyside' ,'TIME':'tomorrow' ,'TIMES':2}
 	search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
 	search.grabData('Get_Restaurant' ,slots)
