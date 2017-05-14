@@ -633,12 +633,10 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
     print ("Request from GRPC:")
-    print (request)
     outputFromSim = json.loads(request.response)
     print (outputFromSim)
-    request.response = json.loads(request.response)
-    realSemanticFrame = request.response["semantic_frame"]
-    userInput = request.response["nlg_sentence"].lower()
+    realSemanticFrame = outputFromSim["semantic_frame"]
+    userInput = outputFromSim["nlg_sentence"].lower()
     if userInput == 'end':
       #reset the dialog state.'
       DST_reset()
