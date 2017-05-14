@@ -677,10 +677,10 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       fp.close()
 
       if dialogNum != 0:
-      fp = open(successRateFileName ,'w')
-      fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
-      fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
-      fp.close()
+        fp = open(successRateFileName ,'w')
+        fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
+        fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
+        fp.close()
 
       #dictionary to jsonstring
       policyFrameString = json.dumps(policyFrame)
