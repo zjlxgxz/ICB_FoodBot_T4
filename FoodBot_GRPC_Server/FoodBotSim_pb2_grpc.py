@@ -13,7 +13,7 @@ class FoodBotSimRequestStub(object):
       channel: A grpc.Channel.
     """
     self.GetSimResponse = channel.unary_unary(
-        '/FoodBot.FoodBotSimRequest/GetSimResponse',
+        '/FoodBotSim.FoodBotSimRequest/GetSimResponse',
         request_serializer=FoodBotSim__pb2.Sentence.SerializeToString,
         response_deserializer=FoodBotSim__pb2.Sentence.FromString,
         )
@@ -39,5 +39,5 @@ def add_FoodBotSimRequestServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'FoodBot.FoodBotSimRequest', rpc_method_handlers)
+      'FoodBotSim.FoodBotSimRequest', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

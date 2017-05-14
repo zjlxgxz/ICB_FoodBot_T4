@@ -16,9 +16,9 @@ class SearchDB:
 			cursor = self.db.cursor()
 
 			if intent == 'Get_Restaurant' :
-				sql_query = 'SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s LIMIT 1' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\'')
+				sql_query = 'SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\'')
 				cursor.execute(sql_query)
-				print sql_query
+				#print sql_query
 			elif intent == 'Get_location' and slots['RESTAURANTNAME'] != '' :
 				cursor.execute('SELECT displayAddress FROM restaurant WHERE name LIKE %s LIMIT 1' %('\'%'+slots['RESTAURANTNAME']+'%\''))
 
@@ -31,26 +31,26 @@ class SearchDB:
 				print 'match nothing'
 
 			results = cursor.fetchall()
-			print 'results : ' + str(results)
+			#print 'results : ' + str(results)
 			content = ''
-			for record in results:
-				if intent == 'Get_Restaurant' :
-					content = {'RESTAURANTNAME':str(record[0]) ,'LOCATION':record[5]}
-				elif intent == 'Get_location' :
-					content = {'LOCATION':str(record[0])}
-				elif intent == 'Get_rating' :
-					content = {'RATING':str(record[0])+'/5.0 stars'}
+			if intent == 'Get_Restaurant' :
+				content = {'RESTAURANTNAME':str(results[slots['TIMES']][0]) ,'LOCATION':results[slots['TIMES']][5]}
+			else:
+				for record in results:
+					if intent == 'Get_location' :
+						content = {'LOCATION':str(record[0])}
+					elif intent == 'Get_rating' :
+						content = {'RATING':str(record[0])+'/5.0 stars'}
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
+			#print content
 			return content
 		except MySQLdb.Error as e:
 			return ''
 
 if __name__ == '__main__':
 
-	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
+	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'brooklyn' ,'TIME':'' ,'TIMES':2}
 	search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-	
-	slots['RESTAURANTNAME'] = 'the'
-	search.grabData('Get_rating' ,slots)
+	search.grabData('Get_Restaurant' ,slots)

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='FoodBot.proto',
   package='FoodBot',
   syntax='proto3',
-  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"\x1c\n\x08Sentence\x12\x10\n\x08response\x18\x01 \x01(\t2G\n\x0e\x46oodBotRequest\x12\x35\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x11.FoodBot.Sentence\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"\x1c\n\x08Sentence\x12\x10\n\x08response\x18\x01 \x01(\t\"B\n\x0boutSentence\x12\x14\n\x0cresponse_nlg\x18\x02 \x01(\t\x12\x1d\n\x15response_policy_frame\x18\x03 \x01(\t2J\n\x0e\x46oodBotRequest\x12\x38\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x14.FoodBot.outSentence\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -56,7 +56,46 @@ _SENTENCE = _descriptor.Descriptor(
   serialized_end=54,
 )
 
+
+_OUTSENTENCE = _descriptor.Descriptor(
+  name='outSentence',
+  full_name='FoodBot.outSentence',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='response_nlg', full_name='FoodBot.outSentence.response_nlg', index=0,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='response_policy_frame', full_name='FoodBot.outSentence.response_policy_frame', index=1,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=56,
+  serialized_end=122,
+)
+
 DESCRIPTOR.message_types_by_name['Sentence'] = _SENTENCE
+DESCRIPTOR.message_types_by_name['outSentence'] = _OUTSENTENCE
 
 Sentence = _reflection.GeneratedProtocolMessageType('Sentence', (_message.Message,), dict(
   DESCRIPTOR = _SENTENCE,
@@ -65,15 +104,22 @@ Sentence = _reflection.GeneratedProtocolMessageType('Sentence', (_message.Messag
   ))
 _sym_db.RegisterMessage(Sentence)
 
+outSentence = _reflection.GeneratedProtocolMessageType('outSentence', (_message.Message,), dict(
+  DESCRIPTOR = _OUTSENTENCE,
+  __module__ = 'FoodBot_pb2'
+  # @@protoc_insertion_point(class_scope:FoodBot.outSentence)
+  ))
+_sym_db.RegisterMessage(outSentence)
+
 
 try:
   # THESE ELEMENTS WILL BE DEPRECATED.
   # Please use the generated *_pb2_grpc.py files instead.
   import grpc
-  from grpc.framework.common import cardinality
-  from grpc.framework.interfaces.face import utilities as face_utilities
   from grpc.beta import implementations as beta_implementations
   from grpc.beta import interfaces as beta_interfaces
+  from grpc.framework.common import cardinality
+  from grpc.framework.interfaces.face import utilities as face_utilities
 
 
   class FoodBotRequestStub(object):
@@ -87,7 +133,7 @@ try:
       self.GetResponse = channel.unary_unary(
           '/FoodBot.FoodBotRequest/GetResponse',
           request_serializer=Sentence.SerializeToString,
-          response_deserializer=Sentence.FromString,
+          response_deserializer=outSentence.FromString,
           )
 
 
@@ -107,7 +153,7 @@ try:
         'GetResponse': grpc.unary_unary_rpc_method_handler(
             servicer.GetResponse,
             request_deserializer=Sentence.FromString,
-            response_serializer=Sentence.SerializeToString,
+            response_serializer=outSentence.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -152,7 +198,7 @@ try:
       ('FoodBot.FoodBotRequest', 'GetResponse'): Sentence.FromString,
     }
     response_serializers = {
-      ('FoodBot.FoodBotRequest', 'GetResponse'): Sentence.SerializeToString,
+      ('FoodBot.FoodBotRequest', 'GetResponse'): outSentence.SerializeToString,
     }
     method_implementations = {
       ('FoodBot.FoodBotRequest', 'GetResponse'): face_utilities.unary_unary_inline(servicer.GetResponse),
@@ -171,7 +217,7 @@ try:
       ('FoodBot.FoodBotRequest', 'GetResponse'): Sentence.SerializeToString,
     }
     response_deserializers = {
-      ('FoodBot.FoodBotRequest', 'GetResponse'): Sentence.FromString,
+      ('FoodBot.FoodBotRequest', 'GetResponse'): outSentence.FromString,
     }
     cardinalities = {
       'GetResponse': cardinality.Cardinality.UNARY_UNARY,

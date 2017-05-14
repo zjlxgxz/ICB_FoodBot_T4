@@ -16,6 +16,7 @@ import math
 import os
 import sys
 import time
+import json
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
@@ -54,6 +55,9 @@ waitConfirm = []
 dialogNum = 0.0
 successNum = 0.0
 
+textFileName = "record_"+str(time.time())
+LUWrongCount = 0 
+LURightCount = 0
 ##################below for nlg
 #lists needed
 content_list = ["category", "time", "location"]
@@ -303,8 +307,8 @@ def run_valid_test(data_set, mode,sess): # mode: Eval, Test
               word_list.append([rev_vocab[x[0]] for x in encoder_inputs[:sequence_length[0]]])
               ref_tag_list.append([rev_tag_vocab[x[0]] for x in tags[:sequence_length[0]]])
               hyp_tag_list.append([rev_tag_vocab[np.argmax(x)] for x in tagging_logits[:sequence_length[0]]])
-        print (hyp_tag_list)
-        print (hyp_label_list)
+        #print (hyp_tag_list)
+        #print (hyp_label_list)
         return hyp_tag_list,hyp_label_list
 
 
@@ -333,7 +337,7 @@ def languageUnderstanding(userInput):
   in_seq_test, out_seq_test, label_test = data_utils.prepare_multi_task_data_for_testing(FLAGS.data_dir, FLAGS.in_vocab_size, FLAGS.out_vocab_size)     
   test_set = read_data(in_seq_test, out_seq_test, label_test)
   test_tagging_result,test_label_result = run_valid_test(test_set, 'Test', sess) 
-  print (test_tagging_result)
+  #print (test_tagging_result)
   return test_tagging_result , test_label_result
 
 def DST_reset():
@@ -371,8 +375,9 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
         slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
 
     observation.append([test_label_result[0] ,slots])
-  print ("DST")
+  print ("DST result below:")
   print (slots)
+  return slots
 
 
 def dialogPolicy():
@@ -384,7 +389,7 @@ def dialogPolicy():
   sys_act['content'] = {}
 
   global waitConfirm
-  print ("Policy")
+  global dialogNum
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
     waitConfirm.pop(-1)
 
@@ -447,7 +452,7 @@ def dialogPolicy():
         if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
           state['Get_rating'][key] = observation[-1][1][key]
   
-  print ('state : ' ,state)
+  #print ('state : ' ,state)
   if sys_act['intent'] != 'confirm':     
     if intents[-1] == 'Get_Restaurant':
 
@@ -547,7 +552,7 @@ def dialogPolicy():
     fp = open('successRate.txt' ,'w')
     fp.write('Policy Success Rate : %f\n' %(successNum/dialogNum))
     fp.close()
-  print ('system action : ' ,sys_act)
+  print ('Policy system action : ' ,sys_act)
   return sys_act
 
 def nlg(sem_frame, bot):
@@ -610,21 +615,55 @@ def nlg(sem_frame, bot):
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
+    print "Request from GRPC:"
     print (request)
-    userInput = request.response.lower()
-    if userInput == 'reset':
+    request.response = json.loads(request.response)
+    realSemanticFrame = request.response["semantic_frame"]
+    userInput = request.response["nlg_sentence"].lower()
+    if userInput == 'end':
       #reset the dialog state.'
       DST_reset()
-      return FoodBot_pb2.Sentence(response = userInput)
+      return FoodBot_pb2.Sentence(response = "")
     else:
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+      predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
       policyFrame = dialogPolicy()
       nlg_sentence = nlg(policyFrame,1)
-      #action = policy(state)
-      #NLG(action)
-      print (test_label_result)
-      return FoodBot_pb2.Sentence(response = nlg_sentence)
+
+      #Calculate the LU accuracy:
+      LURight = semanticComparison(realSemanticFrame,test_label_result,predSlot)
+      if(LURight == True):
+        global LURightCount
+        LURightCount = LURightCount+1
+      else:
+        global LURightCount
+        LUWrongCount = LUWrongCount+1
+      TotalTruns = 1.0*(LUWrongCount + LURightCount)
+
+      fp = open(textFileName ,'w')
+      fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
+      fp.close()
+
+      #dictionary to jsonstring
+      policyFrameString = json.dumps(policyFrame)
+
+      print "PolicyFrame:"
+      print (policyFrame)
+      return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
+
+def semanticComparison(realSem,predIntent,predSlots):
+  if(predIntent.lower() != realSem["intent"].lower()):
+    return False
+  if(predSlots["LOCATION"].lower() != realSem["location"].lower()):
+    return False
+  if(predSlots["TIME"].lower() != realSem["time"].lower()):
+    return False
+  if(predSlots["CATEGORY"].lower() != realSem["category"].lower()):
+    return False
+  if(predSlots["RESTAURANTNAME"].lower() != realSem["restaurantname"].lower()):
+    return False
+  
+
 
 def testing():
   print ('Applying Parameters:')

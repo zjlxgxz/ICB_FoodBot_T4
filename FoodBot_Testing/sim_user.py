@@ -230,8 +230,10 @@ def simul_user(sys_act):
 def nlg(sem_frame):
 	print("semantic frame: ", sem_frame)
 	sentence = ""
+
 	if sem_frame["intent"] == "end": #end of the dialogue
 		sentence = "END"
+
 	
 	elif sem_frame["intent"] == "yes":
 		sentence = random.choice(yes_list)
@@ -247,6 +249,7 @@ def nlg(sem_frame):
 	elif sem_frame["intent"] == "wrong_domain":
 		sentence = random.choice(wrong_domain_list)
 		
+
 	elif sem_frame["intent"] == "change": #ask for changing restaurant
 		sentence = random.choice(change_list)
 	
@@ -268,7 +271,7 @@ def nlg(sem_frame):
 			else:
 				pre = ""
 			sentence = pre + sem_frame["time"].capitalize()
-	
+
 	elif sem_frame["intent"] == "get_restaurant":
 		# replace category, replace location with "in xxx", time with "for xxx"
 		sentence = random.choice(get_restaurant_pattern)
@@ -283,11 +286,13 @@ def nlg(sem_frame):
 				if item == "time":
 					prefix = " for "
 				sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
+
 	
 	elif sem_frame["intent"] == "get_location":
 		sentence = random.choice(get_location_pattern)
 		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
 	
+
 	elif sem_frame["intent"] == "get_rating":
 		sentence = random.choice(get_rating_pattern)
 		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
