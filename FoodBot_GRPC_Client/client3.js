@@ -7,13 +7,7 @@ var Foodbot = grpc.load(FB_PROTO_PATH).FoodBot;
 var FoodbotSim = grpc.load(FBS_PROTO_PATH).FoodBotSim;
 var clientSim = new FoodbotSim.FoodBotSimRequest('140.112.49.151:50054', grpc.credentials.createInsecure());
 var clientAgent = new Foodbot.FoodBotRequest('140.112.49.151:50055', grpc.credentials.createInsecure());
-var express = require('express'),
-  app = express(),
-  server = require('http').createServer(app),
-  io = require('socket.io').listen(server);
-app.use('/', express.static(__dirname + '/www'));
 
-server.listen(8081);
 console.log('Server Started');
 
 var msgToSend,responseMsg;
