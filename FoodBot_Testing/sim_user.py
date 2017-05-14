@@ -76,8 +76,9 @@ num_of_quest_info = 0
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetSimResponse (self, request, context):
-    print (request)
-    userInput = request.response
+    userInput = request.response.lower()
+	print ("Output from LU",userInput)
+
     #test_tagging_result,test_label_result = languageUnderstanding(userInput) 
    
     #print (test_label_result)
@@ -144,8 +145,8 @@ def simul_user(sys_act):
 				sem_frame["category"] = random.choice(category_list)
 				memory["category"] = sem_frame["category"]
 
-			#if "rest_name" in sys_act["content"]:
-			#	sem_frame["rest_name"] = random.choice(restaurant_list)
+			#if "restaurantname" in sys_act["content"]:
+			#	sem_frame["restaurantname"] = random.choice(restaurant_list)
 
 		elif sys_act["intent"] == "inform":
 			if num_of_quest_rest == 2 or num_of_quest_info == 1: #quest for more than twice
@@ -154,7 +155,7 @@ def simul_user(sys_act):
 			else:
 				sem_frame["intent"] = "end"
 
-				if "RESTAURANTNAME" in sys_act["content"].keys(): #agent recommended a restaurant
+				if "restaurantname" in sys_act["content"].keys(): #agent recommended a restaurant
 					dec2 = random.randint(0,2)
 					#print("dec2: ", dec2)
 					if dec2 == 0:
@@ -162,7 +163,7 @@ def simul_user(sys_act):
 						num_of_quest_rest = num_of_quest_rest + 1
 					if dec2 == 1:
 						sem_frame["intent"] = "get_rating" #change intent to get rating
-						sem_frame["restaurantname"] = sys_act["content"]["RESTAURANTNAME"]
+						sem_frame["restaurantname"] = sys_act["content"]["restaurantname"]
 						num_of_quest_rest = num_of_quest_rest + 1
 				
 				else:
@@ -224,13 +225,11 @@ def simul_user(sys_act):
 	returnList["semantic_frame"] = sem_frame
 	
 	json_list = json.dumps(returnList)
-	print ("json_list Print")
-	print (json_list)
 	return json_list
 
 
 def nlg(sem_frame):
-	print("semantic frame: ", sem_frame)
+	print("semantic frame to LU: ", sem_frame)
 	sentence = ""
 
 	if sem_frame["intent"] == "end": #end of the dialogue
