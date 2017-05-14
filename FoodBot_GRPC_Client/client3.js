@@ -45,7 +45,7 @@ function runSimRequest(callback) {
 }
 
 var i = 0;
-while(i < 10){
+while(i < 2){
   console.log('start talk')
   var user = 'SUser';
   var msgToSend = 'init';

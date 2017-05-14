@@ -634,6 +634,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   def GetResponse (self, request, context):
     print ("Request from GRPC:")
     print (request)
+    outputFromSim = json.loads(request.response)
+    print (outputFromSim)
     request.response = json.loads(request.response)
     realSemanticFrame = request.response["semantic_frame"]
     userInput = request.response["nlg_sentence"].lower()
