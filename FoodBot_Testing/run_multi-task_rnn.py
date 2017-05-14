@@ -568,7 +568,7 @@ def dialogPolicy():
         waitConfirm.append(['confirm' ,sys_act['content']])
 
     else:
-      print ("I don\'t know what to say")
+      print ("I don't know what to say")
   if dialogNum != 0:
     fp = open(successRateFileName ,'w')
     fp.write('Policy Success Rate : %f\n' %(successNum/dialogNum))
@@ -588,6 +588,8 @@ def nlg(sem_frame, bot):
         sentence = sentence + random.choice(request_location_pattern) + " "
       if "TIME" in keys:
         sentence = sentence + random.choice(request_time_pattern)
+      if "RESTAURANTNAME" in keys:
+        sentence = "Which restaurant again, please?"
   
     if sem_frame["intent"] == "confirm_restaurant":
       keys = sem_frame["content"].keys()
@@ -612,16 +614,16 @@ def nlg(sem_frame, bot):
     
     if sem_frame["intent"] == "inform":
       #for recommendation
-      if sem_frame["content"]["RESTAURANTNAME"]:
+      if "RESTAURANTNAME" in sem_frame["content"].keys():
         sentence = random.choice(recommend_pattern)
         sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
         sentence = sentence + " It's in " + sem_frame["content"]["LOCATION"] + "."
       
       else:
         #for restaurant info
-        if sem_frame["content"]["LOCATION"]:
+        if "LOCATION" in sem_frame["content"].keys():
           sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
-        if sem_frame["content"]["RATING"]:
+        if "RATING" in sem_frame["content"].keys():
           sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
 
     if sem_frame["intent"] == "not_found":
