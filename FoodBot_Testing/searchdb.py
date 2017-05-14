@@ -15,13 +15,21 @@ class SearchDB:
 		try:
 			cursor = self.db.cursor()
 			tmp = []
+			restname = []
+			i=0
+			
 			if slots['RESTAURANTNAME'] != '':
 				tmp = slots['RESTAURANTNAME'].split(' ')
 				if tmp[-1].__contains__('?') or tmp[-1].__contains__('.'):
 					tmp[-1] = ''
-					tmp[-2] = ''
-					slots['RESTAURANTNAME'] = ' '.join(tmp)
-
+					if tmp.__len__() > 3:
+						tmp[-2] = ''
+					for i in range(tmp.__len__()):
+						if tmp[i] != '':
+							restname.append(tmp[i])
+					slots['RESTAURANTNAME'] = ' '.join(restname)
+			print slots['RESTAURANTNAME']
+			
 			if intent == 'Get_Restaurant' :
 				sql_query = 'SELECT * FROM restaurant WHERE categories LIKE %s and displayAddress LIKE %s' %('\'%'+slots['CATEGORY']+'%\'' ,'\'%'+slots['LOCATION']+'%\'')
 				cursor.execute(sql_query)
@@ -51,13 +59,13 @@ class SearchDB:
 			#	elif intent == 'Get_comment' :
 			#		pass
 			self.db.close()
-			#print content
+			print content
 			return content
 		except MySQLdb.Error as e:
 			return ''
 
 if __name__ == '__main__':
 
-	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'brooklyn' ,'TIME':'' ,'TIMES':2}
+	slots = {'CATEGORY':'' ,'RESTAURANTNAME':'2nd city here?' ,'LOCATION':'brooklyn' ,'TIME':'' ,'TIMES':2}
 	search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-	search.grabData('Get_Restaurant' ,slots)
+	search.grabData('Get_location' ,slots)
