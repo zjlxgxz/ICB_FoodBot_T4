@@ -77,7 +77,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetSimResponse (self, request, context):
     print (request)
-    userInput = request.response.lower()
+    userInput = request.response
     #test_tagging_result,test_label_result = languageUnderstanding(userInput) 
    
     #print (test_label_result)
