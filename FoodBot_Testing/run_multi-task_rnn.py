@@ -650,6 +650,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       #Calculate the LU accuracy:
       LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
       global LURightCount
+      global LUWrongCount
       if(LURight == True):
         LURightCount = LURightCount+1
       else:
