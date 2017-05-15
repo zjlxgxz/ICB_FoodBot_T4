@@ -667,18 +667,19 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       nlg_sentence = nlg(policyFrame,1)
 
       #Calculate the LU accuracy:
-      LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
-      global LURightCount
-      global LUWrongCount
-      if(LURight == True):
-        LURightCount = LURightCount+1
-      else:
-        LUWrongCount = LUWrongCount+1
-      TotalTruns = 1.0*(LUWrongCount + LURightCount)
+      if not realSemanticFrame ：
+        LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
+        global LURightCount
+        global LUWrongCount
+        if(LURight == True):
+          LURightCount = LURightCount+1
+        else:
+          LUWrongCount = LUWrongCount+1
+        TotalTruns = 1.0*(LUWrongCount + LURightCount)
 
-      fp = open(textFileName ,'w')
-      fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
-      fp.close()
+        fp = open(textFileName ,'w')
+        fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
+        fp.close()
 
       if dialogNum != 0:
         fp = open(successRateFileName ,'w')
