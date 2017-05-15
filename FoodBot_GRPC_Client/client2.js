@@ -48,7 +48,7 @@ io.on('connection', function(socket){
     //call SUser to get intent
     async.series([runRequest,function(callback){
         console.log('Return to index1: '+ responseMsg);
-        socket.emit('newMsg', 'SUser', responseMsg, 'red');
+        socket.emit('newMsg', 'FoodBot', responseMsg, 'red');
     }]);
   })
 });
