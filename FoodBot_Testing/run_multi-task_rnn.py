@@ -428,9 +428,13 @@ def dialogPolicy():
       changeRestNum = 0
     for key in observation[-1][1].keys():
       if observation[-1][1][key] != '' and key in state[intents[-1]]:
+        state[intents[-1]][key] = observation[-1][1][key]
+    '''
+    for key in observation[-1][1].keys():
+      if observation[-1][1][key] != '' and key in state[intents[-1]]:
         if state[intents[-1]][key] != '':
           needConfirm = True
-
+    
     if needConfirm:
       needConfirm = False
       sys_act['intent'] = 'confirm'
@@ -440,7 +444,7 @@ def dialogPolicy():
       waitConfirm.append([intents[-1] ,sys_act['content']])
       #print ('wait confirm : ')
       #print (waitConfirm[-1])
-
+    '''
     else:
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[intents[-1]]:
