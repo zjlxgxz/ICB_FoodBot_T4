@@ -1,0 +1,9 @@
+_UNK
+Confirm
+Get_Another_Restaurant
+Get_Restaurant
+Get_comment
+Get_location
+Get_rating
+Inform
+Wrong
