@@ -26,7 +26,7 @@ function runRequest(callback) {
       console.log('Result:' + outSentence.response_nlg);
       console.log('Only pass outSentence.response_policy_frame');
 
-      responseMsg = outSentence.response_policy_frame;
+      responseMsg = outSentence.response_nlg;
       console.log('responseMsg: '+outSentence.response_policy_frame);
       callback();
     }
