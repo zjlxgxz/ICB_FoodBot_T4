@@ -321,6 +321,6 @@ if __name__ == "__main__":
 	try:
 		while True:
 			# openface_GetXXXXXX will be responsed if any incoming request is received.
-			time.sleep(24*60*60)
+			time.sleep(48*60*60)
 	except KeyboardInterrupt:
 		server.stop(0)
