@@ -661,35 +661,35 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       userInput = userInput.replace("!", "")
 
 
-      test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-      predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
-      policyFrame = dialogPolicy()
-      nlg_sentence = nlg(policyFrame,1)
+    test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+    predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+    policyFrame = dialogPolicy()
+    nlg_sentence = nlg(policyFrame,1)
 
-      #Calculate the LU accuracy:
-      if realSemanticFrame != ""：
-        LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
-        global LURightCount
-        global LUWrongCount
-        if(LURight == True):
-          LURightCount = LURightCount+1
-        else:
-          LUWrongCount = LUWrongCount+1
-        TotalTruns = 1.0*(LUWrongCount + LURightCount)
+    #Calculate the LU accuracy:
+    if realSemanticFrame != "":
+      LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
+      global LURightCount
+      global LUWrongCount
+      if(LURight == True):
+        LURightCount = LURightCount+1
+      else:
+        LUWrongCount = LUWrongCount+1
+      TotalTruns = 1.0*(LUWrongCount + LURightCount)
 
-        fp = open(textFileName ,'w')
-        fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
-        fp.close()
+      fp = open(textFileName ,'w')
+      fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
+      fp.close()
 
-      if dialogNum != 0:
-        fp = open(successRateFileName ,'w')
-        fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
-        fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
-        fp.close()
+    if dialogNum != 0:
+      fp = open(successRateFileName ,'w')
+      fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
+      fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
+      fp.close()
 
-      #dictionary to jsonstring
-      policyFrameString = json.dumps(policyFrame)
-      return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
+    #dictionary to jsonstring
+    policyFrameString = json.dumps(policyFrame)
+    return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
 def semanticComparison(realSem,predIntent,predSlots):
   print ("---------")
