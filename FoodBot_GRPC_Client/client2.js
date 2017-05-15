@@ -37,7 +37,7 @@ function runRequest(callback) {
   var sentence = {response:JsonString}
 
   console.log("sentence: "+ JSON.stringify(sentence));
-  client.getResponse(JSON.stringify(sentence), featureCallback);
+  client.getResponse(sentence, featureCallback);
 }
 
 io.on('connection', function(socket){

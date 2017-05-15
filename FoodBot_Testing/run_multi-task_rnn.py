@@ -649,6 +649,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print (request.response)
     outputFromSim = json.loads(request.response)
     print (outputFromSim)
+    print (type(outputFromSim))
     realSemanticFrame = outputFromSim["semantic_frame"]
     userInput = outputFromSim["nlg_sentence"].lower()
     if userInput == 'end':
