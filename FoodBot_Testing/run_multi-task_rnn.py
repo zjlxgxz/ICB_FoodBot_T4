@@ -649,7 +649,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print (request.response)
     outputFromSim = json.loads(request.response)
     print (outputFromSim)
-    if(type(outputFromSim).__name__ == 'unicode')
+    if(type(outputFromSim).__name__ == 'unicode'):
       outputFromSim = json.loads(outputFromSim)
     print (type(outputFromSim)) #<type 'unicode'> <type 'dict'>
     realSemanticFrame = outputFromSim["semantic_frame"]
