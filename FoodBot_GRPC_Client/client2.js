@@ -51,4 +51,18 @@ io.on('connection', function(socket){
         socket.emit('newMsg', 'FoodBot', responseMsg, 'red');
     }]);
   })
+  socket.on('postMsgToServer',function(msg) {
+    console.log('input msg: ' + msg);
+    msgToSend = msg;
+    console.log('input msgToSend: ' + msgToSend);
+    //call SUser to get intent
+    async.series([runRequest,function(callback){
+        console.log('Return to index1: '+ responseMsg);
+        var data = {
+          message: responseMsg,
+          username: 'FoodBot'
+        };
+        socket.emit('newMsgToApp', data);
+    }]);
+  })
 });
