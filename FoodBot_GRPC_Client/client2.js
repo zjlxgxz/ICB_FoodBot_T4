@@ -4,7 +4,7 @@ var async = require('async');
 var _ = require('lodash');
 var grpc = require('grpc');
 var Foodbot = grpc.load(PROTO_PATH).FoodBot;
-var client = new Foodbot.FoodBotRequest('localhost:50055', grpc.credentials.createInsecure());
+var client = new Foodbot.FoodBotRequest('140.112.49.151:50055', grpc.credentials.createInsecure());
 var express = require('express'),
   app = express(),
   server = require('http').createServer(app),
@@ -31,8 +31,13 @@ function runRequest(callback) {
       callback();
     }
   }
-  var sentence = {response:msgToSend}
-  client.getResponse(sentence, featureCallback);
+  
+  var j='{"semantic_frame":"","nlg_sentence":"'+ msgToSend +'"}';
+  JsonString = JSON.stringify(j) ;
+  var sentence = {response:JsonString}
+
+  console.log("sentence: "+ JSON.stringify(sentence));
+  client.getResponse(JSON.stringify(sentence), featureCallback);
 }
 
 io.on('connection', function(socket){
