@@ -1,7 +1,0 @@
-_UNK
-Confirm
-Get_Restaurant
-Get_comment
-Get_location
-Get_rating
-Wrong
