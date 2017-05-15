@@ -646,6 +646,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
     print ("Request from simuser:")
+    print (request.response)
     outputFromSim = json.loads(request.response)
     print (outputFromSim)
     realSemanticFrame = outputFromSim["semantic_frame"]
