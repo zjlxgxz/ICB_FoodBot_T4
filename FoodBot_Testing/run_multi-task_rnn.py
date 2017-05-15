@@ -444,13 +444,13 @@ def dialogPolicy():
       waitConfirm.append([intents[-1] ,sys_act['content']])
       #print ('wait confirm : ')
       #print (waitConfirm[-1])
-    '''
+    
     else:
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[intents[-1]]:
           if state[intents[-1]][key] == '':
             state[intents[-1]][key] = observation[-1][1][key]
-  
+    '''
   elif observation[-1][0] == 'Get_Another_Restaurant':
     if state['Get_Restaurant']['CATEGORY'] != '' and state['Get_Restaurant']['LOCATION'] != '':
       changeRestNum += 1
