@@ -421,15 +421,20 @@ def dialogPolicy():
     sys_act['intent'] = 'wrong'
     dialogNum += 1
     DST_reset()
+    print ("!!WrongDetected!!")
 
   elif observation[-1][0] == 'Inform':
     if intents[-1] == 'Get_Restaurant':
       changeRestNum = 0
     for key in observation[-1][1].keys():
       if observation[-1][1][key] != '' and key in state[intents[-1]]:
+        state[intents[-1]][key] = observation[-1][1][key]
+    '''
+    for key in observation[-1][1].keys():
+      if observation[-1][1][key] != '' and key in state[intents[-1]]:
         if state[intents[-1]][key] != '':
           needConfirm = True
-
+    
     if needConfirm:
       needConfirm = False
       sys_act['intent'] = 'confirm'
@@ -439,13 +444,13 @@ def dialogPolicy():
       waitConfirm.append([intents[-1] ,sys_act['content']])
       #print ('wait confirm : ')
       #print (waitConfirm[-1])
-
+    
     else:
       for key in observation[-1][1].keys():
         if observation[-1][1][key] != '' and key in state[intents[-1]]:
           if state[intents[-1]][key] == '':
             state[intents[-1]][key] = observation[-1][1][key]
-  
+    '''
   elif observation[-1][0] == 'Get_Another_Restaurant':
     if state['Get_Restaurant']['CATEGORY'] != '' and state['Get_Restaurant']['LOCATION'] != '':
       changeRestNum += 1
@@ -572,11 +577,7 @@ def dialogPolicy():
 
     else:
       print ("I don't know what to say")
-  if dialogNum != 0:
-    fp = open(successRateFileName ,'w')
-    fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
-    fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
-    fp.close()
+
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
@@ -645,8 +646,12 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
     print ("Request from simuser:")
+    print (request.response)
     outputFromSim = json.loads(request.response)
     print (outputFromSim)
+    if(type(outputFromSim).__name__ == 'unicode'):
+      outputFromSim = json.loads(outputFromSim)
+    print (type(outputFromSim)) #<type 'unicode'> <type 'dict'>
     realSemanticFrame = outputFromSim["semantic_frame"]
     userInput = outputFromSim["nlg_sentence"].lower()
     if userInput == 'end':
@@ -660,12 +665,13 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       userInput = userInput.replace("!", "")
 
 
-      test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-      predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
-      policyFrame = dialogPolicy()
-      nlg_sentence = nlg(policyFrame,1)
+    test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+    predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
+    policyFrame = dialogPolicy()
+    nlg_sentence = nlg(policyFrame,1)
 
-      #Calculate the LU accuracy:
+    #Calculate the LU accuracy:
+    if realSemanticFrame != "":
       LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
       global LURightCount
       global LUWrongCount
@@ -679,22 +685,39 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
       fp.close()
 
-      #dictionary to jsonstring
-      policyFrameString = json.dumps(policyFrame)
-      return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
+    if dialogNum != 0:
+      fp = open(successRateFileName ,'w')
+      fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
+      fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
+      fp.close()
+
+    #dictionary to jsonstring
+    policyFrameString = json.dumps(policyFrame)
+    return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
 
 def semanticComparison(realSem,predIntent,predSlots):
+  print ("---------")
+  print("real seam:",realSem)
+  print("pred seam:",predSlots )
+  print("pred inte:",predIntent )
+  print ("---------")
+  
+  #conversion
+  if predIntent == "Confirm":
+    predIntent = "yes"
+
   if(predIntent.lower() != realSem["intent"].lower()):
     return False
-  if(predSlots["LOCATION"].lower() != realSem["location"].lower()):
+  elif(predSlots["LOCATION"].lower() != realSem["location"].lower()):
     return False
-  if(predSlots["TIME"].lower() != realSem["time"].lower()):
+  elif(predSlots["TIME"].lower() != realSem["time"].lower()):
     return False
-  if(predSlots["CATEGORY"].lower() != realSem["category"].lower()):
+  elif(predSlots["CATEGORY"].lower() != realSem["category"].lower()):
     return False
-  if(predSlots["RESTAURANTNAME"].lower() != realSem["restaurantname"].lower()):
+  elif(predSlots["RESTAURANTNAME"].lower() != realSem["restaurantname"].lower()):
     return False
-  
+  else:
+    return True
 
 
 def testing():
@@ -745,7 +768,7 @@ def testing():
   try:
     while True:
       # openface_GetXXXXXX will be responsed if any incoming request is received.
-      time.sleep(24*60*60)
+      time.sleep(48*60*60)
   except KeyboardInterrupt:
     server.stop(0)
 

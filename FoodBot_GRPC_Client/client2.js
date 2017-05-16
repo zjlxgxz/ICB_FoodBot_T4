@@ -4,7 +4,7 @@ var async = require('async');
 var _ = require('lodash');
 var grpc = require('grpc');
 var Foodbot = grpc.load(PROTO_PATH).FoodBot;
-var client = new Foodbot.FoodBotRequest('localhost:50055', grpc.credentials.createInsecure());
+var client = new Foodbot.FoodBotRequest('140.112.49.151:50055', grpc.credentials.createInsecure());
 var express = require('express'),
   app = express(),
   server = require('http').createServer(app),
@@ -26,12 +26,17 @@ function runRequest(callback) {
       console.log('Result:' + outSentence.response_nlg);
       console.log('Only pass outSentence.response_policy_frame');
 
-      responseMsg = outSentence.response_policy_frame;
+      responseMsg = outSentence.response_nlg;
       console.log('responseMsg: '+outSentence.response_policy_frame);
       callback();
     }
   }
-  var sentence = {response:msgToSend}
+  
+  var j='{"semantic_frame":"","nlg_sentence":"'+ msgToSend +'"}';
+  JsonString = JSON.stringify(j) ;
+  var sentence = {response:JsonString}
+
+  console.log("sentence: "+ JSON.stringify(sentence));
   client.getResponse(sentence, featureCallback);
 }
 
@@ -43,7 +48,21 @@ io.on('connection', function(socket){
     //call SUser to get intent
     async.series([runRequest,function(callback){
         console.log('Return to index1: '+ responseMsg);
-        socket.emit('newMsg', 'SUser', responseMsg, 'red');
+        socket.emit('newMsg', 'FoodBot', responseMsg, 'red');
+    }]);
+  })
+  socket.on('postMsgToServer',function(msg) {
+    console.log('input msg: ' + msg);
+    msgToSend = msg.message;
+    console.log('input msgToSend: ' + msgToSend);
+    //call SUser to get intent
+    async.series([runRequest,function(callback){
+        console.log('Return to index1: '+ responseMsg);
+        var data = {
+          message: responseMsg,
+          username: 'FoodBot'
+        };
+        socket.emit('newMsgToApp', data);
     }]);
   })
 });

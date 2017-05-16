@@ -12,7 +12,7 @@ FoodBot.prototype = {
 		var that = this;
 		this.socket = io.connect();
 		this.socket.on('connect', function() {
-			that.socket.emit('postMsg','init');
+			//that.socket.emit('postMsg','init');
 			//query simUserSays replace this part
 			//that._displayNewMsg('SUser',msg,'red');
 		});
@@ -29,7 +29,7 @@ FoodBot.prototype = {
 			messageInput.focus();
 			if(msg.trim().length !=0){
 				that.socket.emit('postMsg', msg);
-				that._displayNewMsg('me',msg);
+				that._displayNewMsg('me',msg, 'green');
 			};
 		},false);
 	},
