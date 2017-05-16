@@ -622,7 +622,7 @@ def nlg(sem_frame, bot):
       if "RESTAURANTNAME" in sem_frame["content"].keys():
         sentence = random.choice(recommend_pattern)
         sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
-        sentence = sentence + " It's in " + sem_frame["content"]["LOCATION"] + "."
+        sentence = sentence.capitalize() + " It's in " + sem_frame["content"]["LOCATION"] + "."
       
       else:
         #for restaurant info
@@ -635,7 +635,7 @@ def nlg(sem_frame, bot):
       sentence = "Sorry! I don't have the information you're looking for. Please try another one."
   
     if not sem_frame["intent"]:
-      sentence = "Sorry! Please try again."
+      sentence = "Sorry, I don't understand! Please try again..."
   else:
     sentence = "The variable bot should be 1!"
   
