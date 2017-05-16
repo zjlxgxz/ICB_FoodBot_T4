@@ -53,7 +53,7 @@ io.on('connection', function(socket){
   })
   socket.on('postMsgToServer',function(msg) {
     console.log('input msg: ' + msg);
-    msgToSend = msg;
+    msgToSend = msg.message;
     console.log('input msgToSend: ' + msgToSend);
     //call SUser to get intent
     async.series([runRequest,function(callback){
