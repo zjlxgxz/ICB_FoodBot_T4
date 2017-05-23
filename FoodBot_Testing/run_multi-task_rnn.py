@@ -49,7 +49,7 @@ rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
 observation = collections.deque(maxlen=10)
-state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''} , 'Get_another_restaurant':{'TIMES':''}}
+state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''} , 'Get_another_restaurant':'', 'Inform':{'RESTAURANTNAME':'', 'LOCATION':'', 'CATEGORY':'', 'TIME':''}, 'Confirm':'', 'Wrong':''}
 stateList = []
 changeRestNum = 0
 intents = collections.deque(maxlen=2)
@@ -392,6 +392,8 @@ def dialogPolicy():
   needConfirm = False
   needInform = False
   sys_act['content'] = {}
+  state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''} , 'Get_Another_Restaurant':'', 'Confirm':'', 'Wrong':''}
+  
 
   global waitConfirm
   global dialogNum
@@ -402,7 +404,12 @@ def dialogPolicy():
   if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
     waitConfirm.pop(-1)
 
+  state['Confirm'] = False
+  state['Wrong'] = False
+  state['Get_Another_Restaurant'] = False
+
   if observation[-1][0] == 'Confirm':
+  	state['Confirm'] = True
     if waitConfirm.__len__() != 0:
       if waitConfirm[-1][0] == 'confirm':
         needInform = True
@@ -418,7 +425,7 @@ def dialogPolicy():
   elif observation[-1][0] == 'Wrong':
     #waitConfirm = []
     #Really? should we reset here?
-    sys_act['intent'] = 'wrong'
+    state['Wrong'] = True
     dialogNum += 1
     DST_reset()
     print ("!!WrongDetected!!")
@@ -453,8 +460,8 @@ def dialogPolicy():
     '''
   elif observation[-1][0] == 'Get_Another_Restaurant':
     if state['Get_Restaurant']['CATEGORY'] != '' and state['Get_Restaurant']['LOCATION'] != '':
+      state['Get_Another_Restaurant'] = True
       changeRestNum += 1
-
   else:    
     if observation[-1][0] == 'Get_Restaurant':
       intents.append('Get_Restaurant')
@@ -476,6 +483,149 @@ def dialogPolicy():
 
   stateList.append(state)
   print ('Now state : ' ,state)
+
+  #translate state to vector
+  vector = [[0]*11,['Get_Restaurant','','','','Get_location','','Get_rating','','Get_Another_Restaurant','Confirm','Wrong']]
+  if observation[-1][0] == 'Get_Restaurant':
+    vector[0][0] = 1
+  elif observation[-1][0] == 'Get_location':
+    vector[0][4] = 1
+  elif observation[-1][0] == 'Get_rating':
+    vector[0][6] = 1
+  elif observation[-1][0] == 'Get_Another_Restaurant':
+    vector[0][8] = 1
+  elif observation[-1][0] == 'Confirm':
+    vector[0][9] = 1
+  elif observation[-1][0] == 'Wrong':
+    vector[0][10] = 1
+  if state['Get_Restaurant']['LOCATION'] != '':
+    vector[0][1] = 1
+    vector[1][1] = state['Get_Restaurant']['LOCATION']
+  if state['Get_Restaurant']['CATEGORY'] != '':
+    vector[0][2] = 1
+    vector[1][2] = state['Get_Restaurant']['CATEGORY']
+  if state['Get_Restaurant']['TIME'] != '':
+    vector[0][3] = 1
+    vector[1][3] = state['Get_Restaurant']['TIME']
+  if state['Get_location']['RESTAURANTNAME'] != '':
+    vector[0][5] = 1
+    vector[1][5] = state['Get_location']['RESTAURANTNAME']
+  if state['Get_rating']['RESTAURANTNAME'] != '':
+    vector[0][7] = 1
+    vector[1][7] = state['Get_rating']['RESTAURANTNAME']
+  print vector
+  #===============
+  # input vector[0] : bits
+  #		  vector[1] : value
+  #      DQN
+  #	output action
+  #===============
+
+  #request location
+  if action == 0:
+    sys_act['intent'] = 'request'
+    sys_act['content'] = {'LOCATION':''}
+
+  #request category
+  elif action == 1:
+    sys_act['intent'] = 'request'
+    sys_act['content'] = {'CATEGORY':''}
+
+  #request time
+  elif action == 2:
+    sys_act['intent'] = 'request'
+    sys_act['content'] = {'TIME':''}
+
+  #request restaurant name
+  elif action == 3: 
+    sys_act['intent'] = 'request'
+    sys_act['content'] = {'RESTAURANTNAME':''}
+
+  #inform Get_restaurant
+  elif action == 4:
+    sys_act['intent'] = 'inform'
+    for key in state[intents[-1]].keys():
+      slots[key] = state[intents[-1]][key]
+    sys_act['content'] = search.grabData(intents[-1] ,slots)
+    dialogNum += 1
+    if sys_act['content'] == '':
+      sys_act['intent'] = 'not_found'
+      notfoundNum += 1
+    else:
+      successNum += 1
+    for key in state[intents[-1]].keys():
+      state[intents[-1]][key] = ''
+    waitConfirm.pop(-1)
+
+  #inform Get_Another_Restaurant
+  elif action == 5: 
+    sys_act['intent'] = 'inform'
+    for key in state[intents[-1]].keys():
+      slots[key] = state[intents[-1]][key]
+    slots['TIMES'] = changeRestNum
+    sys_act['content'] = search.grabData(intents[-1] ,slots)
+    dialogNum += 1
+    if sys_act['content'] == '':
+      sys_act['intent'] = 'not_found'
+      notfoundNum += 1
+    else:
+      successNum += 1
+    for key in state[intents[-1]].keys():
+      state[intents[-1]][key] = ''
+    waitConfirm.pop(-1)
+
+  #inform Get_Rating
+  elif action == 6:
+    sys_act['intent'] = 'inform'
+    for key in state[intents[-1]].keys():
+      slots[key] = state[intents[-1]][key]
+    sys_act['content'] = search.grabData(intents[-1] ,slots)
+    dialogNum += 1
+    if sys_act['content'] == '':
+      sys_act['intent'] = 'not_found'
+      notfoundNum += 1
+    else:
+      successNum += 1
+    for key in state[intents[-1]].keys():
+      state[intents[-1]][key] = ''
+    waitConfirm.pop(-1)
+
+  #inform Get_Location
+  elif action == 7:
+    sys_act['intent'] = 'inform'
+    for key in state[intents[-1]].keys():
+      slots[key] = state[intents[-1]][key]
+    sys_act['content'] = search.grabData(intents[-1] ,slots)
+    dialogNum += 1
+    if sys_act['content'] == '':
+      sys_act['intent'] = 'not_found'
+      notfoundNum += 1
+    else:
+      successNum += 1
+    for key in state[intents[-1]].keys():
+      state[intents[-1]][key] = ''
+    waitConfirm.pop(-1)
+
+  #confirm_restaurant
+  elif action == 8:
+    sys_act['intent'] = 'confirm_restaurant'
+    for key in state[intents[-1]].keys():
+      sys_act['content'][key] = state[intents[-1]][key]
+    waitConfirm.append(['confirm' ,sys_act['content']])
+
+  #confirm_info
+  elif action == 9:
+    sys_act['intent'] = 'confirm_info'
+    for key in state[intents[-1]].keys():
+      sys_act['content'][key] = state[intents[-1]][key]
+    sys_act['content']['LOCATION'] = ''
+    waitConfirm.append(['confirm' ,sys_act['content']])
+
+  #wrong
+  elif action == 10:
+  	return ''
+
+  '''
   if sys_act['intent'] == 'wrong':
     return ''
   elif sys_act['intent'] != 'confirm':     
@@ -577,7 +727,7 @@ def dialogPolicy():
 
     else:
       print ("I don't know what to say")
-
+	'''
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
