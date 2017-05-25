@@ -12,7 +12,7 @@ import FoodBotSim_pb2
 
 
 def AgentOutput(rawdata):
-  channel = grpc.insecure_channel('140.112.49.151:50055')
+  channel = grpc.insecure_channel('127.0.0.1:50055')
   stub = FoodBot_pb2.FoodBotRequestStub(channel)
 
   request = FoodBot_pb2.Sentence(response = rawdata)
@@ -24,7 +24,7 @@ def AgentOutput(rawdata):
 
 
 def SimOutput(rawdata):
-  channel = grpc.insecure_channel('140.112.49.151:50054')
+  channel = grpc.insecure_channel('127.0.0.1:50054')
   stub = FoodBotSim_pb2.FoodBotSimRequestStub(channel)
 
   request = FoodBotSim_pb2.Sentence(response = rawdata)
