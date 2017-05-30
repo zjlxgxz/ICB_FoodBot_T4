@@ -29,6 +29,8 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       #do something
       print(request.currentState)
       print(request.currentState[0])
+      currentState = list(request.currentState)
+      print(currentState)
       print(request.formerAction)
       return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
 
