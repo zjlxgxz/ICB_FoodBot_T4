@@ -36,8 +36,15 @@ import FoodBot_pb2
 from concurrent import futures
 import collections
 import random
+#GRPC for RL agent.
+import FoodBotRLAgent_pb2
 
 from searchdb import SearchDB
+
+#GRPC RL connection
+channel = grpc.insecure_channel('localhost:50053')
+stub = FoodBotRLAgent_pb2.FoodBotRequestStub(channel)
+
 
 #global vars
 model_test =  0
@@ -62,6 +69,9 @@ successRateFileName = 'successRate' + str(time.time()) + '.txt'
 textFileName = "record_"+str(time.time())
 LUWrongCount = 0 
 LURightCount = 0
+################## below for state
+formerState = [] #To remember the former state
+
 ##################below for nlg
 #lists needed
 content_list = ["category", "time", "location"]
@@ -353,6 +363,8 @@ def DST_reset():
     intents[x] = ''
   for x in range(observation.__len__()):
     observation[x] = []
+  global formerState
+  formerState = []
 
 def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
@@ -518,8 +530,24 @@ def dialogPolicy():
   # input vector[0] : bits
   #		  vector[1] : value
   #      DQN
+  #  Update model first
+  #  Then, make decisions
   #	output action
   #===============
+
+  global formerState
+  feedbackReward  = 0
+  action = 0
+  currentState = vector[0:]
+
+  #TODO
+  # update the model(reward, currentState, formerState )
+  # Has connected with the RL agent GRPC at beginning
+  request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
+  policy = stub.GetResponse(request)
+  print ("RL agent Policy Choice:",policy)
+  action = policy
+  formerState = currentState
 
   #request location
   if action == 0:

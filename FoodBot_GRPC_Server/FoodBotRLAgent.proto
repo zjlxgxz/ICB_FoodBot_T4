@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package FoodBot;
+
+service FoodBotRequest
+{
+//Input NLG
+//Output NLG 
+	rpc GetResponse(EnvornmentInfomration) returns (Policy){}
+}
+
+message Policy
+{
+	int32 policyNumber = 1;
+}
+
+message EnvornmentInfomration
+{
+	string formerState = 2;
+	string currentState = 3;
+	string rewardForTheFormer = 4;
+	string formerAction = 5;
+	bool   shouldTerminate = 6;
+}
