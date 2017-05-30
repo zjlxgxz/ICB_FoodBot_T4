@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package FoodBot;
 
-service FoodBotRequest
+service FoodBotRLRequest
 {
 //Input NLG
 //Output NLG 

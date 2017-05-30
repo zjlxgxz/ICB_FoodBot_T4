@@ -43,7 +43,7 @@ from searchdb import SearchDB
 
 #GRPC RL connection
 channel = grpc.insecure_channel('localhost:50053')
-stub = FoodBotRLAgent_pb2.FoodBotRequestStub(channel)
+stub = FoodBotRLAgent_pb2.FoodBotRLRequestStub(channel)
 
 
 #global vars

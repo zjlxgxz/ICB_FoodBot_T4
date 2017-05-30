@@ -6,7 +6,7 @@ from grpc.framework.interfaces.face import utilities as face_utilities
 import FoodBotRLAgent_pb2 as FoodBotRLAgent__pb2
 
 
-class FoodBotRequestStub(object):
+class FoodBotRLRequestStub(object):
 
   def __init__(self, channel):
     """Constructor.
@@ -15,13 +15,13 @@ class FoodBotRequestStub(object):
       channel: A grpc.Channel.
     """
     self.GetRLResponse = channel.unary_unary(
-        '/FoodBot.FoodBotRequest/GetRLResponse',
+        '/FoodBot.FoodBotRLRequest/GetRLResponse',
         request_serializer=FoodBotRLAgent__pb2.EnvornmentInfomration.SerializeToString,
         response_deserializer=FoodBotRLAgent__pb2.Policy.FromString,
         )
 
 
-class FoodBotRequestServicer(object):
+class FoodBotRLRequestServicer(object):
 
   def GetRLResponse(self, request, context):
     """Input NLG
@@ -32,7 +32,7 @@ class FoodBotRequestServicer(object):
     raise NotImplementedError('Method not implemented!')
 
 
-def add_FoodBotRequestServicer_to_server(servicer, server):
+def add_FoodBotRLRequestServicer_to_server(servicer, server):
   rpc_method_handlers = {
       'GetRLResponse': grpc.unary_unary_rpc_method_handler(
           servicer.GetRLResponse,
@@ -41,5 +41,5 @@ def add_FoodBotRequestServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'FoodBot.FoodBotRequest', rpc_method_handlers)
+      'FoodBot.FoodBotRLRequest', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

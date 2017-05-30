@@ -24,7 +24,7 @@ from concurrent import futures
 #from gridworld import gameEnv
 #env = gameEnv(partial=False,size=5)
 
-class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRequestServicer):
+class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
   def GetRLResponse (self, request, context):
       #do something
       return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
