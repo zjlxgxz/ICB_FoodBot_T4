@@ -357,8 +357,11 @@ def languageUnderstanding(userInput):
 def DST_reset():
   global state
   for key in state.keys():
-    for slot in state[key].keys():
-      state[key][slot] = ''
+    if(type(state[key]).__name__ == 'dict'):
+      for slot in state[key].keys():
+        state[key][slot] = ''
+    else:
+       state[key] = ''
   waitConfirm = []
   for x in range(intents.__len__()):
     intents[x] = ''
