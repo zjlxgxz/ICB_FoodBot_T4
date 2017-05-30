@@ -537,7 +537,7 @@ def dialogPolicy():
   global formerState
   feedbackReward  = 0
   action = 0
-  currentState = vector[0:]
+  currentState = vector[0]
 
   print("current State: ", currentState)
   print("Former State: ", formerState)
