@@ -544,7 +544,7 @@ def dialogPolicy():
   # update the model(reward, currentState, formerState )
   # Has connected with the RL agent GRPC at beginning
   request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
-  policy = stub.GetResponse(request)
+  policy = stub.GetRLResponse(request)
   print ("RL agent Policy Choice:",policy)
   action = policy
   formerState = currentState
