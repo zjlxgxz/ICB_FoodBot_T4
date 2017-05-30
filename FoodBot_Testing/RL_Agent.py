@@ -31,7 +31,10 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       formerState = list(request.formerState)
       rewardForTheFormer = request.rewardForTheFormer
       formerAction = request.formerAction
-
+      print ("currentState: ",currentState)
+      print ("formerState: ",formerState)
+      print ("rewardForTheFormer: ",rewardForTheFormer)
+      print ("formerAction: ",formerAction)
       return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
 
 
