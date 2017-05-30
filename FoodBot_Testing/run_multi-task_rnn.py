@@ -355,6 +355,7 @@ def languageUnderstanding(userInput):
   return test_tagging_result , test_label_result
 
 def DST_reset():
+  global state
   for key in state.keys():
     for slot in state[key].keys():
       state[key][slot] = ''
