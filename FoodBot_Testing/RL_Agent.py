@@ -210,7 +210,7 @@ if __name__ == "__main__":
   # The model has been loaded.
   server = grpc.server(futures.ThreadPoolExecutor(max_workers=3))
   #Service_OpenFace_pb2.add_openfaceServicer_to_server(Servicer_openface(), server)
-  FoodBotRLAgent_pb2.add_FoodBotRequestServicer_to_server(FoodBotRLAgent(),server)
+  FoodBotRLAgent_pb2.add_FoodBotRLRequestServicer_to_server(FoodBotRLAgent(),server)
   server.add_insecure_port('[::]:50053')
   server.start()
   print ("GRCP Server is running. Press any key to stop it.")
