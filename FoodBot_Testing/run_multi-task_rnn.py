@@ -525,7 +525,6 @@ def dialogPolicy():
   if state['Get_rating']['RESTAURANTNAME'] != '':
     vector[0][7] = 1
     vector[1][7] = state['Get_rating']['RESTAURANTNAME']
-  print ("Vector:",vector)
   #===============
   # input vector[0] : bits
   #		  vector[1] : value
@@ -540,6 +539,10 @@ def dialogPolicy():
   action = 0
   currentState = vector[0:]
 
+  print("current State: ", currentState)
+  print("Former State: ", formerState)
+  print("Reward: ",feedbackReward)
+  print("Action:", action)
   #TODO
   # update the model(reward, currentState, formerState )
   # Has connected with the RL agent GRPC at beginning

@@ -16,9 +16,9 @@ message Policy
 
 message EnvornmentInfomration
 {
-	string formerState = 2;
-	string currentState = 3;
-	string rewardForTheFormer = 4;
-	string formerAction = 5;
+	repeated int32 formerState = 2;
+	repeated int32 currentState = 3;
+	double rewardForTheFormer = 4;
+	int32 formerAction = 5;
 	bool   shouldTerminate = 6;
 }
