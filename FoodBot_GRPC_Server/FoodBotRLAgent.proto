@@ -6,7 +6,7 @@ service FoodBotRequest
 {
 //Input NLG
 //Output NLG 
-	rpc GetResponse(EnvornmentInfomration) returns (Policy){}
+	rpc GetRLResponse(EnvornmentInfomration) returns (Policy){}
 }
 
 message Policy

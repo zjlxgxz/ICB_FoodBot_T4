@@ -25,7 +25,7 @@ from concurrent import futures
 #env = gameEnv(partial=False,size=5)
 
 class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRequestServicer):
-  def GetResponse (self, request, context):
+  def GetRLResponse (self, request, context):
       #do something
       return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
 

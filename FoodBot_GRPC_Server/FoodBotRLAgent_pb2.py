@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='FoodBotRLAgent.proto',
   package='FoodBot',
   syntax='proto3',
-  serialized_pb=_b('\n\x14\x46oodBotRLAgent.proto\x12\x07\x46oodBot\"\x1e\n\x06Policy\x12\x14\n\x0cpolicyNumber\x18\x01 \x01(\x05\"\x8d\x01\n\x15\x45nvornmentInfomration\x12\x13\n\x0b\x66ormerState\x18\x02 \x01(\t\x12\x14\n\x0c\x63urrentState\x18\x03 \x01(\t\x12\x1a\n\x12rewardForTheFormer\x18\x04 \x01(\t\x12\x14\n\x0c\x66ormerAction\x18\x05 \x01(\t\x12\x17\n\x0fshouldTerminate\x18\x06 \x01(\x08\x32R\n\x0e\x46oodBotRequest\x12@\n\x0bGetResponse\x12\x1e.FoodBot.EnvornmentInfomration\x1a\x0f.FoodBot.Policy\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x14\x46oodBotRLAgent.proto\x12\x07\x46oodBot\"\x1e\n\x06Policy\x12\x14\n\x0cpolicyNumber\x18\x01 \x01(\x05\"\x8d\x01\n\x15\x45nvornmentInfomration\x12\x13\n\x0b\x66ormerState\x18\x02 \x01(\t\x12\x14\n\x0c\x63urrentState\x18\x03 \x01(\t\x12\x1a\n\x12rewardForTheFormer\x18\x04 \x01(\t\x12\x14\n\x0c\x66ormerAction\x18\x05 \x01(\t\x12\x17\n\x0fshouldTerminate\x18\x06 \x01(\x08\x32T\n\x0e\x46oodBotRequest\x12\x42\n\rGetRLResponse\x12\x1e.FoodBot.EnvornmentInfomration\x1a\x0f.FoodBot.Policy\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -151,8 +151,8 @@ try:
       Args:
         channel: A grpc.Channel.
       """
-      self.GetResponse = channel.unary_unary(
-          '/FoodBot.FoodBotRequest/GetResponse',
+      self.GetRLResponse = channel.unary_unary(
+          '/FoodBot.FoodBotRequest/GetRLResponse',
           request_serializer=EnvornmentInfomration.SerializeToString,
           response_deserializer=Policy.FromString,
           )
@@ -160,7 +160,7 @@ try:
 
   class FoodBotRequestServicer(object):
 
-    def GetResponse(self, request, context):
+    def GetRLResponse(self, request, context):
       """Input NLG
       Output NLG 
       """
@@ -171,8 +171,8 @@ try:
 
   def add_FoodBotRequestServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'GetResponse': grpc.unary_unary_rpc_method_handler(
-            servicer.GetResponse,
+        'GetRLResponse': grpc.unary_unary_rpc_method_handler(
+            servicer.GetRLResponse,
             request_deserializer=EnvornmentInfomration.FromString,
             response_serializer=Policy.SerializeToString,
         ),
@@ -188,7 +188,7 @@ try:
     It is recommended to use the GA API (classes and functions in this
     file not marked beta) for all further purposes. This class was generated
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def GetResponse(self, request, context):
+    def GetRLResponse(self, request, context):
       """Input NLG
       Output NLG 
       """
@@ -201,12 +201,12 @@ try:
     It is recommended to use the GA API (classes and functions in this
     file not marked beta) for all further purposes. This class was generated
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    def GetResponse(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    def GetRLResponse(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       """Input NLG
       Output NLG 
       """
       raise NotImplementedError()
-    GetResponse.future = None
+    GetRLResponse.future = None
 
 
   def beta_create_FoodBotRequest_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
@@ -216,13 +216,13 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
-      ('FoodBot.FoodBotRequest', 'GetResponse'): EnvornmentInfomration.FromString,
+      ('FoodBot.FoodBotRequest', 'GetRLResponse'): EnvornmentInfomration.FromString,
     }
     response_serializers = {
-      ('FoodBot.FoodBotRequest', 'GetResponse'): Policy.SerializeToString,
+      ('FoodBot.FoodBotRequest', 'GetRLResponse'): Policy.SerializeToString,
     }
     method_implementations = {
-      ('FoodBot.FoodBotRequest', 'GetResponse'): face_utilities.unary_unary_inline(servicer.GetResponse),
+      ('FoodBot.FoodBotRequest', 'GetRLResponse'): face_utilities.unary_unary_inline(servicer.GetRLResponse),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
@@ -235,13 +235,13 @@ try:
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
-      ('FoodBot.FoodBotRequest', 'GetResponse'): EnvornmentInfomration.SerializeToString,
+      ('FoodBot.FoodBotRequest', 'GetRLResponse'): EnvornmentInfomration.SerializeToString,
     }
     response_deserializers = {
-      ('FoodBot.FoodBotRequest', 'GetResponse'): Policy.FromString,
+      ('FoodBot.FoodBotRequest', 'GetRLResponse'): Policy.FromString,
     }
     cardinalities = {
-      'GetResponse': cardinality.Cardinality.UNARY_UNARY,
+      'GetRLResponse': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
     return beta_implementations.dynamic_stub(channel, 'FoodBot.FoodBotRequest', cardinalities, options=stub_options)
