@@ -28,6 +28,7 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
   def GetRLResponse (self, request, context):
       #do something
       print(request.currentState)
+      print(request.currentState[0])
       print(request.formerAction)
       return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
 
