@@ -27,11 +27,11 @@ from concurrent import futures
 class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
   def GetRLResponse (self, request, context):
       #do something
-      print(request.currentState)
-      print(request.currentState[0])
-      currentState = list(request.currentState)
-      print(currentState)
-      print(request.formerAction)
+      currentState = list(request.currentState) #11-D
+      formerState = list(request.formerState)
+      rewardForTheFormer = request.rewardForTheFormer
+      formerAction = request.formerAction
+
       return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
 
 
@@ -39,7 +39,8 @@ class Qnetwork():
     def __init__(self,h_size):
         #The network recieves a frame from the game, flattened into an array.
         #It then resizes it and processes it through four convolutional layers.
-        self.scalarInput =  tf.placeholder(shape=[None,21168],dtype=tf.float32)
+        self.scalarInput =  tf.placeholder(shape=[None,11],dtype=tf.int32)
+        #Just use one or two layer of CNN
         self.imageIn = tf.reshape(self.scalarInput,shape=[-1,84,84,3])
         self.conv1 = slim.conv2d(inputs=self.imageIn,num_outputs=32,kernel_size=[8,8],stride=[4,4],padding='VALID', biases_initializer=None)
         self.conv2 = slim.conv2d(inputs=self.conv1,num_outputs=64,kernel_size=[4,4],stride=[2,2],padding='VALID', biases_initializer=None)
