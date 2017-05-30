@@ -421,7 +421,7 @@ def dialogPolicy():
   state['Get_Another_Restaurant'] = False
 
   if observation[-1][0] == 'Confirm':
-  	state['Confirm'] = True
+    state['Confirm'] = True
     if waitConfirm.__len__() != 0:
       if waitConfirm[-1][0] == 'confirm':
         needInform = True
