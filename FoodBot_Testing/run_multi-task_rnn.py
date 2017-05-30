@@ -525,7 +525,7 @@ def dialogPolicy():
   if state['Get_rating']['RESTAURANTNAME'] != '':
     vector[0][7] = 1
     vector[1][7] = state['Get_rating']['RESTAURANTNAME']
-  print vector
+  print ("Vector:",vector)
   #===============
   # input vector[0] : bits
   #		  vector[1] : value
