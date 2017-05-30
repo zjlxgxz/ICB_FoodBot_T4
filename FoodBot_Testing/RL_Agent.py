@@ -27,7 +27,8 @@ from concurrent import futures
 class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
   def GetRLResponse (self, request, context):
       #do something
-      print(request)
+      print(request.currentState)
+      print(request.formerAction)
       return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
 
 
