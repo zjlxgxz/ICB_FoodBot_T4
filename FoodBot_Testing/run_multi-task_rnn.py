@@ -529,11 +529,11 @@ def dialogPolicy():
     vector[1][7] = state['Get_rating']['RESTAURANTNAME']
   #===============
   # input vector[0] : bits
-  #		  vector[1] : value
+  #     vector[1] : value
   #      DQN
   #  Update model first
   #  Then, make decisions
-  #	output action
+  # output action
   #===============
 
   global formerState
@@ -576,68 +576,84 @@ def dialogPolicy():
 
   #inform Get_restaurant
   elif action == 4:
-    sys_act['intent'] = 'inform'
-    for key in state[intents[-1]].keys():
-      slots[key] = state[intents[-1]][key]
-    sys_act['content'] = search.grabData(intents[-1] ,slots)
-    dialogNum += 1
-    if sys_act['content'] == '':
-      sys_act['intent'] = 'not_found'
-      notfoundNum += 1
+    if slots['RESTAURANTNAME'] != '' and slots['LOCATION'] != '':
+      sys_act['intent'] = 'inform'
+      for key in state[intents[-1]].keys():
+        slots[key] = state[intents[-1]][key]
+      sys_act['content'] = search.grabData(intents[-1] ,slots)
+      dialogNum += 1
+      if sys_act['content'] == '':
+        sys_act['intent'] = 'not_found'
+        notfoundNum += 1
+      else:
+        successNum += 1
+      for key in state[intents[-1]].keys():
+        state[intents[-1]][key] = ''
+      waitConfirm.pop(-1)
     else:
-      successNum += 1
-    for key in state[intents[-1]].keys():
-      state[intents[-1]][key] = ''
-    waitConfirm.pop(-1)
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''
 
   #inform Get_Another_Restaurant
   elif action == 5: 
-    sys_act['intent'] = 'inform'
-    for key in state[intents[-1]].keys():
-      slots[key] = state[intents[-1]][key]
-    slots['TIMES'] = changeRestNum
-    sys_act['content'] = search.grabData(intents[-1] ,slots)
-    dialogNum += 1
-    if sys_act['content'] == '':
-      sys_act['intent'] = 'not_found'
-      notfoundNum += 1
+    if slots['RESTAURANTNAME'] != '' and slots['LOCATION'] != '':
+      sys_act['intent'] = 'inform'
+      for key in state[intents[-1]].keys():
+        slots[key] = state[intents[-1]][key]
+      slots['TIMES'] = changeRestNum
+      sys_act['content'] = search.grabData(intents[-1] ,slots)
+      dialogNum += 1
+      if sys_act['content'] == '':
+        sys_act['intent'] = 'not_found'
+        notfoundNum += 1
+      else:
+        successNum += 1
+      for key in state[intents[-1]].keys():
+        state[intents[-1]][key] = ''
+      waitConfirm.pop(-1)
     else:
-      successNum += 1
-    for key in state[intents[-1]].keys():
-      state[intents[-1]][key] = ''
-    waitConfirm.pop(-1)
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''
 
   #inform Get_Rating
   elif action == 6:
-    sys_act['intent'] = 'inform'
-    for key in state[intents[-1]].keys():
-      slots[key] = state[intents[-1]][key]
-    sys_act['content'] = search.grabData(intents[-1] ,slots)
-    dialogNum += 1
-    if sys_act['content'] == '':
-      sys_act['intent'] = 'not_found'
-      notfoundNum += 1
+    if slots['RESTAURANTNAME'] != '':
+      sys_act['intent'] = 'inform'
+      for key in state[intents[-1]].keys():
+        slots[key] = state[intents[-1]][key]
+      sys_act['content'] = search.grabData(intents[-1] ,slots)
+      dialogNum += 1
+      if sys_act['content'] == '':
+        sys_act['intent'] = 'not_found'
+        notfoundNum += 1
+      else:
+        successNum += 1
+      for key in state[intents[-1]].keys():
+        state[intents[-1]][key] = ''
+      waitConfirm.pop(-1)
     else:
-      successNum += 1
-    for key in state[intents[-1]].keys():
-      state[intents[-1]][key] = ''
-    waitConfirm.pop(-1)
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''     
 
   #inform Get_Location
   elif action == 7:
-    sys_act['intent'] = 'inform'
-    for key in state[intents[-1]].keys():
-      slots[key] = state[intents[-1]][key]
-    sys_act['content'] = search.grabData(intents[-1] ,slots)
-    dialogNum += 1
-    if sys_act['content'] == '':
-      sys_act['intent'] = 'not_found'
-      notfoundNum += 1
+    if slots['RESTAURANTNAME'] != '':
+      sys_act['intent'] = 'inform'
+      for key in state[intents[-1]].keys():
+        slots[key] = state[intents[-1]][key]
+      sys_act['content'] = search.grabData(intents[-1] ,slots)
+      dialogNum += 1
+      if sys_act['content'] == '':
+        sys_act['intent'] = 'not_found'
+        notfoundNum += 1
+      else:
+        successNum += 1
+      for key in state[intents[-1]].keys():
+        state[intents[-1]][key] = ''
+      waitConfirm.pop(-1)
     else:
-      successNum += 1
-    for key in state[intents[-1]].keys():
-      state[intents[-1]][key] = ''
-    waitConfirm.pop(-1)
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''   
 
   #confirm_restaurant
   elif action == 8:
@@ -656,7 +672,7 @@ def dialogPolicy():
 
   #wrong
   elif action == 10:
-  	return ''
+    return ''
 
   '''
   if sys_act['intent'] == 'wrong':
@@ -760,7 +776,7 @@ def dialogPolicy():
 
     else:
       print ("I don't know what to say")
-	'''
+  '''
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
