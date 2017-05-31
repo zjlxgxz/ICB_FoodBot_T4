@@ -553,7 +553,7 @@ def dialogPolicy():
   request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
   policy = stub.GetRLResponse(request)
   print ("RL agent Policy Choice:",policy.policyNumber)
-  action = policy
+  action = policy.policyNumber
   formerState = currentState
 
   #request location
