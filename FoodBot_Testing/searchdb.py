@@ -51,7 +51,7 @@ class SearchDB:
 				pass
 			else:
 				if intent == 'Get_Restaurant' :
-					content = {'RESTAURANTNAME':str(results[slots['TIMES']][0]) ,'LOCATION':results[slots['TIMES']][5]}
+					content = {'RESTAURANTNAME':str(results[(int)(slots['TIMES'])][0]) ,'LOCATION':results[(int)(slots['TIMES'])][5]}
 				else:
 					for record in results:
 						if intent == 'Get_location' :
