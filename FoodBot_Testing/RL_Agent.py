@@ -31,10 +31,11 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       formerState = list(request.formerState)
       rewardForTheFormer = request.rewardForTheFormer
       formerAction = request.formerAction
-
       if len(formerState) ==0:
           formerAction = -1
 
+      #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
+      policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)
       print ("currentState: ",currentState)
       print ("formerState: ",formerState)
       print ("rewardForTheFormer: ",rewardForTheFormer)
@@ -43,35 +44,26 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
 
 
 class Qnetwork():
-    def __init__(self,h_size):
+    def __init__(self):
         #The network recieves a frame from the game, flattened into an array.
         #It then resizes it and processes it through four convolutional layers.
-        self.scalarInput =  tf.placeholder(shape=[None,11],dtype=tf.int32)
-        #Just use one or two layer of CNN
-        self.imageIn = tf.reshape(self.scalarInput,shape=[-1,84,84,3])
-        self.conv1 = slim.conv2d(inputs=self.imageIn,num_outputs=32,kernel_size=[8,8],stride=[4,4],padding='VALID', biases_initializer=None)
-        self.conv2 = slim.conv2d(inputs=self.conv1,num_outputs=64,kernel_size=[4,4],stride=[2,2],padding='VALID', biases_initializer=None)
-        self.conv3 = slim.conv2d(inputs=self.conv2,num_outputs=64,kernel_size=[3,3],stride=[1,1],padding='VALID', biases_initializer=None)
-        self.conv4 = slim.conv2d(inputs=self.conv3,num_outputs=h_size,kernel_size=[7,7],stride=[1,1],padding='VALID', biases_initializer=None)
+        self.scalarInput =  tf.placeholder(shape=[None,11],dtype=tf.float32)
+
+        #Just use one or two layer of fc
+        self.dense1 = slim.fully_connected(self.scalarInput,1024,activation_fn=tf.nn.relu)
+        #self.dropout1 = tf.layers.dropout(inputs=self.dense1, rate=0.4, training=mode == learn.ModeKeys.TRAIN)
         
-        #We take the output from the final convolutional layer and split it into separate advantage and value streams.
-        self.streamAC,self.streamVC = tf.split(self.conv4,2,3)
-        self.streamA = slim.flatten(self.streamAC)
-        self.streamV = slim.flatten(self.streamVC)
-        xavier_init = tf.contrib.layers.xavier_initializer()
-        self.AW = tf.Variable(xavier_init([h_size//2,env.actions]))
-        self.VW = tf.Variable(xavier_init([h_size//2,1]))
-        self.Advantage = tf.matmul(self.streamA,self.AW)
-        self.Value = tf.matmul(self.streamV,self.VW)
-        
-        #Then combine them together to get our final Q-values.
-        self.Qout = self.Value + tf.subtract(self.Advantage,tf.reduce_mean(self.Advantage,axis=1,keep_dims=True))
+        self.dense2 = slim.fully_connected(self.dense1, 1024, activation_fn=tf.nn.relu)
+        #self.dropout2 = tf.layers.dropout(inputs=self.dense2, rate=0.4, training=mode == learn.ModeKeys.TRAIN)
+
+        self.dense3 = slim.fully_connected(self.dense2, 11, activation_fn=tf.nn.relu)
+
+        self.Qout = self.dense3
         self.predict = tf.argmax(self.Qout,1)
-        
         #Below we obtain the loss by taking the sum of squares difference between the target and prediction Q values.
         self.targetQ = tf.placeholder(shape=[None],dtype=tf.float32)
         self.actions = tf.placeholder(shape=[None],dtype=tf.int32)
-        self.actions_onehot = tf.one_hot(self.actions,env.actions,dtype=tf.float32)
+        self.actions_onehot = tf.one_hot(self.actions,11,dtype=tf.float32)
         
         self.Q = tf.reduce_sum(tf.multiply(self.Qout, self.actions_onehot), axis=1)
         
@@ -122,6 +114,111 @@ path = "./dqn" #The path to save our model to.
 h_size = 512 #The size of the final convolutional layer before splitting it into Advantage and Value streams.
 tau = 0.001 #Rate to update target network toward primary network
 
+#global variable
+sess = tf.Session()
+tf.reset_default_graph()
+mainQN = Qnetwork()
+targetQN = Qnetwork()
+init = tf.global_variables_initializer()
+saver = tf.train.Saver()
+trainables = tf.trainable_variables()
+targetOps = updateTargetGraph(trainables,tau)
+myBuffer = experience_buffer()
+#Set the rate of random action decrease. 
+e = startE
+stepDrop = (startE - endE)/anneling_steps
+#create lists to contain total rewards and steps per episode
+jList = []
+rList = []
+total_steps = 0
+#Make a path for our model to be saved in.
+#if not os.path.exists(path):
+#    os.makedirs(path)
+#sess.run(init)
+#if load_model == True:
+#    print('Loading Model...')
+#    ckpt = tf.train.get_checkpoint_state(path)
+#    saver.restore(sess,ckpt.model_checkpoint_path)
+#updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
+
+episodeBuffer = experience_buffer()
+#Reset environment and get first new observation
+s = [0,0,0,0,0,0,0,0,0,0,0]
+#s = processState(s)
+d = False
+rAll = 0
+j = 0
+
+
+def newDialogSetup():
+    global episodeBuffer,s,d,rAll,j
+
+    episodeBuffer = experience_buffer()
+    #Reset environment and get first new observation
+    s = [0,0,0,0,0,0,0,0,0,0,0]
+    #s = processState(s)
+    d = False
+    rAll = 0
+    j = 0
+
+def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
+    s = formerState
+    a = formerAction
+    r = formerReward
+    s1 = currentState
+    d = False
+    global j,total_steps,episodeBuffer,mainQN,targetQN,e
+    j+=1
+    total_steps = total_steps+1
+    
+    print("dailog total turn: ",j)
+
+    #Choose an action by greedily (with e chance of random action) from the Q-network
+    if np.random.rand(1) < e or total_steps < pre_train_steps:
+        a = np.random.randint(0,11)
+        print("randomly pick an action:",a)
+    else:
+        a = sess.run(mainQN.predict,feed_dict={mainQN.scalarInput:[s]})[0]
+        print("NN picks an action:",a)
+
+    if(len(formerState)!=0):
+        episodeBuffer.add(np.reshape(np.array([s,a,r,s1,d]),[1,5])) #Save the experience to our episode buffer.
+        print ("Add the turn to buffer: ",[s,a,r,s1,d])
+    
+    if total_steps > pre_train_steps:
+        if e > endE:
+            e -= stepDrop
+        
+        if total_steps % (update_freq) == 0:
+            print ("Training NN turn:",total_steps)
+            trainBatch = myBuffer.sample(batch_size) #Get a random batch of experiences.
+            #Below we perform the Double-DQN update to the target Q-values
+            Q1 = sess.run(mainQN.predict,feed_dict={mainQN.scalarInput:np.vstack(trainBatch[:,3])})
+            Q2 = sess.run(targetQN.Qout,feed_dict={targetQN.scalarInput:np.vstack(trainBatch[:,3])})
+            print ("Q1,Q2: ",Q1,Q2)
+            end_multiplier = -(trainBatch[:,4] - 1)
+            doubleQ = Q2[range(batch_size),Q1]
+            targetQ = trainBatch[:,2] + (y*doubleQ * end_multiplier)
+            #Update the network with our target values.
+            _ = sess.run(mainQN.updateModel,feed_dict={mainQN.scalarInput:np.vstack(trainBatch[:,0]),mainQN.targetQ:targetQ, mainQN.actions:trainBatch[:,1]})
+            
+            updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
+        rAll += r
+    
+    #if d == True:
+    #    break
+    if(len(formerState)!=0):
+        myBuffer.add(episodeBuffer.buffer)
+    #jList.append(j)
+    #rList.append(rAll)
+    #Periodically save the model. 
+    if j % 1000 == 0:
+        saver.save(sess,path+'/model-'+str(j)+'.cptk')
+        print("Saved Model")
+    #if len(rList) % 10 == 0:
+    #    print(total_steps,np.mean(rList[-10:]), e)
+    #saver.save(sess,path+'/model-'+str(i)+'.cptk')
+    return a
 
 def main():
     tf.reset_default_graph()
@@ -161,8 +258,8 @@ def main():
         for i in range(num_episodes):
             episodeBuffer = experience_buffer()
             #Reset environment and get first new observation
-            s = env.reset()
-            s = processState(s)
+            s = [0,0,0,0,0,0,0,0,0,0,0]
+            #s = processState(s)
             d = False
             rAll = 0
             j = 0
@@ -171,12 +268,12 @@ def main():
                 j+=1
                 #Choose an action by greedily (with e chance of random action) from the Q-network
                 if np.random.rand(1) < e or total_steps < pre_train_steps:
-                    a = np.random.randint(0,4)
+                    a = np.random.randint(0,11)
                 else:
                     a = sess.run(mainQN.predict,feed_dict={mainQN.scalarInput:[s]})[0]
                 # Get the reward, new state.
-                s1,r,d = env.step(a) 
-                s1 = processState(s1)
+                print (s1,r,d)
+                #s1 = processState(s1)
                 # Get the new state
 
                 total_steps += 1
@@ -219,7 +316,16 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
+  if not os.path.exists(path):
+    os.makedirs(path)
+
+    sess.run(init)
+    if load_model == True:
+        print('Loading Model...')
+        ckpt = tf.train.get_checkpoint_state(path)
+        saver.restore(sess,ckpt.model_checkpoint_path)
+    updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
+
   # The model has been loaded.
   server = grpc.server(futures.ThreadPoolExecutor(max_workers=3))
   #Service_OpenFace_pb2.add_openfaceServicer_to_server(Servicer_openface(), server)
