@@ -40,7 +40,7 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       print ("formerState: ",formerState)
       print ("rewardForTheFormer: ",rewardForTheFormer)
       print ("formerAction: ",formerAction)
-      return FoodBotRLAgent_pb2.Policy(policyNumber = 1)
+      return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
 class Qnetwork():
