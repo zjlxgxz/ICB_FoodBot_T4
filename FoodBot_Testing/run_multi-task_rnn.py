@@ -408,8 +408,6 @@ def dialogPolicy():
   needConfirm = False
   needInform = False
   sys_act['content'] = {}
-  state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''} , 'Get_Another_Restaurant':'', 'Confirm':'', 'Wrong':''}
-  
 
   global waitConfirm
   global dialogNum
