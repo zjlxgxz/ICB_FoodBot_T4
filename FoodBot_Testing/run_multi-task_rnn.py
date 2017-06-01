@@ -543,8 +543,10 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   global formerState
   feedbackReward  = 0
   currentState = vector[0]
-  if userInput == 'end':
-    currentState = [0,0,0,0,0,0,0,0,0,0,0]
+  if userInput == 'end' and formerPolicyGoodOrNot == True:
+    currentState = [0,0,0,0,0,0,0,0,0,0,0] # terminate state
+  if userInput == 'end' and formerPolicyGoodOrNot == False:
+    currentState = [1,1,1,1,1,1,1,-1,-1,-1,-1]# terminate state
   if formerPolicyGoodOrNot == True:
     feedbackReward  = 1
   if len(set(formerState)) == 1:
