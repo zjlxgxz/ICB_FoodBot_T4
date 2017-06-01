@@ -540,13 +540,14 @@ def dialogPolicy(formerPolicyGoodOrNot):
 
   global formerState
   feedbackReward  = 0
-  action = 0
   currentState = vector[0]
-
-  print("current State: ", currentState)
+  if formerPolicyGoodOrNot == True:
+    feedbackReward  = 1
+  print ("###############################################")
   print("Former State: ", formerState)
-  print("Reward: ",formerPolicyGoodOrNot)
-  print("Action:", action)
+
+  if len(formerState) == 0:
+    action = -1
 
   #TODO
   # update the model(reward, currentState, formerState )
@@ -556,6 +557,10 @@ def dialogPolicy(formerPolicyGoodOrNot):
   print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
   formerState = currentState
+
+  print("current State: ", currentState)
+  print("RewardForformerAction: ",formerPolicyGoodOrNot)
+
 
   #request location
   if action == 0:
@@ -860,9 +865,10 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     if 'goodpolicy' in outputFromSim.keys():        #come from simulated user
       if userInput == 'end': # or sim user said it's not a good policy
         #reset the dialog state.'
-        DST_reset()
+        #get the reward for the former action(The current state and the former state should be the same. But it's ok here. The current action won't be executed)
         policyFrame = dialogPolicy(outputFromSim['goodpolicy'])
-        return FoodBot_pb2.Sentence(response = "")
+        DST_reset()
+        return FoodBot_pb2.Sentence(response = "")# for sim-user to initial a new conversation
       else:
         userInput = userInput.replace("?", "")
         userInput = userInput.replace(".", "")
