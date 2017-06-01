@@ -31,15 +31,18 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       formerState = list(request.formerState)
       rewardForTheFormer = request.rewardForTheFormer
       formerAction = request.formerAction
-      if len(formerState) ==0:
+      if len(set(formerState)) ==1:
           formerAction = -1
 
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)
+      print ("============================================================")
       print ("currentState: ",currentState)
       print ("formerState: ",formerState)
       print ("rewardForTheFormer: ",rewardForTheFormer)
       print ("formerAction: ",formerAction)
+      print ("============================================================")
+
       return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
@@ -181,7 +184,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         a = sess.run(mainQN.predict,feed_dict={mainQN.scalarInput:[s]})[0]
         print("NN picks an action:",a)
 
-    if(len(formerState)!=0):
+    if(len(set(formerState))!=1):
         episodeBuffer.add(np.reshape(np.array([s,a,r,s1,d]),[1,5])) #Save the experience to our episode buffer.
         print ("Add the turn to buffer: ",[s,a,r,s1,d])
     
@@ -207,7 +210,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     
     #if d == True:
     #    break
-    if(len(formerState)!=0):
+    if(len(set(formerState))!=1):
         myBuffer.add(episodeBuffer.buffer)
     #jList.append(j)
     #rList.append(rAll)

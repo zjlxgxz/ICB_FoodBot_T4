@@ -70,7 +70,7 @@ textFileName = "record_"+str(time.time())
 LUWrongCount = 0 
 LURightCount = 0
 ################## below for state
-formerState = [] #To remember the former state
+formerState = [0,0,0,0,0,0,0,0,0,0,0] #To remember the former state
 
 ##################below for nlg
 #lists needed
@@ -370,7 +370,7 @@ def DST_reset():
   for x in range(observation.__len__()):
     observation[x] = []
   global formerState
-  formerState = []
+  formerState = [0,0,0,0,0,0,0,0,0,0,0]
 
 def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
@@ -403,7 +403,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
   return slots
 
 
-def dialogPolicy(formerPolicyGoodOrNot):
+def dialogPolicy(formerPolicyGoodOrNot,userInput):
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   sys_act = {'intent':'' ,'content':'','currentState':''}
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':'' ,'TIMES':''}
@@ -543,9 +543,11 @@ def dialogPolicy(formerPolicyGoodOrNot):
   global formerState
   feedbackReward  = 0
   currentState = vector[0]
+  if userInput == 'end':
+    currentState = [0,0,0,0,0,0,0,0,0,0,0]
   if formerPolicyGoodOrNot == True:
     feedbackReward  = 1
-  if len(formerState) == 0:
+  if len(set(formerState)) == 1:
     action = -1
   print ("###############################################")
   print("Former State: ", formerState)
@@ -868,7 +870,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       if userInput == 'end': # or sim user said it's not a good policy
         #reset the dialog state.'
         #get the reward for the former action(The current state and the former state should be the same. But it's ok here. The current action won't be executed)
-        policyFrame = dialogPolicy(outputFromSim['goodpolicy'])
+        policyFrame = dialogPolicy(outputFromSim['goodpolicy'],userInput)
         DST_reset()
         return FoodBot_pb2.Sentence(response = "")# for sim-user to initial a new conversation
       else:
@@ -897,7 +899,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       pass
     else:
       outputFromSim['goodpolicy'] = True # assume users give a comfirmative attitude if they continue to talk OR they will type 'end'
-    policyFrame = dialogPolicy(outputFromSim['goodpolicy'])
+    policyFrame = dialogPolicy(outputFromSim['goodpolicy'],userInput)
     nlg_sentence = nlg(policyFrame,1)
 
     #Calculate the LU accuracy:
