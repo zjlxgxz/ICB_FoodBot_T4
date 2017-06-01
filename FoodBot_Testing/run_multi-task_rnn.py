@@ -547,6 +547,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
     feedbackReward  = 1
   print ("###############################################")
   print("Former State: ", formerState)
+  print("former action: ", action)
 
   if len(formerState) == 0:
     action = -1
@@ -559,9 +560,9 @@ def dialogPolicy(formerPolicyGoodOrNot):
   print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
   formerState = currentState
-
   print("current State: ", currentState)
   print("RewardForformerAction: ",formerPolicyGoodOrNot)
+  print ("###############################################")
 
 
   #request location
