@@ -545,12 +545,11 @@ def dialogPolicy(formerPolicyGoodOrNot):
   currentState = vector[0]
   if formerPolicyGoodOrNot == True:
     feedbackReward  = 1
+  if len(formerState) == 0:
+    action = -1
   print ("###############################################")
   print("Former State: ", formerState)
   print("former action: ", action)
-
-  if len(formerState) == 0:
-    action = -1
 
   #TODO
   # update the model(reward, currentState, formerState )
