@@ -401,13 +401,14 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
   return slots
 
 
-def dialogPolicy():
+def dialogPolicy(formerPolicyGoodOrNot):
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-  sys_act = {'intent':'' ,'content':''}
+  sys_act = {'intent':'' ,'content':'','currentState':''}
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':'' ,'TIMES':''}
   needConfirm = False
   needInform = False
   sys_act['content'] = {}
+  sys_act['currentState'] = {}
 
   global waitConfirm
   global dialogNum
@@ -497,6 +498,7 @@ def dialogPolicy():
 
   stateList.append(state)
   print ('Now state : ' ,state)
+  sys_act['currentState'] = state
 
   #translate state to vector
   vector = [[0]*11,['Get_Restaurant','','','','Get_location','','Get_rating','','Get_Another_Restaurant','Confirm','Wrong']]
@@ -543,8 +545,9 @@ def dialogPolicy():
 
   print("current State: ", currentState)
   print("Former State: ", formerState)
-  print("Reward: ",feedbackReward)
+  print("Reward: ",formerPolicyGoodOrNot)
   print("Action:", action)
+
   #TODO
   # update the model(reward, currentState, formerState )
   # Has connected with the RL agent GRPC at beginning
@@ -853,20 +856,40 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print (type(outputFromSim)) #<type 'unicode'> <type 'dict'>
     realSemanticFrame = outputFromSim["semantic_frame"]
     userInput = outputFromSim["nlg_sentence"].lower()
-    if userInput == 'end':
-      #reset the dialog state.'
-      DST_reset()
-      return FoodBot_pb2.Sentence(response = "")
-    else:
-      userInput = userInput.replace("?", "")
-      userInput = userInput.replace(".", "")
-      userInput = userInput.replace(",", "")
-      userInput = userInput.replace("!", "")
+    #goodpolicy = outputFromSim['goodpolicy']
+    if 'goodpolicy' in outputFromSim.keys():        #come from simulated user
+      if userInput == 'end': # or sim user said it's not a good policy
+        #reset the dialog state.'
+        DST_reset()
+        policyFrame = dialogPolicy(outputFromSim['goodpolicy'])
+        return FoodBot_pb2.Sentence(response = "")
+      else:
+        userInput = userInput.replace("?", "")
+        userInput = userInput.replace(".", "")
+        userInput = userInput.replace(",", "")
+        userInput = userInput.replace("!", "")
+    else:        #come from web user
+       if userInput == 'end': # or sim user said it's not a good policy
+        #reset the dialog state.'
+        DST_reset()
+        return FoodBot_pb2.Sentence(response = "")
+      else:
+        userInput = userInput.replace("?", "")
+        userInput = userInput.replace(".", "")
+        userInput = userInput.replace(",", "")
+        userInput = userInput.replace("!", "")
 
+    predSlot = []
+    policyFrame = []
+    nlg_sentence = []
 
     test_tagging_result,test_label_result = languageUnderstanding(userInput) 
     predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
-    policyFrame = dialogPolicy()
+    if 'goodpolicy' in outputFromSim.keys():
+      pass
+    else:
+      outputFromSim['goodpolicy'] = True # assume users give a comfirmative attitude if they continue to talk OR they will type 'end'
+    policyFrame = dialogPolicy(outputFromSim['goodpolicy'])
     nlg_sentence = nlg(policyFrame,1)
 
     #Calculate the LU accuracy:

@@ -80,6 +80,14 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
     print("Output from LU", userInput)
     return FoodBotSim_pb2.Sentence(response = simul_user(userInput))
 
+def policyChecker(sys_act):
+	print("This is sys_act",sys_act)
+	print("This is sys_act[content]",sys_act['content'])
+	print("This is sys_act[intent]",sys_act['intent'])
+	print("This is sys_act[currentState]",sys_act['currentState'])
+
+	return True
+
 
 def simul_user(sys_act):
 	global memory
@@ -91,9 +99,19 @@ def simul_user(sys_act):
 	sys_act: {
 			  "intent": "request",
 			  "content": {"location":""}
+			  "currentState":{...}
 			  }
 
 	'''
+	# The see if the policy picked by DQN is reasonable
+	goodPolicy = policyChecker(sys_act)
+	if goodPolicy == False:
+		returnList = dict()
+		returnList["nlg_sentence"] = '...'
+		returnList["semantic_frame"] = ''
+		returnList["goodpolicy"] = goodPolicy
+		json_list = json.dumps(returnList)
+		return json_list
 
 	# initially randomly generated a sentence
 	sem_frame = {"intent": "",
@@ -227,7 +245,8 @@ def simul_user(sys_act):
 	returnList = dict()
 	returnList["nlg_sentence"] = nlg_sentence
 	returnList["semantic_frame"] = sem_frame
-	
+	returnList["goodpolicy"] = goodPolicy
+
 	json_list = json.dumps(returnList)
 	return json_list
 
