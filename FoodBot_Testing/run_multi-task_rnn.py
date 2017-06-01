@@ -75,6 +75,8 @@ formerState = [] #To remember the former state
 ##################below for nlg
 #lists needed
 content_list = ["category", "time", "location"]
+action = -1
+
 
 # files
 f1 = open('restName.txt', 'r')
@@ -537,7 +539,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
   #  Then, make decisions
   # output action
   #===============
-
+  global action
   global formerState
   feedbackReward  = 0
   currentState = vector[0]
