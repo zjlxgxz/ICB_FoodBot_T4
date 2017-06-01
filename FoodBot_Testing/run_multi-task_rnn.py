@@ -869,7 +869,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         userInput = userInput.replace(",", "")
         userInput = userInput.replace("!", "")
     else:        #come from web user
-       if userInput == 'end': # or sim user said it's not a good policy
+      if userInput == 'end': # or sim user said it's not a good policy
         #reset the dialog state.'
         DST_reset()
         return FoodBot_pb2.Sentence(response = "")
