@@ -127,6 +127,8 @@ saver = tf.train.Saver()
 trainables = tf.trainable_variables()
 targetOps = updateTargetGraph(trainables,tau)
 myBuffer = experience_buffer()
+sess.run(init)
+
 #Set the rate of random action decrease. 
 e = startE
 stepDrop = (startE - endE)/anneling_steps
@@ -330,7 +332,6 @@ if __name__ == "__main__":
   if not os.path.exists(path):
     os.makedirs(path)
 
-    sess.run(init)
     if load_model == True:
         print('Loading Model...')
         ckpt = tf.train.get_checkpoint_state(path)
