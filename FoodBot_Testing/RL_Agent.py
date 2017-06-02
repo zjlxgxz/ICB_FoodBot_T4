@@ -206,8 +206,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     
     currentStateIndex = indexOfState(s1)
     formerStateIndex = indexOfState(s)
-
-    QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
+    if(a != -1):
+        QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
     print (QTable[formerStateIndex,a])
     print("dailog total turn,total turn",j,total_steps)
     #Choose an action by greedily (with e chance of random action) from the Q-network
