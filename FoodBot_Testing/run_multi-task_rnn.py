@@ -410,7 +410,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   needConfirm = False
   needInform = False
   sys_act['content'] = {}
-  sys_act['currentState'] = {}
+  sys_act['currentstate'] = {}
 
   global waitConfirm
   global dialogNum
@@ -500,7 +500,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   stateList.append(state)
   print ('Now state : ' ,state)
-  sys_act['currentState'] = state
+  sys_act['currentstate'] = state
 
   #translate state to vector
   vector = [[0]*11,['Get_Restaurant','','','','Get_location','','Get_rating','','Get_Another_Restaurant','Confirm','Wrong']]

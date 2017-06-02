@@ -85,7 +85,7 @@ def policyChecker(sys_act):
 	print("This is sys_act",sys_act)
 	print("This is sys_act[content]",sys_act['content'])
 	print("This is sys_act[intent]",sys_act['intent'])
-	print("This is sys_act[currentState]",sys_act['currentState'])
+	print("This is sys_act[currentState]",sys_act['currentstate'])
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return False
