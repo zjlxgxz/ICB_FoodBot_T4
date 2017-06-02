@@ -572,23 +572,39 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   #request location
   if action == 0:
-    sys_act['intent'] = 'request'
-    sys_act['content'] = {'LOCATION':''}
+    if intents[1] == 'Get_Restaurant':
+      sys_act['intent'] = 'request'
+      sys_act['content'] = {'LOCATION':''}
+    else:
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''
 
   #request category
   elif action == 1:
-    sys_act['intent'] = 'request'
-    sys_act['content'] = {'CATEGORY':''}
+    if intents[1] == 'Get_Restaurant':
+      sys_act['intent'] = 'request'
+      sys_act['content'] = {'CATEGORY':''}
+    else:
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''
 
   #request time
   elif action == 2:
-    sys_act['intent'] = 'request'
-    sys_act['content'] = {'TIME':''}
+    if intents[1] == 'Get_Restaurant':
+      sys_act['intent'] = 'request'
+      sys_act['content'] = {'TIME':''}
+    else:
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''
 
   #request restaurant name
   elif action == 3: 
-    sys_act['intent'] = 'request'
-    sys_act['content'] = {'RESTAURANTNAME':''}
+    if intents[-1] == 'Get_rating' or intents[-1] == 'Get_location':
+      sys_act['intent'] = 'request'
+      sys_act['content'] = {'RESTAURANTNAME':''}
+    else:
+      sys_act['intent'] = 'not_a_good_policy'   
+      sys_act['content'] = ''
 
   #inform Get_restaurant
   elif action == 4:
@@ -673,19 +689,27 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   #confirm_restaurant
   elif action == 8:
-    sys_act['intent'] = 'confirm_restaurant'
-    for key in state[intents[-1]].keys():
-      sys_act['content'][key] = state[intents[-1]][key]
-    waitConfirm.append(['confirm' ,sys_act['content']])
+    if states['Get_Restaurant']['LOCATION'] != '' and states['Get_Restaurant']['CATEGORY'] != '' and states['Get_Restaurant']['TIME'] != '':
+      sys_act['intent'] = 'confirm_restaurant'
+      for key in state[intents[-1]].keys():
+        sys_act['content'][key] = state[intents[-1]][key]
+      waitConfirm.append(['confirm' ,sys_act['content']])
+    else:
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''        
 
   #confirm_info
   elif action == 9:
-    sys_act['intent'] = 'confirm_info'
-    for key in state[intents[-1]].keys():
-      sys_act['content'][key] = state[intents[-1]][key]
-    sys_act['content']['LOCATION'] = ''
-    waitConfirm.append(['confirm' ,sys_act['content']])
-
+    if states['Get_rating']['RESTAURANTNAME'] != '' or states['Get_location']['RESTAURANTNAME'] != ''
+      sys_act['intent'] = 'confirm_info'
+      for key in state[intents[-1]].keys():
+        sys_act['content'][key] = state[intents[-1]][key]
+      sys_act['content']['LOCATION'] = ''
+      waitConfirm.append(['confirm' ,sys_act['content']])
+    else:
+      sys_act['intent'] = 'not_a_good_policy'
+      sys_act['content'] = ''  
+      
   #wrong
   elif action == 10:
     return ''
