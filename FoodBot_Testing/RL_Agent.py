@@ -228,7 +228,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         newDialogSetup()
         diagNumber = diagNumber + 1
         print('\n\n New Dialog:',diagNumber)
-
+        print('Dialog total reward:',rAll)
+        rList.append(rAll)
 
     #if len(rList) % 10 == 0:
     #    print(total_steps,np.mean(rList[-10:]), e)
