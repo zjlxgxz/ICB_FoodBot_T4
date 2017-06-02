@@ -180,7 +180,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     j+=1
     total_steps = total_steps+1
     
-    print("dailog total turn， total turn: ",j，total_steps)
+    print("dailog total turn,total turn",j,total_steps)
 
     #Choose an action by greedily (with e chance of random action) from the Q-network
     if np.random.rand(1) < e or total_steps < pre_train_steps:
