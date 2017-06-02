@@ -87,10 +87,42 @@ def policyChecker(sys_act):
 	print("This is sys_act[intent]",sys_act['intent'])
 	print("This is sys_act[currentState]",sys_act['currentstate'])
 
+	global memory
+
 	if sys_act['intent'] == 'not_a_good_policy':
 		return False
-
-	return True
+	if memory['intent'] == 'yes':
+		if sys_act['intent'] == 'inform':
+			return True
+	elif memory['intent'] == 'change':
+		if sys_act['intent'] == 'inform':
+			return True
+	elif memory['intent'] == 'get_restaurant':
+		if memory['location'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
+			return True
+		elif memory['category'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
+			return True
+		elif memory['time'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
+			return True
+		elif memory['location'] != '' and memory['category'] != '' and memory['time'] != '':
+			if sys_act['intent'] == 'confirm_restaurant':
+				return True
+	elif memory['intent'] == 'get_location' or memory['intent'] == 'get_rating':
+		if memory['restaurantname'] == '' and sys_act['intent'] == 'request' and sys_act['content'] == 'RESTAURANTNAME':
+			return True
+		elif memory['restaurantname'] != '' and sys_act['intent'] == 'confirm_info':
+			return True
+	elif memory['intent'] == 'inform':
+		if memory['location'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
+			return True
+		elif memory['category'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
+			return True
+		elif memory['time'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
+			return True
+		elif memory['restaurantname'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'RESTAURANTNAME':
+			return True
+	else:
+		return False
 
 
 def simul_user(sys_act):
