@@ -174,7 +174,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     if currentState == [0,0,0,0,0,0,0,0,0,0,0] or currentState == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
         d = True
 
-    global j,total_steps,episodeBuffer,mainQN,targetQN,e
+    global j,total_steps,episodeBuffer,mainQN,targetQN,e,diagNumber
     j+=1
     total_steps = total_steps+1
     
