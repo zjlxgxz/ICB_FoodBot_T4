@@ -367,8 +367,8 @@ def DST_reset():
   waitConfirm = []
   for x in range(intents.__len__()):
     intents[x] = ''
-  for x in range(observation.__len__()):
-    observation[x] = []
+  #for x in range(observation.__len__()):
+  #  observation[x] = []
   global formerState
   formerState = [0,0,0,0,0,0,0,0,0,0,0]
 
