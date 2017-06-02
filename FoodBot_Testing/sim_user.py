@@ -172,7 +172,7 @@ def simul_user(sys_act):
 		global goodPolicy
 		# The see if the policy picked by DQN is reasonable
 		goodPolicy = policyChecker(sys_act)
-		if goodPolicy == False:
+		if goodPolicy == 0:
 			returnList = dict()
 			returnList["nlg_sentence"] = 'end'
 			returnList["semantic_frame"] = ''
