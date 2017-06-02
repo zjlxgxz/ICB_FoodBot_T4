@@ -42,7 +42,7 @@ import FoodBotRLAgent_pb2
 from searchdb import SearchDB
 
 #GRPC RL connection
-channel = grpc.insecure_channel('140.112.90.179:50053')
+channel = grpc.insecure_channel('localhost:50053')
 stub = FoodBotRLAgent_pb2.FoodBotRLRequestStub(channel)
 
 
