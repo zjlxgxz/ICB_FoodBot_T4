@@ -187,6 +187,7 @@ def newDialogSetupDoubleQNN():
     d = False
     rAll = 0
     j = 0
+    a = -1
 
 def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     lr = 0.8
@@ -194,7 +195,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     s = formerState
     a = formerAction
     r = formerReward
-    r = 1
+    #r = 1
     s1 = currentState
     d = False # The termination indiction 
     #In our case, the termiantion states are: [0,0,0,0,0,0,0,0,0,0,0],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
