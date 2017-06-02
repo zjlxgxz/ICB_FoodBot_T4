@@ -382,6 +382,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
         slots['CATEGORY'] = str(slots['CATEGORY']+" "+tokens[index_token])
     elif "B-RESTAURANTNAME" in test_tagging_result[0][index_token] or "I-RESTAURANTNAME" in test_tagging_result[0][index_token]:
       if(slots['RESTAURANTNAME'] == ""):
+        print slots['RESTAURANTNAME'],tokens[index_token]
         slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token])
       else:
         slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+ " " +tokens[index_token])
