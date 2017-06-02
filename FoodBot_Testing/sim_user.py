@@ -72,6 +72,7 @@ memory = {"intent": "",
 num_of_quest_rest = 0
 num_of_quest_info = 0
 
+goodPolicy = True
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
@@ -133,7 +134,7 @@ def simul_user(sys_act):
 	else:
 		#print("memory: ", memory)
 		sys_act = json.loads(sys_act)
-
+		global goodPolicy
 		# The see if the policy picked by DQN is reasonable
 		goodPolicy = policyChecker(sys_act)
 		if goodPolicy == False:
