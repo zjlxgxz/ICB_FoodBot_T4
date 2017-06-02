@@ -547,12 +547,18 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   global formerState
   feedbackReward  = 0
   currentState = vector[0]
-  if userInput == 'end' and formerPolicyGoodOrNot == True:
+  if userInput == 'end' and formerPolicyGoodOrNot !=0:
     currentState = [0,0,0,0,0,0,0,0,0,0,0] # terminate state
-  if userInput == 'end' and formerPolicyGoodOrNot == False:
+  if userInput == 'end' and formerPolicyGoodOrNot == 0:
     currentState = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]# terminate state
-  if formerPolicyGoodOrNot == True:
-    feedbackReward  = 1
+  if formerPolicyGoodOrNot == 0:
+    feedbackReward  = 0
+  elif formerPolicyGoodOrNot == 1:
+    feedbackReward  = 2
+  elif formerPolicyGoodOrNot == 2:
+    feedbackReward  = 5
+  elif formerPolicyGoodOrNot == 3:
+    feedbackReward  = 10
   if len(set(formerState)) == 1:
     action = -1
   print ("###############################################")
@@ -931,7 +937,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     if 'goodpolicy' in outputFromSim.keys():
       pass
     else:
-      outputFromSim['goodpolicy'] = True # assume users give a comfirmative attitude if they continue to talk OR they will type 'end'
+      outputFromSim['goodpolicy'] = 0 # assume users give a comfirmative attitude if they continue to talk OR they will type 'end'
     policyFrame = dialogPolicy(outputFromSim['goodpolicy'],userInput)
     nlg_sentence = nlg(policyFrame,1)
 
