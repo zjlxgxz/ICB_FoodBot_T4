@@ -90,39 +90,39 @@ def policyChecker(sys_act):
 	global memory
 
 	if sys_act['intent'] == 'not_a_good_policy':
-		return False
+		return 0
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
-			return True
+			return 3
 	elif memory['intent'] == 'change':
 		if sys_act['intent'] == 'inform':
-			return True
+			return 3
 	elif memory['intent'] == 'get_restaurant':
 		if memory['location'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
-			return True
+			return 1
 		elif memory['category'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
-			return True
-		elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
-			return True
-		elif memory['location'] != '' and memory['category'] != '' and memory['time'] != '':
+			return 1
+		#elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
+		#	return 1
+		elif memory['location'] != '' and memory['category'] != '':
 			if sys_act['intent'] == 'confirm_restaurant':
-				return True
+				return 2
 	elif memory['intent'] == 'get_location' or memory['intent'] == 'get_rating':
 		if memory['restaurantname'] == '' and sys_act['intent'] == 'request' and sys_act['content'] == 'RESTAURANTNAME':
-			return True
+			return 1
 		elif memory['restaurantname'] != '' and sys_act['intent'] == 'confirm_info':
-			return True
+			return 2
 	elif memory['intent'] == 'inform':
 		if memory['location'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
-			return True
+			return 1
 		elif memory['category'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
-			return True
+			return 1
 		elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
-			return True
+			return 1
 		elif memory['restaurantname'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'RESTAURANTNAME':
-			return True
+			return 1
 	else:
-		return False
+		return 0
 
 
 def simul_user(sys_act):
