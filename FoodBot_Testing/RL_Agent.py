@@ -160,7 +160,7 @@ diagNumber = 0
 
 def indexOfState(state):
     index = 0
-    for i in len(state):
+    for i in range(len(state)):
         index = 2**i*state[i]
     if state == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
         index = 2047
