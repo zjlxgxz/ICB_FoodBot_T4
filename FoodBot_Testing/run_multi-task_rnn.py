@@ -572,7 +572,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   #request location
   if action == 0:
-    if intents[1] == 'Get_Restaurant':
+    if intents[-1] == 'Get_Restaurant':
       sys_act['intent'] = 'request'
       sys_act['content'] = {'LOCATION':''}
     else:
@@ -581,7 +581,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   #request category
   elif action == 1:
-    if intents[1] == 'Get_Restaurant':
+    if intents[-1] == 'Get_Restaurant':
       sys_act['intent'] = 'request'
       sys_act['content'] = {'CATEGORY':''}
     else:
@@ -590,7 +590,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   #request time
   elif action == 2:
-    if intents[1] == 'Get_Restaurant':
+    if intents[-1] == 'Get_Restaurant':
       sys_act['intent'] = 'request'
       sys_act['content'] = {'TIME':''}
     else:
