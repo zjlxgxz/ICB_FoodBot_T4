@@ -118,7 +118,7 @@ h_size = 512 #The size of the final convolutional layer before splitting it into
 tau = 0.001 #Rate to update target network toward primary network
 
 #global variable
-sess = tf.Session()
+sess = tf.InteractiveSession()
 tf.reset_default_graph()
 mainQN = Qnetwork()
 targetQN = Qnetwork()
