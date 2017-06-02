@@ -110,7 +110,7 @@ startE = 1 #Starting chance of random action
 endE = 0.1 #Final chance of random action
 anneling_steps = 10000. #How many steps of training to reduce startE to endE.
 num_episodes = 10 #How many episodes of game environment to train network with.
-pre_train_steps = 10 #How many steps of random actions before training begins.
+pre_train_steps = 100 #How many steps of random actions before training begins.
 max_epLength = 50 #The max allowed length of our episode.
 load_model = False #Whether to load a saved model.
 path = "./dqn" #The path to save our model to.
@@ -174,7 +174,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     if currentState == [0,0,0,0,0,0,0,0,0,0,0] or currentState == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
         d = True
 
-    global j,total_steps,episodeBuffer,mainQN,targetQN,e
+    global j,total_steps,episodeBuffer,mainQN,targetQN,e,diagNumber,rAll
     j+=1
     total_steps = total_steps+1
     
