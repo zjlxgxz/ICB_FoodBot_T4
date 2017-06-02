@@ -850,6 +850,9 @@ def nlg(sem_frame, bot):
   
     if not sem_frame["intent"]:
       sentence = "Sorry, I don't understand! Please try again..."
+    elif sem_frame["intent"] == 'not_a_good_policy':
+      sentence = "What?? Please try again..."
+
   else:
     sentence = "The variable bot should be 1!"
   

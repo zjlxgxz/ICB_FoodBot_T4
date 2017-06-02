@@ -87,6 +87,9 @@ def policyChecker(sys_act):
 	print("This is sys_act[intent]",sys_act['intent'])
 	print("This is sys_act[currentState]",sys_act['currentState'])
 
+	if sys_act['intent'] == 'not_a_good_policy':
+		return False
+
 	return True
 
 
@@ -238,7 +241,9 @@ def simul_user(sys_act):
 
 		elif sys_act["intent"] == "not_found":
 			sem_frame["intent"] = "end"
-		
+		elif sys_act["intent"] == "not_a_good_policy":
+			sem_frame["intent"] = "end"
+
         
 	#print("num_of_quest_rest: ", num_of_quest_rest)
 	#print("num_of_quest_info: ", num_of_quest_info)
