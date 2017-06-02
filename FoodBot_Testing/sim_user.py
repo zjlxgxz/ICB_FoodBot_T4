@@ -98,11 +98,11 @@ def policyChecker(sys_act):
 		if sys_act['intent'] == 'inform':
 			return True
 	elif memory['intent'] == 'get_restaurant':
-		if memory['location'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
+		if memory['location'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
 			return True
-		elif memory['category'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
+		elif memory['category'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
 			return True
-		elif memory['time'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
+		elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
 			return True
 		elif memory['location'] != '' and memory['category'] != '' and memory['time'] != '':
 			if sys_act['intent'] == 'confirm_restaurant':
@@ -113,13 +113,13 @@ def policyChecker(sys_act):
 		elif memory['restaurantname'] != '' and sys_act['intent'] == 'confirm_info':
 			return True
 	elif memory['intent'] == 'inform':
-		if memory['location'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
+		if memory['location'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
 			return True
-		elif memory['category'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
+		elif memory['category'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
 			return True
-		elif memory['time'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
+		elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
 			return True
-		elif memory['restaurantname'] != '' and sys_act['intent'] == 'request' and sys_act['content'] != 'RESTAURANTNAME':
+		elif memory['restaurantname'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'RESTAURANTNAME':
 			return True
 	else:
 		return False
