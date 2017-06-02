@@ -146,6 +146,9 @@ total_steps = 0
 #    saver.restore(sess,ckpt.model_checkpoint_path)
 #updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
 
+QTable = np.zeros([2**11,11])
+
+
 episodeBuffer = experience_buffer()
 #Reset environment and get first new observation
 s = [0,0,0,0,0,0,0,0,0,0,0]
@@ -155,7 +158,26 @@ rAll = 0
 j = 0
 diagNumber = 0
 
+def indexOfState(state):
+    index = 0
+    for i in len(state):
+        index = 2**i*state[i]
+    if state == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
+        index = 2047
+    return int(index)
+
 def newDialogSetup():
+    global episodeBuffer,s,d,rAll,j
+
+    #pisodeBuffer = experience_buffer()
+    #Reset environment and get first new observation
+    s = [0,0,0,0,0,0,0,0,0,0,0]
+    #s = processState(s)
+    d = False
+    rAll = 0
+    j = 0
+
+def newDialogSetupDoubleQNN():
     global episodeBuffer,s,d,rAll,j
 
     episodeBuffer = experience_buffer()
@@ -167,6 +189,50 @@ def newDialogSetup():
     j = 0
 
 def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
+    lr = 0.8
+    y = 0.9
+    s = formerState
+    a = formerAction
+    r = formerReward
+    s1 = currentState
+    d = False # The termination indiction 
+    #In our case, the termiantion states are: [0,0,0,0,0,0,0,0,0,0,0],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+    if currentState == [0,0,0,0,0,0,0,0,0,0,0] or currentState == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
+        d = True
+
+    global j,total_steps,episodeBuffer,mainQN,targetQN,e,diagNumber,rAll
+    j+=1
+    total_steps = total_steps+1
+    
+    currentStateIndex = indexOfState(s1)
+    formerStateIndex = indexOfState(s)
+
+    Q[formerStateIndex,a] = Q[formerStateIndex,a] + lr*(r + y*np.max(Q[currentStateIndex,:]) - Q[formerStateIndex,a])
+
+    print("dailog total turn,total turn",j,total_steps)
+    #Choose an action by greedily (with e chance of random action) from the Q-network
+    if(np.random.random_sample()>0.2):
+        a = np.argmax(QTable[currentStateIndex,:])
+    else:
+        a = np.random.randint(0, 11)
+    rAll += r
+    
+
+
+    if d == True: # initial the dialog and reset the buffers and Accumulated Q
+        newDialogSetup()
+        diagNumber = diagNumber + 1
+        print('\n\n New Dialog:',diagNumber)
+        print('Dialog total reward:',rAll)
+        rList.append(rAll)
+
+    #if len(rList) % 10 == 0:
+    #    print(total_steps,np.mean(rList[-10:]), e)
+    #saver.save(sess,path+'/model-'+str(i)+'.cptk')
+    return a
+
+
+def hasNewTurnDoubleQNN(formerAction,formerReward,currentState,d,formerState):
     s = formerState
     a = formerAction
     r = formerReward
