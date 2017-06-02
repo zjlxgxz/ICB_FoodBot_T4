@@ -1,4 +1,5 @@
-I’m in LOCATION.
-I’m at LOCATION.
-I’m near LOCATION.
+I'm in LOCATION.
+I'm at LOCATION.
+I'm near LOCATION.
 I would like to have food around LOCATION.
+I'd like to have food around LOCATION.
