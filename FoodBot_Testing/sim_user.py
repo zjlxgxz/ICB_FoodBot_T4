@@ -31,7 +31,7 @@ sent_content = [time_list, location_list, category_list]
 
 #files
 f1 = open('rest_name.txt', 'r')
-restaurant_list1 = f1.read().split('\n')
+restaurant_list = f1.read().split('\n')
 #restaurant_list = [item.replace('-', ' ') for item in restaurant_list1]
 
 f2 = open('sentence_pattern/yes.txt', 'r')
