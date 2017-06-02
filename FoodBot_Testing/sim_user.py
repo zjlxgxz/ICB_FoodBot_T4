@@ -103,16 +103,6 @@ def simul_user(sys_act):
 			  }
 
 	'''
-	# The see if the policy picked by DQN is reasonable
-	goodPolicy = policyChecker(sys_act)
-	if goodPolicy == False:
-		returnList = dict()
-		returnList["nlg_sentence"] = 'end'
-		returnList["semantic_frame"] = ''
-		returnList["goodpolicy"] = goodPolicy
-		json_list = json.dumps(returnList)
-		return json_list
-
 	# initially randomly generated a sentence
 	sem_frame = {"intent": "",
 				"location": "",
@@ -143,6 +133,17 @@ def simul_user(sys_act):
 	else:
 		#print("memory: ", memory)
 		sys_act = json.loads(sys_act)
+
+		# The see if the policy picked by DQN is reasonable
+		goodPolicy = policyChecker(sys_act)
+		if goodPolicy == False:
+			returnList = dict()
+			returnList["nlg_sentence"] = 'end'
+			returnList["semantic_frame"] = ''
+			returnList["goodpolicy"] = goodPolicy
+			json_list = json.dumps(returnList)
+			return json_list
+
 
 		if sys_act["intent"] == "request":
 			sem_frame["intent"] = "inform"
