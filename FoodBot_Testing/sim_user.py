@@ -107,7 +107,7 @@ def simul_user(sys_act):
 	goodPolicy = policyChecker(sys_act)
 	if goodPolicy == False:
 		returnList = dict()
-		returnList["nlg_sentence"] = '...'
+		returnList["nlg_sentence"] = 'end'
 		returnList["semantic_frame"] = ''
 		returnList["goodpolicy"] = goodPolicy
 		json_list = json.dumps(returnList)
