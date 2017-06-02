@@ -34,7 +34,7 @@ def SimOutput(rawdata):
 
 if __name__ == '__main__':
   i = 0;
-  while (i < 1000):
+  while (i < 100000):
   	msgToSend = SimOutput("init")
 	print ("init-sent")
   	while(True):
