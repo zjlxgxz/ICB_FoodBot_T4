@@ -109,8 +109,8 @@ y = .99 #Discount factor on the target Q-values
 startE = 1 #Starting chance of random action
 endE = 0.1 #Final chance of random action
 anneling_steps = 10000. #How many steps of training to reduce startE to endE.
-num_episodes = 10000 #How many episodes of game environment to train network with.
-pre_train_steps = 10000 #How many steps of random actions before training begins.
+num_episodes = 10 #How many episodes of game environment to train network with.
+pre_train_steps = 10 #How many steps of random actions before training begins.
 max_epLength = 50 #The max allowed length of our episode.
 load_model = False #Whether to load a saved model.
 path = "./dqn" #The path to save our model to.
@@ -151,7 +151,7 @@ s = [0,0,0,0,0,0,0,0,0,0,0]
 d = False
 rAll = 0
 j = 0
-
+diagNumber = 0
 
 def newDialogSetup():
     global episodeBuffer,s,d,rAll,j
@@ -169,7 +169,11 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     a = formerAction
     r = formerReward
     s1 = currentState
-    d = False
+    d = False # The termination indiction 
+    #In our case, the termiantion states are: [0,0,0,0,0,0,0,0,0,0,0],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+    if currentState == [0,0,0,0,0,0,0,0,0,0,0] or currentState == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
+        d = True
+
     global j,total_steps,episodeBuffer,mainQN,targetQN,e
     j+=1
     total_steps = total_steps+1
@@ -198,7 +202,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
             #Below we perform the Double-DQN update to the target Q-values
             Q1 = sess.run(mainQN.predict,feed_dict={mainQN.scalarInput:np.vstack(trainBatch[:,3])})
             Q2 = sess.run(targetQN.Qout,feed_dict={targetQN.scalarInput:np.vstack(trainBatch[:,3])})
-            print ("Q1,Q2: ",Q1,Q2)
+            #print ("Q1,Q2: ",Q1,Q2)
             end_multiplier = -(trainBatch[:,4] - 1)
             doubleQ = Q2[range(batch_size),Q1]
             targetQ = trainBatch[:,2] + (y*doubleQ * end_multiplier)
@@ -208,16 +212,21 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
             updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
         rAll += r
     
-    #if d == True:
-    #    break
     if(len(set(formerState))!=1):
         myBuffer.add(episodeBuffer.buffer)
     #jList.append(j)
     #rList.append(rAll)
     #Periodically save the model. 
-    if j % 1000 == 0:
+    if j % 50 == 0:
         saver.save(sess,path+'/model-'+str(j)+'.cptk')
         print("Saved Model")
+
+    if d == True: # initial the dialog and reset the buffers and Accumulated Q
+        newDialogSetup()
+        diagNumber = diagNumber + 1
+        print('\n\n New Dialog:',diagNumber)
+
+
     #if len(rList) % 10 == 0:
     #    print(total_steps,np.mean(rList[-10:]), e)
     #saver.save(sess,path+'/model-'+str(i)+'.cptk')
