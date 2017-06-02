@@ -195,6 +195,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         print ("Add the turn to buffer: ",[s,a,r,s1,d])
     
     if total_steps > pre_train_steps:
+        print("Get into",total_steps % (update_freq))
         if e > endE:
             e -= stepDrop
         
