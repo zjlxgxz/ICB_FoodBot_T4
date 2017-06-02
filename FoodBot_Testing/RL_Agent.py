@@ -118,8 +118,8 @@ h_size = 512 #The size of the final convolutional layer before splitting it into
 tau = 0.001 #Rate to update target network toward primary network
 
 #global variable
-sess = tf.Session()
-tf.reset_default_graph()
+sess = tf.InteractiveSession()
+#tf.reset_default_graph()
 mainQN = Qnetwork()
 targetQN = Qnetwork()
 init = tf.global_variables_initializer()
@@ -127,6 +127,8 @@ saver = tf.train.Saver()
 trainables = tf.trainable_variables()
 targetOps = updateTargetGraph(trainables,tau)
 myBuffer = experience_buffer()
+sess.run(init)
+
 #Set the rate of random action decrease. 
 e = startE
 stepDrop = (startE - endE)/anneling_steps
@@ -178,7 +180,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     j+=1
     total_steps = total_steps+1
     
-    print("dailog total turn: ",j)
+    print("dailog total turn,total turn",j,total_steps)
 
     #Choose an action by greedily (with e chance of random action) from the Q-network
     if np.random.rand(1) < e or total_steps < pre_train_steps:
@@ -193,6 +195,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         print ("Add the turn to buffer: ",[s,a,r,s1,d])
     
     if total_steps > pre_train_steps:
+        print("Get into",total_steps % (update_freq))
         if e > endE:
             e -= stepDrop
         
@@ -330,7 +333,6 @@ if __name__ == "__main__":
   if not os.path.exists(path):
     os.makedirs(path)
 
-    sess.run(init)
     if load_model == True:
         print('Loading Model...')
         ckpt = tf.train.get_checkpoint_state(path)
