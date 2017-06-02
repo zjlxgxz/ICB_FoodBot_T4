@@ -72,7 +72,7 @@ memory = {"intent": "",
 num_of_quest_rest = 0
 num_of_quest_info = 0
 
-goodPolicy = True
+goodPolicy = 0
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
