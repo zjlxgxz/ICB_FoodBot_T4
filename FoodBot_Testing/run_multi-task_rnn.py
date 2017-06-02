@@ -504,7 +504,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   #translate state to vector
   vector = [[0]*11,['Get_Restaurant','','','','Get_location','','Get_rating','','Get_Another_Restaurant','Confirm','Wrong']]
-  if state['Wrong'] == True
+  if state['Wrong'] == True:
       vector[0][10] = 1
   elif observation[-1][0] == 'Get_Restaurant':
     vector[0][0] = 1
