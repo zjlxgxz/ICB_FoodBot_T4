@@ -119,7 +119,7 @@ tau = 0.001 #Rate to update target network toward primary network
 
 #global variable
 sess = tf.InteractiveSession()
-tf.reset_default_graph()
+#tf.reset_default_graph()
 mainQN = Qnetwork()
 targetQN = Qnetwork()
 init = tf.global_variables_initializer()
