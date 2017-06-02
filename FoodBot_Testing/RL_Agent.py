@@ -31,7 +31,7 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       formerState = list(request.formerState)
       rewardForTheFormer = request.rewardForTheFormer
       formerAction = request.formerAction
-      if len(set(formerState)) ==1:
+      if len(set(formerState)) ==1 and formerState[0]!=0:
           formerAction = -1
 
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
