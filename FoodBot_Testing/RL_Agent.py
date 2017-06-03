@@ -34,11 +34,13 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       # Runmodel has check the start state..
       #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
       #    formerAction = -1
-      if(QTable[indexOfState(formerState),9]!=0 and formerState[0] == 1):
+      #if(QTable[indexOfState(formerState),9]!=0 and formerState[0] == 1):
+      if True:
         print ("============================================================")
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
-      if(QTable[indexOfState(formerState),9]!=0 and formerState[0] == 1):
+      #if(QTable[indexOfState(formerState),9]!=0 and formerState[0] == 1):
+      if True:
         print ("NowQTable:",QTable[indexOfState(currentState),])
         print ("NowAction: ",policy)   
         print ("currentState: ",currentState)
