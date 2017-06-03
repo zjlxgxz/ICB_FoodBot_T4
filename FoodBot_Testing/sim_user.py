@@ -105,9 +105,9 @@ def policyChecker(sys_act):
 			return 3
 	elif expect == 'get_restaurant':
 		if sys_act['intent'] == 'request':
-			if memory['location'] == '' and sys_act['content'] == 'LOCATION':
+			if memory['location'] == '' and 'location' in sys_act['content'].keys():
 				return 1
-			elif memory['category'] == '' and sys_act['content'] == 'CATEGORY':
+			elif memory['category'] == '' and 'category' in sys_act['content'].keys():
 				return 1
 		elif sys_act['intent'] == 'confirm_restaurant':
 			if memory['location'] != '' and memory['category'] != '':
@@ -116,7 +116,7 @@ def policyChecker(sys_act):
 			return 3
 	elif expect == 'get_location' or expect == 'get_rating':
 		if sys_act['intent'] == 'request':
-			if memory['restaurantname'] == '' and sys_act['content'] == 'RESTAURANTNAME':
+			if memory['restaurantname'] == '' and 'restaurantname' in sys_act['content'].keys():
 				return 1
 		elif sys_act['intent'] == 'confirm_info':
 			if memory['restaurantname'] != '':

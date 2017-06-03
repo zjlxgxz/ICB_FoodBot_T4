@@ -722,7 +722,6 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
       sys_act['intent'] = 'confirm_info'
       for key in state[intents[-1]].keys():
         sys_act['content'][key] = state[intents[-1]][key]
-      sys_act['content']['LOCATION'] = ''
       waitConfirm.append(['confirm' ,sys_act['content']])
     else:
       sys_act['intent'] = 'not_a_good_policy'
