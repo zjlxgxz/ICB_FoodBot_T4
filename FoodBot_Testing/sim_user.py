@@ -102,9 +102,6 @@ def policyChecker(sys_act):
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
 			return 3
-	elif memory['intent'] == 'no':
-		if sys_act == '':
-			return 3
 	elif expect == 'get_restaurant':
 		if sys_act['intent'] == 'request':
 			if memory['location'] == '' and sys_act['content'] == 'LOCATION':
