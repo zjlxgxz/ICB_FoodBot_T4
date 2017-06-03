@@ -36,9 +36,9 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       elif  (rewardForTheFormer == 2):
           rewardForTheFormer = 2  
       elif  (rewardForTheFormer == 5):
-          rewardForTheFormer = 20
-      elif  (rewardForTheFormer == 10):
           rewardForTheFormer = 50
+      elif  (rewardForTheFormer == 10):
+          rewardForTheFormer = 100
       formerAction = request.formerAction
       # Runmodel has check the start state..
       #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
