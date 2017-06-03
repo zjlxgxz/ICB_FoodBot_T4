@@ -220,7 +220,10 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         #print (QTable[formerStateIndex,])
     ###print("dailog total turn,total turn",j,total_steps)
     #Choose an action by greedily (with e chance of random action) from the Q-network
-    if(np.random.random_sample()>0.2):
+
+    if total_steps<2000:
+        a = np.random.randint(0, 10)
+    elif(np.random.random_sample()>0.2):
         #print ("Pick max in Q")
         a = np.argmax(QTable[currentStateIndex,:])
     else:
