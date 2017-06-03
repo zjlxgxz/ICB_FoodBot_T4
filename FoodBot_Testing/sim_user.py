@@ -67,6 +67,7 @@ memory = {"intent": "",
 				"time": "",
 				"category": "",
 				"restaurantname": ""}
+expect = ''
 
 #num_of_no = 0
 num_of_quest_rest = 0
@@ -88,17 +89,39 @@ def policyChecker(sys_act):
 	print("This is sys_act[currentState]",sys_act['currentstate'])
 
 	global memory
+	global expect
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
-	if sys_act == '':
-		return 3
-	else:
-		return 0
-	'''	
-	if memory['intent'] == 'yes':
+	elif memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
 			return 3
+	elif memory['intent'] = 'no':
+		if sys_act == ''
+			return 3
+	elif expect == 'get_restaurant':
+		if sys_act['intent'] == 'request':
+			if memory['location'] == '' and sys_act['content'] == 'LOCATION':
+				return 1
+			elif memory['category'] == '' and sys_act['content'] == 'CATEGORY':
+				return 1
+		elif sys_act['intent'] == 'confirm_restaurant':
+			if memory['location'] != '' and memory['category'] != '':
+				return 2
+		elif sys_act['intent'] == 'inform':
+			return 3
+	elif expect == 'get_location' or expect == 'get_rating':
+		if sys_act['intent'] == 'request':
+			if memory['restaurantname'] == '' and sys_act['content'] == 'RESTAURANTNAME':
+				return 1
+		elif sys_act['intent'] == 'confirm_info':
+			if memory['restaurantname'] != '':
+				return 2
+		elif sys_act['intent'] == 'inform':
+			return 3
+
+	return 0
+	'''
 	elif memory['intent'] == 'change':
 		if sys_act['intent'] == 'inform':
 			return 3
@@ -122,8 +145,8 @@ def policyChecker(sys_act):
 			return 1
 		elif memory['category'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
 			return 1
-		elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
-			return 1
+		#elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
+		#	return 1
 		elif memory['restaurantname'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'RESTAURANTNAME':
 			return 1
 	else:
@@ -297,6 +320,9 @@ def simul_user(sys_act):
 
 
 def nlg(sem_frame):
+
+	global expect
+
 	#print("semantic frame: ", sem_frame)
 	sentence = ""
 
@@ -370,6 +396,13 @@ def nlg(sem_frame):
 
 	else:
 		sentence = "END"
+
+	if memory['intent'] == 'get_restaurant' or memory['intent'] == 'change':
+		expect = 'get_restaurant'
+	elif memory['intent'] == 'get_location':
+		expect = 'get_location'
+	elif memory['intent'] == 'get_rating':
+		expect = 'get_rating'
 	
 	return sentence
 
