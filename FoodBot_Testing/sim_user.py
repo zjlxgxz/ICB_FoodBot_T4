@@ -102,7 +102,16 @@ def policyChecker(sys_act):
 		return 0
 	'''
 	
-	if expect == 'get_restaurant':
+	if confirm == 'yes':
+		confrim = ''
+		if sys_act['intent'] == 'inform':
+			if expect == 'get_restaurant' and 'restaurantname' in sys_act['content'].keys() and 'location' in sys_act['content'].keys():
+				return 3
+			elif expect == 'get_rating' and 'restaurantname' in sys_act['content'].keys():
+				return 3
+			elif expect == 'get_location' and 'restaurantname' in sys_act['content'].keys():
+				return 3
+	elif expect == 'get_restaurant':
 		if sys_act['intent'] == 'request':
 			if memory['location'] == '' and 'location' in sys_act['content'].keys():
 				return 1
@@ -111,20 +120,13 @@ def policyChecker(sys_act):
 		elif sys_act['intent'] == 'confirm_restaurant':
 			if memory['location'] != '' and memory['category'] != '':
 				return 2
-		if confirm == 'yes':
-			confrim = ''
-			if sys_act['intent'] == 'inform':
-				if 'restaurantname' in sys_act['content'].keys() and 'location' in sys_act['content'].keys():
-					return 3
 	elif expect == 'get_location' or expect == 'get_rating':
 		if sys_act['intent'] == 'request':
 			if memory['restaurantname'] == '' and 'restaurantname' in sys_act['content'].keys():
 				return 1
-		if confirm == 'yes':
-			confirm = ''
-			if sys_act['intent'] == 'inform':
-				if 'rating' in sys_act['content'].keys() or 'location' in sys_act['content'].keys():
-					return 3
+		elif sys_act['intent'] == 'confirm_info':
+			if memory['restaurantname'] != '':
+				return 2
 	return 0
 	'''
 	elif memory['intent'] == 'change':
