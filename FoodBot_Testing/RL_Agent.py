@@ -30,6 +30,15 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       currentState = list(request.currentState) #11-D
       formerState = list(request.formerState)
       rewardForTheFormer = request.rewardForTheFormer
+      #0 2 5 10
+      if(rewardForTheFormer == 0):
+          rewardForTheFormer = 0
+      elif  (rewardForTheFormer == 2):
+          rewardForTheFormer = 2  
+      elif  (rewardForTheFormer == 5):
+          rewardForTheFormer = 20
+      elif  (rewardForTheFormer == 10):
+          rewardForTheFormer = 50
       formerAction = request.formerAction
       # Runmodel has check the start state..
       #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
