@@ -37,13 +37,13 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
 
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)
-      if(formerAction == 1 or formerAction == 2 or formerAction == 3 or formerAction == 0):
-        print ("============================================================")
-        print ("currentState: ",currentState)
-        print ("formerState: ",formerState)
-        print ("rewardForTheFormer: ",rewardForTheFormer)
-        print ("formerAction: ",formerAction)
-        print ("============================================================")
+      #if(formerAction == 1 or formerAction == 2 or formerAction == 3 or formerAction == 0):
+      print ("============================================================")
+      print ("currentState: ",currentState)
+      print ("formerState: ",formerState)
+      print ("rewardForTheFormer: ",rewardForTheFormer)
+      print ("formerAction: ",formerAction)
+      print ("============================================================")
 
       return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
