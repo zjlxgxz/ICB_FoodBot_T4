@@ -37,7 +37,7 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
 
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)
-      if(formerAction == 1 or formerAction == 2 or formerAction == 3 or formerAction == 1):
+      if(formerAction == 1 or formerAction == 2 or formerAction == 3 or formerAction == 0):
         print ("============================================================")
         print ("currentState: ",currentState)
         print ("formerState: ",formerState)
@@ -148,12 +148,12 @@ total_steps = 0
 #    saver.restore(sess,ckpt.model_checkpoint_path)
 #updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
 
-QTable = np.zeros([2**11,11])
+QTable = np.zeros([2**11,10])
 
 
 episodeBuffer = experience_buffer()
 #Reset environment and get first new observation
-s = [0,0,0,0,0,0,0,0,0,0,0]
+s = [2,2,2,2,2,2,2,2,2,2,2]
 #s = processState(s)
 d = False
 rAll = 0
@@ -173,7 +173,7 @@ def newDialogSetup():
 
     #pisodeBuffer = experience_buffer()
     #Reset environment and get first new observation
-    s = [0,0,0,0,0,0,0,0,0,0,0]
+    s = [2,2,2,2,2,2,2,2,2,2,2]
     #s = processState(s)
     d = False
     rAll = 0
@@ -184,7 +184,7 @@ def newDialogSetupDoubleQNN():
 
     episodeBuffer = experience_buffer()
     #Reset environment and get first new observation
-    s = [0,0,0,0,0,0,0,0,0,0,0]
+    s = [2,2,2,2,2,2,2,2,2,2,2]
     #s = processState(s)
     d = False
     rAll = 0
@@ -218,7 +218,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     if(np.random.random_sample()>0.2):
         a = np.argmax(QTable[currentStateIndex,:])
     else:
-        a = np.random.randint(0, 11)
+        a = np.random.randint(0, 10)
     rAll += r
     
 

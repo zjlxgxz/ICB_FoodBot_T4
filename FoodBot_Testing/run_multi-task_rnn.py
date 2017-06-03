@@ -446,9 +446,9 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
     #Really? should we reset here?
     state['Wrong'] = True
     dialogNum += 1
-    DST_reset()
+    #DST_reset()
     print ("!!WrongDetected!!")
-    return ''
+    #return ''
     
   elif observation[-1][0] == 'Inform':
     if intents[-1] == 'Get_Restaurant':
@@ -575,6 +575,8 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   # Has connected with the RL agent GRPC at beginning
   request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
   policy = stub.GetRLResponse(request)
+  if observation[-1][0] == 'Wrong':
+    return ''
   #print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
   formerState = currentState
@@ -947,6 +949,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     else:
       outputFromSim['goodpolicy'] = 0 # assume users give a comfirmative attitude if they continue to talk OR they will type 'end'
     policyFrame = dialogPolicy(outputFromSim['goodpolicy'],userInput)
+    if(policyFrame == ''):
+      DST_reset()
     nlg_sentence = nlg(policyFrame,1)
 
     #Calculate the LU accuracy:
