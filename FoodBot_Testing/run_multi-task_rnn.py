@@ -98,10 +98,10 @@ get_rating_pattern = f6.read().split('\n')
 #f7 = open('get_comment.txt', 'r')
 #get_comment_pattern = f7.read().split('\n')
 
-f8 = open('sentence_pattern/recommend.txt', 'r')
+f8 = open('sentence_pattern/agent/inform_restaurant.txt', 'r')
 recommend_pattern = f8.read().split('\n')
 
-f9 = open('sentence_pattern/inform_location.txt', 'r')
+f9 = open('sentence_pattern/agent/inform_address.txt', 'r')
 inform_location_pattern = f9.read().split('\n')
 
 f10 = open('sentence_pattern/inform_category.txt', 'r')
