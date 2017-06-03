@@ -43,8 +43,8 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       print ("formerState: ",formerState)
       print ("rewardForTheFormer: ",rewardForTheFormer)
       print ("formerAction: ",formerAction)
+      print ("NowAction: ",policy)
       print ("============================================================")
-
       return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
