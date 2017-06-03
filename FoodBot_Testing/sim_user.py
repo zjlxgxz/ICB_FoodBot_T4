@@ -93,7 +93,7 @@ def policyChecker(sys_act):
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
-	if sys_act == '':
+	if sys_act['intent']  == 'request':
 		print ("Selected!!!!")
 		return 3
 	else:
