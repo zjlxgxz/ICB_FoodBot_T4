@@ -448,7 +448,8 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
     dialogNum += 1
     DST_reset()
     print ("!!WrongDetected!!")
-
+    return ''
+    
   elif observation[-1][0] == 'Inform':
     if intents[-1] == 'Get_Restaurant':
       changeRestNum = 0
