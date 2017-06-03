@@ -78,10 +78,6 @@ content_list = ["category", "time", "location"]
 action = -1
 
 
-# files
-f1 = open('restName.txt', 'r')
-restaurant_list1 = f1.read().split('\n')
-restaurant_list = [item.replace('-', ' ') for item in restaurant_list1]
 
 #patterns of user
 f2 = open('sentence_pattern/yes.txt', 'r')

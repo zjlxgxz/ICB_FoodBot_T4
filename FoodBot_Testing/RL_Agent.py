@@ -220,8 +220,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     #In our case, the termiantion states are: [0,0,0,0,0,0,0,0,0,0,0],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
     if currentState == [0,0,0,0,0,0,0,0,0,0,0] or currentState == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
         d = True
-    if formerState == [0,0,0,0,0,0,0,0,0,0,0]:
-        print ("Former State is 0!!!,current state is: ",currentState)
+    #if formerState == [0,0,0,0,0,0,0,0,0,0,0]:
+    #    print ("Former State is 0!!!,current state is: ",currentState)
     global j,total_steps,episodeBuffer,mainQN,targetQN,e,diagNumber,rAll,QTable
     QTable[0,:] = np.zeros(10)
 
