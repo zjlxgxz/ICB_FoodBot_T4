@@ -68,6 +68,7 @@ memory = {"intent": "",
 				"category": "",
 				"restaurantname": ""}
 expect = ''
+confirm = ''
 
 #num_of_no = 0
 num_of_quest_rest = 0
@@ -90,6 +91,7 @@ def policyChecker(sys_act):
 
 	global memory
 	global expect
+	global confirm
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
@@ -100,10 +102,7 @@ def policyChecker(sys_act):
 		return 0
 	'''
 	
-	if expect == 'yes':
-		if sys_act['intent'] == 'inform':
-			return 3
-	elif expect == 'get_restaurant':
+	if expect == 'get_restaurant':
 		if sys_act['intent'] == 'request':
 			if memory['location'] == '' and 'location' in sys_act['content'].keys():
 				return 1
@@ -112,19 +111,20 @@ def policyChecker(sys_act):
 		elif sys_act['intent'] == 'confirm_restaurant':
 			if memory['location'] != '' and memory['category'] != '':
 				return 2
-		#elif sys_act['intent'] == 'inform' and confirm == 'confirm_restaurant':
-		#	confirm = ''
-		#	return 3
+		if confirm == 'yes':
+			confrim = ''
+			if sys_act['intent'] == 'inform':
+				if 'restaurantname' in sys_act['content'].keys() and 'location' in sys_act['content'].keys():
+					return 3
 	elif expect == 'get_location' or expect == 'get_rating':
 		if sys_act['intent'] == 'request':
 			if memory['restaurantname'] == '' and 'restaurantname' in sys_act['content'].keys():
 				return 1
-		#elif sys_act['intent'] == 'confirm_info' and confirm != sys_act['intent']:
-		#	if memory['restaurantname'] != '':
-		#		confirm = sys_act['intent']
-		#		return 2
-		elif sys_act['intent'] == 'inform':
-			return 3
+		if confirm == 'yes':
+			confirm = ''
+			if sys_act['intent'] == 'inform':
+				if 'rating' in sys_act['content'].keys() or 'location' in sys_act['content'].keys():
+					return 3
 	return 0
 	'''
 	elif memory['intent'] == 'change':
@@ -328,6 +328,7 @@ def simul_user(sys_act):
 def nlg(sem_frame):
 
 	global expect
+	global confirm
 
 	#print("semantic frame: ", sem_frame)
 	sentence = ""
@@ -338,7 +339,7 @@ def nlg(sem_frame):
 	
 	elif sem_frame["intent"] == "yes":
 		sentence = random.choice(yes_list)
-		expect = 'yes'
+		confirm = 'yes'
 	
 	elif sem_frame["intent"] == "no":
 		sentence = "disagree"
