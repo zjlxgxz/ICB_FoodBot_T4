@@ -34,17 +34,15 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       # Runmodel has check the start state..
       #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
       #    formerAction = -1
-
-      #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
-      policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)
-      #if(formerAction == 1 or formerAction == 2 or formerAction == 3 or formerAction == 0):
       print ("============================================================")
+      #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
+      policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)   
+      print ("NowQTable:",QTable[indexOfState(currentState),])
+      print ("NowAction: ",policy)   
       print ("currentState: ",currentState)
       print ("formerState: ",formerState)
       print ("rewardForTheFormer: ",rewardForTheFormer)
       print ("formerAction: ",formerAction)
-      print (QTable[indexOfState(currentState),])
-      print ("NowAction: ",policy)
       print ("============================================================")
       return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
@@ -217,8 +215,10 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     ###print("dailog total turn,total turn",j,total_steps)
     #Choose an action by greedily (with e chance of random action) from the Q-network
     if(np.random.random_sample()>0.2):
+        print ("Pick max in Q")
         a = np.argmax(QTable[currentStateIndex,:])
     else:
+        print ("Random pick")
         a = np.random.randint(0, 10)
     rAll += r
     
