@@ -94,6 +94,8 @@ def policyChecker(sys_act):
 	global confirm
 
 	if sys_act['intent'] == 'not_a_good_policy':
+		if confirm != '':
+			confirm = ''
 		return 0
 	'''
 	if sys_act['intent']  == 'request':
@@ -104,9 +106,13 @@ def policyChecker(sys_act):
 	
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
+			if confirm != '':
+				confirm = ''
 			return 3
 	elif expect == 'get_restaurant':
 		if sys_act['intent'] == 'request':
+			if confirm != '':
+				confirm = ''
 			if memory['location'] == '' and 'location' in sys_act['content'].keys():
 				return 1
 			elif memory['category'] == '' and 'category' in sys_act['content'].keys():
@@ -120,6 +126,8 @@ def policyChecker(sys_act):
 			return 3
 	elif expect == 'get_location' or expect == 'get_rating':
 		if sys_act['intent'] == 'request':
+			if confirm != '':
+				confirm = ''
 			if memory['restaurantname'] == '' and 'restaurantname' in sys_act['content'].keys():
 				return 1
 		elif sys_act['intent'] == 'confirm_info' and confirm != sys_act['intent']:
