@@ -207,6 +207,7 @@ def newDialogSetupDoubleQNN():
     a = -1
 
 def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
+    global QTable
     QTable[0,:] = np.zeros(10)
     lr = 0.8
     y = 0.9
