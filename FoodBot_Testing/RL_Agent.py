@@ -49,7 +49,8 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       #  print ("============================================================")
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
-      if formerAction == 9:
+      '''
+      if formerAction == 9 or policy == 9:
       #if True:
         print ("NowQTable:",QTable[indexOfState(currentState),])
         print ("NowAction: ",policy)   
@@ -58,6 +59,7 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
         print ("rewardForTheFormer: ",rewardForTheFormer)
         print ("formerAction: ",formerAction)
         print ("============================================================")
+        '''
       return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
@@ -218,7 +220,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     #In our case, the termiantion states are: [0,0,0,0,0,0,0,0,0,0,0],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
     if currentState == [0,0,0,0,0,0,0,0,0,0,0] or currentState == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
         d = True
-
+    if formerState == [0,0,0,0,0,0,0,0,0,0,0]:
+        print ("Former State is 0!!!,current state is: ",currentState)
     global j,total_steps,episodeBuffer,mainQN,targetQN,e,diagNumber,rAll,QTable
     QTable[0,:] = np.zeros(10)
 
@@ -230,7 +233,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         formerStateIndex = indexOfState(s)
         QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
         #print (QTable[formerStateIndex,])
-    print("dailog total turn,total turn",j,total_steps)
+    #print("dailog total turn,total turn",j,total_steps)
     #print("Table 000,",QTable[0,:])
     #print ("Table 111",QTable[2047,:])
     #Choose an action by greedily (with e chance of random action) from the Q-network
