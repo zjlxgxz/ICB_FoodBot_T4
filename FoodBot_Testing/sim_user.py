@@ -98,7 +98,7 @@ def policyChecker(sys_act):
 		return 3
 	else:
 		return 0
-	'''	
+	
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
 			return 3
