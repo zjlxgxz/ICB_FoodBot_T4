@@ -69,7 +69,6 @@ memory = {"intent": "",
 				"restaurantname": ""}
 expect = ''
 confirm = ''
-count = 0
 
 #num_of_no = 0
 num_of_quest_rest = 0
@@ -93,13 +92,7 @@ def policyChecker(sys_act):
 	global memory
 	global expect
 	global confirm
-	global count
-	
-	count += 1
-	print '=============================', count
-	print 'memory : ', memory
-	print 'expect : ', expect
-	print 'confirm : ', confirm
+
 	if sys_act['intent'] == 'not_a_good_policy':
 		if confirm != '':
 			confirm = ''
@@ -110,6 +103,11 @@ def policyChecker(sys_act):
 	else:
 		return 0
 	'''
+	if sys_act['intent'] == 'confirm_info':
+		print '=========================='
+		print 'memory : ', memory
+		print 'expect : ', expect
+		print 'confirm : ', confirm
 	
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
