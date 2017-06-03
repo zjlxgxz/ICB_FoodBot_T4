@@ -107,13 +107,13 @@ inform_location_pattern = f9.read().split('\n')
 f10 = open('sentence_pattern/inform_category.txt', 'r')
 inform_category_pattern = f10.read().split('\n')
 
-f11 = open('sentence_pattern/request_location.txt', 'r')
+f11 = open('sentence_pattern/agent/request_location.txt', 'r')
 request_location_pattern = f11.read().split('\n')
 
-f12 = open('sentence_pattern/request_category.txt', 'r')
+f12 = open('sentence_pattern/agent/request_category.txt', 'r')
 request_category_pattern = f12.read().split('\n')
 
-f13 = open('sentence_pattern/request_time.txt', 'r')
+f13 = open('sentence_pattern/agent/request_time.txt', 'r')
 request_time_pattern = f13.read().split('\n')
 
 ######################
