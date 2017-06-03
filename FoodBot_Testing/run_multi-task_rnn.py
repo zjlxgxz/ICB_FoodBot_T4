@@ -563,21 +563,23 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
     feedbackReward  = 10
   if formerState == [2,2,2,2,2,2,2,2,2,2,2]:
     action = -1
-  print ("###############################################")
-  print("Former State: ", formerState)
-  print("former action: ", action)
-
+  
+  if(action == 10):
+    print ("###############################################")
+    print("Former State: ", formerState)
+    print("former action: ", action)
+    print("Feedback Rewad: ",feedbackReward)
   #TODO
   # update the model(reward, currentState, formerState )
   # Has connected with the RL agent GRPC at beginning
   request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
   policy = stub.GetRLResponse(request)
-  print ("RL agent Policy Choice:",policy.policyNumber)
+  #print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
   formerState = currentState
-  print("current State: ", currentState)
-  print("RewardForformerAction: ",formerPolicyGoodOrNot)
-  print ("###############################################")
+  #print("current State: ", currentState)
+  #print("RewardForformerAction: ",formerPolicyGoodOrNot)
+  #print ("###############################################")
 
   # if end, reset the state.
   #if userInput == 'end':

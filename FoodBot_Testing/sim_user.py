@@ -82,16 +82,17 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
     return FoodBotSim_pb2.Sentence(response = simul_user(userInput))
 
 def policyChecker(sys_act):
-	print("This is sys_act",sys_act)
-	print("This is sys_act[content]",sys_act['content'])
-	print("This is sys_act[intent]",sys_act['intent'])
-	print("This is sys_act[currentState]",sys_act['currentstate'])
+	#print("This is sys_act",sys_act)
+	#print("This is sys_act[content]",sys_act['content'])
+	#print("This is sys_act[intent]",sys_act['intent'])
+	#print("This is sys_act[currentState]",sys_act['currentstate'])
 
 	global memory
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
 	if sys_act == '':
+		print ("Selected!!!!")
 		return 3
 	else:
 		return 0
