@@ -34,16 +34,18 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       # Runmodel has check the start state..
       #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
       #    formerAction = -1
-      print ("============================================================")
+      if(formerAction == 9 and rewardForTheFormer!=0):
+        print ("============================================================")
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
-      policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)   
-      print ("NowQTable:",QTable[indexOfState(currentState),])
-      print ("NowAction: ",policy)   
-      print ("currentState: ",currentState)
-      print ("formerState: ",formerState)
-      print ("rewardForTheFormer: ",rewardForTheFormer)
-      print ("formerAction: ",formerAction)
-      print ("============================================================")
+      policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
+      if(formerAction == 9 and rewardForTheFormer!=0):  
+        print ("NowQTable:",QTable[indexOfState(currentState),])
+        print ("NowAction: ",policy)   
+        print ("currentState: ",currentState)
+        print ("formerState: ",formerState)
+        print ("rewardForTheFormer: ",rewardForTheFormer)
+        print ("formerAction: ",formerAction)
+        print ("============================================================")
       return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
@@ -215,18 +217,18 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     ###print("dailog total turn,total turn",j,total_steps)
     #Choose an action by greedily (with e chance of random action) from the Q-network
     if(np.random.random_sample()>0.2):
-        print ("Pick max in Q")
+        #print ("Pick max in Q")
         a = np.argmax(QTable[currentStateIndex,:])
     else:
-        print ("Random pick")
+        #print ("Random pick")
         a = np.random.randint(0, 10)
     rAll += r
     
     if d == True: # initial the dialog and reset the buffers and Accumulated Q
         newDialogSetup()
         diagNumber = diagNumber + 1
-        print('\n\n New Dialog:',diagNumber)
-        print('Dialog total reward:',rAll)
+        #print('\n\n New Dialog:',diagNumber)
+        #print('Dialog total reward:',rAll)
         rList.append(rAll)
 
     #if len(rList) % 10 == 0:
