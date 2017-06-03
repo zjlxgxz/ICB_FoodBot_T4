@@ -103,6 +103,11 @@ def policyChecker(sys_act):
 	else:
 		return 0
 	'''
+	if sys_act['intent'] == 'confirm_info':
+		print '=========================='
+		print 'memory : ', memory
+		print 'expect : ', expect
+		print 'confirm : ', confirm
 	
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
