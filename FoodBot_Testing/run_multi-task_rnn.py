@@ -70,7 +70,7 @@ textFileName = "record_"+str(time.time())
 LUWrongCount = 0 
 LURightCount = 0
 ################## below for state
-formerState = [0,0,0,0,0,0,0,0,0,0,0] #To remember the former state
+formerState = [2,2,2,2,2,2,2,2,2,2,2] #To remember the former state, 222222 is the start state
 
 ##################below for nlg
 #lists needed
@@ -370,7 +370,7 @@ def DST_reset():
   #for x in range(observation.__len__()):
   #  observation[x] = []
   global formerState
-  formerState = [0,0,0,0,0,0,0,0,0,0,0]
+  formerState = [2,2,2,2,2,2,2,2,2,2,2] #Start state
 
 def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
   slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
@@ -549,8 +549,10 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   currentState = vector[0]
   if userInput == 'end' and formerPolicyGoodOrNot !=0:
     currentState = [0,0,0,0,0,0,0,0,0,0,0] # terminate state
+    #reset
   if userInput == 'end' and formerPolicyGoodOrNot == 0:
     currentState = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]# terminate state
+    #reset
   if formerPolicyGoodOrNot == 0:
     feedbackReward  = 0
   elif formerPolicyGoodOrNot == 1:
@@ -559,7 +561,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
     feedbackReward  = 5
   elif formerPolicyGoodOrNot == 3:
     feedbackReward  = 10
-  if len(set(formerState)) == 1:
+  if formerState == [2,2,2,2,2,2,2,2,2,2,2]:
     action = -1
   print ("###############################################")
   print("Former State: ", formerState)
@@ -577,6 +579,9 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   print("RewardForformerAction: ",formerPolicyGoodOrNot)
   print ("###############################################")
 
+  # if end, reset the state.
+  #if userInput == 'end':
+  #  DST_reset()
 
   #request location
   if action == 0:

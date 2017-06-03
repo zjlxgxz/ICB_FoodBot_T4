@@ -31,8 +31,9 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       formerState = list(request.formerState)
       rewardForTheFormer = request.rewardForTheFormer
       formerAction = request.formerAction
-      if len(set(formerState)) ==1 and formerState[0]!=0:
-          formerAction = -1
+      # Runmodel has check the start state..
+      #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
+      #    formerAction = -1
 
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)
@@ -206,11 +207,11 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     j+=1
     total_steps = total_steps+1
     
-    currentStateIndex = indexOfState(s1)
-    formerStateIndex = indexOfState(s)
-    if(a != -1):
+    if(a != -1):# start state: 22222 won't be accounted.
+        currentStateIndex = indexOfState(s1)
+        formerStateIndex = indexOfState(s)
         QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
-    print (QTable[formerStateIndex:])
+        print (QTable[formerStateIndex:])
     print("dailog total turn,total turn",j,total_steps)
     #Choose an action by greedily (with e chance of random action) from the Q-network
     if(np.random.random_sample()>0.2):
