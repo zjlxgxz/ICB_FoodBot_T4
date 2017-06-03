@@ -404,6 +404,13 @@ def nlg(sem_frame):
 	else:
 		sentence = "END"
 	
+	if memory['intent'] == 'get_restaurant' or memory['intent'] == 'change':
+		expect = 'get_restaurant'
+	elif memory['intent'] == 'get_location':
+		expect = 'get_location'
+	elif memory['intent'] == 'get_rating':
+		expect = 'get_rating'
+		
 	return sentence
 
 
