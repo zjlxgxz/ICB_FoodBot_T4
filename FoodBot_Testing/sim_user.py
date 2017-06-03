@@ -69,6 +69,7 @@ memory = {"intent": "",
 				"restaurantname": ""}
 expect = ''
 confirm = ''
+count = 0
 
 #num_of_no = 0
 num_of_quest_rest = 0
@@ -92,8 +93,9 @@ def policyChecker(sys_act):
 	global memory
 	global expect
 	global confirm
+	global count
 
-	print '============================='
+	print '=============================', count
 	print 'memory : ', memory
 	print 'expect : ', expect
 	print 'confirm : ', confirm
