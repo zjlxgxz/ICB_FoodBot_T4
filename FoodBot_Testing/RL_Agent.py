@@ -37,7 +37,7 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
 
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState)
-      if(formerAction == 10):
+      if(formerAction == 1 or formerAction == 2 or formerAction == 3 or formerAction == 1):
         print ("============================================================")
         print ("currentState: ",currentState)
         print ("formerState: ",formerState)
