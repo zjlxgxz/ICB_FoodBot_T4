@@ -94,7 +94,8 @@ def policyChecker(sys_act):
 	global expect
 	global confirm
 	global count
-
+	
+	count += 1
 	print '=============================', count
 	print 'memory : ', memory
 	print 'expect : ', expect
