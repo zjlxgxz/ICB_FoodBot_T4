@@ -167,6 +167,8 @@ def indexOfState(state):
         index = 2**i*state[i]
     if state == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
         index = 2047
+    if state == [2,2,2,2,2,2,2,2,2,2,2]:
+        index = 0
     return int(index)
 
 def newDialogSetup():
