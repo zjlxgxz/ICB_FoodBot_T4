@@ -68,6 +68,7 @@ memory = {"intent": "",
 				"category": "",
 				"restaurantname": ""}
 expect = ''
+confirm = ''
 
 #num_of_no = 0
 num_of_quest_rest = 0
@@ -90,8 +91,11 @@ def policyChecker(sys_act):
 
 	global memory
 	global expect
+	global confirm
 
 	if sys_act['intent'] == 'not_a_good_policy':
+		if confirm != '':
+			confirm = ''
 		return 0
 	'''
 	if sys_act['intent']  == 'request':
@@ -99,29 +103,44 @@ def policyChecker(sys_act):
 	else:
 		return 0
 	'''
+	if sys_act['intent'] == 'confirm_info':
+		print '=========================='
+		print 'memory : ', memory
+		print 'expect : ', expect
+		print 'confirm : ', confirm
 	
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
+			if confirm != '':
+				confirm = ''
 			return 3
 	elif expect == 'get_restaurant':
 		if sys_act['intent'] == 'request':
+			if confirm != '':
+				confirm = ''
 			if memory['location'] == '' and 'location' in sys_act['content'].keys():
 				return 1
 			elif memory['category'] == '' and 'category' in sys_act['content'].keys():
 				return 1
-		elif sys_act['intent'] == 'confirm_restaurant':
+		elif sys_act['intent'] == 'confirm_restaurant' and confirm != sys_act['intent']:
 			if memory['location'] != '' and memory['category'] != '':
+				confirm = sys_act['intent']
 				return 2
-		elif sys_act['intent'] == 'inform':
+		elif sys_act['intent'] == 'inform' and confirm == 'confirm_restaurant':
+			confirm = ''
 			return 3
 	elif expect == 'get_location' or expect == 'get_rating':
 		if sys_act['intent'] == 'request':
+			if confirm != '':
+				confirm = ''
 			if memory['restaurantname'] == '' and 'restaurantname' in sys_act['content'].keys():
 				return 1
-		elif sys_act['intent'] == 'confirm_info':
+		elif sys_act['intent'] == 'confirm_info' and confirm != sys_act['intent']:
 			if memory['restaurantname'] != '':
+				confirm = sys_act['intent']
 				return 2
-		elif sys_act['intent'] == 'inform':
+		elif sys_act['intent'] == 'inform' and confirm == 'confirm_info':
+			confirm = ''
 			return 3
 	return 0
 	'''
@@ -182,8 +201,8 @@ def simul_user(sys_act):
 		#intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
 		num_of_quest_rest = 0
 		num_of_quest_info = 0
-		#dec = random.randint(0,2) #randomly pick a intent
-		dec = 0
+		dec = random.randint(0,2) #randomly pick a intent
+		#dec = 0
 		sem_frame["intent"] = intent_list[dec]
 		
 		if dec == 0: #get restaurant
