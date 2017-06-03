@@ -91,6 +91,11 @@ def policyChecker(sys_act):
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
+	if sys_act == '':
+		return 3
+	else:
+		return 0
+	'''	
 	if memory['intent'] == 'yes':
 		if sys_act['intent'] == 'inform':
 			return 3
@@ -123,6 +128,7 @@ def policyChecker(sys_act):
 			return 1
 	else:
 		return 0
+	'''
 
 
 def simul_user(sys_act):
