@@ -182,8 +182,8 @@ def simul_user(sys_act):
 		#intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
 		num_of_quest_rest = 0
 		num_of_quest_info = 0
-		#dec = random.randint(0,2) #randomly pick a intent
-		dec = 0
+		dec = random.randint(0,2) #randomly pick a intent
+		#dec = 0
 		sem_frame["intent"] = intent_list[dec]
 		
 		if dec == 0: #get restaurant
