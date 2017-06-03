@@ -707,7 +707,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
   #confirm_restaurant
   elif action == 8:
-    if intents[-1] == 'Get_Restaurant' and state['Get_Restaurant']['LOCATION'] != '' and state['Get_Restaurant']['CATEGORY'] != '' and state['Get_Restaurant']['TIME'] != '':
+    if intents[-1] == 'Get_Restaurant' and state['Get_Restaurant']['LOCATION'] != '' and state['Get_Restaurant']['CATEGORY'] != '':
       sys_act['intent'] = 'confirm_restaurant'
       for key in state[intents[-1]].keys():
         sys_act['content'][key] = state[intents[-1]][key]
