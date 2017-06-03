@@ -94,7 +94,6 @@ def policyChecker(sys_act):
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
 	if sys_act['intent']  == 'request':
-		print ("Selected!!!!")
 		return 3
 	else:
 		return 0
@@ -182,7 +181,8 @@ def simul_user(sys_act):
 		#intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
 		num_of_quest_rest = 0
 		num_of_quest_info = 0
-		dec = random.randint(0,2) #randomly pick a intent
+		#dec = random.randint(0,2) #randomly pick a intent
+		dec = 0
 		sem_frame["intent"] = intent_list[dec]
 		
 		if dec == 0: #get restaurant
