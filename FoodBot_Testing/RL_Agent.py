@@ -207,8 +207,6 @@ def newDialogSetupDoubleQNN():
     a = -1
 
 def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
-    global QTable
-    QTable[0,:] = np.zeros(10)
     lr = 0.8
     y = 0.9
     s = formerState
@@ -222,6 +220,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         d = True
 
     global j,total_steps,episodeBuffer,mainQN,targetQN,e,diagNumber,rAll,QTable
+    QTable[0,:] = np.zeros(10)
+
     j+=1
     total_steps = total_steps+1
     
