@@ -207,8 +207,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     j+=1
     total_steps = total_steps+1
     
+    currentStateIndex = indexOfState(s1)
     if(a != -1):# start state: 22222 won't be accounted.
-        currentStateIndex = indexOfState(s1)
         formerStateIndex = indexOfState(s)
         QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
         print (QTable[formerStateIndex:])
