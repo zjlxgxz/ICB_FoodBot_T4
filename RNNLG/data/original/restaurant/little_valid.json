@@ -1,303 +1,303 @@
 [
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "where are you?"
+    "what location do you want?", 
+    "what location do you like?"
   ], 
   [
     "?request(location)", 
-    "where are you?", 
-    "what area would you like?"
+    "what location do you prefer?", 
+    "what location are you looking for?"
   ], 
   [
     "?request(location)", 
-    "may I know where you are?", 
-    "what area would you like?"
+    "what location are you interested in?", 
+    "what location do you want?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "may I know where you are?"
+    "what location do you like?", 
+    "what location do you prefer?"
   ], 
   [
     "?request(location)", 
-    "may I know where you are?", 
-    "what area would you like?"
+    "what location would you like?", 
+    "what location are you interested in?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "may I know where you are?"
+    "what location are you looking for?", 
+    "what location are you interested in?"
   ], 
   [
     "?request(location)", 
-    "may I know where you are?", 
-    "what area would you like?"
+    "what location are you interested in?", 
+    "what location do you prefer?"
   ], 
   [
     "?request(location)", 
-    "where do you want to eat?", 
-    "where would you like the restaurant to be?"
+    "what location would you like?", 
+    "what location are you looking for?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "where do you want to eat?"
+    "what location do you like?", 
+    "what location do you prefer?"
   ], 
   [
     "?request(location)", 
-    "where are you?", 
-    "what area would you like?"
+    "what location would you like?", 
+    "what location do you like?"
   ], 
   [
     "?request(location)", 
-    "where are you?", 
-    "may I know where you are?"
+    "what location do you want?", 
+    "what location would you like?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "where are you?"
+    "what location do you like?", 
+    "what location do you prefer?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "where do you want to eat?"
+    "what location are you looking for?", 
+    "what location are you interested in?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "where are you?"
+    "what location do you want?", 
+    "what location do you like?"
   ], 
   [
     "?request(location)", 
-    "where do you want to eat?", 
-    "which area are you in?"
+    "what location are you interested in?", 
+    "what location are you looking for?"
   ], 
   [
     "?request(location)", 
-    "what area would you like?", 
-    "where would you like the restaurant to be?"
+    "what location are you interested in?", 
+    "what location do you prefer?"
   ], 
   [
     "?request(location)", 
-    "may I know where you are?", 
-    "which area are you in?"
+    "what location would you like?", 
+    "what location do you want?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "which area are you in?"
+    "what location would you like?", 
+    "what location are you interested in?"
   ], 
   [
     "?request(location)", 
-    "what area would you like?", 
-    "which area are you in?"
+    "what location do you want?", 
+    "what location would you like?"
   ], 
   [
     "?request(location)", 
-    "may I know where you are?", 
-    "which area are you in?"
+    "what location would you like?", 
+    "what location do you like?"
   ], 
   [
     "?request(location)", 
-    "may I know where you are?", 
-    "where do you want to eat?"
+    "what location are you interested in?", 
+    "what location do you want?"
   ], 
   [
     "?request(location)", 
-    "where are you?", 
-    "may I know where you are?"
+    "what location would you like?", 
+    "what location are you looking for?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "where are you?"
+    "what location are you interested in?", 
+    "what location are you looking for?"
   ], 
   [
     "?request(location)", 
-    "may I know where you are?", 
-    "where do you want to eat?"
+    "what location would you like?", 
+    "what location are you looking for?"
   ], 
   [
     "?request(time)", 
-    "when do you want to go?", 
-    "when do you plan to go?"
+    "what time would you like?", 
+    "what time do you want?"
   ], 
   [
     "?request(time)", 
-    "when do you want to go?", 
-    "when do you plan to go?"
+    "what time are you looking for?", 
+    "what time would you like?"
   ], 
   [
     "?request(time)", 
-    "when are you going to go?", 
-    "when do you want to go?"
+    "what time are you interested in?", 
+    "what time would you like?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "when do you plan to go?"
+    "what time do you want?", 
+    "what time are you interested in?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "what time do you plan to go?"
+    "what time do you prefer?", 
+    "what time do you want?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "when do you want to go?"
+    "what time are you interested in?", 
+    "what time would you like?"
   ], 
   [
     "?request(time)", 
-    "when do you want to go?", 
-    "when do you plan to go?"
+    "what time are you interested in?", 
+    "what time do you like?"
   ], 
   [
     "?request(time)", 
-    "when are you going to go?", 
-    "what time do you plan to go?"
+    "what time do you want?", 
+    "what time would you like?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "when are you going to go?"
+    "what time are you interested in?", 
+    "what time do you like?"
   ], 
   [
     "?request(time)", 
-    "when do you plan to go?", 
-    "when will you go?"
+    "what time do you prefer?", 
+    "what time do you want?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "when do you plan to go?"
+    "what time do you like?", 
+    "what time do you prefer?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "what time do you plan to go?"
+    "what time would you like?", 
+    "what time do you want?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "what time do you plan to go?"
+    "what time are you looking for?", 
+    "what time do you want?"
   ], 
   [
     "?request(time)", 
-    "when do you plan to go?", 
-    "when will you go?"
+    "what time would you like?", 
+    "what time are you looking for?"
   ], 
   [
     "?request(time)", 
-    "when do you plan to go?", 
-    "when will you go?"
+    "what time do you like?", 
+    "what time would you like?"
   ], 
   [
     "?request(time)", 
-    "when are you going to go?", 
-    "what time do you plan to go?"
+    "what time are you interested in?", 
+    "what time are you looking for?"
   ], 
   [
     "?request(time)", 
-    "when do you plan to go?", 
-    "when will you go?"
+    "what time are you looking for?", 
+    "what time do you want?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "when are you going to go?"
+    "what time would you like?", 
+    "what time are you looking for?"
   ], 
   [
     "?request(time)", 
-    "what time do you plan to go?", 
-    "when will you go?"
+    "what time do you want?", 
+    "what time would you like?"
   ], 
   [
     "?request(time)", 
-    "what time do you plan to go?", 
-    "when do you want to go?"
+    "what time are you interested in?", 
+    "what time do you prefer?"
   ], 
   [
     "?request(time)", 
-    "what time do you plan to go?", 
-    "when do you plan to go?"
+    "what time do you want?", 
+    "what time are you interested in?"
   ], 
   [
     "?request(time)", 
-    "what time do you plan to go?", 
-    "when do you plan to go?"
+    "what time do you like?", 
+    "what time are you interested in?"
   ], 
   [
     "?request(time)", 
-    "when will you go?", 
-    "when do you want to go?"
+    "what time do you prefer?", 
+    "what time are you looking for?"
   ], 
   [
     "?request(time)", 
-    "when do you plan to go?", 
-    "when do you want to go?"
+    "what time would you like?", 
+    "what time do you like?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=bronx)", 
     "are you looking for a afghan resturant in bronx for this morning?", 
-    "let me confirm , are you looking for a afghan resturant in bronx for this morning?"
+    "you are looking for a afghan resturant in bronx for this morning, right?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=brooklyn)", 
-    "are you looking for a afghan resturant in brooklyn for this morning?", 
+    "let me confirm , are you looking for a afghan resturant in brooklyn for this morning?", 
     "you are looking for a afghan resturant in brooklyn for this morning, right?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=college point)", 
-    "are you looking for a afghan resturant in college point for this morning?", 
-    "let me confirm , are you looking for a afghan resturant in college point for this morning?"
+    "let me confirm , are you looking for a afghan resturant in college point for this morning?", 
+    "are you looking for a afghan resturant in college point for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=corona)", 
     "are you looking for a afghan resturant in corona for this morning?", 
-    "you are looking for a afghan resturant in corona for this morning, right?"
+    "let me confirm , are you looking for a afghan resturant in corona for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=elmhurst)", 
-    "you are looking for a afghan resturant in elmhurst for this morning, right?", 
-    "are you looking for a afghan resturant in elmhurst for this morning?"
+    "are you looking for a afghan resturant in elmhurst for this morning?", 
+    "let me confirm , are you looking for a afghan resturant in elmhurst for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=flushing)", 
-    "you are looking for a afghan resturant in flushing for this morning, right?", 
-    "are you looking for a afghan resturant in flushing for this morning?"
+    "let me confirm , are you looking for a afghan resturant in flushing for this morning?", 
+    "you are looking for a afghan resturant in flushing for this morning, right?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=forest hills)", 
-    "let me confirm , are you looking for a afghan resturant in forest hills for this morning?", 
-    "you are looking for a afghan resturant in forest hills for this morning, right?"
+    "you are looking for a afghan resturant in forest hills for this morning, right?", 
+    "let me confirm , are you looking for a afghan resturant in forest hills for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=glendale)", 
-    "are you looking for a afghan resturant in glendale for this morning?", 
-    "you are looking for a afghan resturant in glendale for this morning, right?"
+    "you are looking for a afghan resturant in glendale for this morning, right?", 
+    "let me confirm , are you looking for a afghan resturant in glendale for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=howard beach)", 
-    "you are looking for a afghan resturant in howard beach for this morning, right?", 
-    "are you looking for a afghan resturant in howard beach for this morning?"
+    "are you looking for a afghan resturant in howard beach for this morning?", 
+    "let me confirm , are you looking for a afghan resturant in howard beach for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=jackson heights)", 
-    "you are looking for a afghan resturant in jackson heights for this morning, right?", 
-    "let me confirm , are you looking for a afghan resturant in jackson heights for this morning?"
+    "let me confirm , are you looking for a afghan resturant in jackson heights for this morning?", 
+    "you are looking for a afghan resturant in jackson heights for this morning, right?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=jamaica)", 
-    "are you looking for a afghan resturant in jamaica for this morning?", 
-    "you are looking for a afghan resturant in jamaica for this morning, right?"
+    "let me confirm , are you looking for a afghan resturant in jamaica for this morning?", 
+    "are you looking for a afghan resturant in jamaica for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=long island city)", 
     "you are looking for a afghan resturant in long island city for this morning, right?", 
-    "let me confirm , are you looking for a afghan resturant in long island city for this morning?"
+    "are you looking for a afghan resturant in long island city for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=maspeth)", 
@@ -307,22 +307,22 @@
   [
     "confirm_restaurant(category=afghan;time=this morning;location=new york)", 
     "let me confirm , are you looking for a afghan resturant in new york for this morning?", 
-    "you are looking for a afghan resturant in new york for this morning, right?"
+    "are you looking for a afghan resturant in new york for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=ozone park)", 
-    "are you looking for a afghan resturant in ozone park for this morning?", 
-    "you are looking for a afghan resturant in ozone park for this morning, right?"
+    "you are looking for a afghan resturant in ozone park for this morning, right?", 
+    "are you looking for a afghan resturant in ozone park for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=rego park)", 
-    "are you looking for a afghan resturant in rego park for this morning?", 
+    "you are looking for a afghan resturant in rego park for this morning, right?", 
     "let me confirm , are you looking for a afghan resturant in rego park for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=ridgewood)", 
     "you are looking for a afghan resturant in ridgewood for this morning, right?", 
-    "let me confirm , are you looking for a afghan resturant in ridgewood for this morning?"
+    "are you looking for a afghan resturant in ridgewood for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=south ozone park)", 
@@ -331,23 +331,23 @@
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=staten island)", 
-    "let me confirm , are you looking for a afghan resturant in staten island for this morning?", 
+    "are you looking for a afghan resturant in staten island for this morning?", 
     "you are looking for a afghan resturant in staten island for this morning, right?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=sunnyside)", 
-    "let me confirm , are you looking for a afghan resturant in sunnyside for this morning?", 
-    "are you looking for a afghan resturant in sunnyside for this morning?"
+    "are you looking for a afghan resturant in sunnyside for this morning?", 
+    "you are looking for a afghan resturant in sunnyside for this morning, right?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=tompkinsville)", 
-    "you are looking for a afghan resturant in tompkinsville for this morning, right?", 
-    "let me confirm , are you looking for a afghan resturant in tompkinsville for this morning?"
+    "let me confirm , are you looking for a afghan resturant in tompkinsville for this morning?", 
+    "are you looking for a afghan resturant in tompkinsville for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this morning;location=woodside)", 
-    "are you looking for a afghan resturant in woodside for this morning?", 
-    "you are looking for a afghan resturant in woodside for this morning, right?"
+    "let me confirm , are you looking for a afghan resturant in woodside for this morning?", 
+    "are you looking for a afghan resturant in woodside for this morning?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this afternoon;location=astoria)", 
@@ -356,43 +356,43 @@
   ], 
   [
     "confirm_restaurant(category=afghan;time=this afternoon;location=bayside)", 
-    "are you looking for a afghan resturant in bayside for this afternoon?", 
-    "you are looking for a afghan resturant in bayside for this afternoon, right?"
+    "you are looking for a afghan resturant in bayside for this afternoon, right?", 
+    "let me confirm , are you looking for a afghan resturant in bayside for this afternoon?"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=bronx)", 
-    "sorry, there is no place serving afghan food for this morning in bronx", 
+    "i did not find any afghan restaurant for this morning in bronx", 
     "there is no afghan restaurant in bronx for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=brooklyn)", 
-    "i did not find any afghan restaurant for this morning in brooklyn", 
-    "there is no afghan restaurant in brooklyn for this morning"
+    "there is no afghan restaurant in brooklyn for this morning", 
+    "sorry, there is no place serving afghan food for this morning in brooklyn"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=college point)", 
-    "sorry, there is no place serving afghan food for this morning in college point", 
-    "there is no afghan restaurant in college point for this morning"
+    "i am sorry i did not find any afghan restaurant for this morning in the area of college point", 
+    "i did not find any afghan restaurant for this morning in college point"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=corona)", 
-    "there is no afghan restaurant in corona for this morning", 
+    "i am sorry i did not find any afghan restaurant for this morning in the area of corona", 
     "i did not find any afghan restaurant for this morning in corona"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=elmhurst)", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of elmhurst", 
-    "sorry, there is no place serving afghan food for this morning in elmhurst"
+    "there is no afghan restaurant in elmhurst for this morning", 
+    "i did not find any afghan restaurant for this morning in elmhurst"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=flushing)", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of flushing", 
-    "there is no afghan restaurant in flushing for this morning"
+    "there is no afghan restaurant in flushing for this morning", 
+    "sorry, there is no place serving afghan food for this morning in flushing"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=forest hills)", 
-    "sorry, there is no place serving afghan food for this morning in forest hills", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of forest hills"
+    "there is no afghan restaurant in forest hills for this morning", 
+    "sorry, there is no place serving afghan food for this morning in forest hills"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=glendale)", 
@@ -402,17 +402,17 @@
   [
     "inform_no_match(category=afghan;time=this morning;location=howard beach)", 
     "sorry, there is no place serving afghan food for this morning in howard beach", 
-    "i did not find any afghan restaurant for this morning in howard beach"
+    "there is no afghan restaurant in howard beach for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=jackson heights)", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of jackson heights", 
+    "sorry, there is no place serving afghan food for this morning in jackson heights", 
     "there is no afghan restaurant in jackson heights for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=jamaica)", 
     "sorry, there is no place serving afghan food for this morning in jamaica", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of jamaica"
+    "i did not find any afghan restaurant for this morning in jamaica"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=long island city)", 
@@ -421,12 +421,12 @@
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=maspeth)", 
-    "sorry, there is no place serving afghan food for this morning in maspeth", 
-    "there is no afghan restaurant in maspeth for this morning"
+    "there is no afghan restaurant in maspeth for this morning", 
+    "i did not find any afghan restaurant for this morning in maspeth"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=new york)", 
-    "there is no afghan restaurant in new york for this morning", 
+    "sorry, there is no place serving afghan food for this morning in new york", 
     "i am sorry i did not find any afghan restaurant for this morning in the area of new york"
   ], 
   [
@@ -437,97 +437,97 @@
   [
     "inform_no_match(category=afghan;time=this morning;location=rego park)", 
     "there is no afghan restaurant in rego park for this morning", 
-    "i did not find any afghan restaurant for this morning in rego park"
+    "sorry, there is no place serving afghan food for this morning in rego park"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=ridgewood)", 
-    "sorry, there is no place serving afghan food for this morning in ridgewood", 
-    "i did not find any afghan restaurant for this morning in ridgewood"
+    "i am sorry i did not find any afghan restaurant for this morning in the area of ridgewood", 
+    "there is no afghan restaurant in ridgewood for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=south ozone park)", 
     "i am sorry i did not find any afghan restaurant for this morning in the area of south ozone park", 
-    "i did not find any afghan restaurant for this morning in south ozone park"
+    "there is no afghan restaurant in south ozone park for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=staten island)", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of staten island", 
+    "i did not find any afghan restaurant for this morning in staten island", 
     "there is no afghan restaurant in staten island for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=sunnyside)", 
-    "there is no afghan restaurant in sunnyside for this morning", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of sunnyside"
+    "sorry, there is no place serving afghan food for this morning in sunnyside", 
+    "there is no afghan restaurant in sunnyside for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=tompkinsville)", 
-    "i am sorry i did not find any afghan restaurant for this morning in the area of tompkinsville", 
-    "there is no afghan restaurant in tompkinsville for this morning"
+    "i did not find any afghan restaurant for this morning in tompkinsville", 
+    "i am sorry i did not find any afghan restaurant for this morning in the area of tompkinsville"
   ], 
   [
     "inform_no_match(category=afghan;time=this morning;location=woodside)", 
-    "sorry, there is no place serving afghan food for this morning in woodside", 
+    "i am sorry i did not find any afghan restaurant for this morning in the area of woodside", 
     "there is no afghan restaurant in woodside for this morning"
   ], 
   [
     "inform_no_match(category=afghan;time=this afternoon;location=astoria)", 
-    "i did not find any afghan restaurant for this afternoon in astoria", 
-    "there is no afghan restaurant in astoria for this afternoon"
+    "i am sorry i did not find any afghan restaurant for this afternoon in the area of astoria", 
+    "i did not find any afghan restaurant for this afternoon in astoria"
   ], 
   [
     "inform_no_match(category=afghan;time=this afternoon;location=bayside)", 
-    "there is no afghan restaurant in bayside for this afternoon", 
+    "i did not find any afghan restaurant for this afternoon in bayside", 
     "i am sorry i did not find any afghan restaurant for this afternoon in the area of bayside"
   ], 
   [
     "inform(name=33 greenwich;address=23 walnut dr trenton nj 08610)", 
-    "33 greenwich is a good one and its address is in 23 walnut dr trenton nj 08610.", 
-    "try 33 greenwich and it's in 23 walnut dr trenton nj 08610."
+    "give 33 greenwich a shot and its address is 23 walnut dr trenton nj 08610.", 
+    "33 greenwich is great and it's in 23 walnut dr trenton nj 08610."
   ], 
   [
     "inform(name=33 greenwich;address=54 brewery court culpeper va 22701)", 
-    "maybe you would like 33 greenwich and it's here: 54 brewery court culpeper va 22701.", 
+    "33 greenwich is a good one and its address is in 54 brewery court culpeper va 22701.", 
     "give 33 greenwich a shot and its address is 54 brewery court culpeper va 22701."
   ], 
   [
     "inform(name=33 greenwich;address=620 howard street jamaica ny 11432)", 
-    "33 greenwich is great and it's in 620 howard street jamaica ny 11432.", 
-    "try 33 greenwich and it's in 620 howard street jamaica ny 11432."
+    "maybe you would like 33 greenwich and it's here: 620 howard street jamaica ny 11432.", 
+    "33 greenwich is good restaurant in 620 howard street jamaica ny 11432."
   ], 
   [
     "inform(name=33 greenwich;address=441 paris hill lane batavia oh 45103)", 
-    "why not giving 33 greenwich a try? and its address is 441 paris hill lane batavia oh 45103.", 
-    "33 greenwich is a good one and its address is in 441 paris hill lane batavia oh 45103."
+    "33 greenwich is a good one and its address is in 441 paris hill lane batavia oh 45103.", 
+    "33 greenwich is great and it's in 441 paris hill lane batavia oh 45103."
   ], 
   [
     "inform(name=33 greenwich;address=596 s glen creek ave buford ga 30518)", 
     "give 33 greenwich a shot and its address is 596 s glen creek ave buford ga 30518.", 
-    "try 33 greenwich and it's in 596 s glen creek ave buford ga 30518."
+    "33 greenwich is great and it's in 596 s glen creek ave buford ga 30518."
   ], 
   [
     "inform(name=33 greenwich;address=9815 school dr suffolk va 23434)", 
-    "maybe you would like 33 greenwich and it's here: 9815 school dr suffolk va 23434.", 
-    "why not giving 33 greenwich a try? and its address is 9815 school dr suffolk va 23434."
+    "give 33 greenwich a shot and its address is 9815 school dr suffolk va 23434.", 
+    "try 33 greenwich and it's in 9815 school dr suffolk va 23434."
   ], 
   [
     "inform(name=33 greenwich;address=9260 glenwood st evans ga 30809)", 
-    "maybe you would like 33 greenwich and it's here: 9260 glenwood st evans ga 30809.", 
-    "33 greenwich is a good one and its address is in 9260 glenwood st evans ga 30809."
+    "why not giving 33 greenwich a try? and its address is 9260 glenwood st evans ga 30809.", 
+    "try 33 greenwich and it's in 9260 glenwood st evans ga 30809."
   ], 
   [
     "inform(name=33 greenwich;address=4 w iroquois drive plymouth ma 02360)", 
     "try 33 greenwich and it's in 4 w iroquois drive plymouth ma 02360.", 
-    "give 33 greenwich a shot and its address is 4 w iroquois drive plymouth ma 02360."
+    "maybe you would like 33 greenwich and it's here: 4 w iroquois drive plymouth ma 02360."
   ], 
   [
     "inform(name=33 greenwich;address=3 sheffield ave hammonton nj 08037)", 
-    "give 33 greenwich a shot and its address is 3 sheffield ave hammonton nj 08037.", 
+    "33 greenwich is great and it's in 3 sheffield ave hammonton nj 08037.", 
     "why not giving 33 greenwich a try? and its address is 3 sheffield ave hammonton nj 08037."
   ], 
   [
     "inform(name=33 greenwich;address=97 smith st massapequa park ny 11762)", 
-    "33 greenwich is great and it's in 97 smith st massapequa park ny 11762.", 
-    "33 greenwich is a good one and its address is in 97 smith st massapequa park ny 11762."
+    "why not giving 33 greenwich a try? and its address is 97 smith st massapequa park ny 11762.", 
+    "33 greenwich is good restaurant in 97 smith st massapequa park ny 11762."
   ], 
   [
     "inform(name=33 greenwich;address=9752 marlborough st avon lake oh 44012)", 
@@ -536,73 +536,73 @@
   ], 
   [
     "inform(name=33 greenwich;address=7240 wagon st sugar land tx 77478)", 
-    "33 greenwich is good restaurant in 7240 wagon st sugar land tx 77478.", 
+    "33 greenwich is great and it's in 7240 wagon st sugar land tx 77478.", 
     "give 33 greenwich a shot and its address is 7240 wagon st sugar land tx 77478."
   ], 
   [
     "inform(name=33 greenwich;address=524 deerfield avenue garden city ny 11530)", 
-    "33 greenwich is great and it's in 524 deerfield avenue garden city ny 11530.", 
-    "33 greenwich is good restaurant in 524 deerfield avenue garden city ny 11530."
+    "why not giving 33 greenwich a try? and its address is 524 deerfield avenue garden city ny 11530.", 
+    "give 33 greenwich a shot and its address is 524 deerfield avenue garden city ny 11530."
   ], 
   [
     "inform(name=33 greenwich;address=53 armstrong ave north brunswick nj 08902)", 
-    "try 33 greenwich and it's in 53 armstrong ave north brunswick nj 08902.", 
-    "33 greenwich is great and it's in 53 armstrong ave north brunswick nj 08902."
+    "give 33 greenwich a shot and its address is 53 armstrong ave north brunswick nj 08902.", 
+    "try 33 greenwich and it's in 53 armstrong ave north brunswick nj 08902."
   ], 
   [
     "inform(name=33 greenwich;address=636 se jennings ave lexington nc 27292)", 
-    "33 greenwich is good restaurant in 636 se jennings ave lexington nc 27292.", 
-    "why not giving 33 greenwich a try? and its address is 636 se jennings ave lexington nc 27292."
+    "maybe you would like 33 greenwich and it's here: 636 se jennings ave lexington nc 27292.", 
+    "33 greenwich is great and it's in 636 se jennings ave lexington nc 27292."
   ], 
   [
     "inform(name=33 greenwich;address=2 east south st pikesville md 21208)", 
-    "maybe you would like 33 greenwich and it's here: 2 east south st pikesville md 21208.", 
-    "why not giving 33 greenwich a try? and its address is 2 east south st pikesville md 21208."
+    "33 greenwich is good restaurant in 2 east south st pikesville md 21208.", 
+    "give 33 greenwich a shot and its address is 2 east south st pikesville md 21208."
   ], 
   [
     "inform(name=33 greenwich;address=772 windsor lane chelmsford ma 01824)", 
-    "maybe you would like 33 greenwich and it's here: 772 windsor lane chelmsford ma 01824.", 
-    "33 greenwich is good restaurant in 772 windsor lane chelmsford ma 01824."
+    "33 greenwich is a good one and its address is in 772 windsor lane chelmsford ma 01824.", 
+    "33 greenwich is great and it's in 772 windsor lane chelmsford ma 01824."
   ], 
   [
     "inform(name=33 greenwich;address=414 marvon road lakewood nj 08701)", 
-    "try 33 greenwich and it's in 414 marvon road lakewood nj 08701.", 
-    "maybe you would like 33 greenwich and it's here: 414 marvon road lakewood nj 08701."
+    "maybe you would like 33 greenwich and it's here: 414 marvon road lakewood nj 08701.", 
+    "give 33 greenwich a shot and its address is 414 marvon road lakewood nj 08701."
   ], 
   [
     "inform(name=33 greenwich;address=9070 e golden star street calhoun ga 30701)", 
     "maybe you would like 33 greenwich and it's here: 9070 e golden star street calhoun ga 30701.", 
-    "33 greenwich is great and it's in 9070 e golden star street calhoun ga 30701."
+    "33 greenwich is good restaurant in 9070 e golden star street calhoun ga 30701."
   ], 
   [
     "inform(name=33 greenwich;address=808 north westport st ridgewood nj 07450)", 
-    "33 greenwich is good restaurant in 808 north westport st ridgewood nj 07450.", 
-    "maybe you would like 33 greenwich and it's here: 808 north westport st ridgewood nj 07450."
+    "why not giving 33 greenwich a try? and its address is 808 north westport st ridgewood nj 07450.", 
+    "try 33 greenwich and it's in 808 north westport st ridgewood nj 07450."
   ], 
   [
     "inform(name=33 greenwich;address=8053 court avenue corona ny 11368)", 
-    "33 greenwich is a good one and its address is in 8053 court avenue corona ny 11368.", 
-    "give 33 greenwich a shot and its address is 8053 court avenue corona ny 11368."
+    "maybe you would like 33 greenwich and it's here: 8053 court avenue corona ny 11368.", 
+    "33 greenwich is a good one and its address is in 8053 court avenue corona ny 11368."
   ], 
   [
     "inform(name=33 greenwich;address=33 north augusta street winchester va 22601)", 
-    "give 33 greenwich a shot and its address is 33 north augusta street winchester va 22601.", 
+    "try 33 greenwich and it's in 33 north augusta street winchester va 22601.", 
     "maybe you would like 33 greenwich and it's here: 33 north augusta street winchester va 22601."
   ], 
   [
     "inform(name=33 greenwich;address=13 gartner ave allison park pa 15101)", 
     "maybe you would like 33 greenwich and it's here: 13 gartner ave allison park pa 15101.", 
-    "why not giving 33 greenwich a try? and its address is 13 gartner ave allison park pa 15101."
+    "give 33 greenwich a shot and its address is 13 gartner ave allison park pa 15101."
   ], 
   [
     "inform(name=33 greenwich;address=2c vermont road ellicott city md 21042)", 
-    "33 greenwich is good restaurant in 2c vermont road ellicott city md 21042.", 
-    "try 33 greenwich and it's in 2c vermont road ellicott city md 21042."
+    "33 greenwich is a good one and its address is in 2c vermont road ellicott city md 21042.", 
+    "maybe you would like 33 greenwich and it's here: 2c vermont road ellicott city md 21042."
   ], 
   [
     "confirm_info(info=rating;name=amaranto mexican restaurant)", 
-    "are you looking for the rating of amaranto mexican restaurant?", 
-    "i want to confirm that you are looking for the rating of amaranto mexican restaurant."
+    "i want to confirm that you are looking for the rating of amaranto mexican restaurant.", 
+    "you are looking for the rating of amaranto mexican restaurant, right?"
   ], 
   [
     "confirm_info(info=address;name=amaranto mexican restaurant)", 
@@ -611,7 +611,7 @@
   ], 
   [
     "confirm_info(info=rating;name=american cut)", 
-    "you are looking for the rating of american cut, right?", 
+    "i want to confirm that you are looking for the rating of american cut.", 
     "are you looking for the rating of american cut?"
   ], 
   [
@@ -621,18 +621,18 @@
   ], 
   [
     "confirm_info(info=rating;name=amlie)", 
-    "i want to confirm that you are looking for the rating of amlie.", 
-    "are you looking for the rating of amlie?"
+    "are you looking for the rating of amlie?", 
+    "you are looking for the rating of amlie, right?"
   ], 
   [
     "confirm_info(info=address;name=amlie)", 
-    "i want to confirm that you are looking for the address of amlie.", 
-    "are you looking for the address of amlie?"
+    "are you looking for the address of amlie?", 
+    "i want to confirm that you are looking for the address of amlie."
   ], 
   [
     "confirm_info(info=rating;name=ampersand)", 
-    "i want to confirm that you are looking for the rating of ampersand.", 
-    "are you looking for the rating of ampersand?"
+    "are you looking for the rating of ampersand?", 
+    "you are looking for the rating of ampersand, right?"
   ], 
   [
     "confirm_info(info=address;name=ampersand)", 
@@ -641,38 +641,38 @@
   ], 
   [
     "confirm_info(info=rating;name=amused)", 
-    "are you looking for the rating of amused?", 
-    "i want to confirm that you are looking for the rating of amused."
+    "i want to confirm that you are looking for the rating of amused.", 
+    "you are looking for the rating of amused, right?"
   ], 
   [
     "confirm_info(info=address;name=amused)", 
     "are you looking for the address of amused?", 
-    "i want to confirm that you are looking for the address of amused."
+    "you are looking for the address of amused, right?"
   ], 
   [
     "confirm_info(info=rating;name=anella)", 
-    "i want to confirm that you are looking for the rating of anella.", 
-    "are you looking for the rating of anella?"
+    "you are looking for the rating of anella, right?", 
+    "i want to confirm that you are looking for the rating of anella."
   ], 
   [
     "confirm_info(info=address;name=anella)", 
-    "i want to confirm that you are looking for the address of anella.", 
-    "are you looking for the address of anella?"
+    "are you looking for the address of anella?", 
+    "i want to confirm that you are looking for the address of anella."
   ], 
   [
     "confirm_info(info=rating;name=angkor cambodian bistro)", 
-    "you are looking for the rating of angkor cambodian bistro, right?", 
-    "are you looking for the rating of angkor cambodian bistro?"
+    "are you looking for the rating of angkor cambodian bistro?", 
+    "you are looking for the rating of angkor cambodian bistro, right?"
   ], 
   [
     "confirm_info(info=address;name=angkor cambodian bistro)", 
-    "i want to confirm that you are looking for the address of angkor cambodian bistro.", 
-    "are you looking for the address of angkor cambodian bistro?"
+    "are you looking for the address of angkor cambodian bistro?", 
+    "you are looking for the address of angkor cambodian bistro, right?"
   ], 
   [
     "confirm_info(info=rating;name=annabel)", 
-    "i want to confirm that you are looking for the rating of annabel.", 
-    "are you looking for the rating of annabel?"
+    "you are looking for the rating of annabel, right?", 
+    "i want to confirm that you are looking for the rating of annabel."
   ], 
   [
     "confirm_info(info=address;name=annabel)", 
@@ -686,13 +686,13 @@
   ], 
   [
     "confirm_info(info=address;name=annisa)", 
-    "are you looking for the address of annisa?", 
-    "i want to confirm that you are looking for the address of annisa."
+    "i want to confirm that you are looking for the address of annisa.", 
+    "you are looking for the address of annisa, right?"
   ], 
   [
     "confirm_info(info=rating;name=anthony davids)", 
-    "you are looking for the rating of anthony davids, right?", 
-    "i want to confirm that you are looking for the rating of anthony davids."
+    "i want to confirm that you are looking for the rating of anthony davids.", 
+    "you are looking for the rating of anthony davids, right?"
   ], 
   [
     "confirm_info(info=address;name=anthony davids)", 
@@ -701,12 +701,12 @@
   ], 
   [
     "confirm_info(info=rating;name=antica ristorante)", 
-    "i want to confirm that you are looking for the rating of antica ristorante.", 
-    "you are looking for the rating of antica ristorante, right?"
+    "you are looking for the rating of antica ristorante, right?", 
+    "are you looking for the rating of antica ristorante?"
   ], 
   [
     "confirm_info(info=address;name=antica ristorante)", 
-    "are you looking for the address of antica ristorante?", 
+    "i want to confirm that you are looking for the address of antica ristorante.", 
     "you are looking for the address of antica ristorante, right?"
   ], 
   [
@@ -716,127 +716,127 @@
   ], 
   [
     "confirm_info(info=address;name=antique bar and bakery)", 
-    "are you looking for the address of antique bar and bakery?", 
-    "you are looking for the address of antique bar and bakery, right?"
+    "you are looking for the address of antique bar and bakery, right?", 
+    "i want to confirm that you are looking for the address of antique bar and bakery."
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like?", 
-    "what type of food are you interested in?"
+    "what category do you like?", 
+    "what category are you looking for?"
   ], 
   [
     "?request(category)", 
-    "what kind of food would you like?", 
-    "what type of food are you looking for?"
+    "what category would you like?", 
+    "what category do you like?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you prefer?", 
-    "what kind of food do you want?"
+    "what category are you interested in?", 
+    "what category do you prefer?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like?", 
-    "what type of food would you like to eat?"
+    "what category are you interested in?", 
+    "what category do you prefer?"
   ], 
   [
     "?request(category)", 
-    "what type of food are you interested in?", 
-    "what kind of food would you like?"
+    "what category are you looking for?", 
+    "what category do you prefer?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like to eat?", 
-    "what type of food would you like to eat?"
+    "what category do you prefer?", 
+    "what category do you like?"
   ], 
   [
     "?request(category)", 
-    "what type of food are you looking for?", 
-    "what kind of food do you want?"
+    "what category are you interested in?", 
+    "what category would you like?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like to eat?", 
-    "what kind of food do you like?"
+    "what category would you like?", 
+    "what category do you want?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you prefer?", 
-    "what kind of food do you want?"
+    "what category are you looking for?", 
+    "what category would you like?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like?", 
-    "what kind of food do you want?"
+    "what category would you like?", 
+    "what category are you interested in?"
   ], 
   [
     "?request(category)", 
-    "what kind of food would you like?", 
-    "what type of food are you looking for?"
+    "what category do you like?", 
+    "what category do you prefer?"
   ], 
   [
     "?request(category)", 
-    "what kind of food would you like?", 
-    "what kind of food do you prefer?"
+    "what category are you looking for?", 
+    "what category do you prefer?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you want?", 
-    "what type of food are you interested in?"
+    "what category do you like?", 
+    "what category are you interested in?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like?", 
-    "what kind of food do you like to eat?"
+    "what category do you like?", 
+    "what category would you like?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you prefer?", 
-    "what kind of food would you like?"
+    "what category would you like?", 
+    "what category do you want?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like to eat?", 
-    "what type of food are you looking for?"
+    "what category are you interested in?", 
+    "what category do you want?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you want?", 
-    "what type of food are you interested in?"
+    "what category are you looking for?", 
+    "what category do you want?"
   ], 
   [
     "?request(category)", 
-    "what kind of food would you like?", 
-    "what kind of food do you like to eat?"
+    "what category are you looking for?", 
+    "what category would you like?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you want?", 
-    "what kind of food would you like?"
+    "what category would you like?", 
+    "what category do you want?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you like?", 
-    "what type of food are you looking for?"
+    "what category are you interested in?", 
+    "what category do you like?"
   ], 
   [
     "?request(category)", 
-    "what type of food would you like to eat?", 
-    "what kind of food do you want?"
+    "what category are you looking for?", 
+    "what category do you prefer?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you prefer?", 
-    "what type of food are you interested in?"
+    "what category do you prefer?", 
+    "what category do you like?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you prefer?", 
-    "what kind of food do you want?"
+    "what category are you looking for?", 
+    "what category do you prefer?"
   ], 
   [
     "?request(category)", 
-    "what type of food are you interested in?", 
-    "what kind of food do you want?"
+    "what category are you looking for?", 
+    "what category are you interested in?"
   ]
 ]

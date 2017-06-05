@@ -1,72 +1,72 @@
 [
   [
     "?request(location)", 
-    "where are you?", 
-    "where would you like the restaurant to be?"
+    "what location are you looking for?", 
+    "what location are you interested in?"
   ], 
   [
     "?request(location)", 
-    "where would you like the restaurant to be?", 
-    "what area would you like?"
+    "what location do you prefer?", 
+    "what location would you like?"
   ], 
   [
     "?request(time)", 
-    "what time do you plan to go?", 
-    "when do you plan to go?"
+    "what time are you interested in?", 
+    "what time would you like?"
   ], 
   [
     "?request(time)", 
-    "what time do you plan to go?", 
-    "when are you going to go?"
+    "what time do you prefer?", 
+    "what time are you looking for?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this afternoon;location=bronx)", 
-    "let me confirm , are you looking for a afghan resturant in bronx for this afternoon?", 
+    "are you looking for a afghan resturant in bronx for this afternoon?", 
     "you are looking for a afghan resturant in bronx for this afternoon, right?"
   ], 
   [
     "confirm_restaurant(category=afghan;time=this afternoon;location=brooklyn)", 
-    "are you looking for a afghan resturant in brooklyn for this afternoon?", 
+    "you are looking for a afghan resturant in brooklyn for this afternoon, right?", 
     "let me confirm , are you looking for a afghan resturant in brooklyn for this afternoon?"
   ], 
   [
     "inform_no_match(category=afghan;time=this afternoon;location=bronx)", 
-    "there is no afghan restaurant in bronx for this afternoon", 
-    "sorry, there is no place serving afghan food for this afternoon in bronx"
+    "i did not find any afghan restaurant for this afternoon in bronx", 
+    "there is no afghan restaurant in bronx for this afternoon"
   ], 
   [
     "inform_no_match(category=afghan;time=this afternoon;location=brooklyn)", 
-    "i am sorry i did not find any afghan restaurant for this afternoon in the area of brooklyn", 
-    "there is no afghan restaurant in brooklyn for this afternoon"
+    "i did not find any afghan restaurant for this afternoon in brooklyn", 
+    "i am sorry i did not find any afghan restaurant for this afternoon in the area of brooklyn"
   ], 
   [
     "inform(name=33 greenwich;address=573 gates st coraopolis pa 15108)", 
     "33 greenwich is good restaurant in 573 gates st coraopolis pa 15108.", 
-    "33 greenwich is a good one and its address is in 573 gates st coraopolis pa 15108."
+    "why not giving 33 greenwich a try? and its address is 573 gates st coraopolis pa 15108."
   ], 
   [
     "inform(name=33 greenwich;address=7593 kirkland lane rockaway nj 07866)", 
-    "33 greenwich is great and it's in 7593 kirkland lane rockaway nj 07866.", 
-    "33 greenwich is a good one and its address is in 7593 kirkland lane rockaway nj 07866."
+    "why not giving 33 greenwich a try? and its address is 7593 kirkland lane rockaway nj 07866.", 
+    "33 greenwich is good restaurant in 7593 kirkland lane rockaway nj 07866."
   ], 
   [
     "confirm_info(info=rating;name=antonios trattoria)", 
-    "are you looking for the rating of antonios trattoria?", 
+    "i want to confirm that you are looking for the rating of antonios trattoria.", 
     "you are looking for the rating of antonios trattoria, right?"
   ], 
   [
     "confirm_info(info=address;name=antonios trattoria)", 
     "i want to confirm that you are looking for the address of antonios trattoria.", 
-    "are you looking for the address of antonios trattoria?"
+    "you are looking for the address of antonios trattoria, right?"
   ], 
   [
     "?request(category)", 
-    "what type of food would you like to eat?", 
-    "what kind of food do you prefer?"
+    "what category do you like?", 
+    "what category are you interested in?"
   ], 
   [
     "?request(category)", 
-    "what kind of food do you prefer?", 
-    "what kind of food would you like?"
+    "what category do you like?", 
+    "what category would you like?"
   ]
 ]

@@ -33,14 +33,16 @@ if __name__ == '__main__':
 	model = gensim.models.Word2Vec(sent_tokens, min_count = 1, size=80, workers=4)
 	f3 = open("./vec/vec_80.txt", 'w')
 	f4 = open("./resource/vocab1", 'w')
-	for word in model.wv.vocab:
+	for i, word in enumerate(model.wv.vocab):
 		f4.write(word)
-		f4.write('\n')
+		if i != len(model.wv.vocab)-1:
+			f4.write('\n')
 		temp = model.wv[word].tolist()
 		temp1 = [str(round(item, 6)) for item in temp]
 		f3.write(word + " ")
 		f3.write(' '.join(temp1))
 		f3.write('\n')
+	f4.close()
 	f3.close()
 
 	#print model.wv.vocab

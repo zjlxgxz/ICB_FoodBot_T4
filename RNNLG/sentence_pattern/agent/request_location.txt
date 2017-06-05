@@ -1,6 +1,6 @@
-where are you?
-may I know where you are?
-which area are you in?
-where do you want to eat?
-what area would you like?
-where would you like the restaurant to be?
+what location do you prefer?
+what location do you want?
+what location do you like?
+what location would you like?
+what location are you interested in?
+what location are you looking for?
