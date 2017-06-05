@@ -963,7 +963,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         nlg_sentence = "What?? Please try again..."
       else:
         #Run policy converter
-        RNNLGModel = Model(None,None)
+        #RNNLGModel = Model(None,None)
 
         RNN_query = converter(policyFrame)
         #Write the Policy frame to the testing file
