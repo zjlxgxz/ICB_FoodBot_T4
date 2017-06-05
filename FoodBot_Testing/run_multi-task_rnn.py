@@ -974,10 +974,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         content.append("Test testing testing")
         query.append(content)
 
-        write = str(query)
-        write = write.replace("\'","\"")
-        with open('./RNNLG/data/original/restaurant/little_test.json', 'w') as file_handler:
-            file_handler.write("{}\n".format(write))
+        with open('./RNNLG/data/original/restaurant/little_test.json', 'w') as outfile:
+          json.dump(query, outfile)
+
         nlg_sentence = RNNLGModel.testNet()
     else:
       nlg_sentence = nlg(policyFrame,1)
