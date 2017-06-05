@@ -92,6 +92,11 @@ def policyChecker(sys_act):
 	global memory
 	global expect
 	global confirm
+	
+	print '=========================='
+	print 'memory : ', memory
+	print 'expect : ', expect
+	print 'confirm : ', confirm
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
