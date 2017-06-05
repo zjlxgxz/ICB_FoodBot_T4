@@ -327,6 +327,7 @@ def nlg(sem_frame):
 
 	global expect
 	global confirm
+	global memory
 
 	#print("semantic frame: ", sem_frame)
 	sentence = ""
