@@ -1003,6 +1003,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
     #dictionary to jsonstring
     policyFrameString = json.dumps(policyFrame)
+    print("nlg sentence:",nlg_sentence )
+    print("frame:",policyFrameString )
+
     return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
   
   def converter(policyframe):
