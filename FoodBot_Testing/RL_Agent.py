@@ -255,6 +255,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         #print('\n\n New Dialog:',diagNumber)
         #print('Dialog total reward:',rAll)
         rList.append(rAll)
+        with open('RL_data.json', 'w') as outfile:
+            json.dump(rList, outfile)
 
     #if len(rList) % 10 == 0:
     #    print(total_steps,np.mean(rList[-10:]), e)
