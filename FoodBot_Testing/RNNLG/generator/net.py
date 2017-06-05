@@ -54,8 +54,6 @@ class Model(object):
     ################### Initialisation ##############################
     #################################################################
     def __init__(self,config=None,opts=None):
-        print ("config",config)
-        print ("opts",opts.mode)
         # not enough info to execute
         # config parser
         parser = SafeConfigParser()
