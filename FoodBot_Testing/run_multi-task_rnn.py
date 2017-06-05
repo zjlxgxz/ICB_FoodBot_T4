@@ -965,11 +965,20 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     if FromeWeb == True:
       if(policyFrame == ''):
         nlg_sentence = ''
+      elif(policyFrame["intent"] == 'not_a_good_policy':
+        sentence = "What?? Please try again...")
       else:
         #Run policy converter
         RNN_query = converter(policyFrame)
         #Write the Policy frame to the testing file
-
+        query = []
+        content = []
+        content.append(RNN_query)
+        content.append("Test testing testing")
+        content.append("Test testing testing")
+        query.append(content)
+        with open('./RNNLG/data/original/restaurant/little_test.json', 'w') as outfile: 
+          json.dumps(query,outfile)
         RNNLGModel.testNet()
     else:
       nlg_sentence = nlg(policyFrame,1)
