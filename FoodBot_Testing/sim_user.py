@@ -97,6 +97,7 @@ def policyChecker(sys_act):
 	print 'memory : ', memory
 	print 'expect : ', expect
 	print 'confirm : ', confirm
+	print 'sys_act : ', sys_act
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
@@ -108,7 +109,7 @@ def policyChecker(sys_act):
 	'''
 	
 	if confirm == 'yes':
-		confrim = ''
+		confirm = ''
 		if sys_act['intent'] == 'inform':
 			return 3
 	elif expect == 'get_restaurant':
