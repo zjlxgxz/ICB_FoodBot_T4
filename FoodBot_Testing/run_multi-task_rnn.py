@@ -51,12 +51,6 @@ import argparse
 sys.path.append('RNNLG/')
 from generator.net import Model
 
-parser = argparse.ArgumentParser(description='Default RNNLG opt parser.')
-parser.add_argument('-mode',  help='modes: train|test|adapt|knn|ngram', default="test")
-parser.add_argument('-config', help='config file to set.',default="RNNLG/config/sclstm.cfg")
-args = parser.parse_args()
-RNNLGModel = Model(args.config,args)
-
 
 #global vars
 model_test =  0
@@ -969,6 +963,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         sentence = "What?? Please try again..."
       else:
         #Run policy converter
+        RNNLGModel = Model(None,None)
+
         RNN_query = converter(policyFrame)
         #Write the Policy frame to the testing file
         query = []

@@ -24,6 +24,7 @@ from loader.DataReader import *
 from loader.GentScorer import *
 
 from ConfigParser import SafeConfigParser
+import argparse
 
 # theano debugging flags
 """
@@ -56,6 +57,14 @@ class Model(object):
     #################################################################
     def __init__(self,config=None,opts=None):
         # not enough info to execute
+        parser = argparse.ArgumentParser(description='Default RNNLG opt parser.')
+        parser.add_argument('-mode',  help='modes: train|test|adapt|knn|ngram', default="test")
+        parser.add_argument('-config', help='config file to set.',default="RNNLG/config/sclstm.cfg")
+        args = parser.parse_args()
+
+        config = args.config
+        opts = args
+
         if config==None and opts==None:
             print "Please specify command option or config file ..."
             return
