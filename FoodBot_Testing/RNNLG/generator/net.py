@@ -487,16 +487,16 @@ class Model(object):
 
         bleuModel   = self.gentscorer.scoreBLEU(parallel_corpus)
         bleuHDC     = self.gentscorer.scoreBLEU(hdc_corpus)
-        print '##############################################'
-        print 'BLEU SCORE & SLOT ERROR on GENERATED SENTENCES'
-        print '##############################################'
-        print 'Metric       :\tBLEU\tT.ERR\tA.ERR'
-        print 'HDC          :\t%.4f\t%2.2f%%\t%2.2f%%'% (bleuHDC,0.0,0.0)
-        print 'Ref          :\t%.4f\t%2.2f%%\t%2.2f%%'% (1.0,
-                100*refcnts[1]/refcnts[0],100*refcnts[2]/refcnts[0])
-        print '----------------------------------------------'
-        print 'This Model   :\t%.4f\t%2.2f%%\t%2.2f%%'% (bleuModel,
-                100*gencnts[1]/gencnts[0],100*gencnts[2]/gencnts[0])
+        #print '##############################################'
+        #print 'BLEU SCORE & SLOT ERROR on GENERATED SENTENCES'
+        #print '##############################################'
+        #print 'Metric       :\tBLEU\tT.ERR\tA.ERR'
+        #print 'HDC          :\t%.4f\t%2.2f%%\t%2.2f%%'% (bleuHDC,0.0,0.0)
+        #print 'Ref          :\t%.4f\t%2.2f%%\t%2.2f%%'% (1.0,
+        #        100*refcnts[1]/refcnts[0],100*refcnts[2]/refcnts[0])
+        #print '----------------------------------------------'
+        #print 'This Model   :\t%.4f\t%2.2f%%\t%2.2f%%'% (bleuModel,
+        #        100*gencnts[1]/gencnts[0],100*gencnts[2]/gencnts[0])
     
 
         print ("Gen:", generatedSentence)
