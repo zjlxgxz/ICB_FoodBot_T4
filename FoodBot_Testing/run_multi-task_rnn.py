@@ -973,9 +973,10 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         content.append("Test testing testing")
         content.append("Test testing testing")
         query.append(content)
-
+        print (query)
         with open('./RNNLG/data/original/restaurant/little_test.json', 'w') as outfile:
           json.dump(query, outfile)
+        print ("write: ", query)
 
         nlg_sentence = RNNLGModel.testNet()
     else:
