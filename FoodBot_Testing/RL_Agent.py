@@ -250,8 +250,8 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     rAll += r
     if d == True: # initial the dialog and reset the buffers and Accumulated Q
         rList.append(rAll)
-            with open('RL_data.json', 'w') as outfile:
-                json.dump(rList, outfile)
+        with open('RL_data.json', 'w') as outfile:
+            json.dump(rList, outfile)
         newDialogSetup()
         diagNumber = diagNumber + 1
         print('\n\n New Dialog:',diagNumber)
