@@ -17,8 +17,11 @@ a.recommend
 a.suggest
 sv.info._1
 sv.location._1
+sv.location.?
 sv.time._1
+sv.time.?
 sv.category._1
+sv.category.?
 sv.rating._1
 sv.acceptscreditcards.dontcare
 sv.acceptscreditcards.no
