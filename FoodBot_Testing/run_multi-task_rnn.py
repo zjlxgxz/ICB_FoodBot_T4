@@ -960,7 +960,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       if(policyFrame == ''):
         nlg_sentence = ''
       elif(policyFrame["intent"] == 'not_a_good_policy'):
-        sentence = "What?? Please try again..."
+        nlg_sentence = "What?? Please try again..."
       else:
         #Run policy converter
         RNNLGModel = Model(None,None)
