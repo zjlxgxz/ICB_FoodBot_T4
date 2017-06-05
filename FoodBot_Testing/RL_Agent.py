@@ -248,15 +248,15 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         print ("Random pick")
         a = np.random.randint(0, 10)
     rAll += r
-    
     if d == True: # initial the dialog and reset the buffers and Accumulated Q
+        rList.append(rAll)
+            with open('RL_data.json', 'w') as outfile:
+                json.dump(rList, outfile)
         newDialogSetup()
         diagNumber = diagNumber + 1
-        #print('\n\n New Dialog:',diagNumber)
+        print('\n\n New Dialog:',diagNumber)
         #print('Dialog total reward:',rAll)
-        rList.append(rAll)
-        with open('RL_data.json', 'w') as outfile:
-            json.dump(rList, outfile)
+        
 
     #if len(rList) % 10 == 0:
     #    print(total_steps,np.mean(rList[-10:]), e)
