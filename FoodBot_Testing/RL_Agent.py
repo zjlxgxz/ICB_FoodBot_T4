@@ -248,6 +248,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         print ("Random pick")
         a = np.random.randint(0, 10)
     rAll += r
+    print rAll
     if d == True: # initial the dialog and reset the buffers and Accumulated Q
         rList.append(rAll)
         with open('RL_data.json', 'w') as outfile:

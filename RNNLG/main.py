@@ -30,6 +30,8 @@ def main():
     else: 
         # NN case        
         model = Model(config,args)
+        print (config,args)
+
         if args.mode=='train' or args.mode=='adapt':
             model.trainNet()
         elif args.mode=='test':
