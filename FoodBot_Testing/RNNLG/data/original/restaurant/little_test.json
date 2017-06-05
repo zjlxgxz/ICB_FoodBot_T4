@@ -1,0 +1,72 @@
+[
+  [
+    "?request(location)", 
+    "what location are you looking for?", 
+    "what location are you interested in?"
+  ], 
+  [
+    "?request(location)", 
+    "what location do you prefer?", 
+    "what location would you like?"
+  ], 
+  [
+    "?request(time)", 
+    "what time are you interested in?", 
+    "what time would you like?"
+  ], 
+  [
+    "?request(time)", 
+    "what time do you prefer?", 
+    "what time are you looking for?"
+  ], 
+  [
+    "confirm_restaurant(category=afghan;time=this afternoon;location=bronx)", 
+    "are you looking for a afghan resturant in bronx for this afternoon?", 
+    "you are looking for a afghan resturant in bronx for this afternoon, right?"
+  ], 
+  [
+    "confirm_restaurant(category=afghan;time=this afternoon;location=brooklyn)", 
+    "you are looking for a afghan resturant in brooklyn for this afternoon, right?", 
+    "let me confirm , are you looking for a afghan resturant in brooklyn for this afternoon?"
+  ], 
+  [
+    "inform_no_match(category=afghan;time=this afternoon;location=bronx)", 
+    "i did not find any afghan restaurant for this afternoon in bronx", 
+    "there is no afghan restaurant in bronx for this afternoon"
+  ], 
+  [
+    "inform_no_match(category=afghan;time=this afternoon;location=brooklyn)", 
+    "i did not find any afghan restaurant for this afternoon in brooklyn", 
+    "i am sorry i did not find any afghan restaurant for this afternoon in the area of brooklyn"
+  ], 
+  [
+    "inform(name=33 greenwich;address=573 gates st coraopolis pa 15108)", 
+    "33 greenwich is good restaurant in 573 gates st coraopolis pa 15108.", 
+    "why not giving 33 greenwich a try? and its address is 573 gates st coraopolis pa 15108."
+  ], 
+  [
+    "inform(name=33 greenwich;address=7593 kirkland lane rockaway nj 07866)", 
+    "why not giving 33 greenwich a try? and its address is 7593 kirkland lane rockaway nj 07866.", 
+    "33 greenwich is good restaurant in 7593 kirkland lane rockaway nj 07866."
+  ], 
+  [
+    "confirm_info(info=rating;name=antonios trattoria)", 
+    "i want to confirm that you are looking for the rating of antonios trattoria.", 
+    "you are looking for the rating of antonios trattoria, right?"
+  ], 
+  [
+    "confirm_info(info=address;name=antonios trattoria)", 
+    "i want to confirm that you are looking for the address of antonios trattoria.", 
+    "you are looking for the address of antonios trattoria, right?"
+  ], 
+  [
+    "?request(category)", 
+    "what category do you like?", 
+    "what category are you interested in?"
+  ], 
+  [
+    "?request(category)", 
+    "what category do you like?", 
+    "what category would you like?"
+  ]
+]

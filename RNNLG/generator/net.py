@@ -64,6 +64,7 @@ class Model(object):
         parser.read(config)
         # loading pretrained model if any
         self.modelfile = parser.get('data','model')
+        print ("Model File :",self.modelfile)
         if opts:    self.mode = opts.mode
         # check model file exists or not 
         if os.path.isfile(self.modelfile):
@@ -420,6 +421,8 @@ class Model(object):
     ####################### Generation ##############################
     #################################################################
     def testNet(self):
+        print ("Entering ")
+        generatedSentence = ''
         ######## test RNN generator on test set ######### 
         if self.debug:
             print 'start network testing ...'
@@ -463,9 +466,10 @@ class Model(object):
             print dact
             print 'Penalty\tTSER\tASER\tGen'
             for penalty, gen in gens:
+                generatedSentence = gen
                 ###################################################
                 #generate sentence
-                #print("gen:", gen)
+                print("gen:", gen)
                 ###################################################
                 # score slot error rate
                 cnt, total, caty = self.gentscorer.scoreERR(a,felements,
@@ -504,7 +508,9 @@ class Model(object):
         print 'This Model   :\t%.4f\t%2.2f%%\t%2.2f%%'% (bleuModel,
                 100*gencnts[1]/gencnts[0],100*gencnts[2]/gencnts[0])
     
-        
+
+        print ("Gen:", generatedSentence)
+        return generatedSentence
     #################################################################
     #################### Utility Functions ##########################
     #################################################################

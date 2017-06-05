@@ -1,0 +1,11 @@
+Is there a RESTAURANT_NAME here?
+Where is RESTAURANT_NAME?
+Can you tell me where RESTAURANT_NAME is?
+Could you tell me where RESTAURANT_NAME is?
+Can you show me how I can get to RESTAURANT_NAME?
+Could you show me how I can get to RESTAURANT_NAME?
+Can you show me the address of RESTAURANT_NAME?
+Could you show me the address of RESTAURANT_NAME?
+Please show me the address of RESTAURANT_NAME.
+Tell me the address of RESTAURANT_NAME.
+Where can I find RESTAURANT_NAME?

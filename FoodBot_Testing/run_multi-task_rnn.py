@@ -46,6 +46,18 @@ channel = grpc.insecure_channel('localhost:50053')
 stub = FoodBotRLAgent_pb2.FoodBotRLRequestStub(channel)
 
 
+# NLG
+import argparse
+sys.path.append('RNNLG/')
+from generator.net import Model
+
+parser = argparse.ArgumentParser(description='Default RNNLG opt parser.')
+parser.add_argument('-mode',  help='modes: train|test|adapt|knn|ngram', default="test")
+parser.add_argument('-config', help='config file to set.',default="RNNLG/config/sclstm.cfg")
+args = parser.parse_args()
+RNNLGModel = Model(args.config,args)
+
+
 #global vars
 model_test =  0
 sess = 0
@@ -910,7 +922,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     realSemanticFrame = outputFromSim["semantic_frame"]
     userInput = outputFromSim["nlg_sentence"].lower()
     #goodpolicy = outputFromSim['goodpolicy']
+    FromeWeb = True
     if 'goodpolicy' in outputFromSim.keys():        #come from simulated user
+      FromeWeb = False
       if userInput == 'end': # or sim user said it's not a good policy
         #reset the dialog state.'
         #get the reward for the former action(The current state and the former state should be the same. But it's ok here. The current action won't be executed)
@@ -923,6 +937,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         userInput = userInput.replace(",", "")
         userInput = userInput.replace("!", "")
     else:        #come from web user
+      FromeWeb = True
       if userInput == 'end': # or sim user said it's not a good policy
         #reset the dialog state.'
         DST_reset()
@@ -946,7 +961,18 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     policyFrame = dialogPolicy(outputFromSim['goodpolicy'],userInput)
     if(policyFrame == ''):
       DST_reset()
-    nlg_sentence = nlg(policyFrame,1)
+
+    if FromeWeb == True:
+      if(policyFrame == ''):
+        nlg_sentence = ''
+      else:
+        #Run policy converter
+        RNN_query = converter(policyFrame)
+        #Write the Policy frame to the testing file
+
+        RNNLGModel.testNet()
+    else:
+      nlg_sentence = nlg(policyFrame,1)
 
     #Calculate the LU accuracy:
     if realSemanticFrame != "":
