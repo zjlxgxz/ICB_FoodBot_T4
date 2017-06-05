@@ -232,7 +232,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     if(a != -1):# start state: 22222 won't be accounted.
         formerStateIndex = indexOfState(s)
         QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
-        #print (QTable[formerStateIndex,])
+        print (QTable[formerStateIndex,])
     #print("dailog total turn,total turn",j,total_steps)
     #print("Table 000,",QTable[0,:])
     #print ("Table 111",QTable[2047,:])
