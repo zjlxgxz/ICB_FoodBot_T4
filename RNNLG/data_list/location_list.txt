@@ -1,0 +1,24 @@
+astoria
+bayside
+bronx
+brooklyn
+college point
+corona
+elmhurst
+flushing
+forest hills
+glendale
+howard beach
+jackson heights
+jamaica
+long island city
+maspeth
+new york
+ozone park
+rego park
+ridgewood
+south ozone park
+staten island
+sunnyside
+tompkinsville
+woodside

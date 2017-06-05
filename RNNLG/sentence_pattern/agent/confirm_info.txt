@@ -1,0 +1,3 @@
+are you looking for the SLOT_INFO of SLOT_NAME?
+i want to confirm that you are looking for the SLOT_INFO of SLOT_NAME.
+you are looking for the SLOT_INFO of SLOT_NAME, right?
