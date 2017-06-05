@@ -965,8 +965,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     if FromeWeb == True:
       if(policyFrame == ''):
         nlg_sentence = ''
-      elif(policyFrame["intent"] == 'not_a_good_policy':
-        sentence = "What?? Please try again...")
+      elif(policyFrame["intent"] == 'not_a_good_policy'):
+        sentence = "What?? Please try again..."
       else:
         #Run policy converter
         RNN_query = converter(policyFrame)
