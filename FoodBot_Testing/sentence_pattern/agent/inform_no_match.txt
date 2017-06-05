@@ -1,4 +1,4 @@
 i am sorry i did not find any SLOT_CATEGORY restaurant for SLOT_TIME in the area of SLOT_LOCATION
-There is no SLOT_CATEGORY restaurant in SLOT_LOCATION for SLOT_TIME
-Sorry, there is no place serving SLOT_CATEGORY food for SLOT_TIME in SLOT_LOCATION
+there is no SLOT_CATEGORY restaurant in SLOT_LOCATION for SLOT_TIME
+sorry, there is no place serving SLOT_CATEGORY food for SLOT_TIME in SLOT_LOCATION
 i did not find any SLOT_CATEGORY restaurant for SLOT_TIME in SLOT_LOCATION
