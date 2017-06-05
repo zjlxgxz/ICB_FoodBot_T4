@@ -9,7 +9,7 @@ import sys
 import operator
 import re
 
-fin = file('utils/nlp/mapping.pair')
+fin = file('RNNLG/utils/nlp/mapping.pair')
 replacements = []
 for line in fin.readlines():
     tok_from, tok_to = line.replace('\n','').split('\t')

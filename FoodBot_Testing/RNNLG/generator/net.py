@@ -24,8 +24,6 @@ from loader.DataReader import *
 from loader.GentScorer import *
 
 from ConfigParser import SafeConfigParser
-import argparse
-
 # theano debugging flags
 """
 theano.config.compute_test_value = 'warn'
@@ -56,32 +54,17 @@ class Model(object):
     ################### Initialisation ##############################
     #################################################################
     def __init__(self,config=None,opts=None):
+        print ("config",config)
+        print ("opts",opts.mode)
         # not enough info to execute
-        parser = argparse.ArgumentParser(description='Default RNNLG opt parser.')
-        parser.add_argument('-mode',  help='modes: train|test|adapt|knn|ngram', default="test")
-        parser.add_argument('-config', help='config file to set.',default="RNNLG/config/sclstm.cfg")
-        args = parser.parse_args()
-
-        config = args.config
-        opts = args
-
-        if config==None and opts==None:
-            print "Please specify command option or config file ..."
-            return
         # config parser
         parser = SafeConfigParser()
-        parser.read(config)
+        parser.read('RNNLG/config/sclstm.cfg')
         # loading pretrained model if any
         self.modelfile = parser.get('data','model')
-        print ("model:",self.modelfile )
-        if opts:    self.mode = opts.mode
+        self.mode = 'test'
         # check model file exists or not 
-        if os.path.isfile(self.modelfile):
-            if not opts:    self.loadNet(parser,None)
-            else:           self.loadNet(parser,opts.mode)
-        else: # init a new model
-            self.initNet(config,opts)
-            self.updateNumpyParams()
+        self.loadNet(parser,'test')
 
     def initNet(self,config,opts=None):
         

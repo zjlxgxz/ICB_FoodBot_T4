@@ -267,7 +267,7 @@ class DataReader(object):
             wrd = wrd.replace('\n','')
             self.vocab.append(wrd)
 
-    def _loadTokenMap(self,mapfile='resource/detect.pair'):
+    def _loadTokenMap(self,mapfile='RNNLG/resource/detect.pair'):
         fin  = file(mapfile)
         self.tokenMap = json.load(fin)['general'].items()
         fin.close()

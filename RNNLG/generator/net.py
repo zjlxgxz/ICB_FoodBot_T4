@@ -55,24 +55,18 @@ class Model(object):
     ################### Initialisation ##############################
     #################################################################
     def __init__(self,config=None,opts=None):
+        print ("config",config)
+        print ("opts",opts.mode)
         # not enough info to execute
-        if config==None and opts==None:
-            print "Please specify command option or config file ..."
-            return
         # config parser
         parser = SafeConfigParser()
-        parser.read(config)
+        parser.read('RNNLG/config/sclstm.cfg')
         # loading pretrained model if any
         self.modelfile = parser.get('data','model')
-        print ("Model File :",self.modelfile)
-        if opts:    self.mode = opts.mode
+        self.mode = 'test'
         # check model file exists or not 
-        if os.path.isfile(self.modelfile):
-            if not opts:    self.loadNet(parser,None)
-            else:           self.loadNet(parser,opts.mode)
-        else: # init a new model
-            self.initNet(config,opts)
-            self.updateNumpyParams()
+        self.loadNet(parser,'test')
+
 
     def initNet(self,config,opts=None):
         

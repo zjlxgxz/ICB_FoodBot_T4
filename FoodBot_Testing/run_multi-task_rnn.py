@@ -963,7 +963,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         nlg_sentence = "What?? Please try again..."
       else:
         #Run policy converter
-        #RNNLGModel = Model(None,None)
+        RNNLGModel = Model(None,None)
 
         RNN_query = converter(policyFrame)
         #Write the Policy frame to the testing file
@@ -975,7 +975,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         query.append(content)
         with open('./RNNLG/data/original/restaurant/little_test.json', 'w') as outfile: 
           json.dumps(query,outfile)
-        #nlg_sentence = RNNLGModel.testNet()
+        nlg_sentence = RNNLGModel.testNet()
         nlg_sentence = "abcde"
     else:
       nlg_sentence = nlg(policyFrame,1)
@@ -1008,40 +1008,40 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
     return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
   
-  def converter(policyframe):
-		query = ''
-		if policyframe['intent'] == 'request':
-			if 'LOCATION' in policyframe['content'].keys():
-				query = '?request(location)'
-			elif 'TIME' in policyframe['content'].keys():
-				query = '?request(time)'
-			elif 'RESTAURANTNAME' in policyframe['content'].keys():
-				query = '?request(restaurantname)'
-			elif 'CATEGORY' in policyframe['content'].keys():
-				query = '?request(category)'
-		
-		elif policyframe['intent'] == 'confirm_restaurant':
-			query = 'confirm_restaurant(category='+policyframe['content']['CATEGORY']+';time=sometime;location='+policyframe['content']['LOCATION']+')'
-		
-		elif policyframe['intent'] == 'confirm_info':
-			if intents[-1] == 'Get_rating':
-				query = 'confirm_info(info=rating;name='+policyframe['content']['RESTAURANTNAME']+')'
-			elif intents[-1] == 'Get_location':
-				query = 'confirm_info(info=location;name='+policyframe['content']['RESTAURANTNAME']+')'
-		
-		elif policyframe['intent'] == 'not_found':
-			query = 'inform_no_match(category='+policyframe['content']['CATEGORY']+';time=sometime;location='+policyframe['content']['LOCATION']+')'
+def converter(policyframe):
+  query = ''
+  if policyframe['intent'] == 'request':
+    if 'LOCATION' in policyframe['content'].keys():
+      query = '?request(location)'
+    elif 'TIME' in policyframe['content'].keys():
+      query = '?request(time)'
+    elif 'RESTAURANTNAME' in policyframe['content'].keys():
+      query = '?request(restaurantname)'
+    elif 'CATEGORY' in policyframe['content'].keys():
+      query = '?request(category)'
+  
+  elif policyframe['intent'] == 'confirm_restaurant':
+    query = 'confirm_restaurant(category='+policyframe['content']['CATEGORY']+';time=sometime;location='+policyframe['content']['LOCATION']+')'
+  
+  elif policyframe['intent'] == 'confirm_info':
+    if intents[-1] == 'Get_rating':
+      query = 'confirm_info(info=rating;name='+policyframe['content']['RESTAURANTNAME']+')'
+    elif intents[-1] == 'Get_location':
+      query = 'confirm_info(info=location;name='+policyframe['content']['RESTAURANTNAME']+')'
+  
+  elif policyframe['intent'] == 'not_found':
+    query = 'inform_no_match(category='+policyframe['content']['CATEGORY']+';time=sometime;location='+policyframe['content']['LOCATION']+')'
 
-		elif policyframe['intent'] == 'inform':
-			if 'RESTAURANTNAME' in policyframe['content'].keys():
-				query = 'inform(name='+policyframe['content']['RESTAURANTNAME']+';address='+policyframe['content']['LOCATION']+')'
-			else:
-				if intents[-1] == 'Get_location':
-					query = 'inform(address='+policyframe['content']['LOCATION']+')'
-				elif intents[-1] == 'Get_rating':
-					query = 'inform(address='+policyframe['content']['RATING']+')'
+  elif policyframe['intent'] == 'inform':
+    if 'RESTAURANTNAME' in policyframe['content'].keys():
+      query = 'inform(name='+policyframe['content']['RESTAURANTNAME']+';address='+policyframe['content']['LOCATION']+')'
+    else:
+      if intents[-1] == 'Get_location':
+        query = 'inform(address='+policyframe['content']['LOCATION']+')'
+      elif intents[-1] == 'Get_rating':
+        query = 'inform(address='+policyframe['content']['RATING']+')'
 
-		return query
+  return query
 
 def semanticComparison(realSem,predIntent,predSlots):
   print ("---------")
