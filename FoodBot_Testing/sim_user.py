@@ -92,6 +92,12 @@ def policyChecker(sys_act):
 	global memory
 	global expect
 	global confirm
+	
+	print '=========================='
+	print 'memory : ', memory
+	print 'expect : ', expect
+	print 'confirm : ', confirm
+	print 'sys_act : ', sys_act
 
 	if sys_act['intent'] == 'not_a_good_policy':
 		return 0
@@ -103,7 +109,7 @@ def policyChecker(sys_act):
 	'''
 	
 	if confirm == 'yes':
-		confrim = ''
+		confirm = ''
 		if sys_act['intent'] == 'inform':
 			return 3
 	elif expect == 'get_restaurant':
@@ -204,6 +210,7 @@ def simul_user(sys_act):
 		global goodPolicy
 		# The see if the policy picked by DQN is reasonable
 		goodPolicy = policyChecker(sys_act)
+		print (goodPolicy)
 		if goodPolicy == 0:
 			returnList = dict()
 			returnList["nlg_sentence"] = 'end'
@@ -326,6 +333,7 @@ def nlg(sem_frame):
 
 	global expect
 	global confirm
+	global memory
 
 	#print("semantic frame: ", sem_frame)
 	sentence = ""

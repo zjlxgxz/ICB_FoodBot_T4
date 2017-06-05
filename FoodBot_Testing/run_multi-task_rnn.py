@@ -46,6 +46,12 @@ channel = grpc.insecure_channel('localhost:50053')
 stub = FoodBotRLAgent_pb2.FoodBotRLRequestStub(channel)
 
 
+# NLG
+import argparse
+sys.path.append('RNNLG/')
+from generator.net import Model
+
+
 #global vars
 model_test =  0
 sess = 0
@@ -910,7 +916,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     realSemanticFrame = outputFromSim["semantic_frame"]
     userInput = outputFromSim["nlg_sentence"].lower()
     #goodpolicy = outputFromSim['goodpolicy']
+    FromeWeb = True
     if 'goodpolicy' in outputFromSim.keys():        #come from simulated user
+      FromeWeb = False
       if userInput == 'end': # or sim user said it's not a good policy
         #reset the dialog state.'
         #get the reward for the former action(The current state and the former state should be the same. But it's ok here. The current action won't be executed)
@@ -923,6 +931,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         userInput = userInput.replace(",", "")
         userInput = userInput.replace("!", "")
     else:        #come from web user
+      FromeWeb = True
       if userInput == 'end': # or sim user said it's not a good policy
         #reset the dialog state.'
         DST_reset()
@@ -946,7 +955,32 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     policyFrame = dialogPolicy(outputFromSim['goodpolicy'],userInput)
     if(policyFrame == ''):
       DST_reset()
-    nlg_sentence = nlg(policyFrame,1)
+
+    if FromeWeb == True:
+      if(policyFrame == ''):
+        nlg_sentence = ''
+      elif(policyFrame["intent"] == 'not_a_good_policy'):
+        nlg_sentence = "What?? Please try again..."
+      else:
+        #Run policy converter
+        RNNLGModel = Model(None,None)
+
+        RNN_query = converter(policyFrame)
+        #Write the Policy frame to the testing file
+        query = []
+        content = []
+        content.append(RNN_query)
+        content.append("Test testing testing")
+        content.append("Test testing testing")
+        query.append(content)
+        print (query)
+        with open('./RNNLG/data/original/restaurant/little_test.json', 'w') as outfile:
+          json.dump(query, outfile)
+        print ("write: ", query)
+
+        nlg_sentence = RNNLGModel.testNet()
+    else:
+      nlg_sentence = nlg(policyFrame,1)
 
     #Calculate the LU accuracy:
     if realSemanticFrame != "":
@@ -971,7 +1005,45 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
     #dictionary to jsonstring
     policyFrameString = json.dumps(policyFrame)
+    print("nlg sentence:",nlg_sentence )
+    print("frame:",policyFrameString )
+
     return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
+  
+def converter(policyframe):
+  query = ''
+  if policyframe['intent'] == 'request':
+    if 'LOCATION' in policyframe['content'].keys():
+      query = '?request(location)'
+    elif 'TIME' in policyframe['content'].keys():
+      query = '?request(time)'
+    elif 'RESTAURANTNAME' in policyframe['content'].keys():
+      query = '?request(restaurantname)'
+    elif 'CATEGORY' in policyframe['content'].keys():
+      query = '?request(category)'
+  
+  elif policyframe['intent'] == 'confirm_restaurant':
+    query = 'confirm_restaurant(category='+policyframe['content']['CATEGORY']+';time=sometime;location='+policyframe['content']['LOCATION']+')'
+  
+  elif policyframe['intent'] == 'confirm_info':
+    if intents[-1] == 'Get_rating':
+      query = 'confirm_info(info=rating;name='+policyframe['content']['RESTAURANTNAME']+')'
+    elif intents[-1] == 'Get_location':
+      query = 'confirm_info(info=location;name='+policyframe['content']['RESTAURANTNAME']+')'
+  
+  elif policyframe['intent'] == 'not_found':
+    query = 'inform_no_match(category='+policyframe['content']['CATEGORY']+';time=sometime;location='+policyframe['content']['LOCATION']+')'
+
+  elif policyframe['intent'] == 'inform':
+    if 'RESTAURANTNAME' in policyframe['content'].keys():
+      query = 'inform(name='+policyframe['content']['RESTAURANTNAME']+';address='+policyframe['content']['LOCATION']+')'
+    else:
+      if intents[-1] == 'Get_location':
+        query = 'inform(address='+policyframe['content']['LOCATION']+')'
+      elif intents[-1] == 'Get_rating':
+        query = 'inform(address='+policyframe['content']['RATING']+')'
+
+  return query
 
 def semanticComparison(realSem,predIntent,predSlots):
   print ("---------")

@@ -55,23 +55,18 @@ class Model(object):
     ################### Initialisation ##############################
     #################################################################
     def __init__(self,config=None,opts=None):
+        print ("config",config)
+        print ("opts",opts.mode)
         # not enough info to execute
-        if config==None and opts==None:
-            print "Please specify command option or config file ..."
-            return
         # config parser
         parser = SafeConfigParser()
-        parser.read(config)
+        parser.read('RNNLG/config/sclstm.cfg')
         # loading pretrained model if any
         self.modelfile = parser.get('data','model')
-        if opts:    self.mode = opts.mode
+        self.mode = 'test'
         # check model file exists or not 
-        if os.path.isfile(self.modelfile):
-            if not opts:    self.loadNet(parser,None)
-            else:           self.loadNet(parser,opts.mode)
-        else: # init a new model
-            self.initNet(config,opts)
-            self.updateNumpyParams()
+        self.loadNet(parser,'test')
+
 
     def initNet(self,config,opts=None):
         
@@ -420,6 +415,8 @@ class Model(object):
     ####################### Generation ##############################
     #################################################################
     def testNet(self):
+        print ("Entering ")
+        generatedSentence = ''
         ######## test RNN generator on test set ######### 
         if self.debug:
             print 'start network testing ...'
@@ -463,9 +460,10 @@ class Model(object):
             print dact
             print 'Penalty\tTSER\tASER\tGen'
             for penalty, gen in gens:
+                generatedSentence = gen
                 ###################################################
                 #generate sentence
-                #print("gen:", gen)
+                print("gen:", gen)
                 ###################################################
                 # score slot error rate
                 cnt, total, caty = self.gentscorer.scoreERR(a,felements,
@@ -504,7 +502,9 @@ class Model(object):
         print 'This Model   :\t%.4f\t%2.2f%%\t%2.2f%%'% (bleuModel,
                 100*gencnts[1]/gencnts[0],100*gencnts[2]/gencnts[0])
     
-        
+
+        print ("Gen:", generatedSentence)
+        return generatedSentence
     #################################################################
     #################### Utility Functions ##########################
     #################################################################

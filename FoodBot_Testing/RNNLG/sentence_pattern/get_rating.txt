@@ -1,0 +1,6 @@
+What is the rating of RESTAURANT_NAME like?
+How is the rating of RESTAURANT_NAME?
+Show me the rating of RESTAURANT_NAME.
+What is RESTAURANT_NAME like?
+Is RESTAURANT_NAME a good one?
+What do you think about RESTAURANT_NAME?

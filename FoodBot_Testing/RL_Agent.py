@@ -49,6 +49,7 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
       #  print ("============================================================")
       #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
       policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
+      #policy = 0
       '''
       if formerAction == 9 or policy == 9:
       #if True:
@@ -232,7 +233,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     if(a != -1):# start state: 22222 won't be accounted.
         formerStateIndex = indexOfState(s)
         QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
-        #print (QTable[formerStateIndex,])
+        print (QTable[formerStateIndex,])
     #print("dailog total turn,total turn",j,total_steps)
     #print("Table 000,",QTable[0,:])
     #print ("Table 111",QTable[2047,:])
@@ -248,6 +249,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         print ("Random pick")
         a = np.random.randint(0, 10)
     rAll += r
+    print rAll
     if d == True: # initial the dialog and reset the buffers and Accumulated Q
         rList.append(rAll)
         with open('RL_data.json', 'w') as outfile:
