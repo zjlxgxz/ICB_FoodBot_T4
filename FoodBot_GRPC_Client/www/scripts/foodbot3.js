@@ -20,6 +20,10 @@ FoodBot.prototype = {
 			}
 		});
 
+		document.getElementById('sayBtn').addEventListener('click',function() {
+			start()
+		},false);
+
 		document.getElementById('sendBtn').addEventListener('click',function() {
 			var messageInput = document.getElementById('messageInput'),
 				msg = messageInput.value;
