@@ -1,32 +1,26 @@
 html, body {
+    width: 100%;
+    height: 100%
     margin: 0;
     background-color: #efefef;
     font-family: sans-serif;
 }
+.content {
+    width: 45%;
+    text-align: left;
+    float: right;
+    padding: 10px;
+}
 .wrapper {
-    width: 500px;
-    height: 640px;
+    width: 50%;
+
     padding: 5px;
     margin: 0 auto;
     background-color: #ddd;
-}
-#loginWrapper {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(5, 5, 5, .6);
-    text-align: center;
-    color: #fff;
-    display: block;
-    padding-top: 200px;
-}
-#nickWrapper {
-    display: none;
+    float: left;
 }
 .banner {
-    height: 80px;
+    height: 20%;
     width: 100%;
 }
 .banner p {
@@ -73,36 +67,16 @@ html, body {
 /*end custom file input*/
 
 #messageInput {
-    width: 440px;
-    max-width: 440px;
-    height: 90px;
-    max-height: 90px;
+    width: 99%;
+    height: 70%;
+}
+#sayBtn {
+    position: 0px;
+    width: 100px;
+    height: 20px;
 }
 #sendBtn {
-    width: 50px;
-    height: 96px;
-    float: right;
-}
-#emojiWrapper {
-    display: none;
-    width: 500px;
-    bottom: 105px;
-    position: absolute;
-    background-color: #aaa;
-    box-shadow: 0 0 10px #555;
-}
-#emojiWrapper img {
-    margin: 2px;
-    padding: 2px;
-    width: 25px;
-    height: 25px;
-}
-#emojiWrapper img:hover {
-    background-color: blue;
-}
-.emoji{
-    display: inline;
-}
-footer {
-    text-align: center;
+    position: 100px;
+    width: 100px;
+    height: 20px;
 }
