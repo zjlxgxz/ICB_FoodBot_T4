@@ -827,11 +827,11 @@ def nlg(sem_frame, bot):
       keys.remove("intent")
       sentence = random.choice(pattern_dict[sem_frame["intent"]])
       for key in keys:
-        sentence.replace("SLOT_"+key.upper(), sem_frame[key])
+        sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
 
-    return sentence.capitalize()
-      '''
+  return sentence.capitalize()
+'''
       if sem_frame["intent"] == "confirm_restaurant":
         keys = sem_frame["content"].keys()
         sentence = "You're looking for a "
@@ -874,7 +874,7 @@ def nlg(sem_frame, bot):
         sentence = "Sorry, I don't understand! Please try again..."
       elif sem_frame["intent"] == 'not_a_good_policy':
         sentence = "What?? Please try again..."
-      '''
+'''
   
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
