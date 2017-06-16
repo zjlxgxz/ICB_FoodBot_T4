@@ -13,8 +13,8 @@ app.use('/', express.static(__dirname + '/www'));
 
 server.listen(8081);
 console.log('Server Started');
-
-var msgToSend,responseMsg;
+  
+var msgToSend,responseMsg,username;
 
 function runRequest(callback) {
   function featureCallback(error, outSentence) {
@@ -31,19 +31,20 @@ function runRequest(callback) {
       callback();
     }
   }
-  
+    
   var j='{"semantic_frame":"","nlg_sentence":"'+ msgToSend +'"}';
   JsonString = JSON.stringify(j) ;
-  var sentence = {response:JsonString}
+  var sentence = {response:JsonString,user:JSON.stringify(username)};
 
   console.log("sentence: "+ JSON.stringify(sentence));
   client.getResponse(sentence, featureCallback);
 }
 
 io.on('connection', function(socket){
-  socket.on('postMsg',function(msg) {
+  socket.on('postMsg',function(msg, user) {
     console.log('input msg: ' + msg);
     msgToSend = msg;
+    username = user;
     console.log('input msgToSend: ' + msgToSend);
     //call SUser to get intent
     async.series([runRequest,function(callback){
