@@ -2,3 +2,6 @@ the address is SLOT_ADDRESS.
 it's here: SLOT_ADDRESS.
 the address of it is SLOT_ADDRESS.
 here is the address of it: SLOT_ADDRESS.
+it's in SLOT_ADDRESS.
+the address you're looking for is SLOT_ADDRESS.
+its address is SLOT_ADDRESS.
