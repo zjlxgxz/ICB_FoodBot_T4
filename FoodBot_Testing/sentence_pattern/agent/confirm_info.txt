@@ -1,3 +1,6 @@
-are you looking for the SLOT_INFO of SLOT_NAME?
-i want to confirm that you are looking for the SLOT_INFO of SLOT_NAME.
-you are looking for the SLOT_INFO of SLOT_NAME, right?
+are you looking for the SLOT_INFO_NAME of SLOT_NAME?
+i want to confirm that you are looking for the SLOT_INFO_NAME of SLOT_NAME.
+you are looking for the SLOT_INFO_NAME of SLOT_NAME, right?
+let me confirm, you are looking for the SLOT_INFO_NAME of SLOT_NAME, right?
+you are interested in the SLOT_INFO_NAME of SLOT_NAME, right?
+your query is the SLOT_INFO_NAME of SLOT_NAME, right?

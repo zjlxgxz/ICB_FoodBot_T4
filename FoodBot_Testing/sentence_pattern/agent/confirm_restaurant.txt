@@ -1,3 +1,5 @@
-you are looking for a SLOT_CATEGORY resturant in SLOT_LOCATION for SLOT_TIME, right?
-are you looking for a SLOT_CATEGORY resturant in SLOT_LOCATION for SLOT_TIME?
-let me confirm , are you looking for a SLOT_CATEGORY resturant in SLOT_LOCATION for SLOT_TIME?
+you are looking for a SLOT_CATEGORY restaurant in SLOT_AREA for SLOT_TIME, right?
+are you looking for a SLOT_CATEGORY restaurant in SLOT_AREA for SLOT_TIME?
+let me confirm, are you looking for a SLOT_CATEGORY restaurant in SLOT_AREA for SLOT_TIME?
+you are interested in a SLOT_CATEGORY restaurant in SLOT_AREA for SLOT_TIME, right?
+you want a SLOT_CATEGORY restaurant in SLOT_AREA for SLOT_TIME, right?

@@ -1,0 +1,4 @@
+its rating is SLOT_SCORE.
+the rating of it is SLOT_SCORE.
+its rating is about SLOT_SCORE.
+it's SLOT_SCORE stars.

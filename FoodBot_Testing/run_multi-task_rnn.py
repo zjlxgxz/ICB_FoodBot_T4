@@ -17,6 +17,7 @@ import os
 import sys
 import time
 import json
+import glob
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
@@ -84,43 +85,15 @@ content_list = ["category", "time", "location"]
 action = -1
 
 
-
-#patterns of user
-f2 = open('sentence_pattern/yes.txt', 'r')
-yes_list = f2.read().split('\n')
-
-f3 = open('sentence_pattern/thanks.txt', 'r')
-thanks_list = f3.read().split('\n')
-
-f4 = open('sentence_pattern/get_restaurant.txt', 'r')
-get_restaurant_pattern = f4.read().split('\n')
-
-f5 = open('sentence_pattern/get_location.txt', 'r')
-get_location_pattern = f5.read().split('\n')
-
-f6 = open('sentence_pattern/get_rating.txt', 'r')
-get_rating_pattern = f6.read().split('\n')
-
-#f7 = open('get_comment.txt', 'r')
-#get_comment_pattern = f7.read().split('\n')
-
-f8 = open('sentence_pattern/agent/inform_restaurant.txt', 'r')
-recommend_pattern = f8.read().split('\n')
-
-f9 = open('sentence_pattern/agent/inform_address.txt', 'r')
-inform_location_pattern = f9.read().split('\n')
-
-f10 = open('sentence_pattern/inform_category.txt', 'r')
-inform_category_pattern = f10.read().split('\n')
-
-f11 = open('sentence_pattern/agent/request_location.txt', 'r')
-request_location_pattern = f11.read().split('\n')
-
-f12 = open('sentence_pattern/agent/request_category.txt', 'r')
-request_category_pattern = f12.read().split('\n')
-
-f13 = open('sentence_pattern/agent/request_time.txt', 'r')
-request_time_pattern = f13.read().split('\n')
+#patterns for agent
+pattern_dict = dict()
+file_list = glob.glob("./sentence_pattern/agent/*.txt")
+for txt in file_list:
+  f = open(txt, 'r')
+  key = txt.split('/')[3].split('.')[0]
+  temp = f.read().split('\n')
+  temp = [sent for sent in temp if sent != '']
+  pattern_dict[key] = temp
 
 ######################
 
@@ -843,65 +816,66 @@ def nlg(sem_frame, bot):
   if bot == 1: #for bot  
     if sem_frame == '':
       return ''
-    if sem_frame["intent"] == "request":
-      keys = sem_frame["content"].keys()
-      sentence = ""
-      if "CATEGORY" in keys:
-        sentence = random.choice(request_category_pattern) + " "
-      if "LOCATION" in keys:
-        sentence = sentence + random.choice(request_location_pattern) + " "
-      if "TIME" in keys:
-        sentence = sentence + random.choice(request_time_pattern)
-      if "RESTAURANTNAME" in keys:
-        sentence = "Which restaurant again, please?"
-  
-    if sem_frame["intent"] == "confirm_restaurant":
-      keys = sem_frame["content"].keys()
-      sentence = "You're looking for a "
-      if "CATEGORY" in keys:
-        sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
-      else:
-        sentence = sentence + "restaurant"
-      if "LOCATION" in keys and sem_frame["content"]["LOCATION"]:
-        sentence = sentence + " in " + sem_frame["content"]["LOCATION"]
-      if "TIME" in keys and sem_frame["content"]["TIME"]:
-        sentence = sentence + " for " + sem_frame["content"]["TIME"]
-      sentence = sentence + ", right?"
-
-    if sem_frame["intent"] == "confirm_info":
-      sentence = "You're looking for "
-      if "RATING" in sem_frame["content"].keys():
-        sentence = sentence + "the rating of " + sem_frame["content"]["RESTAURANTNAME"]
-      if "LOCATION" in sem_frame["content"].keys():
-        sentence = sentence + "the location of " + sem_frame["content"]["RESTAURANTNAME"]
-      sentence = sentence + ", right?"
     
-    if sem_frame["intent"] == "inform":
-      #for recommendation
-      if "RESTAURANTNAME" in sem_frame["content"].keys():
-        sentence = random.choice(recommend_pattern)
-        sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
-        sentence = sentence.capitalize() + " It's in " + sem_frame["content"]["LOCATION"] + "."
-      
-      else:
-        #for restaurant info
-        if "LOCATION" in sem_frame["content"].keys():
-          sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
+    elif sem_frame["intent"] in ["request_area", "request_area_2", "request_category", "request_time", \
+                                "reqmore", "goodbye", "hi", "inform_smoke_yes", \
+                                "inform_smoke_no", "inform_wifi_yes", "inform_wifi_no"]:
+      sentence = random.choice(pattern_dict[sem_frame["intent"]])
+    
+    else:
+      keys = sem_frame.keys()
+      keys.remove("intent")
+      sentence = random.choice(pattern_dict[sem_frame["intent"]])
+      for key in keys:
+        sentence.replace("SLOT_"+key.upper(), sem_frame[key])
+
+
+    return sentence.capitalize()
+      '''
+      if sem_frame["intent"] == "confirm_restaurant":
+        keys = sem_frame["content"].keys()
+        sentence = "You're looking for a "
+        if "CATEGORY" in keys:
+          sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
+        else:
+          sentence = sentence + "restaurant"
+        if "LOCATION" in keys and sem_frame["content"]["LOCATION"]:
+          sentence = sentence + " in " + sem_frame["content"]["LOCATION"]
+        if "TIME" in keys and sem_frame["content"]["TIME"]:
+          sentence = sentence + " for " + sem_frame["content"]["TIME"]
+        sentence = sentence + ", right?"
+  
+      if sem_frame["intent"] == "confirm_info":
+        sentence = "You're looking for "
         if "RATING" in sem_frame["content"].keys():
-          sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
-
-    if sem_frame["intent"] == "not_found":
-      sentence = "Sorry! I don't have the information you're looking for. Please try another one."
+          sentence = sentence + "the rating of " + sem_frame["content"]["RESTAURANTNAME"]
+        if "LOCATION" in sem_frame["content"].keys():
+          sentence = sentence + "the location of " + sem_frame["content"]["RESTAURANTNAME"]
+        sentence = sentence + ", right?"
+      
+      if sem_frame["intent"] == "inform":
+        #for recommendation
+        if "RESTAURANTNAME" in sem_frame["content"].keys():
+          sentence = random.choice(inform_restaurant_pattern)
+          sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
+          sentence = sentence.capitalize() + " It's in " + sem_frame["content"]["LOCATION"] + "."
+        
+        else:
+          #for restaurant info
+          if "LOCATION" in sem_frame["content"].keys():
+            sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
+          if "RATING" in sem_frame["content"].keys():
+            sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
   
-    if not sem_frame["intent"]:
-      sentence = "Sorry, I don't understand! Please try again..."
-    elif sem_frame["intent"] == 'not_a_good_policy':
-      sentence = "What?? Please try again..."
-
-  else:
-    sentence = "The variable bot should be 1!"
+      if sem_frame["intent"] == "not_found":
+        sentence = "Sorry! I don't have the information you're looking for. Please try another one."
+    
+      if not sem_frame["intent"]:
+        sentence = "Sorry, I don't understand! Please try again..."
+      elif sem_frame["intent"] == 'not_a_good_policy':
+        sentence = "What?? Please try again..."
+      '''
   
-  return sentence
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
