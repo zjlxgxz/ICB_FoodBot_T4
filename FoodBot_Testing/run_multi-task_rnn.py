@@ -80,10 +80,7 @@ LURightCount = 0
 formerState = [2,2,2,2,2,2,2,2,2,2,2] #To remember the former state, 222222 is the start state
 
 ##################below for nlg
-#lists needed
-content_list = ["category", "time", "location"]
 action = -1
-
 
 #patterns for agent
 pattern_dict = dict()
@@ -94,6 +91,9 @@ for txt in file_list:
   temp = f.read().split('\n')
   temp = [sent for sent in temp if sent != '']
   pattern_dict[key] = temp
+
+pic_dict = dict()
+
 
 ######################
 
@@ -812,25 +812,29 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
-def nlg(sem_frame, bot):
-  if bot == 1: #for bot  
-    if sem_frame == '':
-      return ''
-    
-    elif sem_frame["intent"] in ["request_area", "request_area_2", "request_category", "request_time", \
-                                "reqmore", "goodbye", "hi", "inform_smoke_yes", \
-                                "inform_smoke_no", "inform_wifi_yes", "inform_wifi_no"]:
-      sentence = random.choice(pattern_dict[sem_frame["intent"]])
-    
-    else:
-      keys = sem_frame.keys()
-      keys.remove("intent")
-      sentence = random.choice(pattern_dict[sem_frame["intent"]])
-      for key in keys:
-        sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
+def nlg(sem_frame, style = 'gentle'): 
+  return_list = dict()
+  if sem_frame == '':
+    return ''  
+  elif sem_frame["intent"] in ["request_area", "request_area_2", "request_category", "request_time", \
+                              "reqmore", "goodbye", "hi", "inform_smoke_yes", \
+                              "inform_smoke_no", "inform_wifi_yes", "inform_wifi_no"]:
+    sentence = random.choice(pattern_dict[sem_frame["intent"]]) 
+  else:
+    keys = sem_frame.keys()
+    keys.remove("intent")
+    sentence = random.choice(pattern_dict[sem_frame["intent"]])
+    for key in keys:
+      sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
+  if style == 'hilarious':
+    pic_url = random.choice(pic_dict[sem_frame["intent"]])
+    return_list["pic_url"] = pic_url
 
-  return sentence.capitalize()
+  return_list["sentence"] = sentence.capitalize()
+  json_list = json.dumps(return_list)
+  
+  return json_list
 '''
       if sem_frame["intent"] == "confirm_restaurant":
         keys = sem_frame["content"].keys()
@@ -954,7 +958,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
         nlg_sentence = RNNLGModel.testNet()
     else:
-      nlg_sentence = nlg(policyFrame,1)
+      nlg_sentence = nlg(policyFrame)
 
     #Calculate the LU accuracy:
     if realSemanticFrame != "":
