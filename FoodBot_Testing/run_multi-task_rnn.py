@@ -92,7 +92,8 @@ for txt in file_list:
   temp = [sent for sent in temp if sent != '']
   pattern_dict[key] = temp
 
-pic_dict = dict()
+with open("./sentence_pattern/agent/pic_dict.json", 'r') as f:  
+  pic_dict = json.load(f)
 
 
 ######################
@@ -828,8 +829,9 @@ def nlg(sem_frame, style = 'gentle'):
       sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
   if style == 'hilarious':
-    pic_url = random.choice(pic_dict[sem_frame["intent"]])
-    return_list["pic_url"] = pic_url
+    if sem_frame["intent"] in pic_dict.keys():
+      pic_url = random.choice(pic_dict[sem_frame["intent"]])
+      return_list["pic_url"] = pic_url
 
   return_list["sentence"] = sentence.capitalize()
   json_list = json.dumps(return_list)
