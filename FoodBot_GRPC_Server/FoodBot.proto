@@ -12,10 +12,11 @@ service FoodBotRequest
 message Sentence
 {
 	string response = 1;
+	string user = 2;
 }
 
 message outSentence
 {
-	string response_nlg = 2;
-	string response_policy_frame = 3;
+	string response_nlg = 3;
+	string response_policy_frame = 4;
 }
