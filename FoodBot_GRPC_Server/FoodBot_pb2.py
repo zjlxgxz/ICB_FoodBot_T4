@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='FoodBot.proto',
   package='FoodBot',
   syntax='proto3',
-  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"H\n\x08Sentence\x12\x16\n\x0esemantic_frame\x18\x01 \x01(\t\x12\x14\n\x0cnlg_sentence\x18\x02 \x01(\t\x12\x0e\n\x06userID\x18\x03 \x01(\t\"O\n\x0boutSentence\x12\x14\n\x0cresponse_nlg\x18\x04 \x01(\t\x12\x1d\n\x15response_policy_frame\x18\x05 \x01(\t\x12\x0b\n\x03url\x18\x06 \x01(\t2J\n\x0e\x46oodBotRequest\x12\x38\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x14.FoodBot.outSentence\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"I\n\x08Sentence\x12\x16\n\x0esemantic_frame\x18\x01 \x01(\t\x12\x14\n\x0cnlg_sentence\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\"O\n\x0boutSentence\x12\x14\n\x0cresponse_nlg\x18\x04 \x01(\t\x12\x1d\n\x15response_policy_frame\x18\x05 \x01(\t\x12\x0b\n\x03url\x18\x06 \x01(\t2J\n\x0e\x46oodBotRequest\x12\x38\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x14.FoodBot.outSentence\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -48,7 +48,7 @@ _SENTENCE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='userID', full_name='FoodBot.Sentence.userID', index=2,
+      name='user_id', full_name='FoodBot.Sentence.user_id', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -67,7 +67,7 @@ _SENTENCE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=26,
-  serialized_end=98,
+  serialized_end=99,
 )
 
 
@@ -111,8 +111,8 @@ _OUTSENTENCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=100,
-  serialized_end=179,
+  serialized_start=101,
+  serialized_end=180,
 )
 
 DESCRIPTOR.message_types_by_name['Sentence'] = _SENTENCE

@@ -13,7 +13,7 @@ message Sentence
 {
 	string semantic_frame = 1;
 	string nlg_sentence = 2;
-	string userID = 3;
+	string user_id = 3;
 }
 
 message outSentence
