@@ -1,4 +1,4 @@
-var user;
+var user, mute;
 
 window.onload = function () {
 	var foodbot = new FoodBot();
@@ -16,11 +16,14 @@ FoodBot.prototype = {
 		var that = this;
 		this.socket = io.connect();
 		this.socket.on('connect', function() {
+			that._displayNewMsg('FoodBot','Hi what can I do for you:)');
 		});
 		this.socket.on('newMsg', function(name, msg, color){
 			if(msg != null){
 				that._displayNewMsg(name, msg, color);
-				speak(msg);
+				if (!mute) {
+					speak(msg);
+				}
 			}
 		});
 
@@ -39,6 +42,17 @@ FoodBot.prototype = {
 				that._displayNewMsg(user,msg, 'green');
 			};
 		},false);
+
+		document.getElementById('mute').addEventListener('change',function(){
+			var muteckBox = document.getElementById('mute');
+			if(muteckBox.checked){
+				//console.log('mute: true')
+				mute = true;
+			}else{
+				//console.log('mute: false')
+				mute = false;
+			}
+		});
 	},
 	
 	_displayNewMsg: function(name,msg,color){

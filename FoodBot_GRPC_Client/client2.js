@@ -34,7 +34,7 @@ function runRequest(callback) {
     
   var j='{"semantic_frame":"","nlg_sentence":"'+ msgToSend +'"}';
   JsonString = JSON.stringify(j) ;
-  var sentence = {response:JsonString,user:JSON.stringify(username)};
+  var sentence = {response:JsonString,userID:JSON.stringify(username)};
 
   console.log("sentence: "+ JSON.stringify(sentence));
   client.getResponse(sentence, featureCallback);
