@@ -766,7 +766,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
       selectedPolicy =  dialogPolicy(good_policy)
 
-      print( nlg(selectedPolicy) )
+      print("nlg:", nlg(selectedPolicy) )
 
       return FoodBot_pb2.outSentence(response_nlg = '',response_policy_frame = json.dumps(selectedPolicy),url = '')
 
