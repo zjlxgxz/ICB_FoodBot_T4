@@ -133,7 +133,7 @@ class SearchDB:
 				else:
 					out = str(results).replace(',',' ').replace('u\'','').replace(']','').replace('[','').replace('(','').replace(')','').replace('\'','').replace('\"','')
 					if out == ' ':
-						content = {'policy':'inform_no_inform'}
+						content = {'policy':'inform_no_info'}
 					else:
 						content = {'policy':'inform_info', 'price':out}
 
