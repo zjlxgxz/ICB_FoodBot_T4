@@ -759,7 +759,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
       selectedPolicy =  dialogPolicy(good_policy)
 
-      
+      return FoodBot_pb2.outSentence(response_nlg = '',response_policy_frame = policyFrameString,url = '')
+
       # Return to the sim_user with Policy(frame_level), DST(frame_level) 
       
       # in Json String

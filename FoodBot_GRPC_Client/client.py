@@ -31,39 +31,23 @@ def SimOutput(rawdata):
   return result
 
 if __name__ == '__main__':
-  i = 0
-  while (i < 10000):
-	initDict = dict()
-	initDict["policy"] = "init"
-  	msgToSend = SimOutput( json.dumps(initDict))
-	print ("init-sent Turns:",i)
-  	while(True):
-		sim_semantic_frame = msgToSend.semantic_frame
-		good_policy = msgToSend.good_policy
-		sim_user_id = msgToSend.user_id
+	i = 0
+	while (i < 10000):
+		initDict = dict()
+		initDict["policy"] = "init"
+		msgToSend = SimOutput( json.dumps(initDict))
+		print ("init-sent Turns:",i)
+		while(True):
+			sim_semantic_frame = msgToSend.semantic_frame
+			good_policy = msgToSend.good_policy
+			sim_user_id = msgToSend.user_id
 
-		msgToSend = AgentOutput(sim_semantic_frame,sim_user_id,good_policy)
+			msgToSend = AgentOutput(sim_semantic_frame,sim_user_id,good_policy)
 
-		msgToSend = SimOutput( json.dumps(msgToSend.semantic_frame))
+			msgToSend = SimOutput( json.dumps(msgToSend.semantic_frame))
 
-		if(sim_semantic_frame['intent'] == 'goodbye'):
-			break
-
-		  '''
-  		if json.loads(msgToSend)["nlg_sentence"] == 'END' or json.loads(msgToSend)["nlg_sentence"] == ''or json.loads(msgToSend)["nlg_sentence"] == 'Unknown intent!!!':
-  			inputss = json.loads(msgToSend)
-  			inputss["nlg_sentence"] = 'end'
-  			inputss = json.dumps(inputss)
-  			print (inputss)
-  			msgToSend = AgentOutput(inputss)
-  			break
-  		else:	
-  			msgToSend = AgentOutput(msgToSend)
-			if not msgToSend:
-				print ("====== intent wrong  detected!!! ======")
+			if(sim_semantic_frame['intent'] == 'goodbye'):
 				break
-  			msgToSend = SimOutput(msgToSend)
-			'''
-  	i = i + 1
+		i = i + 1
 
 

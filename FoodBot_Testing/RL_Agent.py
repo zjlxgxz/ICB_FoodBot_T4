@@ -164,7 +164,7 @@ total_steps = 0
 #    saver.restore(sess,ckpt.model_checkpoint_path)
 #updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
 
-QTable = list() #23 
+QTable = list() 
 StateMappingIndexTable = dict()
 
 episodeBuffer = experience_buffer()
@@ -183,7 +183,7 @@ def indexOfState(state):
         return StateMappingIndexTable[index]
     else:
         StateMappingIndexTable[index] = len(QTable)
-        QTable.append(np.zeros(16))
+        QTable.append(np.zeros(17))
     return int(StateMappingIndexTable[index])
 
 def newDialogSetup():
@@ -235,13 +235,13 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
 
     if total_steps<5000:
         print ("Random pick")
-        a = np.random.randint(0, 16)
+        a = np.random.randint(0, 17)
     elif(np.random.random_sample()>0.2):
         print ("Pick max in Q")
         a = np.argmax(QTable[currentStateIndex,:])
     else:
         print ("Random pick")
-        a = np.random.randint(0, 16)
+        a = np.random.randint(0, 17)
     rAll += r
     print rAll
     if d == True: # initial the dialog and reset the buffers and Accumulated Q
