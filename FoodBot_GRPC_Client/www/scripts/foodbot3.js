@@ -50,7 +50,7 @@ FoodBot.prototype = {
 					that.socket.emit('postMsgToDB', modifyQueryContent(msg));
 					mode = 'goToGRPC';
 				}
-				that._displayNewMsg(user,msg, url);
+				that._displayNewMsg(user,msg);
 			};
 		},false);
 
