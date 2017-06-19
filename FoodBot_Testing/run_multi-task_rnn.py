@@ -358,7 +358,7 @@ def DST_reset():
     else:
        state[key] = ''
   NewDialog = True
-  
+
 def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_from_sim):#semantic frame
   global state
   slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
@@ -434,7 +434,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
   return slots
 
 
-def dialogPolicy():
+def dialogPolicy(formerPolicyGoodOrNot):
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
   sys_act = {}
@@ -513,18 +513,7 @@ def dialogPolicy():
   #  Then, make decisions
   # output action
   #===============
-  feedbackReward  = 0
   currentState = vector[0]
-
-  if formerPolicyGoodOrNot == 0:
-    feedbackReward  = 0
-  elif formerPolicyGoodOrNot == 1:
-    feedbackReward  = 2
-  elif formerPolicyGoodOrNot == 2:
-    feedbackReward  = 5
-  elif formerPolicyGoodOrNot == 3:
-    feedbackReward  = 10
-
  #Notice:
   if (NewDialog == True):
     action = -1
@@ -533,7 +522,7 @@ def dialogPolicy():
   #TODO
   # update the model(reward, currentState, formerState )
   # Has connected with the RL agent GRPC at beginning
-  request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
+  request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = formerPolicyGoodOrNot,formerAction = action ,shouldTerminate = False)
   policy = stub.GetRLResponse(request)
   #print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
@@ -786,7 +775,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
 
       dialogStateTracking('','','',sem_frame_from_sim)#user id
 
-      selectedPolicy =  dialogPolicy()
+      selectedPolicy =  dialogPolicy(good_policy)
 
       
       # Return to the sim_user with Policy(frame_level), DST(frame_level) 
