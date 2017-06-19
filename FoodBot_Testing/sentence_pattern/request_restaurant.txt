@@ -1,4 +1,9 @@
 I'd like to have someCATEGORY foodTIMELOCATION.
+I want someCATEGORY foodTIMELOCATION.
+I wantCATEGORY foodTIMELOCATION.
+I want to have someCATEGORY foodTIMELOCATION.
+I want to haveCATEGORY foodTIMELOCATION.
+I want to find aCATEGORY restaurantTIMELOCATION.
 Recommend some fancyCATEGORY restaurantsTIMELOCATION.
 Find me aCATEGORY restaurantTIMELOCATION.
 What's a goodCATEGORY restaurantLOCATIONTIME?

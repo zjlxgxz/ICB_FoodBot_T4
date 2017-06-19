@@ -4,75 +4,39 @@ import grpc
 import time
 import collections
 import json
+import glob
+import string
 
 from concurrent import futures
 sys.path.append('../FoodBot_GRPC_Server/')
 import FoodBotSim_pb2
 
 #lists needed
-time_list = ["tonight", "tomorrow", "this morning", "this afternoon", "tomorrow afternoon",
-             "tomorrow morning", "tomorrow night", "the day after tomorrow", "now"]
+with open("./rest_name.txt", "r") as f1:
+	name_list = f1.read().split('\n')
+	name_list = [sent for sent in name_list if sent != '']
+with open("./sentence_pattern/data_dict.json", "r") as f2:
+	data_dict = json.load(f2)
+	data_dict['name'] = name_list
+with open("./sentence_pattern/slot_dict.json", "r") as f3:
+	slot_dict = json.load(f3)
 
-location_list = ["astoria", "bayside", "bronx", "brooklyn", "college point", "corona",
-                 "elmhurst", "flushing", "forest hills", "glendale", "howard beach",
-								         "jackson heights", "jamaica", "long island city", "maspeth", "new york",
-								         "ozone park", "rego park", "ridgewood", "south ozone park", "staten island",
-								         "sunnyside", "tompkinsville", "woodside"]
+f1.close()
+f2.close()
+f3.close()
 
-category_list = ["afghan", "african","andalusian","arabian","argentine","armenian","asian fusion","asturian","australian","austrian","baguettes","bangladeshi","basque","bavarian","barbeque","beisl","belgian","bistros","black sea","brasseries","brazilian","breakfast & brunch","british","buffets","bulgarian","burgers","burmese","cafes","cafeteria","cajun","creole","cambodian","canteen","caribbean","catalan","cheesesteaks","chilean","chinese","comfort food","corsican","creperies","cuban","curry sausage","cypriot","czech","slovakian","czech","danish","delis","diners","dumplings","eastern european","parent cafes","ethiopian","filipino","fischbroetchen","fish & chips","flatbread","fondue","freiduria","french","galician","gastropubs","georgian","german","giblets","gluten-free","greek","guamanian","halal","hawaiian","heuriger","nepalese","himalayan","honduran","hot dogs","fast food","hot pot","hungarian","iberian","indonesian","indian","international","irish","israeli","italian","japanese","jewish","kebab","kopitiam","korean","kosher","kurdish","laos","laotian","latin american","lyonnais","malaysian","meatballs","mediterranean","mexican","middle eastern","modern australian","modern european","mongolian","moroccan","american (new)","canadian (new)","new mexican cuisine","new zealand","nicaraguan","night food","nikkei","noodles","norcinerie","traditional norwegian","open sandwiches","oriental","pakistani","pan asian","parma","iranian","persian","peruvian","pf/comercial","pita","pizza","polish","pop-up","portuguese","potatoes","poutineries","pub food","live food","raw food","rice","romanian","rotisserie chicken","rumanian","russian","salad","sandwiches","scandinavian","schnitzel","scottish","seafood","serbo croatian","signature cuisine","singaporean","slovakian","soul food","soup","southern","spanish","sri lankan","steakhouses","french southwest","supper clubs","sushi bars","swabian","swedish","swiss food","syrian","tabernas","taiwanese","small plates","tapas plates","tavola calda","tex-mex","thai","american (traditional)","traditional swedish","trattorie","turkish","ukrainian","uzbek","vegan","vegetarian","venison","vietnamese","waffles","wok","wraps","yugoslav"]
-
-#intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
-intent_list = ["get_restaurant", "get_location", "get_rating"]
-
-content_list = ["category", "time", "location"]
-
-sent_key = ["time", "location", "category"]
-sent_content = [time_list, location_list, category_list]
-
-#files
-f1 = open('rest_name.txt', 'r')
-restaurant_list = f1.read().split('\n')
-#restaurant_list = [item.replace('-', ' ') for item in restaurant_list1]
-
-f2 = open('sentence_pattern/yes.txt', 'r')
-yes_list = f2.read().split('\n')
-
-f3 = open('sentence_pattern/thanks.txt', 'r')
-thanks_list = f3.read().split('\n')
-
-f4 = open('sentence_pattern/get_restaurant.txt', 'r')
-get_restaurant_pattern = f4.read().split('\n')
-
-f5 = open('sentence_pattern/get_location.txt', 'r')
-get_location_pattern = f5.read().split('\n')
-
-f6 = open('sentence_pattern/get_rating.txt', 'r')
-get_rating_pattern = f6.read().split('\n')
-
-f9 = open('sentence_pattern/inform_location.txt', 'r')
-inform_location_pattern = f9.read().split('\n')
-
-f10 = open('sentence_pattern/inform_category.txt', 'r')
-inform_category_pattern = f10.read().split('\n')
-
-f11 = open('sentence_pattern/wrong_domain_questions.txt', 'r')
-wrong_domain_list = f11.read().split('\n')
-
-f12 = open('sentence_pattern/change_list.txt', 'r')
-change_list = f12.read().split('\n')
+#sentence patterns
+pattern_dict = dict()
+file_list = glob.glob("./sentence_pattern/*.txt")
+for txt in file_list:
+	f = open(txt, 'r')
+	key = txt.split('/')[2].split('.')[0]
+	temp = f.read().split('\n')
+	temp = [sent for sent in temp if sent != '']
+	pattern_dict[key] = temp
 
 
-memory = {"intent": "",
-				"location": "",
-				"time": "",
-				"category": "",
-				"restaurantname": ""}
-expect = ''
-confirm = ''
-
-#num_of_no = 0
-num_of_quest_rest = 0
-num_of_quest_info = 0
+memory = dict()
 
 goodPolicy = 0
 
@@ -83,340 +47,158 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
     #print("Output from LU", userInput)
     return FoodBotSim_pb2.Sentence(response = simul_user(userInput))
 
-def policyChecker(sys_act):
+def policyChecker(sem_frame ,sys_act):
 	#print("This is sys_act",sys_act)
 	#print("This is sys_act[content]",sys_act['content'])
 	#print("This is sys_act[intent]",sys_act['intent'])
 	#print("This is sys_act[currentState]",sys_act['currentstate'])
-
-	global memory
-	global expect
-	global confirm
 	
 	print '=========================='
 	print 'memory : ', memory
-	print 'expect : ', expect
-	print 'confirm : ', confirm
+	#print 'expect : ', expect
+	#print 'confirm : ', confirm
 	print 'sys_act : ', sys_act
 
-	if sys_act['intent'] == 'not_a_good_policy':
-		return 0
-	'''
-	if sys_act['intent']  == 'request':
-		return 3
+	soso = []
+	if sem_frame["intent"] == "no_more":
+		good = ["confirm_restaurant"]
+	elif sem_frame["intent"] in ["goodbye", "thanks"]:
+		good = ["goodbye"]
+	elif sem_frame["intent"] == "reject":
+		good = ["show_table"]
+
 	else:
-		return 0
-	'''
+		if memory["intent"] == "hi":
+			good = ["hi"]
 	
-	if confirm == 'yes':
-		confirm = ''
-		if sys_act['intent'] == 'inform':
-			return 3
-	elif expect == 'get_restaurant':
-		if sys_act['intent'] == 'request':
-			if memory['location'] == '' and 'location' in sys_act['content'].keys():
-				return 1
-			elif memory['category'] == '' and 'category' in sys_act['content'].keys():
-				return 1
-		elif sys_act['intent'] == 'confirm_restaurant':
-			if memory['location'] != '' and memory['category'] != '':
-				return 2
-	elif expect == 'get_location' or expect == 'get_rating':
-		if sys_act['intent'] == 'request':
-			if memory['restaurantname'] == '' and 'restaurantname' in sys_act['content'].keys():
-				return 1
-		elif sys_act['intent'] == 'confirm_info':
-			if memory['restaurantname'] != '':
-				return 2
-	return 0
-	'''
-	elif memory['intent'] == 'change':
-		if sys_act['intent'] == 'inform':
-			return 3
-	elif memory['intent'] == 'get_restaurant':
-		if memory['location'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
-			return 1
-		elif memory['category'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
-			return 1
-		#elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
-		#	return 1
-		elif memory['location'] != '' and memory['category'] != '':
-			if sys_act['intent'] == 'confirm_restaurant':
-				return 2
-	elif memory['intent'] == 'get_location' or memory['intent'] == 'get_rating':
-		if memory['restaurantname'] == '' and sys_act['intent'] == 'request' and sys_act['content'] == 'RESTAURANTNAME':
-			return 1
-		elif memory['restaurantname'] != '' and sys_act['intent'] == 'confirm_info':
-			return 2
-	elif memory['intent'] == 'inform':
-		if memory['location'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'LOCATION':
-			return 1
-		elif memory['category'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'CATEGORY':
-			return 1
-		#elif memory['time'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'TIME':
-		#	return 1
-		elif memory['restaurantname'] == '' and sys_act['intent'] == 'request' and sys_act['content'] != 'RESTAURANTNAME':
-			return 1
+		elif memory["intent"] == "request_restaurant":
+			if memory.keys() <=3:
+				keys = memory.keys()
+				keys.remove("intent")
+				request_list = ["area", "category", "time"]
+				good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
+			else:
+				good = ["confirm_restaurant"]
+				soso = ["reqmore"]
+		
+		else:
+			if memory.keys() <=2:
+				keys = memory.keys()
+				keys.remove("intent")
+				request_list = ["area", "name"]
+				good = ["request_"+item for item in request_list if item not in keys]
+			else:
+				good = ["confirm_info"]
+	
+	if sys_act["policy"] in good:
+		return 5
+	elif sys_act["policy"] in soso:
+		return 2
 	else:
 		return 0
-	'''
 
 
 def simul_user(sys_act):
-	global memory
-	#global num_of_no
-	global num_of_quest_rest
-	global num_of_quest_info
-	
+	global memory	
 	'''
 	sys_act: {
-			  "intent": "request",
-			  "content": {"location":""}
-			  "currentState":{...}
+			  "policy": "request_category",			  
 			  }
-
 	'''
 	# initially randomly generated a sentence
-	sem_frame = {"intent": "",
-				"location": "",
-				"time": "",
-				"category": "",
-				"restaurantname": ""}
- 
-	if sys_act == "init":
-		#intent_list = ["get_restaurant", "get_location", "get_rating", "get_comment", "wrong_domain"]
-		num_of_quest_rest = 0
-		num_of_quest_info = 0
-		dec = random.randint(0,2) #randomly pick a intent
-		#dec = 0
-		sem_frame["intent"] = intent_list[dec]
-		
-		if dec == 0: #get restaurant
-			for i in range(3):
-				dec1 = random.randint(0,1)
-				if dec1 == 1:
-					sem_frame[sent_key[i]] = random.choice(sent_content[i])
-		
-		if dec in [1, 2]: #get location/rating
-			sem_frame["restaurantname"] = random.choice(restaurant_list)
-
-		memory = sem_frame #keep the memory
-
+	sys_act = json.loads(sys_act)
+	sem_frame = dict()
+	if sys_act["policy"] in ["init", "hi"]:
+		intents = data_dict["intent"]
+		if sys_act["policy"] == "hi":
+			intents.remove("hi")
+		sem_frame["intent"] = random.choice(intents)
+		if sem_frame["intent"] != "hi":
+			keys = slot_dict[sem_frame["intent"]]
+			for key in keys:
+				dec = round(random.random())
+				if dec == 1:
+					sem_frame[key] = random.choice(data_dict[key])
+		memory = sem_frame  #keep the memory
 
 	#in the middle of the dialogue	
 	else:
-		#print("memory: ", memory)
-		sys_act = json.loads(sys_act)
+		#print("memory: ", memory)		
 		global goodPolicy
-		# The see if the policy picked by DQN is reasonable
-		goodPolicy = policyChecker(sys_act)
+		# To see if the policy picked by DQN is reasonable
+		goodPolicy = policyChecker(sem_frame, sys_act)
 		print (goodPolicy)
 		if goodPolicy == 0:
 			returnList = dict()
-			returnList["nlg_sentence"] = 'end'
-			returnList["semantic_frame"] = ''
+			returnList["nlg_sentence"] = 'not a good policy'
 			returnList["goodpolicy"] = goodPolicy
+			returnList["user_id"] = 'sim-user'
 			json_list = json.dumps(returnList)
 			return json_list
 
-
-		if sys_act["intent"] == "request":
+################## request #########################
+		if "request" in sys_act["policy"]:
 			sem_frame["intent"] = "inform"
 			#print("content keys:", sys_act["content"].keys())
-			if "location" in sys_act["content"].keys():
-				sem_frame["location"] = random.choice(location_list)
-				memory["location"] = sem_frame["location"]
+			key = sys_act["policy"].split('_')[1]
+			sem_frame[key] = random.choice(data_dict[key])
+			memory[key] = sem_frame[key]
 
-			if "time" in sys_act["content"].keys():
-				sem_frame["time"] = random.choice(time_list)
-				memory["time"] = sem_frame["time"]
-
-			if "category" in sys_act["content"].keys():
-				sem_frame["category"] = random.choice(category_list)
-				memory["category"] = sem_frame["category"]
-
-			if "restaurantname" in sys_act["content"].keys():
-				sem_frame["restaurantname"] = memory["restaurantname"]
-
-
-		elif sys_act["intent"] == "inform":
-			if memory["intent"] == "no" or num_of_quest_rest == 2 or num_of_quest_info == 1: #quest for more than twice
-				sem_frame["intent"] = "end"
-
+		elif sys_act["policy"] == "reqmore":			
+			dec = round(random.random())
+			if memory.keys() <= 3:
+				sem_frame["intent"] = "inform"
+				temp = [item for item in slot_dict[sem_frame["intent"]] if item not in memory.keys()]
+				key = random.choice(temp)
+				sem_frame[key] = random.choice(data_dict[key])
+				memory[key] = sem_frame[key]
 			else:
-				sem_frame["intent"] = "end"
+				sem_frame["intent"] = "no_more"
 
-				if "restaurantname" in sys_act["content"].keys(): #agent recommended a restaurant
-					dec2 = random.randint(0,2)
-					#print("dec2: ", dec2)
-					if dec2 == 0:
-						sem_frame["intent"] = "change"  #to add variety, user may ask for a change of restaurant
-						num_of_quest_rest = num_of_quest_rest + 1
-					if dec2 == 1:
-						sem_frame["intent"] = "get_rating" #change intent to get rating
-						sem_frame["restaurantname"] = sys_act["content"]["restaurantname"]
-						num_of_quest_rest = num_of_quest_rest + 1
-				
-				else:
-					dec2 = random.randint(0,1)
-					#print("dec2: ", dec2)
-					if "location" in sys_act["content"].keys() and dec2 == 0:
-						sem_frame["intent"] = "get_rating"
-						sem_frame["restaurantname"] = memory["restaurantname"]
-						num_of_quest_info = num_of_quest_info + 1
-
+################## inform #########################
+		elif "inform" in sys_act["policy"]:
+			sem_frame["intent"] = random.choice(["goodbye", "thanks"])
 					
-					if "rating" in sys_act["content"].keys():
-						if num_of_quest_rest == 1: #last question is get restaurant
-							dec3 = random.randint(0,1)
-							#print("dec3: ", dec3)
-							if dec3 == 0:
-								sem_frame["intent"] = "end"
-							else:
-								sem_frame["intent"] = "change"
-								num_of_quest_rest = num_of_quest_rest + 1
-						
-						else: # last question is get rating
-							if dec2 == 0:
-								sem_frame["intent"] = "get_location"
-								sem_frame["restaurantname"] = memory["restaurantname"]
-								num_of_quest_info = num_of_quest_info + 1
-					
-		
-		elif sys_act["intent"]  == "confirm_restaurant":
-			keys = sys_act["content"].keys()
-			#print("content keys:", keys)
+################## confirm #########################		
+		elif "confirm" in sys_act["policy"]:
+			keys = sys_act.keys()
+			keys.remove("policy")
+			sem_frame["intent"] == "confirm"
 			for key in keys:
-				if sys_act["content"][key] != memory[key.lower()]:
-					sem_frame["intent"] = "no"
-					memory["intent"] = "no"
+				if key not in memory.keys() or (key in memory.keys() and sys_act[key] != memory[key]):
+					sem_frame["intent"] == "reject"
 					break
-				if key == keys[-1]:
-					sem_frame["intent"] = "yes"
-		
-		elif sys_act["intent"]  == "confirm_info":
-			sem_frame["intent"] = "no"
-			keys = sys_act["content"].keys()
-			#print("content keys:", keys)
-			
-			if "location" in keys: #confirm whether user's intent is get location
-				if "location" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]: #get_location
-					sem_frame["intent"] = "yes"
-			
-			if "rating" in keys: #confirm whether user's intent is get rating
-				if "rating" == memory["intent"][4:] and sys_act["content"]["restaurantname"] == memory["restaurantname"]:
-					sem_frame["intent"] = "yes"
-			
-			if sem_frame["intent"] == "no":
-				memory["intent"] = "no"
 
-		elif sys_act["intent"] == "not_found":
-			sem_frame["intent"] = "end"
-		elif sys_act["intent"] == "not_a_good_policy":
-			sem_frame["intent"] = "end"
+		else:
+			sem_frame["intent"] = 'error'
 
-        
-	#print("num_of_quest_rest: ", num_of_quest_rest)
-	#print("num_of_quest_info: ", num_of_quest_info)
-	nlg_sentence = nlg(sem_frame)
+	#nlg_sentence = nlg(sem_frame)
 
 	returnList = dict()
-	returnList["nlg_sentence"] = nlg_sentence
+	#returnList["nlg_sentence"] = nlg_sentence
 	returnList["semantic_frame"] = sem_frame
 	returnList["goodpolicy"] = goodPolicy
-
+	returnList["user_id"] = 'sim-user'
+	
 	json_list = json.dumps(returnList)
 	return json_list
 
 
 def nlg(sem_frame):
-
-	global expect
-	global confirm
-	global memory
-
 	#print("semantic frame: ", sem_frame)
-	sentence = ""
+	if sem_frame["intent"] == "error":
+		sentence = "This is an alert: unknown policy intent!"
+		return sentence
 
-	if sem_frame["intent"] == "end": #end of the dialogue
-		sentence = "END"
+	sentence = random.choice(pattern_dict[sem_frame["intent"]])
+	if sem_frame["intent"]  not in ["confirm", "reject", "hi", "thanks", "goodbye"]:
+		keys = sem_frame.keys()
+		keys.remove("intent")
+		for key in keys:
+			sentence = sentence.replace(key.upper(), ' '+sem_frame[key])
+		transtab = string.maketrans(string.uppercase, '')
+		sentence = sentence.translate(transtab)
 
-	
-	elif sem_frame["intent"] == "yes":
-		sentence = random.choice(yes_list)
-		confirm = 'yes'
-	
-	elif sem_frame["intent"] == "no":
-		sentence = "disagree"
-		#sentence = "No. I was asking for"
-		#if memory["intent"] == "get_restaurant":
-		#	sentence = sentence + " a " + memory["category"] + " restaurant in " + memory["location"] + " for " + memory["time"] + "."
-		#else:
-		#	sentence = sentence + " the " + memory["intent"][4:] + " of " + memory["restaurantname"] + "."
-		
-	elif sem_frame["intent"] == "wrong_domain":
-		sentence = random.choice(wrong_domain_list)
-		
-
-	elif sem_frame["intent"] == "change": #ask for changing restaurant
-		sentence = random.choice(change_list)
-	
-	elif sem_frame["intent"] == "inform": # category/time/location      
-		if sem_frame["category"]:
-			sentence = random.choice(inform_category_pattern)
-			sentence = sentence.replace("CATEGORY", sem_frame["category"])
-			sentence = sentence.capitalize()
-		if sem_frame["location"]:
-			if sentence:
-				pre = " "
-			else:
-				pre = ""
-			sentence = sentence + pre + random.choice(inform_location_pattern)
-			sentence = sentence.replace("LOCATION", sem_frame["location"])
-		if sem_frame["time"]:
-			if sentence:
-				pre = " "
-			else:
-				pre = ""
-			sentence = pre + sem_frame["time"].capitalize()
-		if sem_frame["restaurantname"]:
-			sentence = sem_frame["restaurantname"].capitalize()
-
-	elif sem_frame["intent"] == "get_restaurant":
-		# replace category, replace location with "in xxx", time with "for xxx"
-		sentence = random.choice(get_restaurant_pattern)
-		for item in content_list:
-			if sem_frame[item] == "":
-				sentence = sentence.replace(item.upper(), "")
-			else:
-				if item == "category":
-					prefix = ' '
-				if item == "location":
-					prefix = " in "
-				if item == "time":
-					prefix = " for "
-				sentence = sentence.replace(item.upper(), prefix + sem_frame[item])
-
-	
-	elif sem_frame["intent"] == "get_location":
-		sentence = random.choice(get_location_pattern)
-		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])    
-	
-
-	elif sem_frame["intent"] == "get_rating":
-		sentence = random.choice(get_rating_pattern)
-		sentence = sentence.replace("RESTAURANT_NAME", sem_frame["restaurantname"])
-
-	else:
-		sentence = "END"
-	
-	if memory['intent'] == 'get_restaurant' or memory['intent'] == 'change':
-		expect = 'get_restaurant'
-	elif memory['intent'] == 'get_location':
-		expect = 'get_location'
-	elif memory['intent'] == 'get_rating':
-		expect = 'get_rating'
-		
 	return sentence
 
 

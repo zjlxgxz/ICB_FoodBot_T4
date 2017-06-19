@@ -815,22 +815,31 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
 
 def nlg(sem_frame, style = 'gentle'): 
   return_list = dict()
+  return_list["pic_url"] = ''
   if sem_frame == '':
-    return ''  
-  elif sem_frame["intent"] in ["request_area", "request_area_2", "request_category", "request_time", \
-                              "reqmore", "goodbye", "hi", "inform_smoke_yes", \
+    return ''
+
+  elif sem_frame["policy"] == "show_table":
+    return_list["pic_url"] = sem_frame
+    return_list["pic_url"].pop("policy")
+    sentence = "Help me! Which of these is/are mistaken?\n"
+    sentence += "Ex. If category should be japanese and time should be tonight, please reply 'category:japanese;time:tonight' without quotation marks(')."
+    sentence += "\nThank you soooo much!"
+
+  elif sem_frame["policy"] in ["request_area", "request_area_2", "request_category", "request_time", \
+                              "request_name", "reqmore", "goodbye", "hi", "inform_smoke_yes", \
                               "inform_smoke_no", "inform_wifi_yes", "inform_wifi_no"]:
-    sentence = random.choice(pattern_dict[sem_frame["intent"]]) 
+    sentence = random.choice(pattern_dict[sem_frame["policy"]]) 
   else:
     keys = sem_frame.keys()
-    keys.remove("intent")
-    sentence = random.choice(pattern_dict[sem_frame["intent"]])
+    keys.remove("policy")
+    sentence = random.choice(pattern_dict[sem_frame["policy"]])
     for key in keys:
       sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
   if style == 'hilarious':
-    if sem_frame["intent"] in pic_dict.keys():
-      pic_url = random.choice(pic_dict[sem_frame["intent"]])
+    if sem_frame["policy"] in pic_dict.keys():
+      pic_url = random.choice(pic_dict[sem_frame["policy"]])
       return_list["pic_url"] = pic_url
 
   return_list["sentence"] = sentence.capitalize()
