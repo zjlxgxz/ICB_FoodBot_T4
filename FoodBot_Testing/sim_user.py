@@ -136,6 +136,8 @@ def simul_user(sys_act):
 			keys = slot_dict[sem_frame["intent"]]
 			for key in keys:
 				dec = round(random.random())
+				if "request" in sem_frame["intent"] and sem_frame["intent"] != "request_restaurant":
+					dec = 1
 				if dec == 1:
 					sem_frame[key] = random.choice(data_dict[key])
 		memory = sem_frame  #keep the memory
