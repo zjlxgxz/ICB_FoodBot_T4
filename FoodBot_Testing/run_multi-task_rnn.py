@@ -778,8 +778,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       dialogStateTracking('','','',sem_frame_from_sim)#user id
 
       selectedPolicy =  dialogPolicy(good_policy)
-
+      print("before:",selectedPolicy)
       print("nlg:", nlg(selectedPolicy) )
+      print("after:",selectedPolicy)
 
       return FoodBot_pb2.outSentence(response_nlg = '',response_policy_frame = json.dumps(selectedPolicy),url = '')
 
