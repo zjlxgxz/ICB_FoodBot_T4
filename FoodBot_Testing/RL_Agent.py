@@ -25,43 +25,43 @@ from concurrent import futures
 #env = gameEnv(partial=False,size=5)
 
 class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
-  def GetRLResponse (self, request, context):
-      #do something
-      currentState = list(request.currentState) #11-D
-      formerState = list(request.formerState)
-      rewardForTheFormer = request.rewardForTheFormer
-      #0 1 2 3
-      #0 2 5 10
-      if(rewardForTheFormer == 0):
-          rewardForTheFormer = 0
-      elif  (rewardForTheFormer == 2):
-          rewardForTheFormer = 20  
-      elif  (rewardForTheFormer == 5):
-          rewardForTheFormer = 50
-      elif  (rewardForTheFormer == 10):
-          rewardForTheFormer = 100
-      formerAction = request.formerAction
-      # Runmodel has check the start state..
-      #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
-      #    formerAction = -1
-      #if ((QTable[indexOfState(currentState),9]!=0 and currentState == [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]) or formerState == [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0] ):
-      #if True:
-      #  print ("============================================================")
-      #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
-      policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
-      #policy = 0
-      '''
-      if formerAction == 9 or policy == 9:
-      #if True:
-        print ("NowQTable:",QTable[indexOfState(currentState),])
-        print ("NowAction: ",policy)   
-        print ("currentState: ",currentState)
-        print ("formerState: ",formerState)
-        print ("rewardForTheFormer: ",rewardForTheFormer)
-        print ("formerAction: ",formerAction)
-        print ("============================================================")
+    def GetRLResponse (self, request, context):
+        #do something
+        currentState = list(request.currentState) #23-D
+        formerState = list(request.formerState)
+        rewardForTheFormer = request.rewardForTheFormer
+        #0 1 2 3
+        #0 2 5 10
+        if(rewardForTheFormer == 0):
+            rewardForTheFormer = 0
+        elif  (rewardForTheFormer == 2):
+            rewardForTheFormer = 20  
+        elif  (rewardForTheFormer == 5):
+            rewardForTheFormer = 50
+        elif  (rewardForTheFormer == 10):
+            rewardForTheFormer = 100
+        formerAction = request.formerAction
+        # Runmodel has check the start state..
+        #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
+        #    formerAction = -1
+        #if ((QTable[indexOfState(currentState),9]!=0 and currentState == [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]) or formerState == [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0] ):
+        #if True:
+        #  print ("============================================================")
+        #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
+        policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
+        #policy = 0
         '''
-      return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
+        if formerAction == 9 or policy == 9:
+        #if True:
+            print ("NowQTable:",QTable[indexOfState(currentState),])
+            print ("NowAction: ",policy)   
+            print ("currentState: ",currentState)
+            print ("formerState: ",formerState)
+            print ("rewardForTheFormer: ",rewardForTheFormer)
+            print ("formerAction: ",formerAction)
+            print ("============================================================")
+            '''
+        return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
 class Qnetwork():
@@ -164,12 +164,11 @@ total_steps = 0
 #    saver.restore(sess,ckpt.model_checkpoint_path)
 #updateTarget(targetOps,sess) #Set the target network to be equal to the primary network.
 
-QTable = np.zeros([2**11,10])
-
+QTable = list() #23 
+StateMappingIndexTable = dict()
 
 episodeBuffer = experience_buffer()
 #Reset environment and get first new observation
-s = [2,2,2,2,2,2,2,2,2,2,2]
 #s = processState(s)
 d = False
 rAll = 0
@@ -177,22 +176,18 @@ j = 0
 diagNumber = 0
 
 def indexOfState(state):
-    index = 0
+    global QTable,StateMappingIndexTable
     for i in range(len(state)):
         index = index + (2**i)*state[i]
-    if state == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
-        index = 2047
-    if state == [2,2,2,2,2,2,2,2,2,2,2]:
-        index = 0
-    return int(index)
+    if(index in  StateMappingIndexTable.keys() ):
+        return StateMappingIndexTable[index]
+    else:
+        StateMappingIndexTable[index] = len(QTable)
+        QTable.append(np.zeros(16))
+    return int(StateMappingIndexTable[index])
 
 def newDialogSetup():
     global episodeBuffer,s,d,rAll,j
-
-    #pisodeBuffer = experience_buffer()
-    #Reset environment and get first new observation
-    s = [2,2,2,2,2,2,2,2,2,2,2]
-    #s = processState(s)
     d = False
     rAll = 0
     j = 0
@@ -202,7 +197,6 @@ def newDialogSetupDoubleQNN():
 
     episodeBuffer = experience_buffer()
     #Reset environment and get first new observation
-    s = [2,2,2,2,2,2,2,2,2,2,2]
     #s = processState(s)
     d = False
     rAll = 0
@@ -219,7 +213,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     s1 = currentState
     d = False # The termination indiction 
     #In our case, the termiantion states are: [0,0,0,0,0,0,0,0,0,0,0],[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
-    if currentState == [0,0,0,0,0,0,0,0,0,0,0] or currentState == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
+    if (len(set(currentState)) == 1 and currentState[0] == 0) :# all are zeros.
         d = True
     #if formerState == [0,0,0,0,0,0,0,0,0,0,0]:
     #    print ("Former State is 0!!!,current state is: ",currentState)
@@ -241,13 +235,13 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
 
     if total_steps<5000:
         print ("Random pick")
-        a = np.random.randint(0, 10)
+        a = np.random.randint(0, 16)
     elif(np.random.random_sample()>0.2):
         print ("Pick max in Q")
         a = np.argmax(QTable[currentStateIndex,:])
     else:
         print ("Random pick")
-        a = np.random.randint(0, 10)
+        a = np.random.randint(0, 16)
     rAll += r
     print rAll
     if d == True: # initial the dialog and reset the buffers and Accumulated Q
@@ -258,11 +252,6 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         diagNumber = diagNumber + 1
         print('\n\n New Dialog:',diagNumber)
         #print('Dialog total reward:',rAll)
-        
-
-    #if len(rList) % 10 == 0:
-    #    print(total_steps,np.mean(rList[-10:]), e)
-    #saver.save(sess,path+'/model-'+str(i)+'.cptk')
     return a
 
 
