@@ -126,6 +126,7 @@ def simul_user(sys_act):
 	'''
 	# initially randomly generated a sentence
 	sys_act = json.loads(sys_act)
+	print("sys_act from agent:",sys_act)
 	sem_frame = dict()
 	if sys_act["policy"] == "init":
 		memory = dict()
