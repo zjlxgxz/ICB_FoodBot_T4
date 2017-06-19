@@ -515,7 +515,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
   #===============
   currentState = vector[0]
  #Notice:
-  global formerState
+  global formerState, action
   if (NewDialog == True):
     action = -1
     NewDialog = False
