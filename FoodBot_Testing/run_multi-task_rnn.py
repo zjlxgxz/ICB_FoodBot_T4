@@ -655,6 +655,11 @@ def dialogPolicy(formerPolicyGoodOrNot):
   elif action == 15:
     sys_act['policy'] = 'hi'
 
+  elif action == 16:
+    sys_act['policy'] = 'show_table'
+    sys_act.update(slots)
+
+
 
   print ('Policy system action : ' ,sys_act)
   return sys_act
