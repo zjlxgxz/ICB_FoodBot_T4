@@ -732,9 +732,9 @@ def nlg(original_sem_frame):
     return_list["pic_url"] = pic_url
   
   return_list["sentence"] = sentence.capitalize()
-  json_list = json.dumps(return_list)
+  #json_list = json.dumps(return_list)
 
-  return json_list
+  return return_list
   
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
