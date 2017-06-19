@@ -38,7 +38,7 @@ class SearchDB:
 				if slots['area'] == '':
 					slots['area'] = '('
 				if slots['price'] == '':
-					slots['price'] = '('
+					price = '('
 				elif float(slots['price'].replace('$','')) < 10:
 					price = 'Under$10'
 				elif float(slots['price'].replace('$','')) > 60:
