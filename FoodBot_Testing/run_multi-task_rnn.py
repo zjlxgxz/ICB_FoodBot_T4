@@ -757,7 +757,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       userInput = userInput.replace("!", " ")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
 
-      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result,sem_frame_from_sim)#user id
+      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result,'')#user id
       selectedPolicy =  dialogPolicy()
       # Nlg_result = NLG(Policy, DST_Result_Content)
       nlg_result = nlg(selectedPolicy)
