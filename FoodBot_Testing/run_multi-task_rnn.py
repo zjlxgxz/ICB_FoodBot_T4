@@ -900,7 +900,7 @@ def nlg(original_sem_frame):
   elif sem_frame["policy"] == "show_table":
     return_list["pic_url"] = sem_frame
     return_list["pic_url"].pop("policy")
-    sentence = """Help me! Which of these is/are mistaken?</br>Ex. If category should be japanese and time should be tonight, please reply 'category:japanese,time:tonight' without quotation marks(').</br>Thank you soooo much!"""
+    sentence = """Help me! Which of these is/are mistaken?Ex. If category should be japanese and time should be tonight, please reply 'category:japanese,time:tonight' without quotation marks(').Thank you soooo much! If you have any question, please refer to the right side guideline"""
 
   elif sem_frame["policy"] in ["request_area", "request_category", "request_time", \
                               "request_name", "reqmore", "goodbye", "hi", "inform_smoke_yes", \
