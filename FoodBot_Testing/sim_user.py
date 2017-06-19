@@ -53,8 +53,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
 	string good_policy = 4;
     '''
 
-    return FoodBotSim_pb2.Sentence(semantic_frame = backdata['semantic_frame'],nlg_sentence = backdata['nlg_sentence'],\
-    								user_id = backdata['user_id'],good_policy =backdata['goodpolicy'] )
+    return FoodBotSim_pb2.Sentence(semantic_frame = json.dumps(backdata['semantic_frame']),nlg_sentence = backdata['nlg_sentence'],user_id = backdata['user_id'],good_policy =backdata['goodpolicy'] )
 
 
 def policyChecker(sys_act):

@@ -725,7 +725,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     nlg_sentence = request.nlg_sentence
     user_id = request.user_id
     sem_frame_from_sim = request.semantic_frame
-
+    sem_frame_from_sim = json.loads(sem_frame_from_sim)
     if user_id != 'sim-user' :
       # from web user
       # LUResult   = LU (nlg_sentence)
