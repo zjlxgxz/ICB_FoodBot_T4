@@ -39,10 +39,10 @@ function runRequest(callback) {
     }
   }
     
-  //var j='{"semantic_frame":"","nlg_sentence":"'+ msgToSend +'"}';
-  //JsonString = JSON.stringify(j) ;
+  var j='{"semantic_frame":""}';
+  JsonString = JSON.stringify(j) ;
   //var sentence = {response:JsonString};,userID:JSON.stringify(username)};
-  var sentence = {good_policy:-1,nlg_sentence:msgToSend,user_id:username};
+  var sentence = {good_policy:-1,nlg_sentence:msgToSend, semantic_frame:JsonString,user_id:username};
 
   //console.log("sentence: "+ JSON.stringify(sentence));
   client.getResponse(sentence, featureCallback);
