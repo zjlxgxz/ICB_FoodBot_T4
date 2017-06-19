@@ -488,9 +488,9 @@ def policyChecker():
 	
 	elif memory["intent"] == "reject":
 		if last_intent == 'reqmore':
-      good = ['confirm_restaurant']
-    if last_intent == 'confirm_info':
-      good = ['show_table']
+			good = ['confirm_restaurant']
+		if last_intent == 'confirm_info':
+			good = ['show_table']
 
 	else:
 		if len(memory.keys()) <=1:
