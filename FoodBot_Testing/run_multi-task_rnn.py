@@ -677,8 +677,11 @@ def dialogPolicy(formerPolicyGoodOrNot):
   return sys_act
 
 def nlg(original_sem_frame): 
-
-  sem_frame = original_sem_frame.copy()
+  sem_frame = ''
+  if original_sem_frame != '':
+    sem_frame = original_sem_frame.copy()
+  else:
+    sem_frame = original_sem_frame
 
   return_list = dict()
   return_list["pic_url"] = ''
