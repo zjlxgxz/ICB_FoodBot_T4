@@ -229,10 +229,10 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     #print ("Table 111",QTable[2047,:])
     #Choose an action by greedily (with e chance of random action) from the Q-network
 
-    if total_steps<5000:
+    if total_steps<8000:
         print ("Random pick")
         a = np.random.randint(0, 17)
-    elif(np.random.random_sample()>0.2):
+    elif(np.random.random_sample()>0.01):
         print ("Pick max in Q")
         a = np.argmax(QTable[currentStateIndex])
     else:
