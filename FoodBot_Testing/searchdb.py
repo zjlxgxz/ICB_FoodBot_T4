@@ -32,27 +32,30 @@ class SearchDB:
 					name = slots['restaurant_name']
 			print name
 
-			if intent == 'inform_restaurant' :
-				if slots['category'] == '':
-					slots['category'] = '('
-				if slots['area'] == '':
-					slots['area'] = '('
-				if slots['price'] == '':
-					price = '('
-				elif float(slots['price'].replace('$','')) < 10:
-					price = 'Under$10'
-				elif float(slots['price'].replace('$','')) > 60:
-					price = 'Above$61'
-				elif float(slots['price'].replace('$','')) >= 10 and float(slots['price'].replace('$','')) <= 30:
-					price = '$11-30'
-				elif float(slots['price'].replace('$','')) >= 30 and float(slots['price'].replace('$','')) <= 60:
-					price = '$31-60'
-				if slots['score'] == '':
-					slots['score'] = '0.0'
+			if slots['category'] == '':
+				slots['category'] = ''
+			if slots['area'] == '':
+				slots['area'] = ''
+			if slots['price'] == '':
+				price = ''
+			elif float(slots['price'].replace('$','')) < 10:
+				price = 'Under$10'
+			elif float(slots['price'].replace('$','')) > 60:
+				price = 'Above$61'
+			elif float(slots['price'].replace('$','')) >= 10 and float(slots['price'].replace('$','')) <= 30:
+				price = '$11-30'
+			elif float(slots['price'].replace('$','')) >= 30 and float(slots['price'].replace('$','')) <= 60:
+				price = '$31-60'
+			if slots['score'] == '':
+				slots['score'] = '0.0'
+
 			if intent == 'inform_restaurant':
-				sql_query = 'SELECT restaurant.name, restaurant.displayAddress, other_info.restaurant_name FROM restaurant, other_info WHERE categories LIKE %s and district LIKE %s and price_range = %s and rating >= %s LIMIT 1' %('\'%'+slots['category']+'%\'', '\'%'+slots['area']+'%\'', '\'' + price + '\'', '\'' + slots['score'] + '\'')
+				print '------'
+				print slots
+				sql_query = 'SELECT restaurant.name, restaurant.displayAddress, other_info.restaurant_name FROM restaurant, other_info WHERE other_info.restaurant_name = restaurant.name and categories LIKE %s and district LIKE %s and price_range LIKE %s and rating >= %s LIMIT 1' %('\'%'+slots['category']+'%\'', '\'%'+slots['area']+'%\'', '\'%' + price + '%\'', '\'' + slots['score'] + '\'')
 				cursor.execute(sql_query)
 				results = cursor.fetchall()
+				print 'results : ' ,results
 				if results.__len__() == 0:
 					content = {'policy':'inform_no_match'}
 					if slots['category'] != '':
@@ -61,7 +64,7 @@ class SearchDB:
 						content['area'] = slots['area']
 					if slots['price'] != '':
 						content['price'] = slots['price']
-					if slots['score'] != '':
+					if slots['score'] != '' and slots['score'] != '0.0':
 						content['score'] = slots['score']
 				else:
 					content = {'policy':'inform_restaurant', 'name':str(results[0][0]).replace(',',' ').replace('u\'','').replace(']','').replace('[','').replace('(','').replace(')','').replace('\'','').replace('\"',''), 'address':str(results[0][1]).replace(',',' ').replace('u\'','').replace(']','').replace('[','').replace('(','').replace(')','').replace('\'','').replace('\"','')}
@@ -150,7 +153,7 @@ class SearchDB:
 			print content
 			return content
 		except MySQLdb.Error as e:
-			print 'error'
+			print "Error %d: %s" % (e.args[0], e.args[1])
 			return ''
 
 if __name__ == '__main__':
