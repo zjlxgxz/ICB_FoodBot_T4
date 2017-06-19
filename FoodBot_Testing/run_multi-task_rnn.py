@@ -450,9 +450,9 @@ def dialogPolicy(formerPolicyGoodOrNot):
     slots['restaurant_name'] = state['agent']['restaurant_name']
 
   #translate state to vector
-  vector = [[0]*24, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
+  vector = [[0]*23, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '',  'confirm_info', 'confirm_restaurant']]
   if state['user']['goodbye'] != '':
-    vector = [[0]*24, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
+    vector = [[0]*23, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
   else:
     if state['user']['request_restaurant'] != '':
       vector[0][0] = 1
@@ -705,7 +705,7 @@ def nlg(sem_frame, style = 'gentle'):
       sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
   if style == 'hilarious':
-    print sem_frame
+    print (sem_frame)
     if "policy" in sem_frame.keys() and sem_frame["policy"] in pic_dict.keys():
       pic_url = random.choice(pic_dict[sem_frame["policy"]])
       return_list["pic_url"] = pic_url
