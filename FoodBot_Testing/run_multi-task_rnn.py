@@ -350,7 +350,7 @@ def languageUnderstanding(userInput):
   return test_tagging_result , test_label_result
 
 def DST_reset():
-  global state
+  global state,NewDialog
   for key in state.keys():
     if(type(state[key]).__name__ == 'dict'):
       for slot in state[key].keys():
