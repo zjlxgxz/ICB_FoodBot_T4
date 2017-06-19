@@ -1,0 +1,21 @@
+{
+
+	"request_restaurant": ["area", "score", "category", "price"],
+
+	"request_address": ["name"],
+
+	"request_score": ["name"],
+
+	"request_review": ["name"],
+
+	"request_price": ["name"],
+
+	"request_time": ["name"],
+
+	"request_phone": ["name"],
+
+	"request_smoke": ["name"],
+
+	"request_wifi": ["name"]
+
+}
