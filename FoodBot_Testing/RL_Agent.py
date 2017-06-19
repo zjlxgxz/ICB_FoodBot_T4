@@ -48,17 +48,14 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
         #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
         #policy = 0
-        '''
-        if formerAction == 9 or policy == 9:
-        #if True:
-            print ("NowQTable:",QTable[indexOfState(currentState),])
+        if True:
+            print ("NowQTable:",QTable[indexOfState(currentState)])
             print ("NowAction: ",policy)   
             print ("currentState: ",currentState)
             print ("formerState: ",formerState)
             print ("rewardForTheFormer: ",rewardForTheFormer)
             print ("formerAction: ",formerAction)
             print ("============================================================")
-            '''
         return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
