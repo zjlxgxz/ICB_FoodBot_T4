@@ -17,6 +17,7 @@ FoodBot.prototype = {
 		var that = this;
 		this.socket = io.connect();
 		this.socket.on('connect', function() {
+			that.socket.emit('initMsg');
 			that._displayNewMsg('FoodBot','Hi what can I do for you:)');
 			speak('Hi what can I do for you');
 		});
