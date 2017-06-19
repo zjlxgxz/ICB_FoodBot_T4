@@ -227,7 +227,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     currentStateIndex = indexOfState(s1)
     if(a != -1):# start state: 22222 won't be accounted.
         formerStateIndex = indexOfState(s)
-        QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
+        QTable[formerStateIndex][a] = QTable[formerStateIndex][a] + lr*(r + y*np.max(QTable[currentStateIndex]) - QTable[formerStateIndex][a])
         print (QTable[formerStateIndex,])
     #print("dailog total turn,total turn",j,total_steps)
     #print("Table 000,",QTable[0,:])
@@ -239,7 +239,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         a = np.random.randint(0, 17)
     elif(np.random.random_sample()>0.2):
         print ("Pick max in Q")
-        a = np.argmax(QTable[currentStateIndex,:])
+        a = np.argmax(QTable[currentStateIndex])
     else:
         print ("Random pick")
         a = np.random.randint(0, 17)
