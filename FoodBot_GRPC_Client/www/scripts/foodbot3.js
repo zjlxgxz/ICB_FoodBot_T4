@@ -30,8 +30,8 @@ FoodBot.prototype = {
 			}else{
 				console.log("in displayTable");
 				mode = 'goToDB';
-				queryMsg = JSON.parse(url);
-				displayTableMsg(name, msg);
+				queryMsg = url;
+				displayTableMsg(name, msg, url);
 			}
 			if (!mute) {
 				speak(msg);
@@ -116,15 +116,17 @@ function displayTableMsg(name, msg, url){
 	picToDisplay.style.background = '#f1f0f0';
 	picToDisplay.style.float = 'left';
 
-	var tableDetail = JSON.parse(url);
+	var tableDetail = url;
 	picToDisplay.appendChild(document.createTextNode(name + ': ' + msg));
 	var table = document.createElement("table");
+	console.log('tableDetail: ' + tableDetail);
 	for(var k in tableDetail){
 		var tr = document.createElement('tr');   
 		var td1 = document.createElement('td');
 		var td2 = document.createElement('td');
-		var text1 = document.createTextNode(k + ':');
+		var text1 = document.createTextNode(k);
 		var text2 = document.createTextNode(tableDetail[k]);
+		console.log(k, tableDetail[k]);
 
 		td1.appendChild(text1);
 		td2.appendChild(text2);
@@ -172,8 +174,9 @@ function strToObjParser(str) {
 
 function isNormalUrl(url){
   if(url){
-    var urlStr = url.trim();
-    return urlStr.match(/(http){1}/g) == 'http'? true : false;
+	
+    var urlStr = JSON.stringify(url);
+    return urlStr.trim().match(/(http){1}/g) == 'http'? true : false;
   }else{
     return true;
   }

@@ -12,10 +12,10 @@ var express = require('express'),
 app.use('/', express.static(__dirname + '/www'));
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-  host:'',
-  user:'',
-  password: '',
-  database: ''
+  host:'140.112.49.151',
+  user:'foodbot',
+  password: 'welovevivian',
+  database: 'foodbotDB'
 });
 
 server.listen(8081);
@@ -70,30 +70,55 @@ io.on('connection', function(socket){
   })
   socket.on('postMsgToDB',function(queryMsg){
     connection.connect();
-    var column, whereColumn;
-    var joinSQLTemp = 'select a.name from restaurant a left join other_info b on b.restaurant_name = a.name where ' + whereColumn;
-
+    var column="", whereColumn = "", querySQL="";
+    var joinSQLTemp = 'select a.name from restaurant a left join other_info b on b.restaurant_name = a.name where ';
     //試圖檢查要查哪個 DB
     for( property in queryMsg){
+      console.log('Get property: ' + property + ' : ' + queryMsg[property]);
       if(property == 'info_name'){
         column = column + queryMsg[property];
         whereColumn = whereColumn + queryMsg[property] + "=";
         if(queryMsg[property] == 'review'){
-          queryMsg = 'select ' + column +' from reviews where ' + whereColumn;
+          querySQL = 'select ' + column +' from reviews where ' + whereColumn;
         }else if(queryMsg[property] == 'Wifi'){
-          queryMsg = 'select ' + column +' from other_info where ' + whereColumn;
+          querySQL = 'select ' + column +' from other_info where ' + whereColumn;
         }else{
-          queryMsg = 'select ' + column +' from restaurant where ' + whereColumn;;
+          querySQL = 'select ' + column +' from restaurant where ' + whereColumn;;
         }
       }else if(property == 'name'){
-        queryMsg = queryMsg + "'" + queryMsg[property] + "'";
-      }else if(property == 'price'){
-
+        querySQL = querySQL + "'" + queryMsg[property] + "'";
+      }
+      if(property == 'price'){
+        if(!whereColumn){
+          whereColumn = ' and '.concat(whereColumn);
+        }
+        var price = queryMsg[property];
+        if(price < 10){
+          price = "'Under$10'";
+        }else if(price > 60){
+          price = "'Above$61'";
+        }else if(price >=10 && price <=30){
+          price = "'$11-30'";
+        }else if(price >=30 && price <=60){
+          price = "'$31-60'";
+        }
+        whereColumn = whereColumn.concat(property).concat("=").concat(price);
       }else{
-
+        console.log('where Column: '+whereColumn);
+        if(whereColumn != ''){
+          whereColumn = ' and '.concat(whereColumn);
+        }
+        console.log('Get property: ' + property + ' : ' + queryMsg[property]);
+        whereColumn = "a.".concat(property).concat("= '").concat(queryMsg[property]).concat("'" ).concat(whereColumn);
+        console.log('where column in else: ' + whereColumn);
       }
     }
-    connection.query(queryMsg,function(error, rows, fields){
+    console.log('where column: ' + whereColumn);
+    if(!querySQL){
+      querySQL = joinSQLTemp + whereColumn;
+    }
+    console.log('Full SQL:' + querySQL);
+    connection.query(querySQL,function(error, rows, fields){
       //檢查是否有錯誤
       if(error){
           throw error;
