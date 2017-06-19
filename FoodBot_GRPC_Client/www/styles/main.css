@@ -1,18 +1,18 @@
 html, body {
     width: 100%;
-    height: 100%;
+    height: 90%;
     margin: 0;
     background-color: #efefef;
     font-family: sans-serif;
 }
 .content {
-    width: 45%;
+    width: 50%;
     text-align: left;
     float: right;
     padding: 10px;
 }
 .wrapper {
-    width: 50%;
+    width: 45%;
     height: 100%;
     padding: 5px;
     margin: 0 auto;
@@ -20,7 +20,7 @@ html, body {
     float: left;
 }
 .banner {
-    height: 20%;
+    height: 20%
     width: 100%;
 }
 .banner p {
@@ -28,15 +28,25 @@ html, body {
     display: inline-block;
 }
 .controls {
-    height: 20%;
-    margin: 5px 0px;
+    height: 35%;
+    background-color: #ddd;
+    width: 99%;
+    padding: 4.5px;
 }
 #historyMsg {
-    height: 400px;
+    height: 60%;
     background-color: #fff;
     overflow: auto;
     padding: 2px;
 }
+#historyMsg div {
+    margin-top : 1px;
+    margin-bottom : 0.5em;
+    border-radius : 1.3em;
+    padding : 6px 12px;
+    clear : both;
+}
+
 #historyMsg img {
     max-width: 99%;
 }
@@ -69,6 +79,31 @@ html, body {
     width: 99%;
     height: 70%;
 }
+
+table {
+    font-size: 16px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+th {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+
 .button {
     -moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
     -webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;

@@ -7,6 +7,7 @@ function speak(message){
   
   for(i = 0; i < voices.length; ++i) {
     if(voices[i].name === "Google English（US）") {
+      //Google 國語（臺灣） (zh-TW)
       utter.voice = voices[i];
     }
   }

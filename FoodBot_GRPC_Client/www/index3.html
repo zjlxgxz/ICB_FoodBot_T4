@@ -8,28 +8,114 @@
 </head>
 <body>
 	<div class="content">
-		<h1>參考Template</h1>
-		<h4>1：</h4>
-		<p>I want to have some chinese food</p>
-		<p>如果chatbot回問你在哪兒？可以回復： I am in new york/bronx …</p>
-		<h4>2：</h4>
-		<p>Please recommend some chinese food for me in New York</p>
-		<h4>3：</h4>
-		<p>Could you show me how can I get to asian spicy curry pop up </p>
-		<h4>4：</h4>
-		<p>Show me the rating of asian spicy curry pop up</p>
-		<h4>5：</h4>
-		<p>Could you recommend me some beer garden for today in brooklyn</p>
+		<h1>紐約特色餐廳</h1>
+		<table class="customers">
+			<tbody>
+				<tr>
+				  <th>Restaurant Name</th>
+				  <th>District</th>
+				  <th>Categories</th>
+				</tr>
+				<tr>
+					<td>District Saigon</td>
+					<td>Astoria</td>
+					<td>Vietnamese, Cocktail Bars</td>
+				</tr>
+				<tr class="alt">
+					<td>L Antagoniste</td>
+					<td>Bedford Stuyvesant</td>
+					<td>Cocktail Bars, American (New), Beer And Wine</td>
+				</tr>
+				<tr>
+					<td>Antonios Trattoria</td>
+					<td>Bronx</td>
+					<td>Italian, Pizza, Desserts</td>
+				</tr>
+				<tr class="alt">
+					<td>Aska</td>
+					<td>Brooklyn</td>
+					<td>Scandinavian,Bars</td>
+				</tr>
+				<tr>
+					<td>Denizen</td>
+					<td>Brooklyn</td>
+					<td>Wine Bars,Tapas/Small Plates, Gourmet</td>
+				</tr>
+				<tr class="alt">
+					<td>Live on Air</td>
+					<td>Brooklyn</td>
+					<td>Bars, American (Traditional)</td>
+				</tr>
+				<tr>
+					<td>Forno Rosso</td>
+					<td>Downtown Brooklyn</td>
+					<td>Italian, Pizza, Cocktail Bars</td>
+				</tr>
+				<tr class="alt">
+					<td>The Archer</td>
+					<td>Jersey City</td>
+					<td>Cocktail Bars, Tapas/Small Plates</td>
+				</tr>
+				<tr>
+					<td>Murasaki</td>
+					<td>Long Island City</td>
+					<td>Japanese, Sushi Bars</td>
+				</tr>
+				<tr class="alt">
+					<td>Asian Spicy Curry Pop Up</td>
+					<td>New York</td>
+					<td>Asian Fusion, Malaysian, Chinese</td>
+				</tr>
+				<tr class="alt">
+					<td>Bensons NYC</td>
+					<td>New York</td>
+					<td>American (New), Breakfast & Brunch, Burgers</td>
+				</tr>
+				<tr>
+					<td>Breakroom</td>
+					<td>New York</td>
+					<td>Burgers, Mexican</td>
+				</tr>
+				<tr class="alt">
+					<td>Cafe Katja</td>
+					<td>New York</td>
+					<td>Pubs, German, Austrian</td>
+				</tr>
+				<tr class="alt">
+					<td>Marmar</td>
+					<td>Staten Island</td>
+					<td>Mediterranean</td>
+				</tr>
+				<tr>
+					<td>The Alcove</td>
+					<td>Sunnyside</td>
+					<td>Gastropubs, Tapas Bars, Breakfast Brunch</td>
+				</tr>
+				<tr class="alt">
+					<td>Papas Kitchen</td>
+					<td>Woodside</td>
+					<td>Filipino</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	<div class="wrapper">
 		<div class="banner">
-			<h1>FoodBot</h1>
-			<h3>我是一隻在紐約服務的 FoodBot，請跟我講英文，THX</h3>
+			<h2>FoodBot</h2>
+			<h4>我是一隻在紐約服務的 FoodBot，請跟我講英文，THX</h4>
+			<div>
+				<span>YOU，決定我說話的風格：</span>
+				<select id="talkStyle">
+					<option value="normal">Gentle</option>
+					<option value="spicy">Hilarious</option>
+				</select>
+			</div>
 		</div>
 		<div id="historyMsg"></div>
 		<div class="controls">
 			<button id="sayBtn" class="button" type="button">Say!</button>
 			<button id="sendBtn" class="button" type="button">Send!</button>
+			<label>消音</label><input type="checkbox" id="mute" >
 			<textarea id="messageInput"></textarea>
 		</div>
 	</div>
