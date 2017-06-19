@@ -357,9 +357,8 @@ def DST_reset():
         state[key][slot] = ''
     else:
        state[key] = ''
-  global formerState
-  formerState = [2]*22 #Start state
-
+  NewDialog = True
+  
 def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_from_sim):#semantic frame
   global state
   slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
