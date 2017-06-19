@@ -179,7 +179,7 @@ diagNumber = 0
 def indexOfState(state):
     index = 0
     for i in range(len(state)):
-        index = (2**i)*state[i]
+        index = index + (2**i)*state[i]
     if state == [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]:
         index = 2047
     if state == [2,2,2,2,2,2,2,2,2,2,2]:
@@ -224,7 +224,7 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     #if formerState == [0,0,0,0,0,0,0,0,0,0,0]:
     #    print ("Former State is 0!!!,current state is: ",currentState)
     global j,total_steps,episodeBuffer,mainQN,targetQN,e,diagNumber,rAll,QTable
-    QTable[0,:] = np.zeros(10)
+    #QTable[0,:] = np.zeros(10)
 
     j+=1
     total_steps = total_steps+1

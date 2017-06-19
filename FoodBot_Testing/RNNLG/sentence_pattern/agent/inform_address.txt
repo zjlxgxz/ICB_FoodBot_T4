@@ -1,4 +1,0 @@
-the address is SLOT_ADDRESS.
-it's here: SLOT_ADDRESS.
-the address of it is SLOT_ADDRESS.
-here is the address of it: SLOT_ADDRESS.

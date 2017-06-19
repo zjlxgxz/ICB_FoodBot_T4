@@ -1,9 +1,0 @@
-{
-    "location"      : ["location"],
-    "time"          : ["time"],
-    "category"      : [],
-    "address"       : ["address"],
-    "name"          : [],
-    "rating"        : ["rating"],
-    "info"          : []
-}

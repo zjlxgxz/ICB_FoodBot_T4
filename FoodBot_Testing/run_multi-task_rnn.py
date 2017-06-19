@@ -48,10 +48,11 @@ stub = FoodBotRLAgent_pb2.FoodBotRLRequestStub(channel)
 
 
 # NLG
+'''
 import argparse
 sys.path.append('RNNLG/')
 from generator.net import Model
-
+'''
 
 #global vars
 model_test =  0
@@ -888,20 +889,36 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   def GetResponse (self, request, context):
     #--Reborn 
     #From sim_user:
-    good_policy   = responseFromSimUser['good_policy'] #0,1,2,3,4,5...
-    nlg_sentence = responseFromSimUser['nlg_sentence']
-    user_id = responseFromSimUser['user_id']
+    good_policy   = request.good_policy #0,1,2,3,4,5...
+    nlg_sentence = request.nlg_sentence
+    user_id = request.user_id
 
     if good_policy == -1 :
       # from web user
       # LUResult   = LU (nlg_sentence)
-      # DST_Result_Vector,DST_Result_Content = DST (LUResult,user_id)
+      userInput = nlg_sentence.lower()
+      userInput = userInput.replace("?", " ")
+      userInput = userInput.replace(".", " ")
+      userInput = userInput.replace(",", " ")
+      userInput = userInput.replace("!", " ")
+      test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+
+      # DST_Result_Vector,DST_Result_Content = DST (userInput.split(),test_tagging_result,test_label_result,user_id)
+
       # Policy     = RL_Agent(DST_Result,good_policy)
       # Nlg_result = NLG(Policy, DST_Result_Content)
       # Return to the web.
     else:
       # from sim user
       # LUResult = LU (nlg_sentence)
+      userInput = nlg_sentence.lower()
+      userInput = userInput.replace("?", " ")
+      userInput = userInput.replace(".", " ")
+      userInput = userInput.replace(",", " ")
+      userInput = userInput.replace("!", " ")
+      test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+
+
       # if(good_policy == 0):
       # 
       # DST_Result_Vector,DST_Result_Content = DST (LUResult,user_id)
@@ -968,22 +985,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         nlg_sentence = "What?? Please try again..."
       else:
         #Run policy converter
-        RNNLGModel = Model(None,None)
-
-        RNN_query = converter(policyFrame)
-        #Write the Policy frame to the testing file
-        query = []
-        content = []
-        content.append(RNN_query)
-        content.append("Test testing testing")
-        content.append("Test testing testing")
-        query.append(content)
-        print (query)
-        with open('./RNNLG/data/original/restaurant/little_test.json', 'w') as outfile:
-          json.dump(query, outfile)
-        print ("write: ", query)
-
-        nlg_sentence = RNNLGModel.testNet()
+        #RNNLGModel = Model(None,None)
+        nlg_sentence = nlg(policyFrame)
     else:
       nlg_sentence = nlg(policyFrame)
 

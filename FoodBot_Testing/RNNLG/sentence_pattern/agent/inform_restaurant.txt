@@ -1,7 +1,0 @@
-SLOT_NAME is a good one and its address is in SLOT_ADDRESS.
-SLOT_NAME is good restaurant in SLOT_ADDRESS.
-SLOT_NAME is great and it's in SLOT_ADDRESS.
-why not giving SLOT_NAME a try? and its address is SLOT_ADDRESS.
-maybe you would like SLOT_NAME and it's here: SLOT_ADDRESS.
-try SLOT_NAME and it's in SLOT_ADDRESS.
-give SLOT_NAME a shot and its address is SLOT_ADDRESS.
