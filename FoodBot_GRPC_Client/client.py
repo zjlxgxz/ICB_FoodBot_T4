@@ -11,24 +11,24 @@ import FoodBot_pb2
 import FoodBotSim_pb2
 
 
-def AgentOutput(rawdata):
+def AgentOutput(sem_frame,user_id,policyEval):
   channel = grpc.insecure_channel('140.112.49.151:50055')
   stub = FoodBot_pb2.FoodBotRequestStub(channel)
 
-  request = FoodBot_pb2.Sentence(response = rawdata)
+  request = FoodBot_pb2.Sentence(semantic_frame = sem_frame, nlg_sentence = '', user_id=user_id, good_policy =policyEval)
   result = stub.GetResponse(request)
 
-  return result.response_policy_frame
+  return result
 
 
 def SimOutput(rawdata):
   channel = grpc.insecure_channel('140.112.49.151:50054')
   stub = FoodBotSim_pb2.FoodBotSimRequestStub(channel)
 
-  request = FoodBotSim_pb2.Sentence(response = rawdata)
+  request = FoodBotSim_pb2.Sentence(semantic_frame = rawdata,nlg_sentence = '',user_id='',good_policy ='') #json string containing policy frame and others are empty
   result = stub.GetSimResponse(request)
 
-  return result.response
+  return result
 
 if __name__ == '__main__':
   i = 0
@@ -38,10 +38,16 @@ if __name__ == '__main__':
   	msgToSend = SimOutput( json.dumps(initDict))
 	print ("init-sent Turns:",i)
   	while(True):
-		sim_semantic_frame = json.loads(msgToSend)["semantic_frame"]
-		good_policy = json.loads(msgToSend)["goodpolicy"]
-		sim_user_id = json.loads(msgToSend)["user_id"]
+		sim_semantic_frame = msgToSend.semantic_frame
+		good_policy = msgToSend.good_policy
+		sim_user_id = msgToSend.user_id
 
+		msgToSend = AgentOutput(sim_semantic_frame,sim_user_id,good_policy)
+
+		msgToSend = SimOutput( json.dumps(msgToSend.semantic_frame))
+
+		if(sim_semantic_frame['intent'] == 'goodbye'):
+			break
 
 		  '''
   		if json.loads(msgToSend)["nlg_sentence"] == 'END' or json.loads(msgToSend)["nlg_sentence"] == ''or json.loads(msgToSend)["nlg_sentence"] == 'Unknown intent!!!':

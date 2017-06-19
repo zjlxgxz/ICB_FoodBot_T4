@@ -395,7 +395,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
         else:
           slots['category'] = str(slots['category']+" "+tokens[index_token])
       
-      elif "B-RESTAURANT_NAME" in test_tagging_result[0][index_token] or "I-RESTAURANT_NAME" in test_tagging_result[0][index_token]:
+      elif "B-RESTAURANTNAME" in test_tagging_result[0][index_token] or "I-RESTAURANTNAME" in test_tagging_result[0][index_token]:
         if(slots['restaurant_name'] == ""):
           print (slots['restaurant_name'])
           print (tokens[index_token])
