@@ -1,0 +1,132 @@
+{
+  "sentence": "Could you tell me if there are any REPLACEDWORD_3 in REPLACEDWORD_2 with price around REPLACEDWORD_5 ",
+
+  "domain": "Food",
+
+  "intent": "request_restaurant",
+
+  "REPLACEDWORD_2":
+[
+[
+     ["bayside"],
+     ["B-AREA"]
+],
+[
+     ["bronx"],
+     ["B-AREA"]
+],
+[
+     ["brooklyn"],
+     ["B-AREA"]
+],
+[
+     ["college", "point"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["elmhurst"],
+     ["B-AREA"]
+],
+[
+     ["flushing"],
+     ["B-AREA"]
+],
+[
+     ["howard", "beach"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["jamaica"],
+     ["B-AREA"]
+],
+[
+     ["long", "island", "city"],
+     ["B-AREA", "I-AREA", "I-AREA"]
+],
+[
+     ["maspeth"],
+     ["B-AREA"]
+],
+[
+     ["new", "york"],
+     ["B-AREA", "I-AREA"]
+]
+],
+  "REPLACEDWORD_5": 
+[
+    [
+      ["5"],
+      ["B-PRICE"]
+    ],
+    [
+      ["10"],
+      ["B-PRICE"]
+    ],
+    [
+      ["15"],
+      ["B-PRICE"]
+    ],
+    [
+      ["20"],
+      ["B-PRICE"]
+    ],
+    [
+      ["25"],
+      ["B-PRICE"]
+    ],
+    [
+      ["30"],
+      ["B-PRICE"]
+    ]
+  ],
+
+"REPLACEDWORD_3": 
+[
+  [
+      ["beer", "garden"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["beer", "hall"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["chicken", "wings"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["chicken", "shop"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+    [
+      ["dinner", "theater"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+    [
+      ["food", "court"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["food", "stands"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["hong", "kong", "style", "cafe"],
+      ["B-CATEGORY", "I-CATEGORY", "I-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["island", "pub"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+
+  [
+      ["milk", "bars"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+
+  [
+      ["tapas", "bars"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ]
+] 
+}

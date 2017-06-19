@@ -1,0 +1,166 @@
+{
+  "sentence": "Recommend some REPLACEDWORD_1 restaurants in REPLACEDWORD_2 for REPLACEDWORD_3", 
+
+  "domain": "Food",
+
+  "intent": "request_restaurant",
+  "REPLACEDWORD_3": 
+  [
+    [
+      ["tonight"],
+      ["B-TIME"]
+    ],
+    [
+      ["today"],
+      ["B-TIME"]
+    ],
+    [
+      ["tomorrow"],
+      ["B-TIME"]
+    ],
+    [
+      ["this","morning"],
+      ["O","B-TIME"]
+    ],
+    [
+      ["afternoon"],
+      ["B-TIME"]
+    ],
+    [
+      ["this","afternoon"],
+      ["O","B-TIME"]
+    ],
+    [
+      ["tomorrow","afternoon"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["tomorrow","morning"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["tomorrow","night"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["the","day","after","tomorrow"],
+      ["B-TIME","I-TIME","I-TIME","I-TIME"]
+    ]
+
+  ],
+  "REPLACEDWORD_2":
+[
+[
+     ["bayside"],
+     ["B-AREA"]
+],
+[
+     ["bronx"],
+     ["B-AREA"]
+],
+[
+     ["brooklyn"],
+     ["B-AREA"]
+],
+[
+     ["college", "point"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["elmhurst"],
+     ["B-AREA"]
+],
+[
+     ["flushing"],
+     ["B-AREA"]
+],
+[
+     ["howard", "beach"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["jamaica"],
+     ["B-AREA"]
+],
+[
+     ["long", "island", "city"],
+     ["B-AREA", "I-AREA", "I-AREA"]
+],
+[
+     ["maspeth"],
+     ["B-AREA"]
+],
+[
+     ["new", "york"],
+     ["B-AREA", "I-AREA"]
+]
+],
+  
+  "REPLACEDWORD_1": 
+ [
+    [
+      [ "Chinese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "Japanese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "thai","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "malaysian","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "vietnamese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "taiwanese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "american","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "Shanghainese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "Cantonese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "italian","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ]
+  ]
+}

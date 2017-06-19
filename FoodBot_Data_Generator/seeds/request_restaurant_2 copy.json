@@ -1,0 +1,149 @@
+{
+  "sentence": "Recommend some REPLACEDWORD_1 in REPLACEDWORD_2 for REPLACEDWORD_3", 
+
+  "domain": "Food",
+
+  "intent": "request_restaurant",
+  "REPLACEDWORD_3": 
+  [
+    [
+      ["tonight"],
+      ["B-TIME"]
+    ],
+    [
+      ["today"],
+      ["B-TIME"]
+    ],
+    [
+      ["tomorrow"],
+      ["B-TIME"]
+    ],
+    [
+      ["this","morning"],
+      ["O","B-TIME"]
+    ],
+    [
+      ["afternoon"],
+      ["B-TIME"]
+    ],
+    [
+      ["this","afternoon"],
+      ["O","B-TIME"]
+    ],
+    [
+      ["tomorrow","afternoon"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["tomorrow","morning"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["tomorrow","night"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["the","day","after","tomorrow"],
+      ["B-TIME","I-TIME","I-TIME","I-TIME"]
+    ]
+
+  ],
+  "REPLACEDWORD_2":
+[
+[
+     ["bayside"],
+     ["B-AREA"]
+],
+[
+     ["bronx"],
+     ["B-AREA"]
+],
+[
+     ["brooklyn"],
+     ["B-AREA"]
+],
+[
+     ["college", "point"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["elmhurst"],
+     ["B-AREA"]
+],
+[
+     ["flushing"],
+     ["B-AREA"]
+],
+[
+     ["howard", "beach"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["jamaica"],
+     ["B-AREA"]
+],
+[
+     ["long", "island", "city"],
+     ["B-AREA", "I-AREA", "I-AREA"]
+],
+[
+     ["maspeth"],
+     ["B-AREA"]
+],
+[
+     ["new", "york"],
+     ["B-AREA", "I-AREA"]
+]
+],
+  "REPLACEDWORD_1":
+  [
+      [
+      ["beer", "garden"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["beer", "hall"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["chicken", "wings"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["chicken", "shop"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+    [
+      ["dinner", "theater"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+    [
+      ["food", "court"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["food", "stands"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["hong", "kong", "style", "cafe"],
+      ["B-CATEGORY", "I-CATEGORY", "I-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["island", "pub"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+
+  [
+      ["milk", "bars"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+
+  [
+      ["tapas", "bars"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ]
+
+  ]
+ 
+}

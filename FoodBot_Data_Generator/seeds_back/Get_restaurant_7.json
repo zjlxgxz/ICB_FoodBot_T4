@@ -1,0 +1,847 @@
+{
+  "sentence": "Is there any REPLACEDWORD_1 restaurant in REPLACEDWORD_2",
+
+  "domain": "Food",
+
+  "intent": "Get_Restaurant",
+
+  "REPLACEDWORD_2": 
+  [
+[
+     ["astoria"],
+     ["B-LOCATION"]
+],
+[
+     ["bayside"],
+     ["B-LOCATION"]
+],
+[
+     ["bronx"],
+     ["B-LOCATION"]
+],
+[
+     ["brooklyn"],
+     ["B-LOCATION"]
+],
+[
+     ["college", "point"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["corona"],
+     ["B-LOCATION"]
+],
+[
+     ["elmhurst"],
+     ["B-LOCATION"]
+],
+[
+     ["flushing"],
+     ["B-LOCATION"]
+],
+[
+     ["forest", "hills"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["glendale"],
+     ["B-LOCATION"]
+],
+[
+     ["howard", "beach"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["jackson", "heights"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["jamaica"],
+     ["B-LOCATION"]
+],
+[
+     ["long", "island", "city"],
+     ["B-LOCATION", "I-LOCATION", "I-LOCATION"]
+],
+[
+     ["maspeth"],
+     ["B-LOCATION"]
+],
+[
+     ["new", "york"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["ozone", "park"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["rego", "park"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["ridgewood"],
+     ["B-LOCATION"]
+],
+[
+     ["south", "ozone", "park"],
+     ["B-LOCATION", "I-LOCATION", "I-LOCATION"]
+],
+[
+     ["staten", "island"],
+     ["B-LOCATION", "I-LOCATION"]
+],
+[
+     ["sunnyside"],
+     ["B-LOCATION"]
+],
+[
+     ["tompkinsville"],
+     ["B-LOCATION"]
+],
+[
+     ["woodside"],
+     ["B-LOCATION"]
+]
+],
+  
+   "REPLACEDWORD_1": 
+[
+  [
+      ["afghan"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["african"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["andalusian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["arabian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["argentine"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["armenian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["asian", "fusion"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["asturian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["australian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["austrian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["baguettes"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["bangladeshi"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["basque"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["bavarian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["barbeque"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["beisl"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["belgian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["bistros"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["black", "sea"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["brasseries"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["brazilian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["breakfast", "&", "brunch"],
+      ["B-CATEGORY", "I-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["british"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["buffets"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["bulgarian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["burgers"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["burmese"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["cafes"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["cafeteria"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["cajun"],
+      ["B-CATEGORY"]
+  ],  
+  [
+      ["creole"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["cambodian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["canteen"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["caribbean"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["catalan"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["cheesesteaks"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["chilean"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["chinese"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["comfort", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["corsican"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["creperies"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["cuban"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["curry", "sausage"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["cypriot"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["czech"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["slovakian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["czech"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["danish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["delis"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["diners"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["dumplings"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["eastern", "european"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["parent", "cafes"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["ethiopian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["filipino"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["fischbroetchen"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["fish", "&", "chips"],
+      ["B-CATEGORY", "I-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["flatbread"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["fondue"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["freiduria"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["french"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["galician"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["gastropubs"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["georgian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["german"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["giblets"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["gluten-free"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["greek"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["guamanian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["halal"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["hawaiian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["heuriger"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["nepalese"],
+      ["B-CATEGORY"]
+  ],
+[
+      ["himalayan"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["honduran"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["hot", "dogs"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["fast", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["hot", "pot"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["hungarian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["iberian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["indonesian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["indian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["international"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["irish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["israeli"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["italian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["japanese"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["jewish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["kebab"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["kopitiam"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["korean"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["kosher"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["kurdish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["laos"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["laotian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["latin", "american"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["lyonnais"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["malaysian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["meatballs"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["mediterranean"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["mexican"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["middle", "eastern"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["modern", "australian"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["modern", "european"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["mongolian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["moroccan"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["american", "(new)"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["canadian", "(new)"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["new", "mexican", "cuisine"],
+      ["B-CATEGORY", "I-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["new", "zealand"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["nicaraguan"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["night", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["nikkei"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["noodles"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["norcinerie"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["traditional", "norwegian"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["open", "sandwiches"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["oriental"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["pakistani"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["pan", "asian"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["parma"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["iranian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["persian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["peruvian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["pf/comercial"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["pita"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["pizza"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["polish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["pop-up"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["portuguese"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["potatoes"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["poutineries"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["pub", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["live", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["raw", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["rice"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["romanian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["rotisserie", "chicken"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["rumanian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["russian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["salad"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["sandwiches"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["scandinavian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["schnitzel"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["scottish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["seafood"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["serbo", "croatian"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["signature", "cuisine"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["singaporean"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["slovakian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["soul", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["soup"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["southern"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["spanish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["sri", "lankan"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["steakhouses"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["french", "southwest"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["supper", "clubs"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["sushi", "bars"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["swabian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["swedish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["swiss", "food"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["syrian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["tabernas"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["taiwanese"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["small", "plates"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["tapas", "plates"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["tavola", "calda"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["tex-mex"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["thai"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["american", "(traditional)"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["traditional", "swedish"],
+      ["B-CATEGORY", "I-CATEGORY"]
+  ],
+  [
+      ["trattorie"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["turkish"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["ukrainian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["uzbek"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["vegan"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["vegetarian"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["venison"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["vietnamese"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["waffles"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["wok"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["wraps"],
+      ["B-CATEGORY"]
+  ],
+  [
+      ["yugoslav"],
+      ["B-CATEGORY"]
+  ]
+]
+}

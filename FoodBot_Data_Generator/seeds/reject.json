@@ -1,0 +1,1212 @@
+{
+  "sentence": "REPLACEDWORD_1", 
+
+  "domain": "Food",
+
+  "intent": "reject",
+
+  "REPLACEDWORD_1": 
+[
+  [
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ],[
+      ["No"],
+      ["B-Wrong"]
+  ],
+[
+      ["Wrong"],
+      ["B-Wrong"]
+  ],
+[
+      ["disagree"],
+      ["B-Wrong"]
+  ],
+[
+      ["do","not"],
+      ["B-Wrong","I-Wrong"]
+  ]
+]
+}
