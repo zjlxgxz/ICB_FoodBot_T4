@@ -515,9 +515,11 @@ def dialogPolicy(formerPolicyGoodOrNot):
   #===============
   currentState = vector[0]
  #Notice:
+  global formerState
   if (NewDialog == True):
     action = -1
     NewDialog = False
+    formerState = [0]
 
   #TODO
   # update the model(reward, currentState, formerState )
