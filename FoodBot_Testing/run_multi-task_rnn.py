@@ -461,9 +461,7 @@ def policyChecker():
 	#print("This is sys_act[intent]",sys_act['intent'])
 	#print("This is sys_act[currentState]",sys_act['currentstate'])
 	global good
-	global memory
-  global goal
-  global last_intent
+	global memory,goal,last_intent
 
 	soso = []
 	if memory["intent"] in ["goodbye", "thanks"]:
