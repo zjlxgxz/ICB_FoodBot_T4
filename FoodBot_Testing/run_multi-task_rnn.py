@@ -892,6 +892,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     good_policy   = request.good_policy #0,1,2,3,4,5...
     nlg_sentence = request.nlg_sentence
     user_id = request.user_id
+    sem_frame_from_sim = request.semantic_frame
 
     if good_policy == -1 :
       # from web user
@@ -906,7 +907,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       # DST_Result_Vector,DST_Result_Content = DST (userInput.split(),test_tagging_result,test_label_result,user_id)
 
       # Policy     = RL_Agent(DST_Result,good_policy)
+
       # Nlg_result = NLG(Policy, DST_Result_Content)
+
       # Return to the web.
     else:
       # from sim user
@@ -922,12 +925,16 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       # if(good_policy == 0):
       # 
       # DST_Result_Vector,DST_Result_Content = DST (LUResult,user_id)
-      # Policy     = RL_Agent(DST_Result,good_policy)
-      # Return to the sim_user with Policy(frame_level), DST(frame_level) 
 
+      # Policy     = RL_Agent(DST_Result,good_policy)
+
+      # Return to the sim_user with Policy(frame_level), DST(frame_level) 
+      
+      # in Json String
     
 
     #==Reborn
+    '''
     print ("Request from simuser:")
     print (request.response)
     outputFromSim = json.loads(request.response)
@@ -1017,7 +1024,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     print("frame:",policyFrameString )
 
     return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
-  
+  '''
 def converter(policyframe):
   query = ''
   if policyframe['intent'] == 'request':
