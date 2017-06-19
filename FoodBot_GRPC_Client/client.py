@@ -25,7 +25,7 @@ def SimOutput(rawdata):
   channel = grpc.insecure_channel('140.112.49.151:50054')
   stub = FoodBotSim_pb2.FoodBotSimRequestStub(channel)
 
-  request = FoodBotSim_pb2.Sentence(semantic_frame = rawdata,nlg_sentence = '',user_id='',good_policy ='') #json string containing policy frame and others are empty
+  request = FoodBotSim_pb2.Sentence(semantic_frame = rawdata,nlg_sentence = '',user_id='',good_policy =0) #json string containing policy frame and others are empty
   result = stub.GetSimResponse(request)
 
   return result
