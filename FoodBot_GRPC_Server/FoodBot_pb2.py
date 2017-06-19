@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='FoodBot.proto',
   package='FoodBot',
   syntax='proto3',
-  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"\x1c\n\x08Sentence\x12\x10\n\x08response\x18\x01 \x01(\t\"B\n\x0boutSentence\x12\x14\n\x0cresponse_nlg\x18\x02 \x01(\t\x12\x1d\n\x15response_policy_frame\x18\x03 \x01(\t2J\n\x0e\x46oodBotRequest\x12\x38\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x14.FoodBot.outSentence\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"I\n\x08Sentence\x12\x16\n\x0esemantic_frame\x18\x01 \x01(\t\x12\x14\n\x0cnlg_sentence\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\"O\n\x0boutSentence\x12\x14\n\x0cresponse_nlg\x18\x04 \x01(\t\x12\x1d\n\x15response_policy_frame\x18\x05 \x01(\t\x12\x0b\n\x03url\x18\x06 \x01(\t2J\n\x0e\x46oodBotRequest\x12\x38\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x14.FoodBot.outSentence\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -34,45 +34,21 @@ _SENTENCE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='response', full_name='FoodBot.Sentence.response', index=0,
+      name='semantic_frame', full_name='FoodBot.Sentence.semantic_frame', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=26,
-  serialized_end=54,
-)
-
-
-_OUTSENTENCE = _descriptor.Descriptor(
-  name='outSentence',
-  full_name='FoodBot.outSentence',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
     _descriptor.FieldDescriptor(
-      name='response_nlg', full_name='FoodBot.outSentence.response_nlg', index=0,
+      name='nlg_sentence', full_name='FoodBot.Sentence.nlg_sentence', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='response_policy_frame', full_name='FoodBot.outSentence.response_policy_frame', index=1,
+      name='user_id', full_name='FoodBot.Sentence.user_id', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -90,8 +66,53 @@ _OUTSENTENCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=56,
-  serialized_end=122,
+  serialized_start=26,
+  serialized_end=99,
+)
+
+
+_OUTSENTENCE = _descriptor.Descriptor(
+  name='outSentence',
+  full_name='FoodBot.outSentence',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='response_nlg', full_name='FoodBot.outSentence.response_nlg', index=0,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='response_policy_frame', full_name='FoodBot.outSentence.response_policy_frame', index=1,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='url', full_name='FoodBot.outSentence.url', index=2,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=101,
+  serialized_end=180,
 )
 
 DESCRIPTOR.message_types_by_name['Sentence'] = _SENTENCE
