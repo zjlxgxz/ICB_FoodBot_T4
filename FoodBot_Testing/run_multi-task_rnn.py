@@ -659,9 +659,19 @@ def dialogPolicy(formerPolicyGoodOrNot):
 
   elif action == 16:
     sys_act['policy'] = 'show_table'
-    sys_act.update(slots)
+    if slots['restaurant_name'] != '':
+      sys_act['name'] = slots['restaurant_name']
+    if slots['category'] != '':
+      sys_act['category'] = slots['category']
+    if slots['price'] != '':
+      sys_act['price'] = slots['price']
+    if slots['score'] != '':
+      sys_act['score'] = slots['score']
+    if slots['area'] != '':
+      sys_act['area'] = slots['area']
 
-
+  if (sys_act['policy'] == 'not_a_good_policy'):
+    DST_reset()
 
   print ('Policy system action : ' ,sys_act)
   return sys_act
@@ -671,6 +681,9 @@ def nlg(sem_frame):
   return_list["pic_url"] = ''
   if sem_frame == '':
     return ''
+  
+  elif sem_frame["policy"] == "not_a_good_policy":
+    sentence = "Sorry, I chose a bad policy. Please start again."
 
   elif sem_frame["policy"] == "show_table":
     return_list["pic_url"] = sem_frame
