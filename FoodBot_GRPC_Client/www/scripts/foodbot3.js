@@ -22,12 +22,16 @@ FoodBot.prototype = {
 			speak('Hi what can I do for you');
 		});
 		this.socket.on('newMsg', function(name, msg, url){
+			url = JSON.parse(url);
+			console.log("URL: "+ url);
 			if(msg != null && isNormalUrl(url)){
+				console.log("in displayMsg");
 				that._displayNewMsg(name, msg, url);
 			}else{
+				console.log("in displayTable");
 				mode = 'goToDB';
 				queryMsg = JSON.parse(url);
-				that.displayTableMsg(name, msg);
+				displayTableMsg(name, msg);
 			}
 			if (!mute) {
 				speak(msg);
