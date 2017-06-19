@@ -22,8 +22,10 @@ FoodBot.prototype = {
 			speak('Hi what can I do for you');
 		});
 		this.socket.on('newMsg', function(name, msg, url){
-			url = JSON.parse(url);
-			console.log("URL: "+ url);
+			if(url){
+				url = JSON.parse(url);
+				console.log("URL: "+ url);
+			}
 			if(msg != null && isNormalUrl(url)){
 				console.log("in displayMsg");
 				that._displayNewMsg(name, msg, url);
@@ -153,10 +155,9 @@ function displayNewMEME(name,url){
 
 function modifyQueryContent(msg){
 	var msgArray = strToObjParser(msg);
+	console.log(msgArray);
 	Object.keys(queryMsg).forEach(function(key){
-		if(queryMsg[key]==null || queryMsg[key]==0){
 			queryMsg[key] = msgArray[key];
-		}
 	});
 	return queryMsg;
 };
@@ -174,8 +175,9 @@ function strToObjParser(str) {
 
 function isNormalUrl(url){
   if(url){
-	
     var urlStr = JSON.stringify(url);
+    urlStr = urlStr.replace('"');
+    console.log('isNormalUrl: ' + urlStr);
     return urlStr.trim().match(/(http){1}/g) == 'http'? true : false;
   }else{
     return true;

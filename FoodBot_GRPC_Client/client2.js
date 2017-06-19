@@ -76,20 +76,20 @@ io.on('connection', function(socket){
     for( property in queryMsg){
       console.log('Get property: ' + property + ' : ' + queryMsg[property]);
       if(property == 'info_name'){
-        column = column + queryMsg[property];
-        whereColumn = whereColumn + queryMsg[property] + "=";
         if(queryMsg[property] == 'review'){
-          querySQL = 'select ' + column +' from reviews where ' + whereColumn;
+          querySQL = 'select review from reviews where name =';
         }else if(queryMsg[property] == 'Wifi'){
-          querySQL = 'select ' + column +' from other_info where ' + whereColumn;
+          querySQL = 'select WiFi from other_info where name =';
+        }else if(queryMsg[property] == 'Address'){
+          querySQL = 'select displayAddress from restaurant where name=';
         }else{
-          querySQL = 'select ' + column +' from restaurant where ' + whereColumn;;
+          querySQL = 'select rating from restaurant where name=';
         }
       }else if(property == 'name'){
-        querySQL = querySQL + "'" + queryMsg[property] + "'";
+        querySQL = querySQL + queryMsg[property] + "';";
       }
       if(property == 'price'){
-        if(!whereColumn){
+        if(whereColumn != ''){
           whereColumn = ' and '.concat(whereColumn);
         }
         var price = queryMsg[property];
@@ -102,20 +102,27 @@ io.on('connection', function(socket){
         }else if(price >=30 && price <=60){
           price = "'$31-60'";
         }
-        whereColumn = whereColumn.concat(property).concat("=").concat(price);
+        whereColumn = whereColumn.concat('b.price_range').concat("=").concat(price);
       }else{
-        console.log('where Column: '+whereColumn);
+        var propertySwitch;
         if(whereColumn != ''){
           whereColumn = ' and '.concat(whereColumn);
         }
+        if(property === 'area'){
+          propertySwitch = 'district';
+        }else if(property === 'category'){
+          propertySwitch = 'categories';
+        }else if(property === 'score'){
+          propertySwitch = 'rating';
+        }
         console.log('Get property: ' + property + ' : ' + queryMsg[property]);
-        whereColumn = "a.".concat(property).concat("= '").concat(queryMsg[property]).concat("'" ).concat(whereColumn);
+        whereColumn = "a.".concat(propertySwitch).concat(" like '%").concat(queryMsg[property]).concat("%'" ).concat(whereColumn);
         console.log('where column in else: ' + whereColumn);
       }
     }
     console.log('where column: ' + whereColumn);
     if(!querySQL){
-      querySQL = joinSQLTemp + whereColumn;
+      querySQL = joinSQLTemp + whereColumn + ';';
     }
     console.log('Full SQL:' + querySQL);
     connection.query(querySQL,function(error, rows, fields){
@@ -123,7 +130,8 @@ io.on('connection', function(socket){
       if(error){
           throw error;
       }
-      socket.emmit('newMsg', 'FoodBot', (rows[0].solution));
+      console.log(rows[0].name);
+      socket.emit('newMsg', 'FoodBot', rows[0].name);
     });
     connection.end();
   })
