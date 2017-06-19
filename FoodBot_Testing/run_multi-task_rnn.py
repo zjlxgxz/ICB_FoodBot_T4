@@ -666,7 +666,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
-def nlg(sem_frame, style = 'gentle'): 
+def nlg(sem_frame): 
   return_list = dict()
   return_list["pic_url"] = ''
   if sem_frame == '':
@@ -706,11 +706,11 @@ def nlg(sem_frame, style = 'gentle'):
     for key in keys:
       sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
-  if style == 'hilarious':
-    print (sem_frame)
-    if "policy" in sem_frame.keys() and sem_frame["policy"] in pic_dict.keys():
-      pic_url = random.choice(pic_dict[sem_frame["policy"]])
-      return_list["pic_url"] = pic_url
+  
+  print (sem_frame)
+  if "policy" in sem_frame.keys() and sem_frame["policy"] in pic_dict.keys():
+    pic_url = random.choice(pic_dict[sem_frame["policy"]])
+    return_list["pic_url"] = pic_url
   
   return_list["sentence"] = sentence.capitalize()
   json_list = json.dumps(return_list)
@@ -765,6 +765,8 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       dialogStateTracking('','','',sem_frame_from_sim)#user id
 
       selectedPolicy =  dialogPolicy(good_policy)
+
+      print( nlg(selectedPolicy) )
 
       return FoodBot_pb2.outSentence(response_nlg = '',response_policy_frame = json.dumps(selectedPolicy),url = '')
 
