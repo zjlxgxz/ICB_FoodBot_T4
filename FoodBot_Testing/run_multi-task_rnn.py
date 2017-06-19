@@ -686,7 +686,9 @@ def nlg(original_sem_frame):
   return_list = dict()
   return_list["pic_url"] = ''
   if sem_frame == '':
-    return ''
+    return_list["sentence"] = 'bye'
+    return_list["pic_url"] = ''
+    return return_list
   
   elif sem_frame["policy"] == "not_a_good_policy":
     sentence = "Sorry, I chose a bad policy. Please start again."
@@ -763,7 +765,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       selectedPolicy =  dialogPolicy(-1)
       # Nlg_result = NLG(Policy, DST_Result_Content)
       nlg_result = nlg(selectedPolicy)
-      return FoodBot_pb2.outSentence(response_nlg = nlg_result['sentence'],response_policy_frame = json.dumps(selectedPolicy),url =nlg_result['pic_url'] )
+      return FoodBot_pb2.outSentence(response_nlg = nlg_result['sentence'],response_policy_frame = json.dumps(selectedPolicy),url =json.dumps(nlg_result['pic_url']) )
 
       # Return to the web.
     else:
