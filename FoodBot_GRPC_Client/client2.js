@@ -60,6 +60,14 @@ io.on('connection', function(socket){
         socket.emit('newMsg', 'FoodBot', responseMsg, responseUrl);
     }]);
   })
+  socket.on('initMsg',function() {
+    msgToSend = "bye";
+    username = "FoodBot";
+    //call SUser to get intent
+    async.series([runRequest,function(callback){
+        console.log('Init the conversation.');
+    }]);
+  })
   socket.on('postMsgToDB',function(queryMsg){
     connection.connect();
     var column, whereColumn;
