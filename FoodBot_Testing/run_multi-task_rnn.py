@@ -555,7 +555,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
 
   #request more
   elif action == 2: 
-    sys_act['policy'] = 'request_more'
+    sys_act['policy'] = 'reqmore'
 
   #inform address
   elif action == 3:
