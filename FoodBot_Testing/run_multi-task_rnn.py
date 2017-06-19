@@ -93,14 +93,16 @@ waitConfirm = []
 dialogNum = 0.0
 successNum = 0.0
 notfoundNum = 0.0
+successRateFileName = 'successRate' + str(time.time()) + '.txt'
 
 textFileName = "record_"+str(time.time())
+LUWrongCount = 0 
+LURightCount = 0
 ################## below for state
 formerState = [2,2,2,2,2,2,2,2,2,2,2] #To remember the former state, 222222 is the start state
 
 ##################below for nlg
 action = -1
-NewDialog = True
 
 #patterns for agent
 pattern_dict = dict()
@@ -357,7 +359,8 @@ def DST_reset():
         state[key][slot] = ''
     else:
        state[key] = ''
-  NewDialog = True
+  global formerState
+  formerState = [2]*22 #Start state
 
 def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_from_sim):#semantic frame
   global state
@@ -395,7 +398,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
         else:
           slots['category'] = str(slots['category']+" "+tokens[index_token])
       
-      elif "B-RESTAURANTNAME" in test_tagging_result[0][index_token] or "I-RESTAURANTNAME" in test_tagging_result[0][index_token]:
+      elif "B-RESTAURANT_NAME" in test_tagging_result[0][index_token] or "I-RESTAURANT_NAME" in test_tagging_result[0][index_token]:
         if(slots['restaurant_name'] == ""):
           print (slots['restaurant_name'])
           print (tokens[index_token])
@@ -434,11 +437,11 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
   return slots
 
 
-def dialogPolicy(formerPolicyGoodOrNot):
+def dialogPolicy():
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
   sys_act = {}
-  global state,NewDialog
+  global state
 
   stateList.append(state)
 
@@ -513,26 +516,33 @@ def dialogPolicy(formerPolicyGoodOrNot):
   #  Then, make decisions
   # output action
   #===============
+  feedbackReward  = 0
   currentState = vector[0]
- #Notice:
-  if (NewDialog == True):
+  if userInput == 'end' and formerPolicyGoodOrNot !=0:
+    currentState = [0,0,0,0,0,0,0,0,0,0,0] # terminate state
+    #reset
+  if userInput == 'end' and formerPolicyGoodOrNot == 0:
+    currentState = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]# terminate state
+    #reset
+  if formerPolicyGoodOrNot == 0:
+    feedbackReward  = 0
+  elif formerPolicyGoodOrNot == 1:
+    feedbackReward  = 2
+  elif formerPolicyGoodOrNot == 2:
+    feedbackReward  = 5
+  elif formerPolicyGoodOrNot == 3:
+    feedbackReward  = 10
+  if formerState == [2,2,2,2,2,2,2,2,2,2,2]:
     action = -1
-    NewDialog = False
 
   #TODO
   # update the model(reward, currentState, formerState )
   # Has connected with the RL agent GRPC at beginning
-  request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = formerPolicyGoodOrNot,formerAction = action ,shouldTerminate = False)
+  request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
   policy = stub.GetRLResponse(request)
   #print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
   formerState = currentState
-
-  if(state['user']['goodbye']!=''):
-    DST_reset()
-    return ''
-
-
   #print("current State: ", currentState)
   #print("RewardForformerAction: ",formerPolicyGoodOrNot)
   #print ("###############################################")
@@ -655,60 +665,81 @@ def dialogPolicy(formerPolicyGoodOrNot):
   elif action == 15:
     sys_act['policy'] = 'hi'
 
+  elif action == 16:
+    sys_act['policy'] = 'show_table'
+    sys_act.update(slots)
 
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
 def nlg(sem_frame, style = 'gentle'): 
   return_list = dict()
-  return_list["pic_url"] = ''
   if sem_frame == '':
-    return ''
-
-  elif sem_frame["policy"] == "show_table":
-    return_list["pic_url"] = sem_frame
-    return_list["pic_url"].pop("policy")
-    sentence = """Help me! Which of these is/are mistaken?</br>Ex. If category should be japanese and time should be tonight, please reply 'category:japanese;time:tonight' without quotation marks(').</br>Thank you soooo much!"""
-
-  elif sem_frame["policy"] in ["request_area", "request_category", "request_time", \
-                              "request_name", "reqmore", "goodbye", "hi", "inform_smoke_yes", \
-                              "inform_smoke_no", "inform_wifi_yes", "inform_wifi_no", "inform_no_match"]:
-    sentence = random.choice(pattern_dict[sem_frame["policy"]]) 
-  
-  elif sem_frame["policy"] == "confirm_restaurant":
-    sub_sent = ''
-    keys = sem_frame.keys()
-    keys.remove("policy")
-    sentence = random.choice(pattern_dict[sem_frame["policy"]])
-    if "category" in keys:
-      sentence = sentence.replace('__', sem_frame["category"] + " restaurant__")
-    else:
-      sentence = sentence.replace('__', "restaurant__")
-    if "area" in keys:
-      sub_sent += ' in ' + sem_frame["area"]      
-    if "score" in keys:
-      sub_sent += ' whose score is higher than ' + sem_frame["score"]
-    if "price" in keys:
-        sub_sent += ' with the price around ' + sem_frame["price"]
-    sentence = sentence.replace('__', sub_sent)
-
+    return ''  
+  elif sem_frame["intent"] in ["request_area", "request_area_2", "request_category", "request_time", \
+                              "reqmore", "goodbye", "hi", "inform_smoke_yes", \
+                              "inform_smoke_no", "inform_wifi_yes", "inform_wifi_no"]:
+    sentence = random.choice(pattern_dict[sem_frame["intent"]]) 
   else:
     keys = sem_frame.keys()
-    keys.remove("policy")
-    sentence = random.choice(pattern_dict[sem_frame["policy"]])
+    keys.remove("intent")
+    sentence = random.choice(pattern_dict[sem_frame["intent"]])
     for key in keys:
       sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
   if style == 'hilarious':
-    print sem_frame
-    if "policy" in sem_frame.keys() and sem_frame["policy"] in pic_dict.keys():
-      pic_url = random.choice(pic_dict[sem_frame["policy"]])
+    if sem_frame["intent"] in pic_dict.keys():
+      pic_url = random.choice(pic_dict[sem_frame["intent"]])
       return_list["pic_url"] = pic_url
-  
+
   return_list["sentence"] = sentence.capitalize()
   json_list = json.dumps(return_list)
-
+  
   return json_list
+'''
+      if sem_frame["intent"] == "confirm_restaurant":
+        keys = sem_frame["content"].keys()
+        sentence = "You're looking for a "
+        if "CATEGORY" in keys:
+          sentence = sentence + sem_frame["content"]["CATEGORY"] + " restaurant"
+        else:
+          sentence = sentence + "restaurant"
+        if "LOCATION" in keys and sem_frame["content"]["LOCATION"]:
+          sentence = sentence + " in " + sem_frame["content"]["LOCATION"]
+        if "TIME" in keys and sem_frame["content"]["TIME"]:
+          sentence = sentence + " for " + sem_frame["content"]["TIME"]
+        sentence = sentence + ", right?"
+  
+      if sem_frame["intent"] == "confirm_info":
+        sentence = "You're looking for "
+        if "RATING" in sem_frame["content"].keys():
+          sentence = sentence + "the rating of " + sem_frame["content"]["RESTAURANTNAME"]
+        if "LOCATION" in sem_frame["content"].keys():
+          sentence = sentence + "the location of " + sem_frame["content"]["RESTAURANTNAME"]
+        sentence = sentence + ", right?"
+      
+      if sem_frame["intent"] == "inform":
+        #for recommendation
+        if "RESTAURANTNAME" in sem_frame["content"].keys():
+          sentence = random.choice(inform_restaurant_pattern)
+          sentence = sentence.replace("RESTAURANT_NAME", sem_frame["content"]["RESTAURANTNAME"])
+          sentence = sentence.capitalize() + " It's in " + sem_frame["content"]["LOCATION"] + "."
+        
+        else:
+          #for restaurant info
+          if "LOCATION" in sem_frame["content"].keys():
+            sentence = "It's here: " + sem_frame["content"]["LOCATION"] + "."
+          if "RATING" in sem_frame["content"].keys():
+            sentence = "Its rating is " + sem_frame["content"]["RATING"] + "."
+  
+      if sem_frame["intent"] == "not_found":
+        sentence = "Sorry! I don't have the information you're looking for. Please try another one."
+    
+      if not sem_frame["intent"]:
+        sentence = "Sorry, I don't understand! Please try again..."
+      elif sem_frame["intent"] == 'not_a_good_policy':
+        sentence = "What?? Please try again..."
+'''
   
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
@@ -721,7 +752,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     user_id = request.user_id
     sem_frame_from_sim = request.semantic_frame
 
-    if user_id != 'sim-user' :
+    if good_policy == -1 :
       # from web user
       # LUResult   = LU (nlg_sentence)
       userInput = nlg_sentence.lower()
@@ -731,9 +762,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       userInput = userInput.replace("!", " ")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
 
-      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result,sem_frame_from_sim)#user id
+      # DST_Result_Vector,DST_Result_Content = DST (userInput.split(),test_tagging_result,test_label_result,user_id)
 
-      selectedPolicy =  dialogPolicy()
+      # Policy     = RL_Agent(DST_Result,good_policy)
 
       # Nlg_result = NLG(Policy, DST_Result_Content)
 
@@ -741,25 +772,19 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     else:
       # from sim user
       # LUResult = LU (nlg_sentence)
-      '''
       userInput = nlg_sentence.lower()
       userInput = userInput.replace("?", " ")
       userInput = userInput.replace(".", " ")
       userInput = userInput.replace(",", " ")
       userInput = userInput.replace("!", " ")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-      '''
-      print ("Semantic frame from Sim User: ",sem_frame_from_sim )
-      print ("===========NLG from Sim User: ",nlg_sentence )
-      print ("========Sim user from Policy: ",good_policy )
-      print ("==============ID of Sim User: ",user_id )
 
 
-      dialogStateTracking('','','',sem_frame_from_sim)#user id
+      # if(good_policy == 0):
+      # 
+      # DST_Result_Vector,DST_Result_Content = DST (LUResult,user_id)
 
-      selectedPolicy =  dialogPolicy(good_policy)
-
-      return FoodBot_pb2.outSentence(response_nlg = '',response_policy_frame = policyFrameString,url = '')
+      # Policy     = RL_Agent(DST_Result,good_policy)
 
       # Return to the sim_user with Policy(frame_level), DST(frame_level) 
       
