@@ -176,6 +176,7 @@ j = 0
 diagNumber = 0
 
 def indexOfState(state):
+    index = 0
     global QTable,StateMappingIndexTable
     for i in range(len(state)):
         index = index + (2**i)*state[i]
