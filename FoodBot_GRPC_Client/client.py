@@ -18,8 +18,6 @@ def AgentOutput(rawdata):
   request = FoodBot_pb2.Sentence(response = rawdata)
   result = stub.GetResponse(request)
 
-  if not result.response_nlg : # means wrong intent.
-	  return ''
   return result.response_policy_frame
 
 
@@ -44,7 +42,7 @@ if __name__ == '__main__':
 		good_policy = json.loads(msgToSend)["goodpolicy"]
 		sim_user_id = json.loads(msgToSend)["user_id"]
 
-		
+
 		  '''
   		if json.loads(msgToSend)["nlg_sentence"] == 'END' or json.loads(msgToSend)["nlg_sentence"] == ''or json.loads(msgToSend)["nlg_sentence"] == 'Unknown intent!!!':
   			inputss = json.loads(msgToSend)
