@@ -370,15 +370,15 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
   if sem_frame_from_sim != '':
     if sem_frame_from_sim['intent'] in state['user']:
       state['user'][sem_frame_from_sim['intent']] = 'True'
-    if sem_frame_from_sim['category'] != '':
+    if 'category' in sem_frame_from_sim:
       slots['category'] = sem_frame_from_sim['category']
-    if sem_frame_from_sim['area'] != '':
+    if 'area' in sem_frame_from_sim:
       slots['area'] = sem_frame_from_sim['area']
-    if sem_frame_from_sim['price'] != '':
+    if 'price' in sem_frame_from_sim:
       slots['price'] = sem_frame_from_sim['price']
-    if sem_frame_from_sim['score'] != '':
+    if 'score' in sem_frame_from_sim:
       slots['score'] = sem_frame_from_sim['score']
-    if sem_frame_from_sim['name'] != '':
+    if 'name' in sem_frame_from_sim:
       slots['restaurant_name'] = sem_frame_from_sim['name']
 
     for key in slots.keys():
