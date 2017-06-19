@@ -19,7 +19,7 @@ message Sentence
 
 message outSentence
 {
-	string response_nlg = 4;
-	string response_policy_frame = 5;
-	string url = 6;
+	string response_nlg = 5;
+	string response_policy_frame = 6;
+	string url = 7;
 }
