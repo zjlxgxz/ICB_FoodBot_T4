@@ -78,7 +78,7 @@ state = {
         'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':'', 'wifi':'', 'smoking':''
       },
       'agent':{
-        'restaurant_name':''
+        'restaurant_name':'',
         'confirm_info':'',
         'confirm_restaurant':''
       }
@@ -90,16 +90,14 @@ waitConfirm = []
 dialogNum = 0.0
 successNum = 0.0
 notfoundNum = 0.0
-successRateFileName = 'successRate' + str(time.time()) + '.txt'
 
 textFileName = "record_"+str(time.time())
-LUWrongCount = 0 
-LURightCount = 0
 ################## below for state
 formerState = [2,2,2,2,2,2,2,2,2,2,2] #To remember the former state, 222222 is the start state
 
 ##################below for nlg
 action = -1
+NewDialog = True
 
 #patterns for agent
 pattern_dict = dict()
@@ -424,11 +422,11 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
   return slots
 
 
-def dialogPolicy(formerPolicyGoodOrNot,userInput):
+def dialogPolicy():
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
   slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':'', 'wifi':'', 'smoking':''}
   sys_act = {}
-  global state
+  global state,NewDialog
 
   stateList.append(state)
 
@@ -504,12 +502,7 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   #===============
   feedbackReward  = 0
   currentState = vector[0]
-  if userInput == 'end' and formerPolicyGoodOrNot !=0:
-    currentState = [0,0,0,0,0,0,0,0,0,0,0] # terminate state
-    #reset
-  if userInput == 'end' and formerPolicyGoodOrNot == 0:
-    currentState = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]# terminate state
-    #reset
+
   if formerPolicyGoodOrNot == 0:
     feedbackReward  = 0
   elif formerPolicyGoodOrNot == 1:
@@ -518,8 +511,11 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
     feedbackReward  = 5
   elif formerPolicyGoodOrNot == 3:
     feedbackReward  = 10
-  if formerState == [2,2,2,2,2,2,2,2,2,2,2]:
+
+ #Notice:
+  if (NewDialog == True):
     action = -1
+    NewDialog = False
 
   #TODO
   # update the model(reward, currentState, formerState )
@@ -529,6 +525,12 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   #print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
   formerState = currentState
+
+  if(state['user']['goodbye']!=''):
+    DST_reset()
+    return ''
+
+
   #print("current State: ", currentState)
   #print("RewardForformerAction: ",formerPolicyGoodOrNot)
   #print ("###############################################")
@@ -733,7 +735,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     user_id = request.user_id
     sem_frame_from_sim = request.semantic_frame
 
-    if good_policy == -1 :
+    if user_id != 'sim-user' :
       # from web user
       # LUResult   = LU (nlg_sentence)
       userInput = nlg_sentence.lower()
@@ -743,9 +745,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       userInput = userInput.replace("!", " ")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
 
-      # DST_Result_Vector,DST_Result_Content = DST (userInput.split(),test_tagging_result,test_label_result,user_id)
+      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result,sem_frame_from_sim)#user id
 
-      # Policy     = RL_Agent(DST_Result,good_policy)
+      selectedPolicy =  dialogPolicy()
 
       # Nlg_result = NLG(Policy, DST_Result_Content)
 
@@ -753,20 +755,25 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     else:
       # from sim user
       # LUResult = LU (nlg_sentence)
+      '''
       userInput = nlg_sentence.lower()
       userInput = userInput.replace("?", " ")
       userInput = userInput.replace(".", " ")
       userInput = userInput.replace(",", " ")
       userInput = userInput.replace("!", " ")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+      '''
+      print ("Semantic frame from Sim User: ",sem_frame_from_sim )
+      print ("===========NLG from Sim User: ",nlg_sentence )
+      print ("========Sim user from Policy: ",good_policy )
+      print ("==============ID of Sim User: ",user_id )
 
 
-      # if(good_policy == 0):
-      # 
-      # DST_Result_Vector,DST_Result_Content = DST (LUResult,user_id)
+      dialogStateTracking('','','',sem_frame_from_sim)#user id
 
-      # Policy     = RL_Agent(DST_Result,good_policy)
+      selectedPolicy =  dialogPolicy()
 
+      
       # Return to the sim_user with Policy(frame_level), DST(frame_level) 
       
       # in Json String
