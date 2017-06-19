@@ -154,8 +154,8 @@ def simul_user(sys_act):
 			returnList["goodpolicy"] = goodPolicy
 			returnList["user_id"] = 'sim-user'
 			returnList["nlg_sentence"] = ''
-			json_list = json.dumps(returnList)
-			return json_list
+			#json_list = json.dumps(returnList)
+			return returnList
 
 ################## hi #########################
 		if sys_act["policy"] == "hi":
@@ -228,8 +228,7 @@ def simul_user(sys_act):
 	returnList["user_id"] = 'sim-user'
 	returnList["nlg_sentence"] = ''
 	
-	json_list = json.dumps(returnList)
-	return json_list
+	return returnList
 	#return sem_frame, goodPolicy
 
 
