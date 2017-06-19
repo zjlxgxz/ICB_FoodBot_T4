@@ -1,5 +1,5 @@
-i am sorry i did not find any SLOT_CATEGORY restaurant for SLOT_TIME in the area of SLOT_AREA.
-there is no SLOT_CATEGORY restaurant in SLOT_AREA for SLOT_TIME.
-sorry, there is no place serving SLOT_CATEGORY food for SLOT_TIME in SLOT_AREA.
-i did not find any SLOT_CATEGORY restaurant for SLOT_TIME in SLOT_AREA, sorry!
+i am sorry i did not find any restaurant meeting your requirements.
+there is no restaurant meeting your requirements.
+sorry, there is no place meeting your requirements..
+i did not find any restaurant meeting your requirements, sorry!
 there is no restaurant meeting your requirements...maybe try another one?
