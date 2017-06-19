@@ -886,6 +886,31 @@ def nlg(sem_frame, style = 'gentle'):
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetResponse (self, request, context):
+    #--Reborn 
+    #From sim_user:
+    good_policy   = responseFromSimUser['good_policy'] #0,1,2,3,4,5...
+    nlg_sentence = responseFromSimUser['nlg_sentence']
+    user_id = responseFromSimUser['user_id']
+
+    if good_policy == -1 :
+      # from web user
+      # LUResult   = LU (nlg_sentence)
+      # DST_Result_Vector,DST_Result_Content = DST (LUResult,user_id)
+      # Policy     = RL_Agent(DST_Result,good_policy)
+      # Nlg_result = NLG(Policy, DST_Result_Content)
+      # Return to the web.
+    else:
+      # from sim user
+      # LUResult = LU (nlg_sentence)
+      # if(good_policy == 0):
+      # 
+      # DST_Result_Vector,DST_Result_Content = DST (LUResult,user_id)
+      # Policy     = RL_Agent(DST_Result,good_policy)
+      # Return to the sim_user with Policy(frame_level), DST(frame_level) 
+
+    
+
+    #==Reborn
     print ("Request from simuser:")
     print (request.response)
     outputFromSim = json.loads(request.response)
