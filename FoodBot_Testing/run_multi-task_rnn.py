@@ -348,9 +348,9 @@ def languageUnderstanding(userInput):
   test_tagging_result,test_label_result = run_valid_test(test_set, 'Test', sess) 
   #print (test_tagging_result)
   if(test_label_result[0] == 'confirm'):
-    if("B-Wrong" in test_tagging_result):
+    if("B-Wrong" in test_tagging_result[0]):
       test_label_result[0] = "reject"
-    if("B-HI" in test_tagging_result):
+    if("B-HI" in test_tagging_result[0]):
       test_label_result[0] = "hi"
   return test_tagging_result , test_label_result
 
