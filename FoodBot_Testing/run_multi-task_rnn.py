@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Feb 28 16:23:37 2016
-
 @author: Bing Liu (liubing@cmu.edu)
-
 Modified on Wed Apr 5 2017
 @modified by Xingzhi Guo(guoxingzhi@gmail.com) for ICB2017 @ NTU
 """
@@ -64,8 +62,31 @@ tag_vocab = 0
 rev_tag_vocab = 0
 label_vocab = 0
 rev_label_vocab = 0
-observation = collections.deque(maxlen=10)
-state = {'Get_Restaurant':{'LOCATION':'' ,'CATEGORY':'' ,'TIME':''} ,'Get_location':{'RESTAURANTNAME':''} ,'Get_rating':{'RESTAURANTNAME':''} , 'Get_another_restaurant':'', 'Inform':{'RESTAURANTNAME':'', 'LOCATION':'', 'CATEGORY':'', 'TIME':''}, 'Confirm':'', 'Wrong':''}
+state = {
+      'user':{
+        'request_restaurant':'',
+        'inform':'',
+        'request_address':'',
+        'request_score':'',
+        'request_review':'', 
+        'request_price':'',
+        'request_time':'',
+        'request_phone':'',
+        'request_smoke':'',
+        'request_wifi':'',
+        'confirm':'',
+        'reject':'',
+        'hi':'',
+        'thanks':'',
+        'goodbye':'',
+        'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''
+      },
+      'agent':{
+        'restaurant_name':'',
+        'confirm_info':'',
+        'confirm_restaurant':''
+      }
+    }
 stateList = []
 changeRestNum = 0
 intents = collections.deque(maxlen=2)
@@ -162,7 +183,6 @@ def conlleval(p, g, w, filename):
     p :: predictions
     g :: groundtruth
     w :: corresponding words
-
     OUTPUT:
     filename :: name of the file where the predictions
     are written. it will be the input of conlleval.pl script
@@ -208,7 +228,6 @@ def get_perf(filename):
 
 def read_data(source_path, target_path, label_path, max_size=None):
   """Read data from source and target files and put into buckets.
-
   Args:
     source_path: path to the files with token-ids for the source input - word sequence.
     target_path: path to the file with token-ids for the target output - tag sequence;
@@ -217,7 +236,6 @@ def read_data(source_path, target_path, label_path, max_size=None):
     label_path: path to the file with token-ids for the sequence classification label
     max_size: maximum number of lines to read, all other will be ignored;
       if 0 or None, data files will be read completely (no limit).
-
   Returns:
     data_set: a list of length len(_buckets); data_set[n] contains a list of
       (source, target, label) tuple read from the provided data files that fit
@@ -342,41 +360,78 @@ def DST_reset():
         state[key][slot] = ''
     else:
        state[key] = ''
-  waitConfirm = []
-  for x in range(intents.__len__()):
-    intents[x] = ''
-  #for x in range(observation.__len__()):
-  #  observation[x] = []
   global formerState
-  formerState = [2,2,2,2,2,2,2,2,2,2,2] #Start state
+  formerState = [2]*22 #Start state
 
-def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
-  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':''}
-  for index_token in range(len(tokens)):
-    if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
-      if(slots['CATEGORY'] == ""):
-        slots['CATEGORY'] = str(slots['CATEGORY'] +tokens[index_token])
-      else:
-        slots['CATEGORY'] = str(slots['CATEGORY']+" "+tokens[index_token])
-    elif "B-RESTAURANTNAME" in test_tagging_result[0][index_token] or "I-RESTAURANTNAME" in test_tagging_result[0][index_token]:
-      if(slots['RESTAURANTNAME'] == ""):
-        print (slots['RESTAURANTNAME'])
-        print (tokens[index_token])
-        slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+tokens[index_token])
-      else:
-        slots['RESTAURANTNAME'] = str(slots['RESTAURANTNAME']+ " " +tokens[index_token])
-    elif "B-LOCATION" in test_tagging_result[0][index_token] or "I-LOCATION" in test_tagging_result[0][index_token]:
-      if(slots['LOCATION'] == ""):
-        slots['LOCATION'] = str(slots['LOCATION'] +tokens[index_token])
-      else:
-        slots['LOCATION'] = str(slots['LOCATION'] +" "+tokens[index_token])
-    elif "B-TIME" in test_tagging_result[0][index_token] or "I-TIME" in test_tagging_result[0][index_token]:
-      if(slots['TIME'] == ""):
-        slots['TIME'] = str(slots['TIME'] +tokens[index_token])
-      else:
-        slots['TIME'] = str(slots['TIME'] +" "+ tokens[index_token])
+def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_from_sim):#semantic frame
+  global state
+  slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
+  #reset intent
+  for key in state['user'].keys():
+    if 'request' in key or 'inform' in key or key == 'hi' or key == 'thanks' or key == 'goodbye' or key == 'confirm' or key == 'reject':
+      state['user'][key] = ''
+  #from sim user
+  if sem_frame_from_sim != '':
+    if sem_frame_from_sim['intent'] in state['user']:
+      state['user'][sem_frame_from_sim['intent']] = 'True'
+    if sem_frame_from_sim['category'] != '':
+      slots['category'] = sem_frame_from_sim['category']
+    if sem_frame_from_sim['area'] != '':
+      slots['area'] = sem_frame_from_sim['area']
+    if sem_frame_from_sim['price'] != '':
+      slots['price'] = sem_frame_from_sim['price']
+    if sem_frame_from_sim['score'] != '':
+      slots['score'] = sem_frame_from_sim['score']
+    if sem_frame_from_sim['name'] != '':
+      slots['restaurant_name'] = sem_frame_from_sim['name']
 
-    observation.append([test_label_result[0] ,slots])
+    for key in slots.keys():
+        if slots[key] != '':
+          state['user'][key] = slots[key]
+
+  #from web user
+  else:
+    for index_token in range(len(tokens)):
+      
+      if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
+        if(slots['category'] == ""):
+          slots['category'] = str(slots['category'] +tokens[index_token])
+        else:
+          slots['category'] = str(slots['category']+" "+tokens[index_token])
+      
+      elif "B-RESTAURANT_NAME" in test_tagging_result[0][index_token] or "I-RESTAURANT_NAME" in test_tagging_result[0][index_token]:
+        if(slots['restaurant_name'] == ""):
+          print (slots['restaurant_name'])
+          print (tokens[index_token])
+          slots['restaurant_name'] = str(slots['restaurant_name']+tokens[index_token])
+        else:
+          slots['restaurant_name'] = str(slots['restaurant_name']+ " " +tokens[index_token])
+      
+      elif "B-AREA" in test_tagging_result[0][index_token] or "I-AREA" in test_tagging_result[0][index_token]:
+        if(slots['area'] == ""):
+          slots['area'] = str(slots['area'] +tokens[index_token])
+        else:
+          slots['area'] = str(slots['area'] +" "+tokens[index_token])
+
+      elif "B-SCORE" in test_tagging_result[0][index_token] or "I-SCORE" in test_tagging_result[0][index_token]:
+        if(slots['score'] == ""):
+          slots['score'] = str(slots['score'] +tokens[index_token])
+        else:
+          slots['score'] = str(slots['score'] +" "+ tokens[index_token])
+
+      elif "B-PRICE" in test_tagging_result[0][index_token] or "I-PRICE" in test_tagging_result[0][index_token]:
+        if(slots['price'] == ""):
+          slots['price'] = str(slots['price'] +tokens[index_token])
+        else:
+          slots['price'] = str(slots['price'] +" "+ tokens[index_token])
+
+    for key in slots.keys():
+      if slots[key] != '':
+        state['user'][key] = slots[key]
+
+    if test_label_result[0] in state['user']:
+      state['user'][test_label_result[0]] = 'True'
+
   print ("========================================================================")
   print ("\nLU Intent SLOTS:")
   print (slots,test_label_result[0])
@@ -385,135 +440,75 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
 
 def dialogPolicy(formerPolicyGoodOrNot,userInput):
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-  sys_act = {'intent':'' ,'content':'','currentState':''}
-  slots = {'CATEGORY':'' ,'RESTAURANTNAME':'' ,'LOCATION':'' ,'TIME':'' ,'TIMES':''}
-  needConfirm = False
-  needInform = False
-  sys_act['content'] = {}
-  sys_act['currentstate'] = {}
-
-  global waitConfirm
-  global dialogNum
-  global changeRestNum
-  global notfoundNum
-  global successNum
-  
-  if waitConfirm.__len__() != 0 and waitConfirm[-1][0] == 'confirm' and observation[-1][0] != 'Confirm':
-    waitConfirm.pop(-1)
-
-  state['Confirm'] = False
-  state['Wrong'] = False
-  state['Get_Another_Restaurant'] = False
-
-  if observation[-1][0] == 'Confirm':
-    state['Confirm'] = True
-    if waitConfirm.__len__() != 0:
-      if waitConfirm[-1][0] == 'confirm':
-        needInform = True
-
-      else:
-        for x in range(1 ,11):
-          if waitConfirm[-x][0] == intents[-1]:
-            for key in waitConfirm[-x][1].keys():
-              if key in state[intents[-1]]:
-                state[intents[-1]][key] = waitConfirm[-x][1][key]
-            waitConfirm.pop(-x)
-            break
-  elif observation[-1][0] == 'Wrong':
-    #waitConfirm = []
-    #Really? should we reset here?
-    state['Wrong'] = True
-    dialogNum += 1
-    #DST_reset()
-    print ("!!WrongDetected!!")
-    #return ''
-    
-  elif observation[-1][0] == 'Inform':
-    if intents[-1] == 'Get_Restaurant':
-      changeRestNum = 0
-    for key in observation[-1][1].keys():
-      if observation[-1][1][key] != '' and key in state[intents[-1]]:
-        state[intents[-1]][key] = observation[-1][1][key]
-    '''
-    for key in observation[-1][1].keys():
-      if observation[-1][1][key] != '' and key in state[intents[-1]]:
-        if state[intents[-1]][key] != '':
-          needConfirm = True
-    
-    if needConfirm:
-      needConfirm = False
-      sys_act['intent'] = 'confirm'
-      for key in observation[-1][1].keys():
-        if observation[-1][1][key] != '':
-          sys_act['content'][key] = observation[-1][1][key]
-      waitConfirm.append([intents[-1] ,sys_act['content']])
-      #print ('wait confirm : ')
-      #print (waitConfirm[-1])
-    
-    else:
-      for key in observation[-1][1].keys():
-        if observation[-1][1][key] != '' and key in state[intents[-1]]:
-          if state[intents[-1]][key] == '':
-            state[intents[-1]][key] = observation[-1][1][key]
-    '''
-  elif observation[-1][0] == 'Get_Another_Restaurant':
-    if state['Get_Restaurant']['CATEGORY'] != '' and state['Get_Restaurant']['LOCATION'] != '':
-      state['Get_Another_Restaurant'] = True
-      changeRestNum += 1
-  else:    
-    if observation[-1][0] == 'Get_Restaurant':
-      intents.append('Get_Restaurant')
-      for key in observation[-1][1].keys():
-        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
-          state['Get_Restaurant'][key] = observation[-1][1][key]
-
-    elif observation[-1][0] == 'Get_location':
-      intents.append('Get_location')
-      for key in observation[-1][1].keys():
-        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
-          state['Get_location'][key] = observation[-1][1][key]
-
-    elif observation[-1][0] == 'Get_rating':
-      intents.append('Get_rating')
-      for key in observation[-1][1].keys():
-        if observation[-1][1][key] != '' and key in state[observation[-1][0]]:
-          state['Get_rating'][key] = observation[-1][1][key]
+  slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
+  sys_act = {}
+  global state
 
   stateList.append(state)
-  print ('Now state : ' ,state)
-  sys_act['currentstate'] = state
+
+  for key in state['user'].keys():
+    if key in slots:
+      slots[key] = state['user'][key]
+
+  if slots['restaurant_name'] == '' and state['agent']['restaurant_name'] != '':
+    slots['restaurant_name'] = state['agent']['restaurant_name']
 
   #translate state to vector
-  vector = [[0]*11,['Get_Restaurant','','','','Get_location','','Get_rating','','Get_Another_Restaurant','Confirm','Wrong']]
-  if state['Wrong'] == True:
+  vector = [[0]*24, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
+  if state['user']['goodbye'] != '':
+    vector = [[0]*24, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
+  else:
+    if state['user']['request_restaurant'] != '':
+      vector[0][0] = 1
+    if state['user']['inform'] != '':
+      vector[0][1] = 1
+    if state['user']['request_address'] != '':
+      vector[0][2] = 1
+    if state['user']['request_score'] != '':
+      vector[0][3] = 1
+    if state['user']['request_review'] != '':
+      vector[0][4] = 1
+    if state['user']['request_price'] != '':
+      vector[0][5] = 1
+    if state['user']['request_time'] != '':
+      vector[0][6] = 1
+    if state['user']['request_phone'] != '':
+      vector[0][7] = 1
+    if state['user']['request_smoke'] != '':
+      vector[0][8] = 1
+    if state['user']['request_wifi'] != '':
+      vector[0][9] = 1
+    if state['user']['confirm'] != '':
       vector[0][10] = 1
-  elif observation[-1][0] == 'Get_Restaurant':
-    vector[0][0] = 1
-  elif observation[-1][0] == 'Get_location':
-    vector[0][4] = 1
-  elif observation[-1][0] == 'Get_rating':
-    vector[0][6] = 1
-  elif observation[-1][0] == 'Get_Another_Restaurant':
-    vector[0][8] = 1
-  elif observation[-1][0] == 'Confirm':
-    vector[0][9] = 1
-  #elif observation[-1][0] == 'Wrong':
-  #  vector[0][10] = 1
-  if state['Get_Restaurant']['LOCATION'] != '':
-    vector[0][1] = 1
-    vector[1][1] = state['Get_Restaurant']['LOCATION']
-  if state['Get_Restaurant']['CATEGORY'] != '':
-    vector[0][2] = 1
-    vector[1][2] = state['Get_Restaurant']['CATEGORY']
-  if state['Get_Restaurant']['TIME'] != '':
-    vector[0][3] = 1
-    vector[1][3] = state['Get_Restaurant']['TIME']
-  if state['Get_location']['RESTAURANTNAME'] != '':
-    vector[0][5] = 1
-    vector[1][5] = state['Get_location']['RESTAURANTNAME']
-  if state['Get_rating']['RESTAURANTNAME'] != '':
-    vector[0][7] = 1
-    vector[1][7] = state['Get_rating']['RESTAURANTNAME']
+    if state['user']['reject'] != '':
+      vector[0][11] = 1
+    if state['user']['hi'] != '':
+      vector[0][12] = 1
+    if state['user']['thanks'] != '':
+      vector[0][13] = 1
+    if state['user']['restaurant_name'] != '':
+      vector[0][15] = 1
+      vector[1][15] = state['user']['restaurant_name']
+    if state['user']['area'] != '':
+      vector[0][16] = 1
+      vector[1][16] = state['user']['area']
+    if state['user']['category'] != '':
+      vector[0][17] = 1
+      vector[1][17] = state['user']['category']
+    if state['user']['score'] != '':
+      vector[0][18] = 1
+      vector[1][18] = state['user']['score']
+    if state['user']['price'] != '':
+      vector[0][19] = 1
+      vector[1][19] = state['user']['price']
+    if state['agent']['restaurant_name'] != '':
+      vector[0][20] = 1
+      vector[1][20] = state['agent']['restaurant_name']
+    if state['agent']['confirm_info'] != '':
+      vector[0][21] = 1
+    if state['agent']['confirm_restaurant'] != '':
+      vector[0][22] = 1
+
   #===============
   # input vector[0] : bits
   #     vector[1] : value
@@ -522,8 +517,6 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   #  Then, make decisions
   # output action
   #===============
-  global action
-  global formerState
   feedbackReward  = 0
   currentState = vector[0]
   if userInput == 'end' and formerPolicyGoodOrNot !=0:
@@ -542,19 +535,12 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
     feedbackReward  = 10
   if formerState == [2,2,2,2,2,2,2,2,2,2,2]:
     action = -1
-  
-  if(action == 10):
-    print ("###############################################")
-    print("Former State: ", formerState)
-    print("former action: ", action)
-    print("Feedback Rewad: ",feedbackReward)
+
   #TODO
   # update the model(reward, currentState, formerState )
   # Has connected with the RL agent GRPC at beginning
   request = FoodBotRLAgent_pb2.EnvornmentInfomration(formerState = formerState ,currentState= currentState,rewardForTheFormer = feedbackReward,formerAction = action ,shouldTerminate = False)
   policy = stub.GetRLResponse(request)
-  if observation[-1][0] == 'Wrong':
-    return ''
   #print ("RL agent Policy Choice:",policy.policyNumber)
   action = policy.policyNumber
   formerState = currentState
@@ -566,252 +552,121 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   #if userInput == 'end':
   #  DST_reset()
 
-  #request location
+  state['agent']['confirm_info'] = ''
+  state['agent']['confirm_restaurant'] = ''
+  #request area
   if action == 0:
-    if intents[-1] == 'Get_Restaurant':
-      sys_act['intent'] = 'request'
-      sys_act['content'] = {'LOCATION':''}
-    else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''
+    sys_act['policy'] = 'request_area'
 
   #request category
   elif action == 1:
-    if intents[-1] == 'Get_Restaurant':
-      sys_act['intent'] = 'request'
-      sys_act['content'] = {'CATEGORY':''}
-    else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''
+    sys_act['policy'] = 'request_category'
 
-  #request time
-  elif action == 2:
-    if intents[-1] == 'Get_Restaurant':
-      sys_act['intent'] = 'request'
-      sys_act['content'] = {'TIME':''}
-    else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''
+  #request more
+  elif action == 2: 
+    sys_act['policy'] = 'request_more'
 
-  #request restaurant name
-  elif action == 3: 
-    if intents[-1] == 'Get_rating' or intents[-1] == 'Get_location':
-      sys_act['intent'] = 'request'
-      sys_act['content'] = {'RESTAURANTNAME':''}
+  #inform address
+  elif action == 3:
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_address', slots)     
     else:
-      sys_act['intent'] = 'not_a_good_policy'   
-      sys_act['content'] = ''
+      sys_act['policy'] = 'not_a_good_policy'
 
-  #inform Get_restaurant
-  elif action == 4:
-    if slots['RESTAURANTNAME'] != '' and slots['LOCATION'] != '':
-      sys_act['intent'] = 'inform'
-      for key in state[intents[-1]].keys():
-        slots[key] = state[intents[-1]][key]
-      sys_act['content'] = search.grabData(intents[-1] ,slots)
-      dialogNum += 1
-      if sys_act['content'] == '':
-        sys_act['intent'] = 'not_found'
-        notfoundNum += 1
-      else:
-        successNum += 1
-      for key in state[intents[-1]].keys():
-        state[intents[-1]][key] = ''
-      waitConfirm.pop(-1)
+  #inform score
+  elif action == 4: 
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_score', slots)
     else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''
+      sys_act['policy'] = 'not_a_good_policy'
 
-  #inform Get_Another_Restaurant
-  elif action == 5: 
-    if slots['RESTAURANTNAME'] != '' and slots['LOCATION'] != '':
-      sys_act['intent'] = 'inform'
-      for key in state[intents[-1]].keys():
-        slots[key] = state[intents[-1]][key]
-      slots['TIMES'] = changeRestNum
-      sys_act['content'] = search.grabData(intents[-1] ,slots)
-      dialogNum += 1
-      if sys_act['content'] == '':
-        sys_act['intent'] = 'not_found'
-        notfoundNum += 1
-      else:
-        successNum += 1
-      for key in state[intents[-1]].keys():
-        state[intents[-1]][key] = ''
-      waitConfirm.pop(-1)
+  #inform review
+  elif action == 5:
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_review', slots)
     else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''
+      sys_act['policy'] = 'not_a_good_policy'
 
-  #inform Get_Rating
+  #inform restaurant
   elif action == 6:
-    if slots['RESTAURANTNAME'] != '':
-      sys_act['intent'] = 'inform'
-      for key in state[intents[-1]].keys():
-        slots[key] = state[intents[-1]][key]
-      sys_act['content'] = search.grabData(intents[-1] ,slots)
-      dialogNum += 1
-      if sys_act['content'] == '':
-        sys_act['intent'] = 'not_found'
-        notfoundNum += 1
-      else:
-        successNum += 1
-      for key in state[intents[-1]].keys():
-        state[intents[-1]][key] = ''
-      waitConfirm.pop(-1)
+    if state['user']['category'] != '' or state['user']['area'] != '' or state['user']['price'] != '' or state['user']['score'] != '':
+      sys_act = search.grabData('inform_restaurant', slots)
     else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''     
+      sys_act['policy'] = 'not_a_good_policy'
 
-  #inform Get_Location
+  #inform smoke
   elif action == 7:
-    if slots['RESTAURANTNAME'] != '':
-      sys_act['intent'] = 'inform'
-      for key in state[intents[-1]].keys():
-        slots[key] = state[intents[-1]][key]
-      sys_act['content'] = search.grabData(intents[-1] ,slots)
-      dialogNum += 1
-      if sys_act['content'] == '':
-        sys_act['intent'] = 'not_found'
-        notfoundNum += 1
-      else:
-        successNum += 1
-      for key in state[intents[-1]].keys():
-        state[intents[-1]][key] = ''
-      waitConfirm.pop(-1)
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_smoke', slots)
     else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''   
+      sys_act['policy'] = 'not_a_good_policy'
+
+  #inform wifi
+  elif action == 8:
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_wifi', slots)
+    else:
+      sys_act['policy'] = 'not_a_good_policy'
+
+  #inform phone
+  elif action == 9:
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_phone', slots)
+    else:
+      sys_act['policy'] = 'not_a_good_policy'
+
+  #inform price
+  elif action == 10:
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_price', slots)
+    else:
+      sys_act['policy'] = 'not_a_good_policy'
+
+  #inform business time
+  elif action == 11:
+    if slots['restaurant_name'] != '':
+      sys_act = search.grabData('inform_time', slots)
+    else:
+      sys_act['policy'] = 'not_a_good_policy'
+
 
   #confirm_restaurant
-  elif action == 8:
-    if intents[-1] == 'Get_Restaurant' and state['Get_Restaurant']['LOCATION'] != '' and state['Get_Restaurant']['CATEGORY'] != '':
-      sys_act['intent'] = 'confirm_restaurant'
-      for key in state[intents[-1]].keys():
-        sys_act['content'][key] = state[intents[-1]][key]
-      waitConfirm.append(['confirm' ,sys_act['content']])
+  elif action == 12:
+    if state['user']['category'] != '' or state['user']['area'] != '' or state['user']['price'] != '' or state['user']['score'] != '':
+      state['agent']['confirm_restaurant'] = 'True'
+      sys_act['policy'] = 'confirm_rstaurant'
+      if state['user']['category'] != '':
+        sys_act['category'] = state['user']['category']
+      if state['user']['area'] != '':
+        sys_act['area'] = state['user']['area']
+      if state['user']['price'] != '':
+        sys_act['price'] = state['user']['price']
+      if state['user']['score'] != '':
+        sys_act['score'] = state['user']['score']
     else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''        
+      sys_act['policy'] = 'not_a_good_policy'
 
   #confirm_info
-  elif action == 9:
-    if (intents[-1] == 'Get_rating' and state['Get_rating']['RESTAURANTNAME'] != '') or (intents[-1] == 'Get_location' and state['Get_location']['RESTAURANTNAME'] != ''):
-      sys_act['intent'] = 'confirm_info'
-      for key in state[intents[-1]].keys():
-        sys_act['content'][key] = state[intents[-1]][key]
-      waitConfirm.append(['confirm' ,sys_act['content']])
+  elif action == 13:
+    if state['user']['restaurant_name'] != '':
+      state['agent']['confirm_info'] = 'True'
+      sys_act['policy'] = 'confirm_info'
+      sys_act['name'] = state['user']['restaurant_name']
+      for key in state['user'].keys():
+        if 'request' in key and state['user'][key] != '':
+          sys_act['info_name'] = state['user'][key].split('_')[2]
     else:
-      sys_act['intent'] = 'not_a_good_policy'
-      sys_act['content'] = ''  
-      
-  #wrong
-  elif action == 10:
-    return ''
+      sys_act['policy'] = 'not_a_good_policy'
 
-  '''
-  if sys_act['intent'] == 'wrong':
-    return ''
-  elif sys_act['intent'] != 'confirm':     
-    if intents[-1] == 'Get_Restaurant':
+  #goodbye
+  elif action == 14:
+    sys_act['policy'] = 'goodbye'
 
-      if state[intents[-1]]['LOCATION'] == '':
-        sys_act['intent'] = 'request'
-        sys_act['content'] = {'LOCATION':''}
-      
-      elif state[intents[-1]]['CATEGORY'] == '':
-        sys_act['intent'] = 'request'
-        sys_act['content'] = {'CATEGORY':''}
-      
-      #elif state[intents[-1]]['TIME'] == '':
-      #  sys_act['intent'] = 'request'
-      #  sys_act['content'] = {'time':''}
+  #hi
+  elif action == 15:
+    sys_act['policy'] = 'hi'
 
-      elif needInform:
-        needInform = False
-        sys_act['intent'] = 'inform'
-        for key in state[intents[-1]].keys():
-          slots[key] = state[intents[-1]][key]
-        slots['TIMES'] = changeRestNum
-        sys_act['content'] = search.grabData(intents[-1] ,slots)
-        dialogNum += 1
-        if sys_act['content'] == '':
-          sys_act['intent'] = 'not_found'
-          notfoundNum += 1
-        else:
-          successNum += 1
-        for key in state[intents[-1]].keys():
-          state[intents[-1]][key] = ''
-        waitConfirm.pop(-1)
 
-      else:
-        sys_act['intent'] = 'confirm_restaurant'
-        for key in state[intents[-1]].keys():
-          sys_act['content'][key] = state[intents[-1]][key]
-        waitConfirm.append(['confirm' ,sys_act['content']])
-  
-    
-    elif intents[-1] == 'Get_location':
-
-      if state[intents[-1]]['RESTAURANTNAME'] == '':
-        sys_act['intent'] = 'request'
-        sys_act['content'] = {'RESTAURANTNAME':''}
-
-      elif needInform:
-        needInform = False
-        sys_act['intent'] = 'inform'
-        for key in state[intents[-1]].keys():
-          slots[key] = state[intents[-1]][key]
-        sys_act['content'] = search.grabData(intents[-1] ,slots)
-        dialogNum += 1
-        if sys_act['content'] == '':
-          sys_act['intent'] = 'not_found'
-          notfoundNum += 1
-        else:
-          successNum += 1
-        for key in state[intents[-1]].keys():
-          state[intents[-1]][key] = ''
-        waitConfirm.pop(-1)
-
-      else:
-        sys_act['intent'] = 'confirm_info'
-        for key in state[intents[-1]].keys():
-          sys_act['content'][key] = state[intents[-1]][key]
-        sys_act['content']['LOCATION'] = ''
-        waitConfirm.append(['confirm' ,sys_act['content']])
-
-    elif intents[-1] == 'Get_rating':
-
-      if state[intents[-1]]['RESTAURANTNAME'] == '':
-        sys_act['intent'] = 'request'
-        sys_act['content'] = {'RESTAURANTNAME':''}
-
-      elif needInform:
-        needInform = False
-        sys_act['intent'] = 'inform'
-        for key in state[intents[-1]].keys():
-          slots[key] = state[intents[-1]][key]
-        sys_act['content'] = search.grabData(intents[-1] ,slots)
-        dialogNum += 1
-        if sys_act['content'] == '':
-          sys_act['intent'] = 'not_found'
-          notfoundNum += 1
-        else:
-          successNum += 1
-        for key in state[intents[-1]].keys():
-          state[intents[-1]][key] = ''
-        waitConfirm.pop(-1)
-
-      else:
-        sys_act['intent'] = 'confirm_info'
-        for key in state[intents[-1]].keys():
-          sys_act['content'][key] = state[intents[-1]][key]
-        sys_act['content']['RATING'] = ''
-        waitConfirm.append(['confirm' ,sys_act['content']])
-
-    else:
-      print ("I don't know what to say")
-  '''
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
@@ -953,11 +808,9 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         userInput = userInput.replace(".", "")
         userInput = userInput.replace(",", "")
         userInput = userInput.replace("!", "")
-
     predSlot = []
     policyFrame = []
     nlg_sentence = []
-
     test_tagging_result,test_label_result = languageUnderstanding(userInput) 
     predSlot = dialogStateTracking(userInput.split(),test_tagging_result,test_label_result)
     if 'goodpolicy' in outputFromSim.keys():
@@ -967,7 +820,6 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     policyFrame = dialogPolicy(outputFromSim['goodpolicy'],userInput)
     if(policyFrame == ''):
       DST_reset()
-
     if FromeWeb == True:
       if(policyFrame == ''):
         nlg_sentence = ''
@@ -979,7 +831,6 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
         nlg_sentence = nlg(policyFrame)
     else:
       nlg_sentence = nlg(policyFrame)
-
     #Calculate the LU accuracy:
     if realSemanticFrame != "":
       LURight = semanticComparison(realSemanticFrame,test_label_result[0],predSlot)
@@ -990,22 +841,18 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       else:
         LUWrongCount = LUWrongCount+1
       TotalTruns = 1.0*(LUWrongCount + LURightCount)
-
       fp = open(textFileName ,'w')
       fp.write(' LU Accuracy Rate : %f\n Total turns: %f' %(LURightCount/TotalTruns,TotalTruns) )
       fp.close()
-
     if dialogNum != 0:
       fp = open(successRateFileName ,'w')
       fp.write('Policy Success Rate : %f %f %f\n' %(successNum/dialogNum, successNum, dialogNum))
       fp.write('DB Not Found Rate : %f %f %f\n ' %(notfoundNum/dialogNum, notfoundNum, dialogNum))
       fp.close()
-
     #dictionary to jsonstring
     policyFrameString = json.dumps(policyFrame)
     print("nlg sentence:",nlg_sentence )
     print("frame:",policyFrameString )
-
     return FoodBot_pb2.outSentence(response_nlg = nlg_sentence,response_policy_frame = policyFrameString)
   '''
 def converter(policyframe):
@@ -1129,5 +976,3 @@ def main(_):
     testing()
 if __name__ == "__main__":
   tf.app.run()
-
-

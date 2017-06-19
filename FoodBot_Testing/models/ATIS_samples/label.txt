@@ -1,0 +1,12 @@
+_UNK
+confirm
+goodbye
+hi
+inform
+reject
+request_address
+request_restaurant
+request_review
+request_score
+request_wifi
+thanks
