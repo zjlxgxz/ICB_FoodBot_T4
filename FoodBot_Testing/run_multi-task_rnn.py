@@ -489,7 +489,7 @@ def policyChecker():
 	elif memory["intent"] == "reject":
 		if last_intent == 'reqmore':
 			good = ['confirm_restaurant']
-		if last_intent == 'confirm_info':
+		if last_intent in ['confirm_info','confirm_restaurant']:
 			good = ['show_table']
 
 	else:
