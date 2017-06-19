@@ -38,7 +38,7 @@ for txt in file_list:
 
 memory = dict()
 good = []
-goodPolicy = 5
+goodPolicy = 0
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
@@ -130,7 +130,7 @@ def simul_user(sys_act):
 	if sys_act["policy"] == "init":
 		memory = dict()
 		good = []
-		goodPolicy = 5
+		goodPolicy = 0
 		sem_frame["intent"] = random.choice(data_dict["intent"])
 		if sem_frame["intent"] != "hi":
 			keys = slot_dict[sem_frame["intent"]]
