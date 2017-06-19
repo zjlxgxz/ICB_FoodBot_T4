@@ -43,9 +43,18 @@ goodPolicy = 5
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
   def GetSimResponse (self, request, context):
-    userInput = request.response.lower()
+    userInput = request.semantic_frame.lower()
     #print("Output from LU", userInput)
-    return FoodBotSim_pb2.Sentence(response = simul_user(userInput))
+    backdata = simul_user(userInput)
+    '''
+    string semantic_frame = 1;
+	string nlg_sentence = 2;
+	string user_id = 3;
+	string good_policy = 4;
+    '''
+
+    return FoodBotSim_pb2.Sentence(semantic_frame = backdata['semantic_frame'],nlg_sentence = backdata['nlg_sentence']\
+    								user_id = backdata['user_id'],good_policy =backdata['goodpolicy'] )
 
 
 def policyChecker(sys_act):
@@ -144,6 +153,7 @@ def simul_user(sys_act):
 			returnList["semantic_frame"]["intent"] = 'goodbye'
 			returnList["goodpolicy"] = goodPolicy
 			returnList["user_id"] = 'sim-user'
+			returnList["nlg_sentence"] = ''
 			json_list = json.dumps(returnList)
 			return json_list
 
@@ -216,6 +226,7 @@ def simul_user(sys_act):
 	returnList["semantic_frame"] = sem_frame
 	returnList["goodpolicy"] = goodPolicy
 	returnList["user_id"] = 'sim-user'
+	returnList["nlg_sentence"] = ''
 	
 	json_list = json.dumps(returnList)
 	return json_list

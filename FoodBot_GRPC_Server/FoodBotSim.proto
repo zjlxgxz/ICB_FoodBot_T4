@@ -11,5 +11,8 @@ service FoodBotSimRequest
 
 message Sentence
 {
-	string response = 1;
+	string semantic_frame = 1;
+	string nlg_sentence = 2;
+	string user_id = 3;
+	string good_policy = 4;
 }
