@@ -82,10 +82,10 @@ def policyChecker(sys_act):
 			keys = memory.keys()
 			keys.remove("intent")
 			request_list = ["area", "category"]
-			good = ["request_more"] + ["request_"+item for item in request_list if item not in keys]
+			good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
 		else:
 			good = ["confirm_restaurant"]
-			soso = ["request_more"]
+			soso = ["reqmore"]
 	
 	elif memory["intent"] == "reject":
 		pass
@@ -180,7 +180,7 @@ def simul_user(sys_act):
 			sem_frame[key] = random.choice(data_dict[key])
 			memory[key] = sem_frame[key]
 
-		elif sys_act["policy"] == "request_more":			
+		elif sys_act["policy"] == "reqmore":			
 			dec = round(random.random())
 			if len(memory.keys()) <= 3:
 				sem_frame["intent"] = "inform"

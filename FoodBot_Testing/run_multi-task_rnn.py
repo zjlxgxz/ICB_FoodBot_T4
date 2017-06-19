@@ -697,7 +697,7 @@ def nlg(original_sem_frame):
     sentence = """Help me! Which of these is/are mistaken?</br>Ex. If category should be japanese and time should be tonight, please reply 'category:japanese;time:tonight' without quotation marks(').</br>Thank you soooo much!"""
 
   elif sem_frame["policy"] in ["request_area", "request_category", "request_time", \
-                              "request_name", "request_more", "goodbye", "hi", "inform_smoke_yes", \
+                              "request_name", "reqmore", "goodbye", "hi", "inform_smoke_yes", \
                               "inform_smoke_no", "inform_wifi_yes", "inform_wifi_no", "inform_no_match"]:
     sentence = random.choice(pattern_dict[sem_frame["policy"]]) 
   
