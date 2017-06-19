@@ -120,7 +120,7 @@ class SearchDB:
 				else:
 					out = str(results).replace(',',' ').replace('u\'','').replace(']','').replace('[','').replace('(','').replace(')','').replace('\'','').replace('\"','')
 					if 'No' in out or out == ' ':
-						content = {'policy':'inform_no_inform'}
+						content = {'policy':'inform_no_info'}
 					else:
 						out = out.split(' ')
 						content = {'policy':'inform_phone', 'phone':'('+out[0]+')'+out[1]}
@@ -145,7 +145,7 @@ class SearchDB:
 				else:
 					out = str(results).replace(',',' ').replace('u\'','').replace(']','').replace('[','').replace('(','').replace(')','').replace('\'','').replace('\"','')
 					if out == ' ':
-						content = {'policy':'inform_no_inform'}
+						content = {'policy':'inform_no_info'}
 					else:
 						content = {'policy':'inform_info', 'time':out}
 
