@@ -16,6 +16,7 @@ import sys
 import time
 import json
 import glob
+import random
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
@@ -101,6 +102,13 @@ formerState = [2,2,2,2,2,2,2,2,2,2,2] #To remember the former state, 222222 is t
 ##################below for nlg
 action = -1
 NewDialog = True
+
+##############
+memory = dict()
+good = []
+goal = ''
+last_intent = ''
+
 
 #patterns for agent
 pattern_dict = dict()
@@ -355,7 +363,9 @@ def languageUnderstanding(userInput):
   return test_tagging_result , test_label_result
 
 def DST_reset():
-  global state,NewDialog
+  global state,NewDialog, memory, goal
+  goal = ''
+  memory = dict()
   for key in state.keys():
     if(type(state[key]).__name__ == 'dict'):
       for slot in state[key].keys():
@@ -365,7 +375,7 @@ def DST_reset():
   NewDialog = True
 
 def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_from_sim):#semantic frame
-  global state
+  global state, memory, goal
   slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
   #reset intent
   for key in state['user'].keys():
@@ -428,15 +438,203 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
 
     for key in slots.keys():
       if slots[key] != '':
+        if key == 'restaurant_name':
+          memory['name'] = slots[key]
+        else:
+          memory[key] = slots[key]
         state['user'][key] = slots[key]
 
     if test_label_result[0] in state['user']:
       state['user'][test_label_result[0]] = 'True'
+    if goal == '' and test_label_result[0] not in ['hi','confirm','goodbye', 'thanks','reject','inform']:
+      goal = test_label_result[0]  
+    memory['intent'] = test_label_result[0]
 
   print ("========================================================================")
   print ("\nLU Intent SLOTS:")
   #print (slots,test_label_result[0])
   return slots
+
+def policyChecker():
+	#print("This is sys_act",sys_act)
+	#print("This is sys_act[content]",sys_act['content'])
+	#print("This is sys_act[intent]",sys_act['intent'])
+	#print("This is sys_act[currentState]",sys_act['currentstate'])
+	global good
+	global memory
+  global goal
+  global last_intent
+
+	soso = []
+	if memory["intent"] in ["goodbye", "thanks"]:
+		good = ["goodbye"]
+
+	
+	elif memory["intent"] == "hi":
+		good = ["hi"]
+	
+#######for test#############
+	elif memory["intent"] == "confirm":
+		good = ["inform_" + goal.split('_')[1]]
+############################
+	
+	elif memory["intent"] == "request_restaurant":
+		if len(memory.keys()) <=3:
+			keys = memory.keys()
+			keys.remove("intent")
+			request_list = ["area", "category"]
+			good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
+		else:
+			good = ["confirm_restaurant", "reqmore"]
+			soso = ["reqmore"]
+	
+	elif memory["intent"] == "reject":
+		if last_intent == 'reqmore':
+      good = ['confirm_restaurant']
+    if last_intent == 'confirm_info':
+      good = ['show_table']
+
+	else:
+		if len(memory.keys()) <=1:
+			#keys = memory.keys()
+			#keys.remove("intent")
+			#request_list = ["area", "name"]
+			#good = ["request_"+item for item in request_list if item not in keys]
+			good = ["request_name"]
+		else:
+			good = ["confirm_info"]
+	'''
+	if sys_act["policy"] in good:
+		reward = 5
+	elif sys_act["policy"] in soso:
+		reward = 2
+	else:
+		reward = 0
+  '''
+	print ('==========================')
+	print ('memory : ', memory)
+	print ('sys_act : ', last_intent)
+	print ('good : ', good)
+	return good
+
+
+def simul_user(sys_act):
+	global memory	
+	global good
+	global goodPolicy
+	'''
+	sys_act: {
+			  "policy": "request_category",			  
+			  }
+	'''
+	# initially randomly generated a sentence
+	sys_act = json.loads(sys_act)
+	print("sys_act from agent:",sys_act)
+	sem_frame = dict()
+	if sys_act["policy"] == "init":
+		memory = dict()
+		good = []
+		goodPolicy = 0
+		sem_frame["intent"] = random.choice(data_dict["intent"])
+		if sem_frame["intent"] != "hi":
+			keys = slot_dict[sem_frame["intent"]]
+			for key in keys:
+				dec = round(random.random())
+				if "request" in sem_frame["intent"] and sem_frame["intent"] != "request_restaurant":
+					dec = 1
+				if dec == 1:
+					sem_frame[key] = random.choice(data_dict[key])
+		memory = sem_frame  #keep the memory
+
+	#in the middle of the dialogue	
+	else:
+		#print("memory: ", memory)		
+		# To see if the policy picked by DQN is reasonable
+		goodPolicy = policyChecker(sys_act)
+		print (goodPolicy)
+		if goodPolicy == 0:
+			returnList = dict()
+			returnList["semantic_frame"] = dict()
+			returnList["semantic_frame"]["intent"] = 'goodbye'
+			returnList["goodpolicy"] = goodPolicy
+			returnList["user_id"] = 'sim-user'
+			returnList["nlg_sentence"] = ''
+			#json_list = json.dumps(returnList)
+			return returnList
+
+################## hi #########################
+		if sys_act["policy"] == "hi":
+			intents = data_dict["intent"]
+			intents.remove("hi")
+			sem_frame["intent"] = random.choice(intents)
+			keys = slot_dict[sem_frame["intent"]]
+			for key in keys:
+				dec = round(random.random())
+				if dec == 1:
+					sem_frame[key] = random.choice(data_dict[key])
+			memory = sem_frame
+
+
+################## request #########################
+		elif "request" in sys_act["policy"]:
+			sem_frame["intent"] = "inform"
+			#print("content keys:", sys_act["content"].keys())
+			key = sys_act["policy"].split('_')[1]
+			sem_frame[key] = random.choice(data_dict[key])
+			memory[key] = sem_frame[key]
+
+		elif sys_act["policy"] == "reqmore":			
+			dec = round(random.random())
+			if len(memory.keys()) <= 3:
+				sem_frame["intent"] = "inform"
+				temp = [item for item in slot_dict[memory["intent"]] if item not in memory.keys()]
+				key = random.choice(temp)
+				sem_frame[key] = random.choice(data_dict[key])
+				memory[key] = sem_frame[key]
+			else:
+				sem_frame["intent"] = "reject"
+				memory["intent"] = "reject"
+				good = ["confirm_restaurant"]
+
+################## inform #########################
+		elif "inform" in sys_act["policy"]:
+			sem_frame["intent"] = random.choice(["goodbye", "thanks"])
+					
+################## confirm #########################		
+		elif "confirm" in sys_act["policy"]:
+			sem_frame["intent"] = "goodbye"
+			if sys_act["policy"] == "confirm_info":
+				if "info_name" not in sys_act.keys() or "name" not in sys_act.keys() or \
+				  sys_act["info_name"] != memory["intent"].split('_')[1] or sys_act["name"] != memory["name"]:
+					sem_frame["intent"] = "reject"
+					good = ["show_table"]
+			else:
+				keys = memory.keys()
+				keys.remove("intent")
+				for key in keys:
+					if key not in sys_act.keys() or (key in sys_act.keys() and memory[key] != sys_act[key]):
+						sem_frame["intent"] = "reject"
+						good = ["show_table"]
+						break
+			memory["intent"] = sem_frame["intent"]
+				
+
+		elif sys_act["policy"] == "show_table":
+			sem_frame["intent"] = 'goodbye'
+		
+		else:
+			sem_frame["intent"] = 'error'
+	#nlg_sentence = nlg(sem_frame)
+
+	returnList = dict()
+	#returnList["nlg_sentence"] = nlg_sentence
+	returnList["semantic_frame"] = sem_frame
+	returnList["goodpolicy"] = goodPolicy
+	returnList["user_id"] = 'sim-user'
+	returnList["nlg_sentence"] = ''
+	
+	return returnList
+	#return sem_frame, goodPolicy
 
 
 def dialogPolicy(formerPolicyGoodOrNot):
@@ -520,7 +718,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
   #===============
   currentState = vector[0]
  #Notice:
-  global formerState, action
+  global formerState, action,last_intent
   if (NewDialog == True):
     action = -1
     NewDialog = False
@@ -535,10 +733,11 @@ def dialogPolicy(formerPolicyGoodOrNot):
   action = policy.policyNumber
   formerState = currentState
 
+  goodpolicy = policyChecker()
+  policy = goodpolicy[random.randint(0,goodpolicy.__len__()-1)]
   if(state['user']['goodbye']!=''):
     DST_reset()
-    return ''
-
+    #return ''
 
   #print("current State: ", currentState)
   #print("RewardForformerAction: ",formerPolicyGoodOrNot)
@@ -551,75 +750,75 @@ def dialogPolicy(formerPolicyGoodOrNot):
   state['agent']['confirm_info'] = ''
   state['agent']['confirm_restaurant'] = ''
   #request area
-  if action == 0:
+  if policy == 'request_area':
     sys_act['policy'] = 'request_area'
 
   #request category
-  elif action == 1:
+  elif policy == 'request_category':
     sys_act['policy'] = 'request_category'
 
   #request more
-  elif action == 2: 
+  elif policy == 'reqmore': 
     sys_act['policy'] = 'reqmore'
 
   #inform address
-  elif action == 3:
+  elif policy == 'inform_address':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_address', slots)     
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform score
-  elif action == 4: 
+  elif policy == 'inform_score': 
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_score', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform review
-  elif action == 5:
+  elif policy == 'inform_review':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_review', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform restaurant
-  elif action == 6:
+  elif policy == 'inform_restaurant':
     if state['user']['category'] != '' or state['user']['area'] != '' or state['user']['price'] != '' or state['user']['score'] != '':
       sys_act = search.grabData('inform_restaurant', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform smoke
-  elif action == 7:
+  elif 'inform_smoke' in policy:
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_smoke', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform wifi
-  elif action == 8:
+  elif 'inform_wifi' in policy:
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_wifi', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform phone
-  elif action == 9:
+  elif policy == 'inform_phone':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_phone', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform price
-  elif action == 10:
+  elif policy == 'inform_price':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_price', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform business time
-  elif action == 11:
+  elif policy == 'inform_time':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_time', slots)
     else:
@@ -627,7 +826,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
 
 
   #confirm_restaurant
-  elif action == 12:
+  elif policy == 'confirm_restaurant':
     if state['user']['category'] != '' or state['user']['area'] != '' or state['user']['price'] != '' or state['user']['score'] != '':
       state['agent']['confirm_restaurant'] = 'True'
       sys_act['policy'] = 'confirm_restaurant'
@@ -643,7 +842,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
       sys_act['policy'] = 'not_a_good_policy'
 
   #confirm_info
-  elif action == 13:
+  elif policy == 'confirm_info':
     if state['user']['restaurant_name'] != '':
       state['agent']['confirm_info'] = 'True'
       sys_act['policy'] = 'confirm_info'
@@ -655,14 +854,14 @@ def dialogPolicy(formerPolicyGoodOrNot):
       sys_act['policy'] = 'not_a_good_policy'
 
   #goodbye
-  elif action == 14:
+  elif policy == 'goodbye':
     sys_act['policy'] = 'goodbye'
 
   #hi
-  elif action == 15:
+  elif policy == 'hi':
     sys_act['policy'] = 'hi'
 
-  elif action == 16:
+  elif policy == 'show_table':
     sys_act['policy'] = 'show_table'
     if slots['restaurant_name'] != '':
       sys_act['name'] = slots['restaurant_name']
@@ -679,6 +878,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
     DST_reset()
 
   print ('Policy system action : ' ,sys_act)
+  last_intent = sys_act['policy']
   return sys_act
 
 def nlg(original_sem_frame): 
