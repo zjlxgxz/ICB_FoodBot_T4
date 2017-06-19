@@ -108,10 +108,10 @@ def policyChecker(sys_act):
 	else:
 		reward = 0
 
-	print '=========================='
-	print 'memory : ', memory
-	print 'sys_act : ', sys_act
-	print 'good : ', good
+	print ('==========================')
+	print ('memory : ', memory)
+	print ('sys_act : ', sys_act)
+	print ('good : ', good)
 	good = []
 	return reward
 

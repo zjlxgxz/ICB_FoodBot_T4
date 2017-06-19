@@ -705,7 +705,7 @@ def nlg(sem_frame, style = 'gentle'):
       sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
   if style == 'hilarious':
-    print sem_frame
+    print (sem_frame)
     if "policy" in sem_frame.keys() and sem_frame["policy"] in pic_dict.keys():
       pic_url = random.choice(pic_dict[sem_frame["policy"]])
       return_list["pic_url"] = pic_url
