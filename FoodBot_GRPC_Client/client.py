@@ -35,9 +35,17 @@ def SimOutput(rawdata):
 if __name__ == '__main__':
   i = 0
   while (i < 10000):
-  	msgToSend = SimOutput("init")
-	print ("init-sent")
+	initDict = dict()
+	initDict["policy"] = "init"
+  	msgToSend = SimOutput( json.dumps(initDict))
+	print ("init-sent Turns:",i)
   	while(True):
+		sim_semantic_frame = json.loads(msgToSend)["semantic_frame"]
+		good_policy = json.loads(msgToSend)["goodpolicy"]
+		sim_user_id = json.loads(msgToSend)["user_id"]
+
+		
+		  '''
   		if json.loads(msgToSend)["nlg_sentence"] == 'END' or json.loads(msgToSend)["nlg_sentence"] == ''or json.loads(msgToSend)["nlg_sentence"] == 'Unknown intent!!!':
   			inputss = json.loads(msgToSend)
   			inputss["nlg_sentence"] = 'end'
@@ -51,6 +59,7 @@ if __name__ == '__main__':
 				print ("====== intent wrong  detected!!! ======")
 				break
   			msgToSend = SimOutput(msgToSend)
+			'''
   	i = i + 1
 
 

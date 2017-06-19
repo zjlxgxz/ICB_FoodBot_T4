@@ -914,12 +914,26 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     else:
       # from sim user
       # LUResult = LU (nlg_sentence)
+      '''
+      Sim user skip the LU
       userInput = nlg_sentence.lower()
       userInput = userInput.replace("?", " ")
       userInput = userInput.replace(".", " ")
       userInput = userInput.replace(",", " ")
       userInput = userInput.replace("!", " ")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
+      '''
+      sem_frame_from_sim['intent']
+      sem_frame_from_sim['area']
+      sem_frame_from_sim['score']
+      sem_frame_from_sim['category']
+      sem_frame_from_sim['price']
+      sem_frame_from_sim['name']
+      #DST
+
+
+
+  
 
 
       # if(good_policy == 0):
