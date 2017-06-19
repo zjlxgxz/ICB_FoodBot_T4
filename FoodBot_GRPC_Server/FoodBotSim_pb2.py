@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='FoodBotSim.proto',
   package='FoodBotSim',
   syntax='proto3',
-  serialized_pb=_b('\n\x10\x46oodBotSim.proto\x12\nFoodBotSim\"^\n\x08Sentence\x12\x16\n\x0esemantic_frame\x18\x01 \x01(\t\x12\x14\n\x0cnlg_sentence\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x13\n\x0bgood_policy\x18\x04 \x01(\t2S\n\x11\x46oodBotSimRequest\x12>\n\x0eGetSimResponse\x12\x14.FoodBotSim.Sentence\x1a\x14.FoodBotSim.Sentence\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x10\x46oodBotSim.proto\x12\nFoodBotSim\"^\n\x08Sentence\x12\x16\n\x0esemantic_frame\x18\x01 \x01(\t\x12\x14\n\x0cnlg_sentence\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x13\n\x0bgood_policy\x18\x04 \x01(\x05\x32S\n\x11\x46oodBotSimRequest\x12>\n\x0eGetSimResponse\x12\x14.FoodBotSim.Sentence\x1a\x14.FoodBotSim.Sentence\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -56,8 +56,8 @@ _SENTENCE = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='good_policy', full_name='FoodBotSim.Sentence.good_policy', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),

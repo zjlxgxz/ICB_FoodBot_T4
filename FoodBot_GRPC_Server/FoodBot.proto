@@ -14,7 +14,7 @@ message Sentence
 	string semantic_frame = 1;
 	string nlg_sentence = 2;
 	string user_id = 3;
-	string good_policy = 4;
+	int32 good_policy = 4;
 }
 
 message outSentence

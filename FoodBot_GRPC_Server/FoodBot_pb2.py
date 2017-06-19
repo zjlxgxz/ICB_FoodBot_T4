@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='FoodBot.proto',
   package='FoodBot',
   syntax='proto3',
-  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"^\n\x08Sentence\x12\x16\n\x0esemantic_frame\x18\x01 \x01(\t\x12\x14\n\x0cnlg_sentence\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x13\n\x0bgood_policy\x18\x04 \x01(\t\"O\n\x0boutSentence\x12\x14\n\x0cresponse_nlg\x18\x04 \x01(\t\x12\x1d\n\x15response_policy_frame\x18\x05 \x01(\t\x12\x0b\n\x03url\x18\x06 \x01(\t2J\n\x0e\x46oodBotRequest\x12\x38\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x14.FoodBot.outSentence\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rFoodBot.proto\x12\x07\x46oodBot\"^\n\x08Sentence\x12\x16\n\x0esemantic_frame\x18\x01 \x01(\t\x12\x14\n\x0cnlg_sentence\x18\x02 \x01(\t\x12\x0f\n\x07user_id\x18\x03 \x01(\t\x12\x13\n\x0bgood_policy\x18\x04 \x01(\x05\"O\n\x0boutSentence\x12\x14\n\x0cresponse_nlg\x18\x05 \x01(\t\x12\x1d\n\x15response_policy_frame\x18\x06 \x01(\t\x12\x0b\n\x03url\x18\x07 \x01(\t2J\n\x0e\x46oodBotRequest\x12\x38\n\x0bGetResponse\x12\x11.FoodBot.Sentence\x1a\x14.FoodBot.outSentence\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -56,8 +56,8 @@ _SENTENCE = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='good_policy', full_name='FoodBot.Sentence.good_policy', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -87,21 +87,21 @@ _OUTSENTENCE = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='response_nlg', full_name='FoodBot.outSentence.response_nlg', index=0,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='response_policy_frame', full_name='FoodBot.outSentence.response_policy_frame', index=1,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='url', full_name='FoodBot.outSentence.url', index=2,
+      name='response_policy_frame', full_name='FoodBot.outSentence.response_policy_frame', index=1,
       number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='url', full_name='FoodBot.outSentence.url', index=2,
+      number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
