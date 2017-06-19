@@ -758,7 +758,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
 
       dialogStateTracking(userInput.split(),test_tagging_result,test_label_result,'')#user id
-      selectedPolicy =  dialogPolicy()
+      selectedPolicy =  dialogPolicy(-1)
       # Nlg_result = NLG(Policy, DST_Result_Content)
       nlg_result = nlg(selectedPolicy)
       return FoodBot_pb2.outSentence(response_nlg = nlg_result['sentence'],response_policy_frame = json.dumps(selectedPolicy),url =nlg_result['pic_url'] )

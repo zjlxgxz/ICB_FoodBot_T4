@@ -34,6 +34,8 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
         #0 2 5 10
         if(rewardForTheFormer == 0):
             rewardForTheFormer = -1
+        elif (rewardForTheFormer == -1):#for web user
+            rewardForTheFormer = 0
         elif  (rewardForTheFormer == 2):
             rewardForTheFormer = 10
         elif  (rewardForTheFormer == 5):
