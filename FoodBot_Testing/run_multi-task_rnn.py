@@ -676,7 +676,10 @@ def dialogPolicy(formerPolicyGoodOrNot):
   print ('Policy system action : ' ,sys_act)
   return sys_act
 
-def nlg(sem_frame): 
+def nlg(original_sem_frame): 
+
+  sem_frame = original_sem_frame.copy()
+
   return_list = dict()
   return_list["pic_url"] = ''
   if sem_frame == '':
