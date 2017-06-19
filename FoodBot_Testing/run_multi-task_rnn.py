@@ -733,6 +733,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
 
   goodpolicy = policyChecker()
   policy = goodpolicy[random.randint(0,goodpolicy.__len__()-1)]
+  print("GoodPolicy:",policy)
   if(state['user']['goodbye']!=''):
     DST_reset()
     #return ''
