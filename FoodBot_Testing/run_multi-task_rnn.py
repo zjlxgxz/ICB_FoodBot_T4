@@ -625,7 +625,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
   elif action == 12:
     if state['user']['category'] != '' or state['user']['area'] != '' or state['user']['price'] != '' or state['user']['score'] != '':
       state['agent']['confirm_restaurant'] = 'True'
-      sys_act['policy'] = 'confirm_rstaurant'
+      sys_act['policy'] = 'confirm_restaurant'
       if state['user']['category'] != '':
         sys_act['category'] = state['user']['category']
       if state['user']['area'] != '':
