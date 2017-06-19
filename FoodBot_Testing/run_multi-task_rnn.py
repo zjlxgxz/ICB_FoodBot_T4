@@ -347,6 +347,11 @@ def languageUnderstanding(userInput):
   test_set = read_data(in_seq_test, out_seq_test, label_test)
   test_tagging_result,test_label_result = run_valid_test(test_set, 'Test', sess) 
   #print (test_tagging_result)
+  if(test_label_result[0] == 'confirm'):
+    if("B-Wrong" in test_tagging_result):
+      test_label_result[0] = "reject"
+    if("B-HI" in test_tagging_result):
+      test_label_result[0] = "hi"
   return test_tagging_result , test_label_result
 
 def DST_reset():
