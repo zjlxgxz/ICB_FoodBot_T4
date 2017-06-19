@@ -43,7 +43,7 @@ if __name__ == '__main__':
 			sim_user_id = msgToSend.user_id
 
 			msgToSend = AgentOutput(sim_semantic_frame,sim_user_id,good_policy)
-			if(sim_semantic_frame['intent'] == 'goodbye'):
+			if(json.loads(sim_semantic_frame)['intent'] == 'goodbye'):
 				break
 			msgToSend = SimOutput( msgToSend.response_policy_frame)
 
