@@ -75,7 +75,10 @@ state = {
         'request_wifi':'',
         'confirm':'',
         'reject':'',
-        'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':'', 'wifi':'', 'smoking':''
+        'hi':'',
+        'thanks':'',
+        'goodbye':'',
+        'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''
       },
       'agent':{
         'restaurant_name':''
@@ -359,62 +362,72 @@ def DST_reset():
   global formerState
   formerState = [2]*22 #Start state
 
-def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic frame
+def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_from_sim):#semantic frame
   global state
-  slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':'', 'wifi':'', 'smoking':''}
-  for index_token in range(len(tokens)):
-    
-    if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
-      if(slots['category'] == ""):
-        slots['category'] = str(slots['category'] +tokens[index_token])
-      else:
-        slots['category'] = str(slots['category']+" "+tokens[index_token])
-    
-    elif "B-RESTAURANT_NAME" in test_tagging_result[0][index_token] or "I-RESTAURANT_NAME" in test_tagging_result[0][index_token]:
-      if(slots['restaurant_name'] == ""):
-        print (slots['restaurant_name'])
-        print (tokens[index_token])
-        slots['restaurant_name'] = str(slots['restaurant_name']+tokens[index_token])
-      else:
-        slots['restaurant_name'] = str(slots['restaurant_name']+ " " +tokens[index_token])
-    
-    elif "B-AREA" in test_tagging_result[0][index_token] or "I-AREA" in test_tagging_result[0][index_token]:
-      if(slots['area'] == ""):
-        slots['area'] = str(slots['area'] +tokens[index_token])
-      else:
-        slots['area'] = str(slots['area'] +" "+tokens[index_token])
+  slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
+  #reset intent
+  for key in state['user'].keys():
+    if 'request' in key or 'inform' in key or key == 'hi' or key == 'thanks' or key == 'goodbye' or key == 'confirm' or key == 'reject':
+      state['user'][key] = ''
+  #from sim user
+  if sem_frame_from_sim != '':
+    if sem_frame_from_sim['intent'] in state['user']:
+      state['user'][sem_frame_from_sim['intent']] = 'True'
+    if sem_frame_from_sim['category'] != '':
+      slots['category'] = sem_frame_from_sim['category']
+    if sem_frame_from_sim['area'] != '':
+      slots['area'] = sem_frame_from_sim['area']
+    if sem_frame_from_sim['price'] != '':
+      slots['price'] = sem_frame_from_sim['price']
+    if sem_frame_from_sim['score'] != '':
+      slots['score'] = sem_frame_from_sim['score']
+    if sem_frame_from_sim['name'] != '':
+      slots['restaurant_name'] = sem_frame_from_sim['name']
 
-    elif "B-SCORE" in test_tagging_result[0][index_token] or "I-SCORE" in test_tagging_result[0][index_token]:
-      if(slots['score'] == ""):
-        slots['score'] = str(slots['score'] +tokens[index_token])
-      else:
-        slots['score'] = str(slots['score'] +" "+ tokens[index_token])
+    for key in slots.keys():
+        if slots[key] != '':
+          state['user'][key] = slots[key]
 
-    elif "B-PRICE" in test_tagging_result[0][index_token] or "I-PRICE" in test_tagging_result[0][index_token]:
-      if(slots['price'] == ""):
-        slots['price'] = str(slots['price'] +tokens[index_token])
-      else:
-        slots['price'] = str(slots['price'] +" "+ tokens[index_token])
+  #from web user
+  else:
+    for index_token in range(len(tokens)):
+      
+      if "B-CATEGORY" in test_tagging_result[0][index_token] or "I-CATEGORY" in test_tagging_result[0][index_token] :
+        if(slots['category'] == ""):
+          slots['category'] = str(slots['category'] +tokens[index_token])
+        else:
+          slots['category'] = str(slots['category']+" "+tokens[index_token])
+      
+      elif "B-RESTAURANT_NAME" in test_tagging_result[0][index_token] or "I-RESTAURANT_NAME" in test_tagging_result[0][index_token]:
+        if(slots['restaurant_name'] == ""):
+          print (slots['restaurant_name'])
+          print (tokens[index_token])
+          slots['restaurant_name'] = str(slots['restaurant_name']+tokens[index_token])
+        else:
+          slots['restaurant_name'] = str(slots['restaurant_name']+ " " +tokens[index_token])
+      
+      elif "B-AREA" in test_tagging_result[0][index_token] or "I-AREA" in test_tagging_result[0][index_token]:
+        if(slots['area'] == ""):
+          slots['area'] = str(slots['area'] +tokens[index_token])
+        else:
+          slots['area'] = str(slots['area'] +" "+tokens[index_token])
 
-    elif "B-WIFI" in test_tagging_result[0][index_token] or "I-WIFI" in test_tagging_result[0][index_token]:
-      if(slots['wifi'] == ""):
-        slots['wifi'] = str(slots['wifi'] +tokens[index_token])
-      else:
-        slots['wifi'] = str(slots['wifi'] +" "+ tokens[index_token])
+      elif "B-SCORE" in test_tagging_result[0][index_token] or "I-SCORE" in test_tagging_result[0][index_token]:
+        if(slots['score'] == ""):
+          slots['score'] = str(slots['score'] +tokens[index_token])
+        else:
+          slots['score'] = str(slots['score'] +" "+ tokens[index_token])
 
-    elif "B-SMOKING" in test_tagging_result[0][index_token] or "I-SMOKING" in test_tagging_result[0][index_token]:
-      if(slots['smoking'] == ""):
-        slots['smoking'] = str(slots['smoking'] +tokens[index_token])
-      else:
-        slots['smoking'] = str(slots['smoking'] +" "+ tokens[index_token])
+      elif "B-PRICE" in test_tagging_result[0][index_token] or "I-PRICE" in test_tagging_result[0][index_token]:
+        if(slots['price'] == ""):
+          slots['price'] = str(slots['price'] +tokens[index_token])
+        else:
+          slots['price'] = str(slots['price'] +" "+ tokens[index_token])
 
     for key in slots.keys():
       if slots[key] != '':
         state['user'][key] = slots[key]
 
-    for key in state['user'].keys():
-      if ('request' in key or 'inform' in key) and (test_label_result[0] != 'confirm' or test_label_result[0] != 'reject'):
-        state['user'][key] = ''
     if test_label_result[0] in state['user']:
       state['user'][test_label_result[0]] = 'True'
 
@@ -426,7 +439,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result):#semantic 
 
 def dialogPolicy(formerPolicyGoodOrNot,userInput):
   search = SearchDB('140.112.49.151' ,'foodbot' ,'welovevivian' ,'foodbotDB')
-  slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':'', 'wifi':'', 'smoking':''}
+  slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
   sys_act = {}
   global state
 
@@ -440,59 +453,60 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
     slots['restaurant_name'] = state['agent']['restaurant_name']
 
   #translate state to vector
-  vector = [[0]*24, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', '', '', '', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
-  if state['user']['request_restaurant'] != '':
-    vector[0][0] = 1
-  elif state['user']['inform'] != '':
-    vector[0][1] = 1
-  elif state['user']['request_address'] != '':
-    vector[0][2] = 1
-  elif state['user']['request_score'] != '':
-    vector[0][3] = 1
-  elif state['user']['request_review'] != '':
-    vector[0][4] = 1
-  elif state['user']['request_price'] != '':
-    vector[0][5] = 1
-  elif state['user']['request_time'] != '':
-    vector[0][6] = 1
-  elif state['user']['request_phone'] != '':
-    vector[0][7] = 1
-  elif state['user']['request_smoke'] != '':
-    vector[0][8] = 1
-  elif state['user']['request_wifi'] != '':
-    vector[0][9] = 1
-  elif state['user']['confirm'] != '':
-    vector[0][10] = 1
-  elif state['user']['reject'] != '':
-    vector[0][11] = 1
-  elif state['user']['restaurant_name'] != '':
-    vector[0][12] = 1
-    vector[1][12] = state['user']['restaurant_name']
-  elif state['user']['area'] != '':
-    vector[0][13] = 1
-    vector[1][13] = state['user']['area']
-  elif state['user']['category'] != '':
-    vector[0][14] = 1
-    vector[1][14] = state['user']['category']
-  elif state['user']['score'] != '':
-    vector[0][15] = 1
-    vector[1][15] = state['user']['score']
-  elif state['user']['price'] != '':
-    vector[0][16] = 1
-    vector[1][16] = state['user']['price']
-  elif state['user']['wifi'] != '':
-    vector[0][17] = 1
-    vector[1][17] = state['user']['wifi']
-  elif state['user']['smoking'] != '':
-    vector[0][18] = 1
-    vector[1][18] = state['user']['smoking']
-  elif state['agent']['restaurant_name'] != '':
-    vector[0][19] = 1
-    vector[1][19] = state['agent']['restaurant_name']
-  elif state['agent']['confirm_info'] != '':
-    vector[0][20] = 1
-  elif state['agent']['confirm_restaurant'] != '':
-    vector[0][21] = 1
+  vector = [[0]*24, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
+  if state['user']['goodbye'] != '':
+    vector = [[0]*24, ['request_restaurant', 'inform', 'request_address', 'request_score', 'request_review', 'request_price', 'request_time', 'request_phone', 'request_smoke', 'request_wifi', 'confirm', 'reject', 'hi', 'thanks', 'goodbye', '', '', '', '', '', '', '', '', '', 'confirm_info', 'confirm_restaurant']]
+  else:
+    if state['user']['request_restaurant'] != '':
+      vector[0][0] = 1
+    if state['user']['inform'] != '':
+      vector[0][1] = 1
+    if state['user']['request_address'] != '':
+      vector[0][2] = 1
+    if state['user']['request_score'] != '':
+      vector[0][3] = 1
+    if state['user']['request_review'] != '':
+      vector[0][4] = 1
+    if state['user']['request_price'] != '':
+      vector[0][5] = 1
+    if state['user']['request_time'] != '':
+      vector[0][6] = 1
+    if state['user']['request_phone'] != '':
+      vector[0][7] = 1
+    if state['user']['request_smoke'] != '':
+      vector[0][8] = 1
+    if state['user']['request_wifi'] != '':
+      vector[0][9] = 1
+    if state['user']['confirm'] != '':
+      vector[0][10] = 1
+    if state['user']['reject'] != '':
+      vector[0][11] = 1
+    if state['user']['hi'] != '':
+      vector[0][12] = 1
+    if state['user']['thanks'] != '':
+      vector[0][13] = 1
+    if state['user']['restaurant_name'] != '':
+      vector[0][15] = 1
+      vector[1][15] = state['user']['restaurant_name']
+    if state['user']['area'] != '':
+      vector[0][16] = 1
+      vector[1][16] = state['user']['area']
+    if state['user']['category'] != '':
+      vector[0][17] = 1
+      vector[1][17] = state['user']['category']
+    if state['user']['score'] != '':
+      vector[0][18] = 1
+      vector[1][18] = state['user']['score']
+    if state['user']['price'] != '':
+      vector[0][19] = 1
+      vector[1][19] = state['user']['price']
+    if state['agent']['restaurant_name'] != '':
+      vector[0][20] = 1
+      vector[1][20] = state['agent']['restaurant_name']
+    if state['agent']['confirm_info'] != '':
+      vector[0][21] = 1
+    if state['agent']['confirm_restaurant'] != '':
+      vector[0][22] = 1
 
   #===============
   # input vector[0] : bits
@@ -537,6 +551,8 @@ def dialogPolicy(formerPolicyGoodOrNot,userInput):
   #if userInput == 'end':
   #  DST_reset()
 
+  state['agent']['confirm_info'] = ''
+  state['agent']['confirm_restaurant'] = ''
   #request area
   if action == 0:
     sys_act['policy'] = 'request_area'
