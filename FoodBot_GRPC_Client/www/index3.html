@@ -8,8 +8,15 @@
 </head>
 <body>
 	<div class="content">
-		<h1>紐約特色餐廳</h1>
-		<table>
+
+		<div class="tab">
+		<button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">紐約特色餐廳</button>
+		<button class="tablinks" onclick="openCity(event, 'Paris')">錯誤對應碼</button>
+		</div>
+
+		<div id="London" class="tabcontent">
+		<h3>紐約特色餐廳</h3>
+			<table>
 			<tbody>
 				<tr>
 				  <th>Restaurant Name</th>
@@ -78,6 +85,10 @@
 				</tr>
 			</tbody>
 		</table>
+		</div>
+
+	<div id="Paris" class="tabcontent">
+		<h3>錯誤對應碼</h3>
 		<table>
 			<tbody>
 				<tr>
@@ -122,6 +133,8 @@
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
 	</div>
 	<div class="wrapper">
 		<div class="banner">

@@ -140,7 +140,7 @@ function displayNewMEME(name,url){
 		picToDisplay = document.createElement('div');
 	picToDisplay.style.background = '#f1f0f0';
 	picToDisplay.style.float = 'left';
-	picToDisplay.innerHTML = name + ": <img src="+ url+" style='height:80px;width:80px;'>";
+	picToDisplay.innerHTML = name + ": <img src="+ url+" style='height:160px;width:160px;'>";
 	container.appendChild(picToDisplay);
 	container.scrollTop = container.scrollHeight;
 };
@@ -174,3 +174,19 @@ function isNormalUrl(url){
     return true;
   }
 };
+
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+document.getElementById("defaultOpen").click();
