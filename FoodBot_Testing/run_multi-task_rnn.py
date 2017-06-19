@@ -645,7 +645,7 @@ def dialogPolicy(formerPolicyGoodOrNot):
       sys_act['name'] = state['user']['restaurant_name']
       for key in state['user'].keys():
         if 'request' in key and state['user'][key] != '':
-          sys_act['info_name'] = state['user'][key].split('_')[1]
+          sys_act['info_name'] = key.split('_')[1]
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
