@@ -430,7 +430,7 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
 
   print ("========================================================================")
   print ("\nLU Intent SLOTS:")
-  print (slots,test_label_result[0])
+  #print (slots,test_label_result[0])
   return slots
 
 
