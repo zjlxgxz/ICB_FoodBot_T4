@@ -81,7 +81,7 @@ state = {
         'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''
       },
       'agent':{
-        'restaurant_name':''
+        'restaurant_name':'',
         'confirm_info':'',
         'confirm_restaurant':''
       }
