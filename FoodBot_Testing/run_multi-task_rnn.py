@@ -476,31 +476,31 @@ def policyChecker():
 		good = ["inform_" + goal.split('_')[1]]
 ############################
 	
-	elif memory["intent"] == "request_restaurant":
-		if len(memory.keys()) <=3:
-			keys = memory.keys()
-			keys.remove("intent")
-			request_list = ["area", "category"]
-			good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
-		else:
-			good = ["confirm_restaurant", "reqmore"]
-			soso = ["reqmore"]
-	
 	elif memory["intent"] == "reject":
 		if last_intent == 'reqmore':
 			good = ['confirm_restaurant']
 		if last_intent in ['confirm_info','confirm_restaurant']:
 			good = ['show_table']
-
+  
 	else:
-		if len(memory.keys()) <=1:
-			#keys = memory.keys()
-			#keys.remove("intent")
-			#request_list = ["area", "name"]
-			#good = ["request_"+item for item in request_list if item not in keys]
-			good = ["request_name"]
-		else:
-			good = ["confirm_info"]
+		if goal == "request_restaurant":
+			if len(memory.keys()) <=3:
+				keys = memory.keys()
+        keys.remove("intent")
+        request_list = ["area", "category"]
+      	good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
+			else:
+        good = ["confirm_restaurant", "reqmore"]
+        soso = ["reqmore"]
+    elif "request" in goal:
+      if len(memory.keys()) <=1:
+        #keys = memory.keys()
+        #keys.remove("intent")
+        #request_list = ["area", "name"]
+        #good = ["request_"+item for item in request_list if item not in keys]
+        good = ["request_name"]
+      else:
+        good = ["confirm_info"]
 	'''
 	if sys_act["policy"] in good:
 		reward = 5
