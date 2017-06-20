@@ -876,6 +876,10 @@ def dialogPolicy(formerPolicyGoodOrNot):
   if (sys_act['policy'] == 'not_a_good_policy'):
     DST_reset()
 
+  if("inform" in sys_act['policy']):
+    print("alredy inform")
+    DST_reset()
+
   print ('Policy system action : ' ,sys_act)
   last_intent = sys_act['policy']
   return sys_act
