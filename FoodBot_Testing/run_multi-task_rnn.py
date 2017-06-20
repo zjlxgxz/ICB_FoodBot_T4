@@ -486,21 +486,21 @@ def policyChecker():
 		if goal == "request_restaurant":
 			if len(memory.keys()) <=3:
 				keys = memory.keys()
-        keys.remove("intent")
-        request_list = ["area", "category"]
-      	good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
+				keys.remove("intent")
+				request_list = ["area", "category"]
+				good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
 			else:
-        good = ["confirm_restaurant", "reqmore"]
-        soso = ["reqmore"]
-    elif "request" in goal:
-      if len(memory.keys()) <=1:
+				good = ["confirm_restaurant", "reqmore"]
+				soso = ["reqmore"]
+		elif "request" in goal:
+			if len(memory.keys()) <=1:
         #keys = memory.keys()
         #keys.remove("intent")
         #request_list = ["area", "name"]
         #good = ["request_"+item for item in request_list if item not in keys]
-        good = ["request_name"]
-      else:
-        good = ["confirm_info"]
+				good = ["request_name"]
+			else:
+				good = ["confirm_info"]
 	'''
 	if sys_act["policy"] in good:
 		reward = 5
