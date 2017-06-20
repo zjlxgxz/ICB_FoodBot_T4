@@ -446,9 +446,9 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
 
     if test_label_result[0] in state['user']:
       state['user'][test_label_result[0]] = 'True'
-    if goal == '' and test_label_result[0] == 'inform':
-      goal == 'request_restaurant'
-      test_label_result[0] = 'request_restaurant'
+   # if goal == '' and test_label_result[0] == 'inform':
+   #   goal == 'request_restaurant'
+   #   test_label_result[0] = 'request_restaurant'
     if goal == '' and test_label_result[0] not in ['hi','confirm','goodbye', 'thanks','reject','inform']:
       goal = test_label_result[0]  
     
