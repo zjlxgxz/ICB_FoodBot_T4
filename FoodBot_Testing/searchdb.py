@@ -92,7 +92,7 @@ class SearchDB:
 				if results.__len__() == 0:
 					content = {'policy':'inform_no_info', 'name':slots['restaurant_name'], 'info_name':'review'}
 				else:
-					content = {'policy':'inform_score', 'review':str(results[random.randint(0,results.__len__()-1)]).replace(',',' ').replace('u\'','').replace(']','').replace('[','').replace('(','').replace(')','').replace('\'','').replace('\"','')}
+					content = {'policy':'inform_review', 'review':str(results[random.randint(0,results.__len__()-1)]).replace(',',' ').replace('u\'','').replace(']','').replace('[','').replace('(','').replace(')','').replace('\'','').replace('\"','')}
 
 			elif intent == 'inform_smoke':
 				cursor.execute('SELECT Smoking FROM other_info WHERE restaurant_name LIKE %s LIMIT 1' %('\'%'+name+'%\''))
