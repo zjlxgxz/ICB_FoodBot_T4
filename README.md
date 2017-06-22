@@ -1,20 +1,20 @@
 # README
 This repo contains code for a chatbot in food domain. [Demo link](140.112.49.151:8081/index3.html)
 
-##Functionalities
+## Functionalities
 * **Recommend restaurants** according to requirements, including category, price, area, rating.
 * **Provide various info about a certain restaurant**, including address, rating, review, has wifi or not.
 
-##Features
+## Features
 * Support 2 talking styles: gentle & hilarious.
 * Support speech API.
 
-##Requirements
+## Requirements
 * Tensorflow: 0.12.1
 `pip install tensorflow==0.12.1`
 * Nodejs: [Download](https://nodejs.org/en/download/package-manager/)
 
-##Code Usage
+## Code Usage
 todo
 
 
