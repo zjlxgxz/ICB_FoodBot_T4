@@ -16,6 +16,7 @@ import sys
 import time
 import json
 import glob
+import random
 
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
@@ -101,6 +102,13 @@ formerState = [2,2,2,2,2,2,2,2,2,2,2] #To remember the former state, 222222 is t
 ##################below for nlg
 action = -1
 NewDialog = True
+
+##############
+memory = dict()
+good = []
+goal = ''
+last_intent = ''
+
 
 #patterns for agent
 pattern_dict = dict()
@@ -347,10 +355,17 @@ def languageUnderstanding(userInput):
   test_set = read_data(in_seq_test, out_seq_test, label_test)
   test_tagging_result,test_label_result = run_valid_test(test_set, 'Test', sess) 
   #print (test_tagging_result)
+  if(test_label_result[0] == 'confirm'):
+    if("B-Wrong" in test_tagging_result[0]):
+      test_label_result[0] = "reject"
+    if("B-HI" in test_tagging_result[0]):
+      test_label_result[0] = "hi"
   return test_tagging_result , test_label_result
 
 def DST_reset():
-  global state
+  global state,NewDialog, memory, goal
+  goal = ''
+  memory = dict()
   for key in state.keys():
     if(type(state[key]).__name__ == 'dict'):
       for slot in state[key].keys():
@@ -360,7 +375,7 @@ def DST_reset():
   NewDialog = True
 
 def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_from_sim):#semantic frame
-  global state
+  global state, memory, goal
   slots = {'restaurant_name':'', 'area':'', 'category':'', 'score':'', 'price':''}
   #reset intent
   for key in state['user'].keys():
@@ -370,15 +385,15 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
   if sem_frame_from_sim != '':
     if sem_frame_from_sim['intent'] in state['user']:
       state['user'][sem_frame_from_sim['intent']] = 'True'
-    if sem_frame_from_sim['category'] != '':
+    if 'category' in sem_frame_from_sim:
       slots['category'] = sem_frame_from_sim['category']
-    if sem_frame_from_sim['area'] != '':
+    if 'area' in sem_frame_from_sim:
       slots['area'] = sem_frame_from_sim['area']
-    if sem_frame_from_sim['price'] != '':
+    if 'price' in sem_frame_from_sim:
       slots['price'] = sem_frame_from_sim['price']
-    if sem_frame_from_sim['score'] != '':
+    if 'score' in sem_frame_from_sim:
       slots['score'] = sem_frame_from_sim['score']
-    if sem_frame_from_sim['name'] != '':
+    if 'name' in sem_frame_from_sim:
       slots['restaurant_name'] = sem_frame_from_sim['name']
 
     for key in slots.keys():
@@ -423,15 +438,205 @@ def dialogStateTracking(tokens,test_tagging_result,test_label_result,sem_frame_f
 
     for key in slots.keys():
       if slots[key] != '':
+        if key == 'restaurant_name':
+          memory['name'] = slots[key]
+        else:
+          memory[key] = slots[key]
         state['user'][key] = slots[key]
 
     if test_label_result[0] in state['user']:
       state['user'][test_label_result[0]] = 'True'
+   # if goal == '' and test_label_result[0] == 'inform':
+   #   goal == 'request_restaurant'
+   #   test_label_result[0] = 'request_restaurant'
+    if goal == '' and test_label_result[0] not in ['hi','confirm','goodbye', 'thanks','reject','inform']:
+      goal = test_label_result[0]  
+    
+    memory['intent'] = test_label_result[0]
 
   print ("========================================================================")
   print ("\nLU Intent SLOTS:")
-  print (slots,test_label_result[0])
+  #print (slots,test_label_result[0])
   return slots
+
+def policyChecker():
+	#print("This is sys_act",sys_act)
+	#print("This is sys_act[content]",sys_act['content'])
+	#print("This is sys_act[intent]",sys_act['intent'])
+	#print("This is sys_act[currentState]",sys_act['currentstate'])
+	global good
+	global memory,goal,last_intent
+
+	soso = []
+	if memory["intent"] in ["goodbye", "thanks"]:
+		good = ["goodbye"]
+
+	
+	elif memory["intent"] == "hi":
+		good = ["hi"]
+	
+#######for test#############
+	elif memory["intent"] == "confirm":
+		good = ["inform_" + goal.split('_')[1]]
+############################
+	
+	elif memory["intent"] == "reject":
+		if last_intent == 'reqmore':
+			good = ['confirm_restaurant']
+		if last_intent in ['confirm_info','confirm_restaurant']:
+			good = ['show_table']
+  
+	else:
+		if goal == "request_restaurant":
+			if len(memory.keys()) <=3:
+				keys = memory.keys()
+				keys.remove("intent")
+				request_list = ["area", "category"]
+				good = ["reqmore"] + ["request_"+item for item in request_list if item not in keys]
+			else:
+				good = ["confirm_restaurant", "reqmore"]
+				soso = ["reqmore"]
+		elif "request" in goal:
+			if len(memory.keys()) <=1:
+        #keys = memory.keys()
+        #keys.remove("intent")
+        #request_list = ["area", "name"]
+        #good = ["request_"+item for item in request_list if item not in keys]
+				good = ["request_name"]
+			else:
+				good = ["confirm_info"]
+	'''
+	if sys_act["policy"] in good:
+		reward = 5
+	elif sys_act["policy"] in soso:
+		reward = 2
+	else:
+		reward = 0
+  '''
+	print ('==========================')
+	print ('memory : ', memory)
+	print ('sys_act : ', last_intent)
+	print ('good : ', good)
+	return good
+
+
+def simul_user(sys_act):
+	global memory	
+	global good
+	global goodPolicy
+	'''
+	sys_act: {
+			  "policy": "request_category",			  
+			  }
+	'''
+	# initially randomly generated a sentence
+	sys_act = json.loads(sys_act)
+	print("sys_act from agent:",sys_act)
+	sem_frame = dict()
+	if sys_act["policy"] == "init":
+		memory = dict()
+		good = []
+		goodPolicy = 0
+		sem_frame["intent"] = random.choice(data_dict["intent"])
+		if sem_frame["intent"] != "hi":
+			keys = slot_dict[sem_frame["intent"]]
+			for key in keys:
+				dec = round(random.random())
+				if "request" in sem_frame["intent"] and sem_frame["intent"] != "request_restaurant":
+					dec = 1
+				if dec == 1:
+					sem_frame[key] = random.choice(data_dict[key])
+		memory = sem_frame  #keep the memory
+
+	#in the middle of the dialogue	
+	else:
+		#print("memory: ", memory)		
+		# To see if the policy picked by DQN is reasonable
+		goodPolicy = policyChecker(sys_act)
+		print (goodPolicy)
+		if goodPolicy == 0:
+			returnList = dict()
+			returnList["semantic_frame"] = dict()
+			returnList["semantic_frame"]["intent"] = 'goodbye'
+			returnList["goodpolicy"] = goodPolicy
+			returnList["user_id"] = 'sim-user'
+			returnList["nlg_sentence"] = ''
+			#json_list = json.dumps(returnList)
+			return returnList
+
+################## hi #########################
+		if sys_act["policy"] == "hi":
+			intents = data_dict["intent"]
+			intents.remove("hi")
+			sem_frame["intent"] = random.choice(intents)
+			keys = slot_dict[sem_frame["intent"]]
+			for key in keys:
+				dec = round(random.random())
+				if dec == 1:
+					sem_frame[key] = random.choice(data_dict[key])
+			memory = sem_frame
+
+
+################## request #########################
+		elif "request" in sys_act["policy"]:
+			sem_frame["intent"] = "inform"
+			#print("content keys:", sys_act["content"].keys())
+			key = sys_act["policy"].split('_')[1]
+			sem_frame[key] = random.choice(data_dict[key])
+			memory[key] = sem_frame[key]
+
+		elif sys_act["policy"] == "reqmore":			
+			dec = round(random.random())
+			if len(memory.keys()) <= 3:
+				sem_frame["intent"] = "inform"
+				temp = [item for item in slot_dict[memory["intent"]] if item not in memory.keys()]
+				key = random.choice(temp)
+				sem_frame[key] = random.choice(data_dict[key])
+				memory[key] = sem_frame[key]
+			else:
+				sem_frame["intent"] = "reject"
+				memory["intent"] = "reject"
+				good = ["confirm_restaurant"]
+
+################## inform #########################
+		elif "inform" in sys_act["policy"]:
+			sem_frame["intent"] = random.choice(["goodbye", "thanks"])
+					
+################## confirm #########################		
+		elif "confirm" in sys_act["policy"]:
+			sem_frame["intent"] = "goodbye"
+			if sys_act["policy"] == "confirm_info":
+				if "info_name" not in sys_act.keys() or "name" not in sys_act.keys() or \
+				  sys_act["info_name"] != memory["intent"].split('_')[1] or sys_act["name"] != memory["name"]:
+					sem_frame["intent"] = "reject"
+					good = ["show_table"]
+			else:
+				keys = memory.keys()
+				keys.remove("intent")
+				for key in keys:
+					if key not in sys_act.keys() or (key in sys_act.keys() and memory[key] != sys_act[key]):
+						sem_frame["intent"] = "reject"
+						good = ["show_table"]
+						break
+			memory["intent"] = sem_frame["intent"]
+				
+
+		elif sys_act["policy"] == "show_table":
+			sem_frame["intent"] = 'goodbye'
+		
+		else:
+			sem_frame["intent"] = 'error'
+	#nlg_sentence = nlg(sem_frame)
+
+	returnList = dict()
+	#returnList["nlg_sentence"] = nlg_sentence
+	returnList["semantic_frame"] = sem_frame
+	returnList["goodpolicy"] = goodPolicy
+	returnList["user_id"] = 'sim-user'
+	returnList["nlg_sentence"] = ''
+	
+	return returnList
+	#return sem_frame, goodPolicy
 
 
 def dialogPolicy(formerPolicyGoodOrNot):
@@ -515,9 +720,11 @@ def dialogPolicy(formerPolicyGoodOrNot):
   #===============
   currentState = vector[0]
  #Notice:
+  global formerState, action,last_intent
   if (NewDialog == True):
     action = -1
     NewDialog = False
+    formerState = [0]
 
   #TODO
   # update the model(reward, currentState, formerState )
@@ -528,10 +735,12 @@ def dialogPolicy(formerPolicyGoodOrNot):
   action = policy.policyNumber
   formerState = currentState
 
+  goodpolicy = policyChecker()
+  policy = goodpolicy[random.randint(0,goodpolicy.__len__()-1)]
+  print("GoodPolicy:",policy)
   if(state['user']['goodbye']!=''):
     DST_reset()
-    return ''
-
+    #return ''
 
   #print("current State: ", currentState)
   #print("RewardForformerAction: ",formerPolicyGoodOrNot)
@@ -544,75 +753,75 @@ def dialogPolicy(formerPolicyGoodOrNot):
   state['agent']['confirm_info'] = ''
   state['agent']['confirm_restaurant'] = ''
   #request area
-  if action == 0:
+  if policy == 'request_area':
     sys_act['policy'] = 'request_area'
 
   #request category
-  elif action == 1:
+  elif policy == 'request_category':
     sys_act['policy'] = 'request_category'
 
   #request more
-  elif action == 2: 
-    sys_act['policy'] = 'request_more'
+  elif policy == 'reqmore': 
+    sys_act['policy'] = 'reqmore'
 
   #inform address
-  elif action == 3:
+  elif policy == 'inform_address':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_address', slots)     
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform score
-  elif action == 4: 
+  elif policy == 'inform_score': 
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_score', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform review
-  elif action == 5:
+  elif policy == 'inform_review':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_review', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform restaurant
-  elif action == 6:
+  elif policy == 'inform_restaurant':
     if state['user']['category'] != '' or state['user']['area'] != '' or state['user']['price'] != '' or state['user']['score'] != '':
       sys_act = search.grabData('inform_restaurant', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform smoke
-  elif action == 7:
+  elif 'inform_smoke' in policy:
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_smoke', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform wifi
-  elif action == 8:
+  elif 'inform_wifi' in policy:
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_wifi', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform phone
-  elif action == 9:
+  elif policy == 'inform_phone':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_phone', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform price
-  elif action == 10:
+  elif policy == 'inform_price':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_price', slots)
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #inform business time
-  elif action == 11:
+  elif policy == 'inform_time':
     if slots['restaurant_name'] != '':
       sys_act = search.grabData('inform_time', slots)
     else:
@@ -620,10 +829,10 @@ def dialogPolicy(formerPolicyGoodOrNot):
 
 
   #confirm_restaurant
-  elif action == 12:
+  elif policy == 'confirm_restaurant':
     if state['user']['category'] != '' or state['user']['area'] != '' or state['user']['price'] != '' or state['user']['score'] != '':
       state['agent']['confirm_restaurant'] = 'True'
-      sys_act['policy'] = 'confirm_rstaurant'
+      sys_act['policy'] = 'confirm_restaurant'
       if state['user']['category'] != '':
         sys_act['category'] = state['user']['category']
       if state['user']['area'] != '':
@@ -636,44 +845,70 @@ def dialogPolicy(formerPolicyGoodOrNot):
       sys_act['policy'] = 'not_a_good_policy'
 
   #confirm_info
-  elif action == 13:
+  elif policy == 'confirm_info':
     if state['user']['restaurant_name'] != '':
       state['agent']['confirm_info'] = 'True'
       sys_act['policy'] = 'confirm_info'
       sys_act['name'] = state['user']['restaurant_name']
       for key in state['user'].keys():
         if 'request' in key and state['user'][key] != '':
-          sys_act['info_name'] = state['user'][key].split('_')[2]
+          sys_act['info_name'] = key.split('_')[1]
     else:
       sys_act['policy'] = 'not_a_good_policy'
 
   #goodbye
-  elif action == 14:
+  elif policy == 'goodbye':
     sys_act['policy'] = 'goodbye'
 
   #hi
-  elif action == 15:
+  elif policy == 'hi':
     sys_act['policy'] = 'hi'
 
-  elif action == 16:
+  elif policy == 'show_table':
     sys_act['policy'] = 'show_table'
-    sys_act.update(slots)
+    if slots['restaurant_name'] != '':
+      sys_act['name'] = slots['restaurant_name']
+    if slots['category'] != '':
+      sys_act['category'] = slots['category']
+    if slots['price'] != '':
+      sys_act['price'] = slots['price']
+    if slots['score'] != '':
+      sys_act['score'] = slots['score']
+    if slots['area'] != '':
+      sys_act['area'] = slots['area']
 
+  if (sys_act['policy'] == 'not_a_good_policy'):
+    DST_reset()
 
+  if("inform" in sys_act['policy']):
+    print("alredy inform")
+    DST_reset()
 
   print ('Policy system action : ' ,sys_act)
+  last_intent = sys_act['policy']
   return sys_act
 
-def nlg(sem_frame, style = 'gentle'): 
+def nlg(original_sem_frame): 
+  sem_frame = ''
+  if original_sem_frame != '':
+    sem_frame = original_sem_frame.copy()
+  else:
+    sem_frame = original_sem_frame
+
   return_list = dict()
   return_list["pic_url"] = ''
   if sem_frame == '':
-    return ''
+    return_list["sentence"] = 'bye'
+    return_list["pic_url"] = ''
+    return return_list
+  
+  elif sem_frame["policy"] == "not_a_good_policy":
+    sentence = "Sorry, I chose a bad policy. Please start again."
 
   elif sem_frame["policy"] == "show_table":
     return_list["pic_url"] = sem_frame
     return_list["pic_url"].pop("policy")
-    sentence = """Help me! Which of these is/are mistaken?</br>Ex. If category should be japanese and time should be tonight, please reply 'category:japanese;time:tonight' without quotation marks(').</br>Thank you soooo much!"""
+    sentence = """Help me! Which of these is/are mistaken?Ex. If category should be japanese and time should be tonight, please reply 'category:japanese,time:tonight' without quotation marks(').Thank you soooo much! If you have any question, please refer to the right side guideline"""
 
   elif sem_frame["policy"] in ["request_area", "request_category", "request_time", \
                               "request_name", "reqmore", "goodbye", "hi", "inform_smoke_yes", \
@@ -704,16 +939,16 @@ def nlg(sem_frame, style = 'gentle'):
     for key in keys:
       sentence = sentence.replace("SLOT_"+key.upper(), sem_frame[key])
 
-  if style == 'hilarious':
-    print (sem_frame)
-    if "policy" in sem_frame.keys() and sem_frame["policy"] in pic_dict.keys():
-      pic_url = random.choice(pic_dict[sem_frame["policy"]])
-      return_list["pic_url"] = pic_url
+  
+  print (sem_frame)
+  if "policy" in sem_frame.keys() and sem_frame["policy"] in pic_dict.keys():
+    pic_url = random.choice(pic_dict[sem_frame["policy"]])
+    return_list["pic_url"] = pic_url
   
   return_list["sentence"] = sentence.capitalize()
-  json_list = json.dumps(return_list)
+  #json_list = json.dumps(return_list)
 
-  return json_list
+  return return_list
   
 
 class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
@@ -725,7 +960,7 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
     nlg_sentence = request.nlg_sentence
     user_id = request.user_id
     sem_frame_from_sim = request.semantic_frame
-
+    sem_frame_from_sim = json.loads(sem_frame_from_sim)
     if user_id != 'sim-user' :
       # from web user
       # LUResult   = LU (nlg_sentence)
@@ -735,12 +970,14 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       userInput = userInput.replace(",", " ")
       userInput = userInput.replace("!", " ")
       test_tagging_result,test_label_result = languageUnderstanding(userInput) 
-
-      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result,sem_frame_from_sim)#user id
-
-      selectedPolicy =  dialogPolicy()
-
+      print("UserInput:",userInput)
+      print("LU Result:",test_label_result[0])
+      print("LU Slots: ",test_tagging_result)
+      dialogStateTracking(userInput.split(),test_tagging_result,test_label_result,'')#user id
+      selectedPolicy =  dialogPolicy(-1)
       # Nlg_result = NLG(Policy, DST_Result_Content)
+      nlg_result = nlg(selectedPolicy)
+      return FoodBot_pb2.outSentence(response_nlg = nlg_result['sentence'],response_policy_frame = json.dumps(selectedPolicy),url =json.dumps(nlg_result['pic_url']) )
 
       # Return to the web.
     else:
@@ -763,8 +1000,11 @@ class FoodbotRequest(FoodBot_pb2.FoodBotRequestServicer):
       dialogStateTracking('','','',sem_frame_from_sim)#user id
 
       selectedPolicy =  dialogPolicy(good_policy)
+      print("before:",selectedPolicy)
+      print("nlg:", nlg(selectedPolicy) )
+      print("after:",selectedPolicy)
 
-      return FoodBot_pb2.outSentence(response_nlg = '',response_policy_frame = policyFrameString,url = '')
+      return FoodBot_pb2.outSentence(response_nlg = '',response_policy_frame = json.dumps(selectedPolicy),url = '')
 
       # Return to the sim_user with Policy(frame_level), DST(frame_level) 
       

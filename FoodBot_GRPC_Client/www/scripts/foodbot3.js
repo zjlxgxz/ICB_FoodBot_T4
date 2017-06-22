@@ -17,16 +17,23 @@ FoodBot.prototype = {
 		var that = this;
 		this.socket = io.connect();
 		this.socket.on('connect', function() {
+			that.socket.emit('initMsg');
 			that._displayNewMsg('FoodBot','Hi what can I do for you:)');
 			speak('Hi what can I do for you');
 		});
 		this.socket.on('newMsg', function(name, msg, url){
+			if(url){
+				url = JSON.parse(url);
+				console.log("URL: "+ url);
+			}
 			if(msg != null && isNormalUrl(url)){
+				console.log("in displayMsg");
 				that._displayNewMsg(name, msg, url);
 			}else{
+				console.log("in displayTable");
 				mode = 'goToDB';
-				queryMsg = JSON.parse(url);
-				that.displayTableMsg(name, msg);
+				queryMsg = url;
+				displayTableMsg(name, msg, url);
 			}
 			if (!mute) {
 				speak(msg);
@@ -50,7 +57,7 @@ FoodBot.prototype = {
 					that.socket.emit('postMsgToDB', modifyQueryContent(msg));
 					mode = 'goToGRPC';
 				}
-				that._displayNewMsg(user,msg, url);
+				that._displayNewMsg(user,msg);
 			};
 		},false);
 
@@ -111,15 +118,17 @@ function displayTableMsg(name, msg, url){
 	picToDisplay.style.background = '#f1f0f0';
 	picToDisplay.style.float = 'left';
 
-	var tableDetail = JSON.parse(url);
+	var tableDetail = url;
 	picToDisplay.appendChild(document.createTextNode(name + ': ' + msg));
 	var table = document.createElement("table");
+	console.log('tableDetail: ' + tableDetail);
 	for(var k in tableDetail){
 		var tr = document.createElement('tr');   
 		var td1 = document.createElement('td');
 		var td2 = document.createElement('td');
-		var text1 = document.createTextNode(k + ':');
+		var text1 = document.createTextNode(k);
 		var text2 = document.createTextNode(tableDetail[k]);
+		console.log(k, tableDetail[k]);
 
 		td1.appendChild(text1);
 		td2.appendChild(text2);
@@ -139,17 +148,16 @@ function displayNewMEME(name,url){
 		picToDisplay = document.createElement('div');
 	picToDisplay.style.background = '#f1f0f0';
 	picToDisplay.style.float = 'left';
-	picToDisplay.innerHTML = name + ": <img src="+ url+" style='height:80px;width:80px;'>";
+	picToDisplay.innerHTML = name + ": <img src="+ url+" style='height:160px;width:160px;'>";
 	container.appendChild(picToDisplay);
 	container.scrollTop = container.scrollHeight;
 };
 
 function modifyQueryContent(msg){
 	var msgArray = strToObjParser(msg);
+	console.log(msgArray);
 	Object.keys(queryMsg).forEach(function(key){
-		if(queryMsg[key]==null || queryMsg[key]==0){
 			queryMsg[key] = msgArray[key];
-		}
 	});
 	return queryMsg;
 };
@@ -167,9 +175,27 @@ function strToObjParser(str) {
 
 function isNormalUrl(url){
   if(url){
-    var urlStr = url.trim();
-    return urlStr.match(/(http){1}/g) == 'http'? true : false;
+    var urlStr = JSON.stringify(url);
+    urlStr = urlStr.replace('"');
+    console.log('isNormalUrl: ' + urlStr);
+    return urlStr.trim().match(/(http){1}/g) == 'http'? true : false;
   }else{
     return true;
   }
 };
+
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+document.getElementById("defaultOpen").click();

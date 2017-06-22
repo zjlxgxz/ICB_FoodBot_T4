@@ -1,0 +1,194 @@
+{
+  "sentence": "Can you tell me if there are any REPLACEDWORD_1 restaurant in REPLACEDWORD_2",
+
+  "domain": "Food",
+
+  "intent": "request_restaurant",
+
+  "REPLACEDWORD_2":
+[
+[
+     ["bayside"],
+     ["B-AREA"]
+],
+[
+     ["bronx"],
+     ["B-AREA"]
+],
+[
+     ["brooklyn"],
+     ["B-AREA"]
+],
+[
+     ["college", "point"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["elmhurst"],
+     ["B-AREA"]
+],
+[
+     ["flushing"],
+     ["B-AREA"]
+],
+[
+     ["howard", "beach"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["jamaica"],
+     ["B-AREA"]
+],
+[
+     ["long", "island", "city"],
+     ["B-AREA", "I-AREA", "I-AREA"]
+],
+[
+     ["maspeth"],
+     ["B-AREA"]
+],
+[
+     ["new", "york"],
+     ["B-AREA", "I-AREA"]
+]
+],
+"REPLACEDWORD_4": 
+[
+    [
+      ["four"],
+      ["B-SCORE"]
+    ],
+    [
+      ["five"],
+      ["B-SCORE"]
+    ],
+    [
+      ["one"],
+      ["B-SCORE"]
+    ],
+    [
+      ["two"],
+      ["B-SCORE"]
+    ],
+    [
+      ["three"],
+      ["B-SCORE"]
+    ],
+    [
+      ["1"],
+      ["B-SCORE"]
+    ],
+    [
+      ["2"],
+      ["B-SCORE"]
+    ],
+    [
+      ["3"],
+      ["B-SCORE"]
+    ],
+    [
+      ["4"],
+      ["B-SCORE"]
+    ],
+    [
+      ["5"],
+      ["B-SCORE"]
+    ]
+  ],
+  "REPLACEDWORD_5": 
+[
+    [
+      ["5"],
+      ["B-PRICE"]
+    ],
+    [
+      ["10"],
+      ["B-PRICE"]
+    ],
+    [
+      ["15"],
+      ["B-PRICE"]
+    ],
+    [
+      ["20"],
+      ["B-PRICE"]
+    ],
+    [
+      ["25"],
+      ["B-PRICE"]
+    ],
+    [
+      ["30"],
+      ["B-PRICE"]
+    ]
+  ],
+  
+  "REPLACEDWORD_1": 
+  [
+    [
+      [ "Chinese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "Japanese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "thai","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "malaysian","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "vietnamese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "taiwanese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "american","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "Shanghainese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "Cantonese","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "italian","food"],
+      [ "B-CATEGORY","O"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ]
+  ]
+
+}

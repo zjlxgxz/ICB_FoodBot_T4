@@ -38,7 +38,7 @@ for txt in file_list:
 
 memory = dict()
 good = []
-goodPolicy = 5
+goodPolicy = 0
 
 class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
   """Provides methods that implement functionality of route guide server."""
@@ -53,8 +53,7 @@ class FoodbotSimRequest(FoodBotSim_pb2.FoodBotSimRequestServicer):
 	string good_policy = 4;
     '''
 
-    return FoodBotSim_pb2.Sentence(semantic_frame = backdata['semantic_frame'],nlg_sentence = backdata['nlg_sentence'],\
-    								user_id = backdata['user_id'],good_policy =backdata['goodpolicy'] )
+    return FoodBotSim_pb2.Sentence(semantic_frame = json.dumps(backdata['semantic_frame']),nlg_sentence = backdata['nlg_sentence'],user_id = backdata['user_id'],good_policy =backdata['goodpolicy'] )
 
 
 def policyChecker(sys_act):
@@ -127,16 +126,19 @@ def simul_user(sys_act):
 	'''
 	# initially randomly generated a sentence
 	sys_act = json.loads(sys_act)
+	print("sys_act from agent:",sys_act)
 	sem_frame = dict()
 	if sys_act["policy"] == "init":
 		memory = dict()
 		good = []
-		goodPolicy = 5
+		goodPolicy = 0
 		sem_frame["intent"] = random.choice(data_dict["intent"])
 		if sem_frame["intent"] != "hi":
 			keys = slot_dict[sem_frame["intent"]]
 			for key in keys:
 				dec = round(random.random())
+				if "request" in sem_frame["intent"] and sem_frame["intent"] != "request_restaurant":
+					dec = 1
 				if dec == 1:
 					sem_frame[key] = random.choice(data_dict[key])
 		memory = sem_frame  #keep the memory
@@ -154,8 +156,8 @@ def simul_user(sys_act):
 			returnList["goodpolicy"] = goodPolicy
 			returnList["user_id"] = 'sim-user'
 			returnList["nlg_sentence"] = ''
-			json_list = json.dumps(returnList)
-			return json_list
+			#json_list = json.dumps(returnList)
+			return returnList
 
 ################## hi #########################
 		if sys_act["policy"] == "hi":
@@ -228,8 +230,7 @@ def simul_user(sys_act):
 	returnList["user_id"] = 'sim-user'
 	returnList["nlg_sentence"] = ''
 	
-	json_list = json.dumps(returnList)
-	return json_list
+	return returnList
 	#return sem_frame, goodPolicy
 
 

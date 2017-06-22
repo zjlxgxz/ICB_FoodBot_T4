@@ -8,8 +8,13 @@
 </head>
 <body>
 	<div class="content">
-		<h1>紐約特色餐廳</h1>
-		<table class="customers">
+		<div class="tab">
+		<button class="tablinks" onclick="openTab(event, 'location')" id="defaultOpen">紐約特色餐廳</button>
+		<button class="tablinks" onclick="openTab(event, 'errorCode')">錯誤對應碼</button>
+		</div>
+		<div id="location" class="tabcontent">
+		<h4>紐約特色餐廳</h4>
+			<table>
 			<tbody>
 				<tr>
 				  <th>Restaurant Name</th>
@@ -42,16 +47,6 @@
 					<td>Wine Bars,Tapas/Small Plates, Gourmet</td>
 				</tr>
 				<tr class="alt">
-					<td>Live on Air</td>
-					<td>Brooklyn</td>
-					<td>Bars, American (Traditional)</td>
-				</tr>
-				<tr>
-					<td>Forno Rosso</td>
-					<td>Downtown Brooklyn</td>
-					<td>Italian, Pizza, Cocktail Bars</td>
-				</tr>
-				<tr class="alt">
 					<td>The Archer</td>
 					<td>Jersey City</td>
 					<td>Cocktail Bars, Tapas/Small Plates</td>
@@ -66,38 +61,73 @@
 					<td>New York</td>
 					<td>Asian Fusion, Malaysian, Chinese</td>
 				</tr>
-				<tr class="alt">
-					<td>Bensons NYC</td>
-					<td>New York</td>
-					<td>American (New), Breakfast & Brunch, Burgers</td>
-				</tr>
 				<tr>
-					<td>Breakroom</td>
-					<td>New York</td>
-					<td>Burgers, Mexican</td>
-				</tr>
-				<tr class="alt">
-					<td>Cafe Katja</td>
-					<td>New York</td>
-					<td>Pubs, German, Austrian</td>
-				</tr>
-				<tr class="alt">
 					<td>Marmar</td>
 					<td>Staten Island</td>
 					<td>Mediterranean</td>
 				</tr>
-				<tr>
+				<tr class="alt">
 					<td>The Alcove</td>
 					<td>Sunnyside</td>
 					<td>Gastropubs, Tapas Bars, Breakfast Brunch</td>
 				</tr>
-				<tr class="alt">
+				<tr>
 					<td>Papas Kitchen</td>
 					<td>Woodside</td>
 					<td>Filipino</td>
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
+	<div id="errorCode" class="tabcontent">
+		<h4>錯誤對應碼</h4>
+		<table>
+			<tbody>
+				<tr>
+				  <th>Key</th>
+				  <th>Value</th>
+				</tr>
+				<tr>
+					<td>info_name</td>
+					<td>address</td>
+				</tr>
+				<tr class="alt">
+					<td>info_name</td>
+					<td>score</td>
+				</tr>
+				<tr>
+					<td>info_name</td>
+					<td>review</td>
+				</tr>
+				<tr class="alt">
+					<td>info_name</td>
+					<td>wifi</td>
+				</tr>
+				<tr>
+					<td>name</td>
+					<td>any</td>
+				</tr>
+				<tr class="alt">
+					<td>area</td>
+					<td>any</td>
+				</tr>
+				<tr>
+					<td>price</td>
+					<td>any</td>
+				</tr>
+				<tr class="alt">
+					<td>category</td>
+					<td>any</td>
+				</tr>
+				<tr>
+					<td>score</td>
+					<td>any</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 	</div>
 	<div class="wrapper">
 		<div class="banner">

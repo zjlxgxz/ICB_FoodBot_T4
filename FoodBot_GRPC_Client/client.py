@@ -25,7 +25,7 @@ def SimOutput(rawdata):
   channel = grpc.insecure_channel('140.112.49.151:50054')
   stub = FoodBotSim_pb2.FoodBotSimRequestStub(channel)
 
-  request = FoodBotSim_pb2.Sentence(semantic_frame = rawdata,nlg_sentence = '',user_id='',good_policy ='') #json string containing policy frame and others are empty
+  request = FoodBotSim_pb2.Sentence(semantic_frame = rawdata,nlg_sentence = '',user_id='',good_policy =0) #json string containing policy frame and others are empty
   result = stub.GetSimResponse(request)
 
   return result
@@ -43,11 +43,11 @@ if __name__ == '__main__':
 			sim_user_id = msgToSend.user_id
 
 			msgToSend = AgentOutput(sim_semantic_frame,sim_user_id,good_policy)
-
-			msgToSend = SimOutput( json.dumps(msgToSend.semantic_frame))
-
-			if(sim_semantic_frame['intent'] == 'goodbye'):
+			if(json.loads(sim_semantic_frame)['intent'] == 'goodbye'):
 				break
+			msgToSend = SimOutput( msgToSend.response_policy_frame)
+
+			
 		i = i + 1
 
 

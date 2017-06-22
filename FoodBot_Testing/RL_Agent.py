@@ -33,13 +33,13 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
         #0 1 2 3
         #0 2 5 10
         if(rewardForTheFormer == 0):
+            rewardForTheFormer = -1
+        elif (rewardForTheFormer == -1):#for web user
             rewardForTheFormer = 0
         elif  (rewardForTheFormer == 2):
-            rewardForTheFormer = 20  
+            rewardForTheFormer = 10
         elif  (rewardForTheFormer == 5):
-            rewardForTheFormer = 50
-        elif  (rewardForTheFormer == 10):
-            rewardForTheFormer = 100
+            rewardForTheFormer = 20
         formerAction = request.formerAction
         # Runmodel has check the start state..
         #if len(set(formerState)) ==1 and formerState[0]!=0:#[0,0,0,0,...] [1,1,1,1,1,...]
@@ -50,17 +50,14 @@ class FoodBotRLAgent(FoodBotRLAgent_pb2.FoodBotRLRequestServicer):
         #def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
         policy = hasNewTurn(formerAction,rewardForTheFormer,currentState,False,formerState) 
         #policy = 0
-        '''
-        if formerAction == 9 or policy == 9:
-        #if True:
-            print ("NowQTable:",QTable[indexOfState(currentState),])
+        if True:
+            print ("NowQTable:",QTable[indexOfState(currentState)])
             print ("NowAction: ",policy)   
             print ("currentState: ",currentState)
             print ("formerState: ",formerState)
             print ("rewardForTheFormer: ",rewardForTheFormer)
             print ("formerAction: ",formerAction)
             print ("============================================================")
-            '''
         return FoodBotRLAgent_pb2.Policy(policyNumber = policy)
 
 
@@ -176,6 +173,7 @@ j = 0
 diagNumber = 0
 
 def indexOfState(state):
+    index = 0
     global QTable,StateMappingIndexTable
     for i in range(len(state)):
         index = index + (2**i)*state[i]
@@ -226,19 +224,19 @@ def hasNewTurn(formerAction,formerReward,currentState,d,formerState):
     currentStateIndex = indexOfState(s1)
     if(a != -1):# start state: 22222 won't be accounted.
         formerStateIndex = indexOfState(s)
-        QTable[formerStateIndex,a] = QTable[formerStateIndex,a] + lr*(r + y*np.max(QTable[currentStateIndex,:]) - QTable[formerStateIndex,a])
-        print (QTable[formerStateIndex,])
+        QTable[formerStateIndex][a] = QTable[formerStateIndex][a] + lr*(r + y*np.max(QTable[currentStateIndex]) - QTable[formerStateIndex][a])
+        print (QTable[formerStateIndex])
     #print("dailog total turn,total turn",j,total_steps)
     #print("Table 000,",QTable[0,:])
     #print ("Table 111",QTable[2047,:])
     #Choose an action by greedily (with e chance of random action) from the Q-network
 
-    if total_steps<5000:
+    if total_steps<8000:
         print ("Random pick")
         a = np.random.randint(0, 17)
-    elif(np.random.random_sample()>0.2):
+    elif(np.random.random_sample()>0.01):
         print ("Pick max in Q")
-        a = np.argmax(QTable[currentStateIndex,:])
+        a = np.argmax(QTable[currentStateIndex])
     else:
         print ("Random pick")
         a = np.random.randint(0, 17)

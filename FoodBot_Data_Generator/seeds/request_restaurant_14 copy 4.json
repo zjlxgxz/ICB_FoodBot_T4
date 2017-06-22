@@ -1,0 +1,717 @@
+{
+  "sentence": "give me some REPLACEDWORD_1 restaurant",
+
+  "domain": "Food",
+
+  "intent": "request_restaurant",
+"REPLACEDWORD_3": 
+[
+    [
+      ["tonight"],
+      ["B-TIME"]
+    ],
+    [
+      ["today"],
+      ["B-TIME"]
+    ],
+    [
+      ["tomorrow"],
+      ["B-TIME"]
+    ],
+    [
+      ["this","morning"],
+      ["O","B-TIME"]
+    ],
+    [
+      ["this","afternoon"],
+      ["O","B-TIME"]
+    ],
+    [
+      ["tomorrow","afternoon"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["tomorrow","morning"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["tomorrow","night"],
+      ["B-TIME","I-TIME"]
+    ],
+    [
+      ["the","day","after","tomorrow"],
+      ["B-TIME","I-TIME","I-TIME","I-TIME"]
+    ]
+
+  ], 
+  "REPLACEDWORD_4": 
+[
+    [
+      ["four"],
+      ["B-SCORE"]
+    ],
+    [
+      ["five"],
+      ["B-SCORE"]
+    ],
+    [
+      ["one"],
+      ["B-SCORE"]
+    ],
+    [
+      ["two"],
+      ["B-SCORE"]
+    ],
+    [
+      ["three"],
+      ["B-SCORE"]
+    ],
+    [
+      ["1"],
+      ["B-SCORE"]
+    ],
+    [
+      ["2"],
+      ["B-SCORE"]
+    ],
+    [
+      ["3"],
+      ["B-SCORE"]
+    ],
+    [
+      ["4"],
+      ["B-SCORE"]
+    ],
+    [
+      ["5"],
+      ["B-SCORE"]
+    ]
+  ],
+  "REPLACEDWORD_2": 
+[
+[
+     ["bayside"],
+     ["B-AREA"]
+],
+[
+     ["bronx"],
+     ["B-AREA"]
+],
+[
+     ["brooklyn"],
+     ["B-AREA"]
+],
+[
+     ["college", "point"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["elmhurst"],
+     ["B-AREA"]
+],
+[
+     ["flushing"],
+     ["B-AREA"]
+],
+[
+     ["howard", "beach"],
+     ["B-AREA", "I-AREA"]
+],
+[
+     ["jamaica"],
+     ["B-AREA"]
+],
+[
+     ["long", "island", "city"],
+     ["B-AREA", "I-AREA", "I-AREA"]
+],
+[
+     ["maspeth"],
+     ["B-AREA"]
+],
+[
+     ["new", "york"],
+     ["B-AREA", "I-AREA"]
+]
+],
+  
+  "REPLACEDWORD_1": 
+[
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Chinese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Japanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "thai"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "malaysian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "vietnamese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "taiwanese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "american"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Shanghainese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "Cantonese"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "italian"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "seafood"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "barbeque"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "sushi"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dimsum"],
+      [ "B-CATEGORY"]
+    ],
+    [
+      [ "dim","sum"],
+      [ "B-CATEGORY","I-CATEGORY"]
+    ],
+    [
+      [ "Brunch"],
+      [ "B-CATEGORY"]
+    ]
+  ]
+}
