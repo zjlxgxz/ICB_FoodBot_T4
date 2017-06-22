@@ -15,11 +15,9 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 * Nodejs: [Download](https://nodejs.org/en/download/package-manager/)
 
 ## Code Usage
-todo
-
-* Start web server `node client2.js`
-* Brows on borowser `localhost:8081/index3.html`
-* Enjoy
+1. Start web server `node client2.js`
+2. Brows on borowser `localhost:8081/index3.html`
+3. Enjoy
 
 ## Implementation
 ### 1. Ontology
@@ -33,6 +31,18 @@ todo
 ### 2. Language Understanding
 ### 3. Dialogue Management
 ### 4. Natural Language Generation
+(1)NN-based
+* An adapted version of a semantically conditioned LSTM: [RNNLG](https://github.com/shawnwun/RNNLG)
+* Data collection: sentences with ~10 intents written by human
+* Performance: 
+    * BLEU score: 0.5518
+    * Naturalness: see the example below
+    * inform(name = 33 greenwich; address = 7593 kirkland lane rockaway)
+    * => “33 greenwich is good good in 7593 kirkland lane rockaway address is in.”
+
+(2)Template-based (using this one!)
+* Template: 17 intents, each one with 5~8 templates.
+
 ### 5. UI
 * Base on nodejs, include: grpc, express, socket, mysql, async
 * Workflow:
