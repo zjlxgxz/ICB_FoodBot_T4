@@ -87,37 +87,38 @@ io.on('connection', function(socket){
         }
       }else if(property == 'name'){
         querySQL = querySQL + queryMsg[property] + "';";
-      }
-      if(property == 'price'){
-        if(whereColumn != ''){
-          whereColumn = ' and '.concat(whereColumn);
-        }
-        var price = queryMsg[property];
-        if(price < 10){
-          price = "'Under$10'";
-        }else if(price > 60){
-          price = "'Above$61'";
-        }else if(price >=10 && price <=30){
-          price = "'$11-30'";
-        }else if(price >=30 && price <=60){
-          price = "'$31-60'";
-        }
-        whereColumn = whereColumn.concat('b.price_range').concat("=").concat(price);
       }else{
-        var propertySwitch;
-        if(whereColumn != ''){
-          whereColumn = ' and '.concat(whereColumn);
+        if(property == 'price'){
+          if(whereColumn != ''){
+            whereColumn = ' and '.concat(whereColumn);
+          }
+          var price = queryMsg[property];
+          if(price < 10){
+            price = "'Under$10'";
+          }else if(price > 60){
+            price = "'Above$61'";
+          }else if(price >=10 && price <=30){
+            price = "'$11-30'";
+          }else if(price >=30 && price <=60){
+            price = "'$31-60'";
+          }
+          whereColumn = whereColumn.concat('b.price_range').concat("=").concat(price);
+        }else{
+          var propertySwitch;
+          if(whereColumn != ''){
+            whereColumn = ' and '.concat(whereColumn);
+          }
+          if(property === 'area'){
+            propertySwitch = 'district';
+          }else if(property === 'category'){
+            propertySwitch = 'categories';
+          }else if(property === 'score'){
+            propertySwitch = 'rating';
+          }
+          console.log('Get property: ' + property + ' : ' + queryMsg[property]);
+          whereColumn = "a.".concat(propertySwitch).concat(" like '%").concat(queryMsg[property]).concat("%'" ).concat(whereColumn);
+          console.log('where column in else: ' + whereColumn);
         }
-        if(property === 'area'){
-          propertySwitch = 'district';
-        }else if(property === 'category'){
-          propertySwitch = 'categories';
-        }else if(property === 'score'){
-          propertySwitch = 'rating';
-        }
-        console.log('Get property: ' + property + ' : ' + queryMsg[property]);
-        whereColumn = "a.".concat(propertySwitch).concat(" like '%").concat(queryMsg[property]).concat("%'" ).concat(whereColumn);
-        console.log('where column in else: ' + whereColumn);
       }
     }
     console.log('where column: ' + whereColumn);
