@@ -1,5 +1,5 @@
 # README
-This repo contains code for a chatbot in food domain. [Demo link](140.112.49.151:8081/index3.html)
+This repo contains code for a chatbot in food domain. [Demo link](http://140.112.49.151:8081/index3.html)
 
 ## Functionalities
 * **Recommend restaurants** according to requirements, including category, price, area, rating.
