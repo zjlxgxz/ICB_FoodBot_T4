@@ -12,7 +12,7 @@ import FoodBotSim_pb2
 
 
 def AgentOutput(sem_frame,user_id,policyEval):
-  channel = grpc.insecure_channel('140.112.49.151:50055')
+  channel = grpc.insecure_channel('put your GRPC server ip')
   stub = FoodBot_pb2.FoodBotRequestStub(channel)
 
   request = FoodBot_pb2.Sentence(semantic_frame = sem_frame, nlg_sentence = '', user_id=user_id, good_policy =policyEval)
@@ -22,7 +22,7 @@ def AgentOutput(sem_frame,user_id,policyEval):
 
 
 def SimOutput(rawdata):
-  channel = grpc.insecure_channel('140.112.49.151:50054')
+  channel = grpc.insecure_channel('put your GRPC server ip')
   stub = FoodBotSim_pb2.FoodBotSimRequestStub(channel)
 
   request = FoodBotSim_pb2.Sentence(semantic_frame = rawdata,nlg_sentence = '',user_id='',good_policy =0) #json string containing policy frame and others are empty

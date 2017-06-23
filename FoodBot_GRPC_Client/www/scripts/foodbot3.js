@@ -54,7 +54,7 @@ FoodBot.prototype = {
 				if(mode == 'goToGRPC'){
 					that.socket.emit('postMsg', msg, user);
 				}else{
-					that.socket.emit('postMsgToDB', modifyQueryContent(msg));
+					//that.socket.emit('postMsgToDB', modifyQueryContent(msg));
 					mode = 'goToGRPC';
 				}
 				that._displayNewMsg(user,msg);

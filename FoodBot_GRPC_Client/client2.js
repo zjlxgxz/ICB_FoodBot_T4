@@ -4,7 +4,7 @@ var async = require('async');
 var _ = require('lodash');
 var grpc = require('grpc');
 var Foodbot = grpc.load(PROTO_PATH).FoodBot;
-var client = new Foodbot.FoodBotRequest('140.112.49.151:50055', grpc.credentials.createInsecure());
+var client = new Foodbot.FoodBotRequest('put your GRPC server ip', grpc.credentials.createInsecure());
 var express = require('express'),
   app = express(),
   server = require('http').createServer(app),
@@ -12,10 +12,10 @@ var express = require('express'),
 app.use('/', express.static(__dirname + '/www'));
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-  host:'140.112.49.151',
-  user:'foodbot',
-  password: 'welovevivian',
-  database: 'foodbotDB'
+  host:'put your host ip',
+  user:'put your name',
+  password: 'put your pw',
+  database: 'put your db name'
 });
 
 server.listen(8081);

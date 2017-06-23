@@ -56,5 +56,5 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 * Workflow:
 	* Init: Reset Agent state with magic word "bye" ![init](./img/FoodBot-wf2.jpg)
 	* Basic: in this flow when step.4 return, it include two type paremeter (responseMsg, responseUrl), responseMsg is what agent's answer. And responseUrl have two type of response, one is real url represent image of meme, the other is json obj. in this kind of response, will use other workflow(Show Table). ![base flow](./img/FoodBot-wf1.jpg)
-	* Show Table:![show table](./img/showTable.png)
+	* Show Table:other case of display message ![show table](./img/showTable.png)
 	
