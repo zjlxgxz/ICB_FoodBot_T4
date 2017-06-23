@@ -33,10 +33,10 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 * Dialogue State Tracking
     * There are two parts for DST to keep the action which user and agent took.
     * user 
-    	* intent: 
-	    * request_restaurant
-	    * request_address
-	    * request_score
+     * intent: 
+      * request_restaurant
+      * request_address
+      * request_score
 	    * request_review
 	    * request_price
 	    * request_time
