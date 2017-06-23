@@ -32,9 +32,12 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 ### 3. Dialogue Management
 * Dialogue State Tracking
     * There are two parts for DST to keep the action which user and agent took.
+    * user ![user](./img/DST-user.png)
+    * agent ![agent](./img/DST-agent.png)
 
 * DQN Reinforcement Learning
     * DQN is a classification consist of three fully connected layer.
+    ![DQN](./img/RL.png)
     
 * Agent Policy
 
