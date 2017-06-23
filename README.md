@@ -32,11 +32,10 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 ### 3. Dialogue Management
 * Dialogue State Tracking
     * There are two parts for DST to keep the action which user and agent took.
-    * user 
-     * intent: 
-      * request_restaurant
-      * request_address
-      * request_score
+    * user :
+        * request_restaurant
+        * request_address
+        * request_score
 	    * request_review
 	    * request_price
 	    * request_time
@@ -47,7 +46,6 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 	    * inform
 	    * confirm
 	    * reject
-	* slots:
 	    * restaurant_name
 	    * time
 	    * area
@@ -57,10 +55,8 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 	    * price
 	    * wifi
 	    * smoking
-    * agent 
-        * intent:
+    * agent :
 	    * restaurant_name
-	* slots:
 	    * confirm_info
 	    * confirm_restaurant
 
@@ -69,6 +65,22 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
     ![DQN](./img/RL.png)
     
 * Agent Policy
+    * request_area
+    * request_category
+    * request_name
+    * reqmore
+    * inform_address
+    * inform_score
+    * inform_review
+    * inform_restaurant
+    * inform_smoke
+    * inform_wifi
+    * inform_phone
+    * inform_info
+    * confirm_info
+    * confirm_restaurant
+    * goodbye
+    * hi
 
 ### 4. Natural Language Generation
 (1)NN-based
