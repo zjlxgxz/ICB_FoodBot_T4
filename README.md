@@ -30,6 +30,10 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 
 ### 2. Language Understanding
 ### 3. Dialogue Management
+* Dialogue State Tracking
+    * There are two parts for DST to keep the action which user and agent took
+    
+* Agent Policy
 ### 4. Natural Language Generation
 (1)NN-based
 * An adapted version of a semantically conditioned LSTM: [RNNLG](https://github.com/shawnwun/RNNLG)
