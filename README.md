@@ -31,9 +31,57 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
 ### 2. Language Understanding
 ### 3. Dialogue Management
 * Dialogue State Tracking
-    * There are two parts for DST to keep the action which user and agent took
+    * There are two parts for DST to keep the action which user and agent took.
+    	 state = {
+			'user':{
+				'lu_request_restaurant':'',
+				'lu_inform':'',
+				'lu_request_address':'',
+				'lu_request_score':'',
+				'lu_request_review':'', 
+				'lu_request_price':'',
+				'lu_request_time':'',
+				'lu_request_phone':'',
+				'lu_request_smoke':'',
+				'lu_request_wifi':'',
+				'lu_confirm':'',
+				'lu_reject':'',
+				'restaurant_name':'',
+ 				'time':'',
+ 				'area':'',
+				'address':'',
+				'category':'', 
+				'score':'', 
+				'price':'', 
+				'wifi':'',
+				'smoking':''
+			},
+			'agent':{
+			 	'restaurant_name':'',
+        			'confirm_info':'',
+        			'confirm_restaurant':''
+			}
+		}
+* DQN Reinforcement Learning
+    * DQN is a classification consist of three fully connected layer.
     
 * Agent Policy
+    1.  request_area
+    2.  request_category
+    3.  request_name
+    4.  reqmore
+    5.  inform_address
+    6.  inform_score
+    7.  inform_review
+    8.  inform_restaurant
+    9.  inform_smoke
+    10. inform_wifi
+    11. inform_phone
+    12. inform_info
+    13. confirm_info
+    14. confirm_restaurant
+    15. goodbye
+    16. hi
 ### 4. Natural Language Generation
 (1)NN-based
 * An adapted version of a semantically conditioned LSTM: [RNNLG](https://github.com/shawnwun/RNNLG)
