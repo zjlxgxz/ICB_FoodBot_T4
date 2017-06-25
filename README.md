@@ -29,6 +29,26 @@ This repo contains code for a chatbot in food domain. [Demo link](http://140.112
     * Other info of Restaurant Table:(about 1000 rows)
 
 ### 2. Language Understanding
+* The LU is implmented based on Attention-Based Recurrent Neural Network Models for Joint Intent Detection
+and Slot Filling by Bing Liu.
+* The training data is composed of 12 intents:
+    * confirm
+    * goodbye
+    * hi
+    * inform
+    * inform_price
+    * inform_score
+    * reject
+    * request_address
+    * request_restaurant
+    * request_review
+    * request_score
+    * request_wifi
+    * thanks
+* All the artificial generated sentence patterns are included in the folder FoodBot_Data_Generator/seeds/, we use the SentenceGennerator.py to generate artificial training data from those sentence patterns. The generated data is included in the Foodbot_Data_generator/GeneratedData. Each sub-folder,ex: Foodbot_Data_generator/GeneratedData/1497933425, in it is included the traning/validation/teseting data.
+* To train the model, user should copy the sub-folder into FoodBot_Training/data/ATIS_samples and then run the shell command ./Foodbot_training/runmodel.sh
+* After training, the model will be saved in the path FoodBot_Training/model_tmp_XXXXX. To use it, user should copy it to the path FoodBot_Testing and rename it to become "model_tmp". Then run the shell command ./FoodBot_Testing/runmodel.sh. Then the program will load the model and open the GRPC server.
+
 ### 3. Dialogue Management
 * Dialogue State Tracking
     * There are two parts for DST to keep the action which user and agent took.
