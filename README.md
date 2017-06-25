@@ -1,6 +1,6 @@
 # README
 This repo contains code for a chatbot in food domain. [Demo link](http://140.112.49.151:8081/index3.html)
-The latest code is one reborn_v2 branch 
+,and the latest code is one reborn_v2 branch 
 
 ## Functionalities
 * **Recommend restaurants** according to requirements, including category, price, area, rating.
